@@ -1,5 +1,6 @@
 using System;
 using TaskManagerApi.Models;
+using TaskManagerApi.Models.Project;
 
 namespace TaskManagerApi.Services.Interfaces;
 

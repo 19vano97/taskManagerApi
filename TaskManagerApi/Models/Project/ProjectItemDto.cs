@@ -1,6 +1,6 @@
 using System;
 
-namespace TaskManagerApi.Models;
+namespace TaskManagerApi.Models.Project;
 
 public class ProjectItemDto
 {

@@ -1,6 +1,7 @@
 using System;
 using TaskManagerApi.Enums;
 using TaskManagerApi.Models;
+using TaskManagerApi.Models.TaskItem;
 
 namespace TaskManagerApi.Services.Interfaces;
 

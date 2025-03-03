@@ -5,6 +5,8 @@ using TaskManagerApi.Data;
 using TaskManagerApi.Enitities;
 using TaskManagerApi.Enums;
 using TaskManagerApi.Models;
+using TaskManagerApi.Models.Project;
+using TaskManagerApi.Models.TaskItem;
 using TaskManagerApi.Services.Interfaces;
 
 namespace TaskManagerApi.Services.Implementations;

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using TaskManagerApi.Data;
 using TaskManagerApi.Enitities;
 using TaskManagerApi.Models;
+using TaskManagerApi.Models.TaskItem;
 using TaskManagerApi.Services.Interfaces;
 
 namespace TaskManagerApi.Controllers

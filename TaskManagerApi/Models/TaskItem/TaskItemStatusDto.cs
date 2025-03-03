@@ -1,6 +1,6 @@
 using System;
 
-namespace TaskManagerApi.Models;
+namespace TaskManagerApi.Models.TaskItem;
 
 public class TaskItemStatusDto
 {

@@ -1,8 +1,9 @@
 using System;
 using TaskManagerApi.Enitities;
 using TaskManagerApi.Enums;
+using TaskManagerApi.Models.Project;
 
-namespace TaskManagerApi.Models;
+namespace TaskManagerApi.Models.TaskItem;
 
 public class TaskItemOutputDto
 {
