@@ -19,17 +19,6 @@ namespace TaskManagerApi.Controllers
             return Ok(await taskItemService.GetTasksAsync());
         }
 
-        [HttpPost("create")]
-        public async Task<ActionResult<TaskItemOutputDto>> CreateTask(TaskItemInputDto newTask)
-        {
-            var createdTask = await taskItemService.CreateTaskAsync(newTask);
-
-            if (createdTask is null)
-                return BadRequest("Empty title");
-
-            return Ok(createdTask);
-        }
-
         [HttpGet("details/{Id}")]
         public async Task<ActionResult<TaskItemOutputDto>> GetTaskById(Guid Id)
         {
@@ -39,6 +28,17 @@ namespace TaskManagerApi.Controllers
                 return NotFound();
 
             return Ok(task);
+        }
+
+        [HttpPost("create")]
+        public async Task<ActionResult<TaskItemOutputDto>> CreateTask(TaskItemInputDto newTask)
+        {
+            var createdTask = await taskItemService.CreateTaskAsync(newTask);
+
+            if (createdTask is null)
+                return BadRequest("Empty title");
+
+            return Ok(createdTask);
         }
 
         [HttpPut("edit/{Id}")]

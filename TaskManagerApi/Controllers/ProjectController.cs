@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TaskManagerApi.Models;
+using TaskManagerApi.Models.Project;
 using TaskManagerApi.Services.Interfaces;
 
 namespace TaskManagerApi.Controllers
