@@ -156,3 +156,8 @@
 /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerApi/bin/Debug/net9.0/Swashbuckle.AspNetCore.Swagger.dll
 /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerApi/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerGen.dll
 /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerApi/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerUI.dll
+/Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerApi/bin/Debug/net9.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerApi/bin/Debug/net9.0/Microsoft.AspNetCore.JsonPatch.dll
+/Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerApi/bin/Debug/net9.0/Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+/Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerApi/bin/Debug/net9.0/Newtonsoft.Json.dll
+/Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerApi/bin/Debug/net9.0/Newtonsoft.Json.Bson.dll

@@ -142,8 +142,8 @@ public class TaskItemService(TaskManagerAPIDbContext context) : ITaskItemService
             Id = t.Id,
             Title = t!.Title,
             Description = t.Description,
-            Status = (TaskItemStatusEnum)t.StatusId,
-            Project = context.ProjectItems.Select((p) => (new ProjectItemDto{
+            Status = context.TaskItemStatuses.Select(s => s).FirstOrDefault(s => s.Id == t.StatusId),
+            Project = context.ProjectItems.Select(p => (new ProjectItemDto{
                 Id = p.Id,
                 Title = p.Title,
                 Description = p.Description,
@@ -162,7 +162,7 @@ public class TaskItemService(TaskManagerAPIDbContext context) : ITaskItemService
             Id = task.Id,
             Title = task!.Title,
             Description = task.Description,
-            Status = (TaskItemStatusEnum)task.StatusId,
+            Status = await context.TaskItemStatuses.Select(s => s).FirstOrDefaultAsync(s => s.Id == task.StatusId),
             Project = await context.ProjectItems.Select((p) => (new ProjectItemDto{
                 Id = p.Id,
                 Title = p.Title,
