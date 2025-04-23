@@ -1,0 +1,37 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using TaskManagerApi.Models.OrganizationModel;
+using TaskManagerApi.Services.Interfaces;
+
+namespace TaskManagerApi.Controllers
+{
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Route("api/organization")]
+    [ApiController]
+    public class OrganizationController(IOrganizationService organizationService) : ControllerBase
+    {
+        [HttpPost("create")]
+        public async Task<ActionResult<OrganizationDto>> Create(OrganizationDto newOrganization)
+        {
+            var newOrgToAdd = await organizationService.Create(User, newOrganization);
+
+            if (newOrgToAdd.Id == null)
+                return BadRequest();
+
+            return Ok(newOrgToAdd);
+        }
+
+        [HttpPost("edit")]
+        public async Task<ActionResult<OrganizationDto>> Edit(OrganizationDto editOrganization)
+        {
+            var editOrgToAdd = organizationService.Edit(User, editOrganization);
+
+            if (editOrgToAdd.Id == null)
+                return BadRequest();
+
+            return Ok(editOrgToAdd);
+        }
+    }
+}

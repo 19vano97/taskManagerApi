@@ -8,5 +8,5 @@ public class TaskItemInputDto
     public string? Description { get; set; }
     public Guid? ReporterId { get; set; } = null;
     public Guid? AssigneeId { get; set; } = null;
-    public Guid? ProjectId { get; set; } = null;
+    public Guid ProjectId { get; set; }
 }

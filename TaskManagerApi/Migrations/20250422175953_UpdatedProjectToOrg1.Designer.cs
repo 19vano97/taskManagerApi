@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TaskManagerApi.Data;
 
@@ -11,9 +12,11 @@ using TaskManagerApi.Data;
 namespace TaskManagerApi.Migrations
 {
     [DbContext(typeof(TaskManagerAPIDbContext))]
-    partial class TaskManagerAPIDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250422175953_UpdatedProjectToOrg1")]
+    partial class UpdatedProjectToOrg1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,12 +44,12 @@ namespace TaskManagerApi.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETUTCDATE()");
 
-                    b.Property<Guid>("OrganizationId")
+                    b.Property<Guid>("OrganizationIdId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrganizationId");
+                    b.HasIndex("OrganizationIdId");
 
                     b.ToTable("OrganizationAccount");
                 });
@@ -197,19 +200,19 @@ namespace TaskManagerApi.Migrations
 
             modelBuilder.Entity("TaskManagerApi.Enitities.OrganizationAccount", b =>
                 {
-                    b.HasOne("TaskManagerApi.Enitities.OrganizationItem", "Organization")
-                        .WithMany("OrganizationAccounts")
-                        .HasForeignKey("OrganizationId")
+                    b.HasOne("TaskManagerApi.Enitities.OrganizationItem", "OrganizationId")
+                        .WithMany()
+                        .HasForeignKey("OrganizationIdId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Organization");
+                    b.Navigation("OrganizationId");
                 });
 
             modelBuilder.Entity("TaskManagerApi.Enitities.ProjectItem", b =>
                 {
                     b.HasOne("TaskManagerApi.Enitities.OrganizationItem", "Organization")
-                        .WithMany("ProjectItems")
+                        .WithMany()
                         .HasForeignKey("OrganizationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -232,13 +235,6 @@ namespace TaskManagerApi.Migrations
                     b.Navigation("ProjectItem");
 
                     b.Navigation("TaskItemStatus");
-                });
-
-            modelBuilder.Entity("TaskManagerApi.Enitities.OrganizationItem", b =>
-                {
-                    b.Navigation("OrganizationAccounts");
-
-                    b.Navigation("ProjectItems");
                 });
 
             modelBuilder.Entity("TaskManagerApi.Enitities.ProjectItem", b =>

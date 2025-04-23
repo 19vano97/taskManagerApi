@@ -13,11 +13,9 @@ public class TaskItem
     public int StatusId { get; set; } = 1;
     public Guid? ReporterId { get; set; } = null;
     public Guid? AssigneeId { get; set; } = null;
-    public Guid? ProjectId { get; set; } = null;
+    public Guid ProjectId { get; set; }
     public DateTime CreateDate { get; set; } = DateTime.UtcNow;
     public DateTime ModifyDate { get; set; } = DateTime.UtcNow;
     [ForeignKey("ProjectId")]
     public ProjectItem? ProjectItem { get; set; }
-    [ForeignKey("StatusId")]
-    public TaskItemStatus? TaskItemStatus { get; set; }
 }

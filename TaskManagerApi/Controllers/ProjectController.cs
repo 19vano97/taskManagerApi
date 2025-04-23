@@ -9,20 +9,32 @@ using TaskManagerApi.Services.Interfaces;
 namespace TaskManagerApi.Controllers
 {
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    [Route("api/[controller]")]
+    [Route("api/project")]
     [ApiController]
     public class ProjectController(IProjectService projectService) : ControllerBase
     {
         [HttpGet("all")]
         public async Task<ActionResult<List<ProjectItemDto>>> GetAllProjectsList()
         {
-            return Ok(await projectService.GetProjectsAsync());
+            if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId)) 
+                return BadRequest();
+
+            if(!Guid.TryParse(organizationId, out var organizationIdGuid)) 
+                return BadRequest();
+
+            return Ok(await projectService.GetProjectsAsync(organizationIdGuid, User));
         }
 
         [HttpGet("{Id}")]
         public async Task<ActionResult<ProjectItemDto>> GetProjectById(Guid Id)
         {
-            var project = await projectService.GetProjectById(Id);
+            if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId)) 
+                return BadRequest();
+
+            if(!Guid.TryParse(organizationId, out var organizationIdGuid)) 
+                return BadRequest();
+
+            var project = await projectService.GetProjectById(Id, organizationIdGuid, User);
 
             if (project is null)
                 return BadRequest();
@@ -33,7 +45,13 @@ namespace TaskManagerApi.Controllers
         [HttpPost("create")]
         public async Task<ActionResult<ProjectItemDto>> CreateProject(ProjectItemDto newProject)
         {
-            var project = await projectService.CreateProjectAsync(newProject);
+            if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId)) 
+                return BadRequest();
+
+            if(!Guid.TryParse(organizationId, out var organizationIdGuid)) 
+                return BadRequest();
+
+            var project = await projectService.CreateProjectAsync(newProject, organizationIdGuid, User);
 
             if (project is null)
                 return BadRequest();
@@ -44,7 +62,13 @@ namespace TaskManagerApi.Controllers
         [HttpPut("edit/{Id}")]
         public async Task<ActionResult<ProjectItemDto>> EditProjectById(Guid Id, [FromBody] ProjectItemDto editProject)
         {
-            var project = await projectService.EditProjectAsync(Id, editProject);
+            if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId)) 
+                return BadRequest();
+
+            if(!Guid.TryParse(organizationId, out var organizationIdGuid)) 
+                return BadRequest();
+
+            var project = await projectService.EditProjectAsync(Id, editProject, organizationIdGuid, User);
 
             if (project is null)
                 return BadRequest();
@@ -53,9 +77,15 @@ namespace TaskManagerApi.Controllers
         }
 
         [HttpPut("edit/{projectId}/owner/{ownerId}")]
-        public async Task<ActionResult<ProjectItemDto>> ChangeTaskAssigneeById(Guid projectId, Guid ownerId)
+        public async Task<ActionResult<ProjectItemDto>> ChangeProjectOwnerById(Guid projectId, Guid ownerId)
         {
-            var project = await projectService.ChangeOwnerAsync(projectId, ownerId);
+            if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId)) 
+                return BadRequest();
+
+            if(!Guid.TryParse(organizationId, out var organizationIdGuid)) 
+                return BadRequest();
+
+            var project = await projectService.ChangeOwnerAsync(projectId, ownerId, organizationIdGuid, User);
 
             if (project is null)
                 return BadRequest();
@@ -66,7 +96,13 @@ namespace TaskManagerApi.Controllers
         [HttpDelete("delete/{Id}")]
         public async Task<ActionResult<ProjectItemDto>> DeleteProject(Guid Id)
         {
-            var project = await projectService.DeleteProjectAsync(Id);
+            if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId)) 
+                return BadRequest();
+
+            if(!Guid.TryParse(organizationId, out var organizationIdGuid)) 
+                return BadRequest();
+
+            var project = await projectService.DeleteProjectAsync(Id, organizationIdGuid, User);
 
             if (project is null)
                 return BadRequest();
