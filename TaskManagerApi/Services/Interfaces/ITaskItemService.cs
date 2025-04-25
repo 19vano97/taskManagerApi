@@ -7,12 +7,12 @@ namespace TaskManagerApi.Services.Interfaces;
 
 public interface ITaskItemService
 {
-    Task<List<TaskItemOutputDto>> GetTasksAsync();
-    Task<TaskItemOutputDto> CreateTaskAsync(TaskItemInputDto newTask);
-    Task<TaskItemOutputDto> EditTaskByIdAsync(Guid Id, TaskItemInputDto newTask);
-    Task<TaskItemOutputDto> GetTaskByIdAsync(Guid taskId);
-    Task<TaskItemOutputDto> DeleteTaskAsync(Guid Id);
-    Task<TaskItemOutputDto> ChangeTaskStatusAsync(Guid taskId, int newStatus);
-    Task<TaskItemOutputDto> ChangeAssigneeAsync(Guid taskId, Guid newAssignee);
-    Task<TaskItemOutputDto> ChangeProjectAsync(Guid taskId, Guid newProject);
+    Task<List<TaskItemDto>> GetTasksByOrganizationAsync();
+    Task<TaskItemDto> CreateTaskAsync(TaskItemDto newTask);
+    Task<TaskItemDto> EditTaskByIdAsync(Guid Id, TaskItemDto newTask);
+    Task<TaskItemDto> GetTaskByIdAsync(Guid taskId);
+    Task<TaskItemDto> DeleteTaskAsync(Guid Id);
+    Task<TaskItemDto> ChangeTaskStatusAsync(Guid taskId, int newStatus);
+    Task<TaskItemDto> ChangeAssigneeAsync(Guid taskId, Guid newAssignee);
+    Task<TaskItemDto> ChangeProjectAsync(Guid taskId, Guid newProject);
 }

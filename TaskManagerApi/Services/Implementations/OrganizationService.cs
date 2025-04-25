@@ -11,7 +11,7 @@ namespace TaskManagerApi.Services.Implementations;
 
 public class OrganizationService(TaskManagerAPIDbContext context) : IOrganizationService
 {
-    public async Task<OrganizationDto> Create(ClaimsPrincipal user, OrganizationDto newOgranization)
+    public async Task<OrganizationDto> CreateAsync(ClaimsPrincipal user, OrganizationDto newOgranization)
     {
         if (await DoesOrganizationExistEntity(Id: newOgranization.Id.ToString()) is not null)
             return null;
@@ -36,11 +36,11 @@ public class OrganizationService(TaskManagerAPIDbContext context) : IOrganizatio
         return null;
     }
 
-    public async Task<OrganizationDto> Delete(OrganizationDto organizationToDelete)
+    public async Task<OrganizationDto> DeleteAsync(OrganizationDto organizationToDelete)
     {
         var toDelete = await DoesOrganizationExistEntity(Id: organizationToDelete.Id.ToString());
         
-        if (organizationToDelete.Id == null && organizationToDelete.Name == null && organizationToDelete.Abbreviation == null)
+        if (organizationToDelete.Id == Guid.Empty && organizationToDelete.Name == null && organizationToDelete.Abbreviation == null)
             return null;
 
         context.OrganizationItem.Remove(toDelete);
@@ -49,15 +49,15 @@ public class OrganizationService(TaskManagerAPIDbContext context) : IOrganizatio
         return ConvertToDto(toDelete);                                                                                                                                                                                                                                                                                                                                                                                                                                          
     }
 
-    public async Task<OrganizationDto> Edit(ClaimsPrincipal user, OrganizationDto organizationToEdit)
+    public async Task<OrganizationDto> EditAsync(ClaimsPrincipal user, OrganizationDto organizationToEdit)
     {
         var initialOrganization = await DoesOrganizationExistEntity(Id: organizationToEdit.Id.ToString());
         var accountId = Guid.Parse(user.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID).Value);
 
-        if ((organizationToEdit.Id == null 
+        if ((organizationToEdit.Id == Guid.Empty 
                 && organizationToEdit.Name == null 
                 && organizationToEdit.Abbreviation == null) 
-            || initialOrganization.Id == null
+            || initialOrganization.Id == Guid.Empty
             || accountId != initialOrganization?.Owner)
             return null;
 
@@ -107,7 +107,7 @@ public class OrganizationService(TaskManagerAPIDbContext context) : IOrganizatio
 
     private OrganizationItem ConvertToEntity(OrganizationDto dto)
     {
-        if (dto.Id == null && dto.Name == null && dto.Abbreviation == null)
+        if (dto.Id == Guid.Empty && dto.Name == null && dto.Abbreviation == null)
             return null;
 
         return new OrganizationItem {

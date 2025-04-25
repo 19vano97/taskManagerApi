@@ -8,17 +8,18 @@ namespace TaskManagerApi.Services.Implementations;
 
 public static class GeneralService
 {
-    public static async Task<OrganizationAccount> VerifyAccountRelatesToOrganization(TaskManagerAPIDbContext context, Guid accountId, Guid organizationId)
+    private static readonly TaskManagerAPIDbContext _context;
+
+    public static async Task<OrganizationAccount> VerifyAccountRelatesToOrganization(Guid accountId, Guid organizationId)
     {
-        return await context.OrganizationAccount.FirstOrDefaultAsync(o => o.AccountId == accountId && o.OrganizationId == organizationId);
+        return await _context.OrganizationAccount.FirstOrDefaultAsync(o => o.AccountId == accountId && o.OrganizationId == organizationId);
     }
 
-    public static async Task<ProjectItem> VerifyProjectInOrganization(TaskManagerAPIDbContext context, Guid projectId, Guid accountId, Guid organizationId)
+    public static async Task<ProjectItem> VerifyProjectInOrganization(Guid projectId, Guid organizationId)
     {
-        var project = await context.ProjectItems.FirstOrDefaultAsync(t => t.Id == projectId);
-        var organizationVerify = await VerifyAccountRelatesToOrganization(context, accountId, organizationId);
+        var project = await _context.ProjectItems.FirstOrDefaultAsync(t => t.Id == projectId);
 
-        if (project is null || project.OrganizationId != organizationVerify.OrganizationId)
+        if (project is null)
             return null;
 
         return project;

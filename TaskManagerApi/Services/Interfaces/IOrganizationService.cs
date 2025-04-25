@@ -6,7 +6,7 @@ namespace TaskManagerApi.Services.Interfaces;
 
 public interface IOrganizationService
 {
-    Task<OrganizationDto> Create(ClaimsPrincipal user, OrganizationDto newOgranization);
-    Task<OrganizationDto> Edit(ClaimsPrincipal user, OrganizationDto newOgranization);
-    Task<OrganizationDto> Delete(OrganizationDto newOgranization);
+    Task<OrganizationDto> CreateAsync(ClaimsPrincipal user, OrganizationDto newOgranization);
+    Task<OrganizationDto> EditAsync(ClaimsPrincipal user, OrganizationDto newOgranization);
+    Task<OrganizationDto> DeleteAsync(OrganizationDto newOgranization);
 }

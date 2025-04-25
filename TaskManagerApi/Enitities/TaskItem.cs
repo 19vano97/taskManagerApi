@@ -11,8 +11,8 @@ public class TaskItem
     public required string Title { get; set; }
     public string Description { get; set; } = string.Empty;
     public int StatusId { get; set; } = 1;
-    public Guid? ReporterId { get; set; } = null;
-    public Guid? AssigneeId { get; set; } = null;
+    public Guid ReporterId { get; set; } = Guid.Empty;
+    public Guid AssigneeId { get; set; } = Guid.Empty;
     public Guid ProjectId { get; set; }
     public DateTime CreateDate { get; set; } = DateTime.UtcNow;
     public DateTime ModifyDate { get; set; } = DateTime.UtcNow;

@@ -12,17 +12,11 @@ namespace TaskManagerApi.Services.Implementations;
 
 public class ProjectService(TaskManagerAPIDbContext context) : IProjectService
 {
-    public async Task<ProjectItemDto> ChangeOwnerAsync(Guid projectId, Guid newOwner, Guid organizationId, ClaimsPrincipal user)
+    public async Task<ProjectItemDto> ChangeOwnerAsync(Guid projectId, Guid newOwner)
     {
-        var projectToEdit = await context.ProjectItems.FirstOrDefaultAsync(t => t.Id == projectId);
+        var projectToEdit =  await context.ProjectItems.FirstAsync(p => p.Id == projectId);
 
-        if (projectToEdit is null || !Guid.TryParse(newOwner.ToString(), out var checkedAssignee))
-            return null;
-
-        var accountId = Guid.Parse(user.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID).Value);
-        var organizationVerify = await GeneralService.VerifyAccountRelatesToOrganization(context, accountId, organizationId);
-
-        if (projectToEdit.OrganizationId != organizationVerify.OrganizationId)
+        if (projectToEdit is null)
             return null;
 
         projectToEdit.OwnerId = newOwner;
@@ -34,23 +28,14 @@ public class ProjectService(TaskManagerAPIDbContext context) : IProjectService
         return ConvertProjectToOutputAsync(await context.ProjectItems.FirstOrDefaultAsync(t => t.Id == projectId));
     }
 
-    public async Task<ProjectItemDto> CreateProjectAsync(ProjectItemDto newProject, Guid organizationId, ClaimsPrincipal user)
+    public async Task<ProjectItemDto> CreateProjectAsync(ProjectItemDto newProject, Guid ownerID)
     {
-        if (newProject.Title is null)
-            return null;
-
-        var accountId = Guid.Parse(user.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID).Value);
-        var organizationVerify = await GeneralService.VerifyAccountRelatesToOrganization(context, accountId, organizationId);
-
-        if (organizationVerify.AccountId == null || organizationVerify.OrganizationId == null)
-            return null;
-
         var projectToAdd = new ProjectItem{
                 Id = Guid.NewGuid(),
                 Title = newProject.Title,
                 Description = newProject.Description,
-                OrganizationId = organizationVerify.OrganizationId,
-                OwnerId = accountId
+                OrganizationId = newProject.OrganizationId,
+                OwnerId = ownerID
             };
         
         context.ProjectItems.Add(projectToAdd);
@@ -61,9 +46,9 @@ public class ProjectService(TaskManagerAPIDbContext context) : IProjectService
         return ConvertProjectToOutputAsync(result!);
     }
 
-    public async Task<ProjectItemDto> DeleteProjectAsync(Guid Id, Guid organizationId, ClaimsPrincipal user)
+    public async Task<ProjectItemDto> DeleteProjectAsync(Guid projectId)
     {
-         var projectToDelete = await context.ProjectItems.FirstOrDefaultAsync(t => t.Id == Id);
+        var projectToDelete = await context.ProjectItems.FirstAsync(p => p.Id == projectId);
 
         if (projectToDelete is null)
             return null;
@@ -74,20 +59,23 @@ public class ProjectService(TaskManagerAPIDbContext context) : IProjectService
         return ConvertProjectToOutputAsync(projectToDelete);
     }
 
-    public async Task<ProjectItemDto> EditProjectAsync(Guid Id, ProjectItemDto newProject, Guid organizationId, ClaimsPrincipal user)
+    public async Task<ProjectItemDto> EditProjectAsync(ProjectItemDto newProject)
     {
-        var projectToEdit = await context.ProjectItems.FirstOrDefaultAsync(t => t.Id == Id);
+        var projectToEdit =  await context.ProjectItems.FirstAsync(p => p.Id == newProject.Id);
+
+        if (projectToEdit is null)
+            return null;
 
         if (projectToEdit is null)
             return null;
         
-        if (newProject.Title is not null)
+        if (newProject.Title is not null && projectToEdit.Title != newProject.Title)
             projectToEdit.Title = newProject.Title;
         
-        if (newProject.Description is not null)
+        if (newProject.Description is not null && projectToEdit.Description != newProject.Description)
             projectToEdit.Description = newProject.Description;
 
-        if (newProject.OwnerId is not null)
+        if (newProject.OwnerId != Guid.Empty && projectToEdit.OwnerId != newProject.OwnerId)
             projectToEdit.OwnerId = newProject.OwnerId;
 
         projectToEdit.ModifyDate = DateTime.UtcNow;
@@ -95,21 +83,15 @@ public class ProjectService(TaskManagerAPIDbContext context) : IProjectService
         context.ProjectItems.Update(projectToEdit);
         await context.SaveChangesAsync();
 
-        return ConvertProjectToOutputAsync(await context.ProjectItems.FirstOrDefaultAsync(t => t.Id == Id));
+        return ConvertProjectToOutputAsync(await context.ProjectItems.FirstOrDefaultAsync(t => t.Id == projectToEdit.Id));
     }
 
-    public async Task<List<ProjectItemDto>> GetProjectsAsync(Guid organizationId, ClaimsPrincipal user)
+    public async Task<List<ProjectItemDto>> GetProjectsAsync(Guid organizationId)
     {
-        var accountId = Guid.Parse(user.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID).Value);
-        var organizationVerify = await GeneralService.VerifyAccountRelatesToOrganization(context, accountId, organizationId);
-
-        if (organizationVerify.AccountId == null || organizationVerify.OrganizationId == null)
-            return null;
-
         return await context.ProjectItems.Where(p => p.OrganizationId == organizationId).Select(p => ConvertProjectToOutputAsync(p)).ToListAsync();
     }
 
-    public async Task<ProjectItemDto> GetProjectById(Guid projectId, Guid organizationId, ClaimsPrincipal user)
+    public async Task<ProjectItemDto> GetProjectByIdAsync(Guid projectId)
     {
         return await context.ProjectItems.Where(p => p.Id == projectId)
             .Select(p => ConvertProjectToOutputAsync(p)).FirstOrDefaultAsync();

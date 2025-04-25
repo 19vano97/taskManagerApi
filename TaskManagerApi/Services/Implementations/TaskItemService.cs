@@ -13,7 +13,7 @@ namespace TaskManagerApi.Services.Implementations;
 
 public class TaskItemService(TaskManagerAPIDbContext context) : ITaskItemService
 {
-    public async Task<TaskItemOutputDto> ChangeAssigneeAsync(Guid taskId, Guid newAssignee)
+    public async Task<TaskItemDto> ChangeAssigneeAsync(Guid taskId, Guid newAssignee)
     {
         var taskToEdit = await context.TaskItems.FirstOrDefaultAsync(t => t.Id == taskId);
 
@@ -29,7 +29,7 @@ public class TaskItemService(TaskManagerAPIDbContext context) : ITaskItemService
         return await ConvertTaskToOutputAsync(await context.TaskItems.FirstOrDefaultAsync(t => t.Id == taskId), context);
     }
 
-    public async Task<TaskItemOutputDto> ChangeProjectAsync(Guid taskId, Guid newProject)
+    public async Task<TaskItemDto> ChangeProjectAsync(Guid taskId, Guid newProject)
     {
         var taskToEdit = await context.TaskItems.FirstOrDefaultAsync(t => t.Id == taskId);
 
@@ -45,7 +45,7 @@ public class TaskItemService(TaskManagerAPIDbContext context) : ITaskItemService
         return await ConvertTaskToOutputAsync(await context.TaskItems.FirstOrDefaultAsync(t => t.Id == taskId), context);
     }
 
-    public async Task<TaskItemOutputDto> ChangeTaskStatusAsync(Guid taskId, int newStatus)
+    public async Task<TaskItemDto> ChangeTaskStatusAsync(Guid taskId, int newStatus)
     {
         var taskToEdit = await context.TaskItems.FirstOrDefaultAsync(t => t.Id == taskId);
 
@@ -61,7 +61,7 @@ public class TaskItemService(TaskManagerAPIDbContext context) : ITaskItemService
         return await ConvertTaskToOutputAsync(await context.TaskItems.FirstOrDefaultAsync(t => t.Id == taskId), context);
     }
 
-    public async Task<TaskItemOutputDto> CreateTaskAsync(TaskItemInputDto newTask)
+    public async Task<TaskItemDto> CreateTaskAsync(TaskItemDto newTask)
     {
         if (newTask.Title is null)
             return null;
@@ -83,7 +83,7 @@ public class TaskItemService(TaskManagerAPIDbContext context) : ITaskItemService
         return await ConvertTaskToOutputAsync(result!, context);
     }
 
-    public async Task<TaskItemOutputDto> DeleteTaskAsync(Guid Id)
+    public async Task<TaskItemDto> DeleteTaskAsync(Guid Id)
     {
         var taskToDelete = await context.TaskItems.FirstOrDefaultAsync(t => t.Id == Id);
 
@@ -96,26 +96,26 @@ public class TaskItemService(TaskManagerAPIDbContext context) : ITaskItemService
         return await ConvertTaskToOutputAsync(taskToDelete, context);
     }
 
-    public async Task<TaskItemOutputDto> EditTaskByIdAsync(Guid taskId, TaskItemInputDto newTask)
+    public async Task<TaskItemDto> EditTaskByIdAsync(Guid taskId, TaskItemDto newTask)
     {
         var taskToEdit = await context.TaskItems.FirstOrDefaultAsync(t => t.Id == taskId);
 
         if (taskToEdit is null)
             return null;
         
-        if (newTask.Title is not null)
+        if (newTask.Title != string.Empty)
             taskToEdit.Title = newTask.Title;
         
-        if (newTask.Description is not null)
+        if (newTask.Description != string.Empty)
             taskToEdit.Description = newTask.Description;
 
-        if (newTask.ReporterId is not null)
+        if (newTask.ReporterId != Guid.Empty)
             taskToEdit.ReporterId = newTask.ReporterId;
 
-        if (newTask.AssigneeId is not null)
+        if (newTask.AssigneeId != Guid.Empty)
             taskToEdit.AssigneeId = newTask.AssigneeId;
 
-        if (newTask.Description is not null)
+        if (newTask.Description != string.Empty)
             taskToEdit.ProjectId = newTask.ProjectId;
 
         taskToEdit.ModifyDate = DateTime.UtcNow;
@@ -126,7 +126,7 @@ public class TaskItemService(TaskManagerAPIDbContext context) : ITaskItemService
         return await ConvertTaskToOutputAsync(await context.TaskItems.FirstOrDefaultAsync(t => t.Id == taskId), context);
     }
 
-    public async Task<TaskItemOutputDto> GetTaskByIdAsync(Guid taskId)
+    public async Task<TaskItemDto> GetTaskByIdAsync(Guid taskId)
     {
         var findTask = await context.TaskItems.FirstOrDefaultAsync(t => t.Id == taskId);
 
@@ -136,41 +136,31 @@ public class TaskItemService(TaskManagerAPIDbContext context) : ITaskItemService
         return await ConvertTaskToOutputAsync(findTask, context);
     }
 
-    public async Task<List<TaskItemOutputDto>> GetTasksAsync()
+    public async Task<List<TaskItemDto>> GetTasksByOrganizationAsync()
     {
-        return await context.TaskItems.Select(t => new TaskItemOutputDto{
+        return await context.TaskItems.Select(t => new TaskItemDto{
             Id = t.Id,
             Title = t!.Title,
             Description = t.Description,
-            Status = context.TaskItemStatuses.Select(s => s).FirstOrDefault(s => s.Id == t.StatusId),
-            Project = context.ProjectItems.Select(p => (new ProjectItemDto{
-                Id = p.Id,
-                Title = p.Title,
-                Description = p.Description,
-                CreateDate = p.CreateDate
-            })).FirstOrDefault(p => p.Id == t.ProjectId),
+            Status = t.StatusId,
+            ProjectId = t.ProjectId,
             ReporterId = t.ReporterId,
-            AssigneerId = t.AssigneeId,
+            AssigneeId = t.AssigneeId,
             CreateDate = t.CreateDate,
             ModifyDate = t.ModifyDate
         }).ToListAsync();
     }
 
-    private static async Task<TaskItemOutputDto> ConvertTaskToOutputAsync(TaskItem task, TaskManagerAPIDbContext context)
+    private static async Task<TaskItemDto> ConvertTaskToOutputAsync(TaskItem task, TaskManagerAPIDbContext context)
     {
-        return new TaskItemOutputDto{
+        return new TaskItemDto{
             Id = task.Id,
             Title = task!.Title,
             Description = task.Description,
-            Status = await context.TaskItemStatuses.Select(s => s).FirstOrDefaultAsync(s => s.Id == task.StatusId),
-            Project = await context.ProjectItems.Select((p) => (new ProjectItemDto{
-                Id = p.Id,
-                Title = p.Title,
-                Description = p.Description,
-                CreateDate = p.CreateDate
-            })).FirstOrDefaultAsync(p => p.Id == task.ProjectId),
+            Status = task.StatusId,
+            ProjectId = task.ProjectId,
             ReporterId = task.ReporterId,
-            AssigneerId = task.AssigneeId,
+            AssigneeId = task.AssigneeId,
             CreateDate = task.CreateDate,
             ModifyDate = task.ModifyDate
         };

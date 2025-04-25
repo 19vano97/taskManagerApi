@@ -15,7 +15,7 @@ namespace TaskManagerApi.Controllers
         [HttpPost("create")]
         public async Task<ActionResult<OrganizationDto>> Create(OrganizationDto newOrganization)
         {
-            var newOrgToAdd = await organizationService.Create(User, newOrganization);
+            var newOrgToAdd = await organizationService.CreateAsync(User, newOrganization);
 
             if (newOrgToAdd.Id == null)
                 return BadRequest();
@@ -26,7 +26,7 @@ namespace TaskManagerApi.Controllers
         [HttpPost("edit")]
         public async Task<ActionResult<OrganizationDto>> Edit(OrganizationDto editOrganization)
         {
-            var editOrgToAdd = organizationService.Edit(User, editOrganization);
+            var editOrgToAdd = organizationService.EditAsync(User, editOrganization);
 
             if (editOrgToAdd.Id == null)
                 return BadRequest();
