@@ -70,6 +70,7 @@ public class TaskItemService(TaskManagerAPIDbContext context) : ITaskItemService
                 Id = Guid.NewGuid(),
                 Title = newTask.Title,
                 Description = newTask.Description,
+                StatusId = newTask.StatusId,
                 ReporterId = newTask.ReporterId,
                 ProjectId = newTask.ProjectId,
                 AssigneeId = newTask.AssigneeId
@@ -136,19 +137,29 @@ public class TaskItemService(TaskManagerAPIDbContext context) : ITaskItemService
         return await ConvertTaskToOutputAsync(findTask, context);
     }
 
-    public async Task<List<TaskItemDto>> GetTasksByOrganizationAsync()
+    public async Task<List<TaskItemDto>> GetTasksByOrganizationAsync(Guid organizationId)
     {
-        return await context.TaskItems.Select(t => new TaskItemDto{
-            Id = t.Id,
-            Title = t!.Title,
-            Description = t.Description,
-            Status = t.StatusId,
-            ProjectId = t.ProjectId,
-            ReporterId = t.ReporterId,
-            AssigneeId = t.AssigneeId,
-            CreateDate = t.CreateDate,
-            ModifyDate = t.ModifyDate
-        }).ToListAsync();
+        // return await context.TaskItems.Where(t => t.ProjectItem.OrganizationId == organizationId).Select(t => new TaskItemDto{
+        //     Id = t.Id,
+        //     Title = t!.Title,
+        //     Description = t.Description,
+        //     StatusId = t.StatusId,
+        //     ProjectId = t.ProjectId,
+        //     ReporterId = t.ReporterId,
+        //     AssigneeId = t.AssigneeId,
+        //     CreateDate = t.CreateDate,
+        //     ModifyDate = t.ModifyDate
+        // }).ToListAsync();
+
+        var tasks = await context.TaskItems.Where(t => t.ProjectItem.OrganizationId == organizationId).ToListAsync();
+        var tasksDto = new List<TaskItemDto>();
+
+        foreach (var task in tasks)
+        {
+            tasksDto.Add(await ConvertTaskToOutputAsync(task, context));
+        }
+
+        return tasksDto;
     }
 
     private static async Task<TaskItemDto> ConvertTaskToOutputAsync(TaskItem task, TaskManagerAPIDbContext context)
@@ -157,7 +168,8 @@ public class TaskItemService(TaskManagerAPIDbContext context) : ITaskItemService
             Id = task.Id,
             Title = task!.Title,
             Description = task.Description,
-            Status = task.StatusId,
+            StatusId = task.StatusId,
+            StatusName = await context.TaskItemStatuses.Where(s => s.Id == task.StatusId).Select(s => s.Name).FirstAsync(),
             ProjectId = task.ProjectId,
             ReporterId = task.ReporterId,
             AssigneeId = task.AssigneeId,

@@ -17,5 +17,5 @@ public class ProjectItem
     public TaskItem? TaskItem { get; set; }
     [ForeignKey("OrganizationId")]
     public OrganizationItem? Organization { get; set; }
-    public virtual ICollection<TaskItem> TaskItems { get; set; } = new List<TaskItem>();
+    // public virtual ICollection<TaskItem> TaskItems { get; set; } = new List<TaskItem>();
 }

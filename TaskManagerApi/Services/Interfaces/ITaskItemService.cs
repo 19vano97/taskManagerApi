@@ -7,7 +7,7 @@ namespace TaskManagerApi.Services.Interfaces;
 
 public interface ITaskItemService
 {
-    Task<List<TaskItemDto>> GetTasksByOrganizationAsync();
+    Task<List<TaskItemDto>> GetTasksByOrganizationAsync(Guid organizationId);
     Task<TaskItemDto> CreateTaskAsync(TaskItemDto newTask);
     Task<TaskItemDto> EditTaskByIdAsync(Guid Id, TaskItemDto newTask);
     Task<TaskItemDto> GetTaskByIdAsync(Guid taskId);

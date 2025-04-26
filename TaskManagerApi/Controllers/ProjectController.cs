@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TaskManagerApi.Data;
 using TaskManagerApi.Models;
 using TaskManagerApi.Models.Project;
 using TaskManagerApi.Services.Implementations;
@@ -13,7 +14,7 @@ namespace TaskManagerApi.Controllers
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/project")]
     [ApiController]
-    public class ProjectController(IProjectService projectService) : ControllerBase
+    public class ProjectController(IProjectService projectService, TaskManagerAPIDbContext context) : ControllerBase
     {
         [HttpGet("all")]
         public async Task<ActionResult<List<ProjectItemDto>>> GetAllProjectsList()
@@ -102,9 +103,9 @@ namespace TaskManagerApi.Controllers
         private async Task<bool> ValidateAccountOrganizationConnection(string organizationId, Guid projectId)
         {
             return (!Guid.TryParse(organizationId, out var organizationIdGuid)
-                || await GeneralService.VerifyAccountRelatesToOrganization(Guid.Parse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value)
+                || await GeneralService.VerifyAccountRelatesToOrganization(context, Guid.Parse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value)
                     , organizationIdGuid) is null
-                || await GeneralService.VerifyProjectInOrganization(projectId, organizationIdGuid) is null);
+                || await GeneralService.VerifyProjectInOrganization(context, projectId, organizationIdGuid) is null);
         }
     }
 }

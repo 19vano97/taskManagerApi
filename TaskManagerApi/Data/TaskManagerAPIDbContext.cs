@@ -13,6 +13,7 @@ public class TaskManagerAPIDbContext : DbContext
 
     public DbSet<TaskItem> TaskItems { get; set; }
     public DbSet<TaskItemStatus> TaskItemStatuses { get; set; }
+    public DbSet<TaskItemStatusType> TaskItemStatusType { get; set; }
     public DbSet<ProjectItem> ProjectItems { get; set; }
     public DbSet<OrganizationItem> OrganizationItem { get; set; }
     public DbSet<OrganizationAccount> OrganizationAccount { get; set; }
@@ -23,6 +24,8 @@ public class TaskManagerAPIDbContext : DbContext
         modelBuilder.Entity<TaskItem>().Property(d => d.ModifyDate).HasDefaultValueSql("GETUTCDATE()");
         modelBuilder.Entity<TaskItemStatus>().Property(d => d.CreateDate).HasDefaultValueSql("GETUTCDATE()");
         modelBuilder.Entity<TaskItemStatus>().Property(d => d.ModifyDate).HasDefaultValueSql("GETUTCDATE()");
+        modelBuilder.Entity<TaskItemStatusType>().Property(d => d.CreateDate).HasDefaultValueSql("GETUTCDATE()");
+        modelBuilder.Entity<TaskItemStatusType>().Property(d => d.ModifyDate).HasDefaultValueSql("GETUTCDATE()");
         modelBuilder.Entity<ProjectItem>().Property(d => d.CreateDate).HasDefaultValueSql("GETUTCDATE()");
         modelBuilder.Entity<ProjectItem>().Property(d => d.ModifyDate).HasDefaultValueSql("GETUTCDATE()");
         modelBuilder.Entity<OrganizationItem>().Property(d => d.CreateDate).HasDefaultValueSql("GETUTCDATE()");

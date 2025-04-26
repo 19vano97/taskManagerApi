@@ -6,18 +6,16 @@ using static TaskManagerApi.Models.Constants;
 
 namespace TaskManagerApi.Services.Implementations;
 
-public static class GeneralService
+public class GeneralService
 {
-    private static readonly TaskManagerAPIDbContext _context;
-
-    public static async Task<OrganizationAccount> VerifyAccountRelatesToOrganization(Guid accountId, Guid organizationId)
+    public static async Task<OrganizationAccount> VerifyAccountRelatesToOrganization(TaskManagerAPIDbContext context, Guid accountId, Guid organizationId)
     {
-        return await _context.OrganizationAccount.FirstOrDefaultAsync(o => o.AccountId == accountId && o.OrganizationId == organizationId);
+        return await context.OrganizationAccount.FirstOrDefaultAsync(o => o.AccountId == accountId && o.OrganizationId == organizationId);
     }
 
-    public static async Task<ProjectItem> VerifyProjectInOrganization(Guid projectId, Guid organizationId)
+    public static async Task<ProjectItem> VerifyProjectInOrganization(TaskManagerAPIDbContext context, Guid projectId, Guid organizationId)
     {
-        var project = await _context.ProjectItems.FirstOrDefaultAsync(t => t.Id == projectId);
+        var project = await context.ProjectItems.FirstOrDefaultAsync(t => t.Id == projectId);
 
         if (project is null)
             return null;

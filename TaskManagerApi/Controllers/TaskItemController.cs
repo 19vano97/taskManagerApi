@@ -16,7 +16,7 @@ namespace TaskManagerApi.Controllers
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/task")]
     [ApiController]
-    public class TaskItemController(ITaskItemService taskItemService) : ControllerBase
+    public class TaskItemController(ITaskItemService taskItemService, TaskManagerAPIDbContext context) : ControllerBase
     {
         [HttpGet("all")]
         public async Task<ActionResult<List<TaskItemDto>>> GetTasksInOrganization()
@@ -25,7 +25,7 @@ namespace TaskManagerApi.Controllers
                 || !await ValidateAccountOrganizationConnection(organizationId!)) 
                 return BadRequest("Invalid request");
 
-            return Ok(await taskItemService.GetTasksByOrganizationAsync());
+            return Ok(await taskItemService.GetTasksByOrganizationAsync(Guid.Parse(organizationId)));
         }
 
         [HttpGet("details/{Id}")]
@@ -135,9 +135,9 @@ namespace TaskManagerApi.Controllers
 
         private async Task<bool> ValidateAccountOrganizationConnection(string organizationId)
         {
-            return (!Guid.TryParse(organizationId, out var organizationIdGuid)
-                || await GeneralService.VerifyAccountRelatesToOrganization(Guid.Parse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value)
-                    , organizationIdGuid) is null);
+            return (Guid.TryParse(organizationId, out var organizationIdGuid)
+                || await GeneralService.VerifyAccountRelatesToOrganization(context, Guid.Parse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value)
+                    , organizationIdGuid) is not null);
         }
     }
 }
