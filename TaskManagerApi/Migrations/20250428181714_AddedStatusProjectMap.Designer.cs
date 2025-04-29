@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TaskManagerApi.Data;
 
@@ -11,9 +12,11 @@ using TaskManagerApi.Data;
 namespace TaskManagerApi.Migrations
 {
     [DbContext(typeof(TaskManagerAPIDbContext))]
-    partial class TaskManagerAPIDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250428181714_AddedStatusProjectMap")]
+    partial class AddedStatusProjectMap
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -288,7 +291,7 @@ namespace TaskManagerApi.Migrations
             modelBuilder.Entity("TaskManagerApi.Enitities.ProjectTaskStatusMapping", b =>
                 {
                     b.HasOne("TaskManagerApi.Enitities.ProjectItem", "ProjectItem")
-                        .WithMany("ProjectItems")
+                        .WithMany()
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -341,8 +344,6 @@ namespace TaskManagerApi.Migrations
 
             modelBuilder.Entity("TaskManagerApi.Enitities.ProjectItem", b =>
                 {
-                    b.Navigation("ProjectItems");
-
                     b.Navigation("TaskItem");
                 });
 #pragma warning restore 612, 618

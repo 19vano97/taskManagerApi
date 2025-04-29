@@ -13,7 +13,7 @@ namespace TaskManagerApi.Controllers
     public class OrganizationController(IOrganizationService organizationService) : ControllerBase
     {
         [HttpPost("create")]
-        public async Task<ActionResult<OrganizationDto>> Create(OrganizationDto newOrganization)
+        public async Task<ActionResult<OrganizationDto>> CreateOrganizationAsync(OrganizationDto newOrganization)
         {
             var newOrgToAdd = await organizationService.CreateAsync(User, newOrganization);
 
@@ -24,7 +24,7 @@ namespace TaskManagerApi.Controllers
         }
 
         [HttpPost("edit")]
-        public async Task<ActionResult<OrganizationDto>> Edit(OrganizationDto editOrganization)
+        public async Task<ActionResult<OrganizationDto>> EditOrganizationAsync(OrganizationDto editOrganization)
         {
             var editOrgToAdd = organizationService.EditAsync(User, editOrganization);
 

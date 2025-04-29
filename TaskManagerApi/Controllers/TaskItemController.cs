@@ -19,20 +19,20 @@ namespace TaskManagerApi.Controllers
     public class TaskItemController(ITaskItemService taskItemService, TaskManagerAPIDbContext context) : ControllerBase
     {
         [HttpGet("all")]
-        public async Task<ActionResult<List<TaskItemDto>>> GetTasksInOrganization()
+        public async Task<ActionResult<List<TaskItemDto>>> GetTasksInOrganizationAsync()
         {
             if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId) 
-                || !await ValidateAccountOrganizationConnection(organizationId!)) 
+                || !await ValidateAccountOrganizationConnectionAsync(organizationId!)) 
                 return BadRequest("Invalid request");
 
             return Ok(await taskItemService.GetTasksByOrganizationAsync(Guid.Parse(organizationId)));
         }
 
         [HttpGet("details/{Id}")]
-        public async Task<ActionResult<TaskItemDto>> GetTaskById(Guid Id)
+        public async Task<ActionResult<TaskItemDto>> GetTaskByIdAsync(Guid Id)
         {
             if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId) 
-                || !await ValidateAccountOrganizationConnection(organizationId!)) 
+                || !await ValidateAccountOrganizationConnectionAsync(organizationId!)) 
                 return BadRequest("Invalid request");
 
             var task = await taskItemService.GetTaskByIdAsync(Id);
@@ -44,10 +44,10 @@ namespace TaskManagerApi.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<ActionResult<TaskItemDto>> CreateTask(TaskItemDto newTask)
+        public async Task<ActionResult<TaskItemDto>> CreateTaskAsync(TaskItemDto newTask)
         {
             if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId) 
-                || !await ValidateAccountOrganizationConnection(organizationId!)) 
+                || !await ValidateAccountOrganizationConnectionAsync(organizationId!)) 
                 return BadRequest("Invalid request");
 
             var createdTask = await taskItemService.CreateTaskAsync(newTask);
@@ -59,10 +59,10 @@ namespace TaskManagerApi.Controllers
         }
 
         [HttpPost("edit/{Id}")]
-        public async Task<ActionResult<TaskItemDto>> EditTaskById(Guid Id, TaskItemDto editTask)
+        public async Task<ActionResult<TaskItemDto>> EditTaskByIdAsync(Guid Id, TaskItemDto editTask)
         {
             if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId) 
-                || !await ValidateAccountOrganizationConnection(organizationId!)) 
+                || !await ValidateAccountOrganizationConnectionAsync(organizationId!)) 
                 return BadRequest("Invalid request");
 
             var taskToEdit = await taskItemService.EditTaskByIdAsync(Id, editTask);
@@ -74,10 +74,10 @@ namespace TaskManagerApi.Controllers
         }
 
         [HttpPut("edit/{taskId}/assignee/{assigneeId}")]
-        public async Task<ActionResult<TaskItemDto>> ChangeTaskAssigneeById(Guid taskId, Guid assigneeId)
+        public async Task<ActionResult<TaskItemDto>> ChangeTaskAssigneeByIdAsync(Guid taskId, Guid assigneeId)
         {
             if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId) 
-                || !await ValidateAccountOrganizationConnection(organizationId!)) 
+                || !await ValidateAccountOrganizationConnectionAsync(organizationId!)) 
                 return BadRequest("Invalid request");
 
             var taskToEdit = await taskItemService.ChangeAssigneeAsync(taskId, assigneeId);
@@ -89,10 +89,10 @@ namespace TaskManagerApi.Controllers
         }
 
         [HttpPut("edit/{taskId}/project/{projectId}")]
-        public async Task<ActionResult<TaskItemDto>> ChangeTaskProject(Guid Id, Guid projectId)
+        public async Task<ActionResult<TaskItemDto>> ChangeTaskProjectAsync(Guid Id, Guid projectId)
         {
             if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId) 
-                || !await ValidateAccountOrganizationConnection(organizationId!)) 
+                || !await ValidateAccountOrganizationConnectionAsync(organizationId!)) 
                 return BadRequest("Invalid request");
 
             var taskToEdit = await taskItemService.ChangeAssigneeAsync(Id, projectId);
@@ -104,10 +104,10 @@ namespace TaskManagerApi.Controllers
         }
 
         [HttpPut("edit/{taskId}/task/{statusId}")]
-        public async Task<ActionResult<TaskItemDto>> ChangeTaskStatus(Guid Id, int statusId)
+        public async Task<ActionResult<TaskItemDto>> ChangeTaskStatusAsync(Guid Id, int statusId)
         {
             if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId) 
-                || !await ValidateAccountOrganizationConnection(organizationId!)) 
+                || !await ValidateAccountOrganizationConnectionAsync(organizationId!)) 
                 return BadRequest("Invalid request");
 
             var taskToEdit = await taskItemService.ChangeTaskStatusAsync(Id, statusId);
@@ -119,10 +119,10 @@ namespace TaskManagerApi.Controllers
         }
 
         [HttpDelete("delete/{Id}")]
-        public async Task<ActionResult<TaskItemDto>> DeleteTaskById(Guid Id)
+        public async Task<ActionResult<TaskItemDto>> DeleteTaskByIdAsync(Guid Id)
         {
             if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId) 
-                || !await ValidateAccountOrganizationConnection(organizationId!)) 
+                || !await ValidateAccountOrganizationConnectionAsync(organizationId!)) 
                 return BadRequest("Invalid request");
 
             var taskToDelete = await taskItemService.DeleteTaskAsync(Id);
@@ -133,7 +133,7 @@ namespace TaskManagerApi.Controllers
             return Ok(taskToDelete);
         }
 
-        private async Task<bool> ValidateAccountOrganizationConnection(string organizationId)
+        private async Task<bool> ValidateAccountOrganizationConnectionAsync(string organizationId)
         {
             return (Guid.TryParse(organizationId, out var organizationIdGuid)
                 || await GeneralService.VerifyAccountRelatesToOrganization(context, Guid.Parse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value)

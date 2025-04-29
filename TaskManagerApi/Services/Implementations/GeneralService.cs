@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Immutable;
 using Microsoft.EntityFrameworkCore;
 using TaskManagerApi.Data;
 using TaskManagerApi.Enitities;
+using TaskManagerApi.Models.TaskItemStatuses;
 using static TaskManagerApi.Models.Constants;
 
 namespace TaskManagerApi.Services.Implementations;
@@ -21,5 +23,35 @@ public class GeneralService
             return null;
 
         return project;
+    }
+
+    public static List<TaskItemStatusDto> CopyListFromImmutableList(ImmutableList<TaskItemStatusDto> immutableList)
+    {
+        var newList = new List<TaskItemStatusDto>();
+
+        foreach (var item in immutableList)
+        {
+            newList.Add(item);
+        }
+
+        return newList;
+    }
+
+    public static List<TaskItemStatusDto> ConvertProejctStatusToDto(List<ProjectTaskStatusMapping> list)
+    {
+        var newList = new List<TaskItemStatusDto>();
+
+        foreach (var item in list)
+        {
+            newList.Add(new TaskItemStatusDto{
+                TypeId = item.TaskItemStatus.StatusTypeId,
+                TypeName = item.TaskItemStatus.taskItemStatusType.Name,
+                StatusId = item.StatusId,
+                StatusName = item.TaskItemStatus.Name,
+                Order = item.Order
+            });
+        }
+
+        return newList.OrderByDescending(t => t.Order).ToList();
     }
 }

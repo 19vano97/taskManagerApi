@@ -26,7 +26,7 @@ public class TaskItemService(TaskManagerAPIDbContext context) : ITaskItemService
         context.TaskItems.Update(taskToEdit);
         await context.SaveChangesAsync();
 
-        return await ConvertTaskToOutputAsync(await context.TaskItems.FirstOrDefaultAsync(t => t.Id == taskId), context);
+        return ConvertTaskToOutputAsync(await context.TaskItems.FirstOrDefaultAsync(t => t.Id == taskId));
     }
 
     public async Task<TaskItemDto> ChangeProjectAsync(Guid taskId, Guid newProject)
@@ -42,14 +42,14 @@ public class TaskItemService(TaskManagerAPIDbContext context) : ITaskItemService
         context.TaskItems.Update(taskToEdit);
         await context.SaveChangesAsync();
 
-        return await ConvertTaskToOutputAsync(await context.TaskItems.FirstOrDefaultAsync(t => t.Id == taskId), context);
+        return ConvertTaskToOutputAsync(await context.TaskItems.FirstOrDefaultAsync(t => t.Id == taskId));
     }
 
     public async Task<TaskItemDto> ChangeTaskStatusAsync(Guid taskId, int newStatus)
     {
         var taskToEdit = await context.TaskItems.FirstOrDefaultAsync(t => t.Id == taskId);
 
-        if (taskToEdit is null || !Enum.IsDefined(typeof(TaskItemStatusEnum), newStatus))
+        if (taskToEdit is null || !Enum.IsDefined(typeof(TaskItemStatusTypesEnum), newStatus))
             return null;
 
         taskToEdit.StatusId = newStatus;
@@ -58,7 +58,7 @@ public class TaskItemService(TaskManagerAPIDbContext context) : ITaskItemService
         context.TaskItems.Update(taskToEdit);
         await context.SaveChangesAsync();
 
-        return await ConvertTaskToOutputAsync(await context.TaskItems.FirstOrDefaultAsync(t => t.Id == taskId), context);
+        return ConvertTaskToOutputAsync(await context.TaskItems.FirstOrDefaultAsync(t => t.Id == taskId));
     }
 
     public async Task<TaskItemDto> CreateTaskAsync(TaskItemDto newTask)
@@ -81,7 +81,7 @@ public class TaskItemService(TaskManagerAPIDbContext context) : ITaskItemService
 
         var result = await context.TaskItems.FirstOrDefaultAsync(id => id.Id == taskToAdd.Id);
 
-        return await ConvertTaskToOutputAsync(result!, context);
+        return ConvertTaskToOutputAsync(result!);
     }
 
     public async Task<TaskItemDto> DeleteTaskAsync(Guid Id)
@@ -94,7 +94,7 @@ public class TaskItemService(TaskManagerAPIDbContext context) : ITaskItemService
         context.TaskItems.Remove(taskToDelete);
         await context.SaveChangesAsync();
 
-        return await ConvertTaskToOutputAsync(taskToDelete, context);
+        return ConvertTaskToOutputAsync(taskToDelete);
     }
 
     public async Task<TaskItemDto> EditTaskByIdAsync(Guid taskId, TaskItemDto newTask)
@@ -124,7 +124,7 @@ public class TaskItemService(TaskManagerAPIDbContext context) : ITaskItemService
         context.TaskItems.Update(taskToEdit);
         await context.SaveChangesAsync();
 
-        return await ConvertTaskToOutputAsync(await context.TaskItems.FirstOrDefaultAsync(t => t.Id == taskId), context);
+        return ConvertTaskToOutputAsync(await context.TaskItems.FirstOrDefaultAsync(t => t.Id == taskId));
     }
 
     public async Task<TaskItemDto> GetTaskByIdAsync(Guid taskId)
@@ -134,42 +134,22 @@ public class TaskItemService(TaskManagerAPIDbContext context) : ITaskItemService
         if (findTask is null)
             return null;
         
-        return await ConvertTaskToOutputAsync(findTask, context);
+        return ConvertTaskToOutputAsync(findTask);
     }
 
     public async Task<List<TaskItemDto>> GetTasksByOrganizationAsync(Guid organizationId)
     {
-        // return await context.TaskItems.Where(t => t.ProjectItem.OrganizationId == organizationId).Select(t => new TaskItemDto{
-        //     Id = t.Id,
-        //     Title = t!.Title,
-        //     Description = t.Description,
-        //     StatusId = t.StatusId,
-        //     ProjectId = t.ProjectId,
-        //     ReporterId = t.ReporterId,
-        //     AssigneeId = t.AssigneeId,
-        //     CreateDate = t.CreateDate,
-        //     ModifyDate = t.ModifyDate
-        // }).ToListAsync();
-
-        var tasks = await context.TaskItems.Where(t => t.ProjectItem.OrganizationId == organizationId).ToListAsync();
-        var tasksDto = new List<TaskItemDto>();
-
-        foreach (var task in tasks)
-        {
-            tasksDto.Add(await ConvertTaskToOutputAsync(task, context));
-        }
-
-        return tasksDto;
+        return await context.TaskItems.Where(t => t.ProjectItem.OrganizationId == organizationId).Select(t => ConvertTaskToOutputAsync(t)).ToListAsync();
     }
 
-    private static async Task<TaskItemDto> ConvertTaskToOutputAsync(TaskItem task, TaskManagerAPIDbContext context)
+    private static TaskItemDto ConvertTaskToOutputAsync(TaskItem task)
     {
         return new TaskItemDto{
             Id = task.Id,
             Title = task!.Title,
             Description = task.Description,
             StatusId = task.StatusId,
-            StatusName = await context.TaskItemStatuses.Where(s => s.Id == task.StatusId).Select(s => s.Name).FirstAsync(),
+            StatusName = task.TaskItemStatus.Name,
             ProjectId = task.ProjectId,
             ReporterId = task.ReporterId,
             AssigneeId = task.AssigneeId,

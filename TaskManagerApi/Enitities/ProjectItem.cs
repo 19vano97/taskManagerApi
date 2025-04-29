@@ -16,6 +16,7 @@ public class ProjectItem
     public DateTime ModifyDate { get; set; } = DateTime.UtcNow;
     public TaskItem? TaskItem { get; set; }
     [ForeignKey("OrganizationId")]
-    public OrganizationItem? Organization { get; set; }
-    // public virtual ICollection<TaskItem> TaskItems { get; set; } = new List<TaskItem>();
+    public OrganizationItem Organization { get; set; }
+    public virtual ICollection<ProjectTaskStatusMapping> ProjectItems { get; set; } = new List<ProjectTaskStatusMapping>();
+
 }

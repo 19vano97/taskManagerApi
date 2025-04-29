@@ -5,6 +5,7 @@ using TaskManagerApi.Data;
 using TaskManagerApi.Enitities;
 using TaskManagerApi.Models;
 using TaskManagerApi.Models.Project;
+using TaskManagerApi.Models.TaskItemStatuses;
 using TaskManagerApi.Services.Interfaces;
 using static TaskManagerApi.Models.Constants;
 
@@ -25,25 +26,27 @@ public class ProjectService(TaskManagerAPIDbContext context) : IProjectService
         context.ProjectItems.Update(projectToEdit);
         await context.SaveChangesAsync();
 
-        return ConvertProjectToOutputAsync(await context.ProjectItems.FirstOrDefaultAsync(t => t.Id == projectId));
+        return ConvertProjectToOutput(await context.ProjectItems.FirstOrDefaultAsync(t => t.Id == projectId), await GetStatuses(projectId));
     }
 
-    public async Task<ProjectItemDto> CreateProjectAsync(ProjectItemDto newProject, Guid ownerID)
+    public async Task<ProjectItemDto> CreateProjectAsync(ProjectItemDto newProject)
     {
         var projectToAdd = new ProjectItem{
                 Id = Guid.NewGuid(),
                 Title = newProject.Title,
                 Description = newProject.Description,
                 OrganizationId = newProject.OrganizationId,
-                OwnerId = ownerID
+                OwnerId = newProject.OwnerId
             };
         
         context.ProjectItems.Add(projectToAdd);
         await context.SaveChangesAsync();
 
-        var result = await context.ProjectItems.FirstOrDefaultAsync(id => id.Id == projectToAdd.Id);
+        var resultFromDb = await context.ProjectItems.FirstOrDefaultAsync(id => id.Id == projectToAdd.Id);
+        var result = ConvertProjectToOutputAsync(resultFromDb!);
+        result.Statuses = await AddStatuses(result.Id);
 
-        return ConvertProjectToOutputAsync(result!);
+        return result;
     }
 
     public async Task<ProjectItemDto> DeleteProjectAsync(Guid projectId)
@@ -56,7 +59,7 @@ public class ProjectService(TaskManagerAPIDbContext context) : IProjectService
         context.ProjectItems.Remove(projectToDelete);
         await context.SaveChangesAsync();
 
-        return ConvertProjectToOutputAsync(projectToDelete);
+        return ConvertProjectToOutput(projectToDelete, await GetStatuses(projectId));
     }
 
     public async Task<ProjectItemDto> EditProjectAsync(ProjectItemDto newProject)
@@ -83,12 +86,20 @@ public class ProjectService(TaskManagerAPIDbContext context) : IProjectService
         context.ProjectItems.Update(projectToEdit);
         await context.SaveChangesAsync();
 
-        return ConvertProjectToOutputAsync(await context.ProjectItems.FirstOrDefaultAsync(t => t.Id == projectToEdit.Id));
+        return ConvertProjectToOutput(await context.ProjectItems.FirstOrDefaultAsync(t => t.Id == projectToEdit.Id), await GetStatuses(projectToEdit.Id));
     }
 
     public async Task<List<ProjectItemDto>> GetProjectsAsync(Guid organizationId)
     {
-        return await context.ProjectItems.Where(p => p.OrganizationId == organizationId).Select(p => ConvertProjectToOutputAsync(p)).ToListAsync();
+        var projects = await context.ProjectItems.Where(p => p.OrganizationId == organizationId).ToListAsync();
+        var projectsDto = new List<ProjectItemDto>();
+
+        foreach (var project in projects)
+        {
+            projectsDto.Add(ConvertProjectToOutput(project, await GetStatuses(project.Id)));
+        }
+
+        return projectsDto;
     }
 
     public async Task<ProjectItemDto> GetProjectByIdAsync(Guid projectId)
@@ -104,7 +115,42 @@ public class ProjectService(TaskManagerAPIDbContext context) : IProjectService
             Title = project.Title,
             Description = project.Description,
             OwnerId = project.OwnerId,
+            OrganizationId = project.OrganizationId,
             CreateDate = project.CreateDate
         };
+    }
+
+    private static ProjectItemDto ConvertProjectToOutput(ProjectItem project, List<TaskItemStatusDto> statuses)
+    {
+        return new ProjectItemDto{
+            Id = project.Id,
+            Title = project.Title,
+            Description = project.Description,
+            Statuses = statuses,
+            OwnerId = project.OwnerId,
+            OrganizationId = project.OrganizationId,
+            CreateDate = project.CreateDate
+        };
+    }
+
+    private async Task<List<TaskItemStatusDto>> AddStatuses(Guid projectId)
+    {
+        foreach (var status in StatusesConstants.DEFAULT_LIST)
+        {
+            context.ProjectTaskStatusMapping.Add(new ProjectTaskStatusMapping {
+                ProjectId = projectId,
+                StatusId = status.StatusId,
+                Order = status.Order
+            });
+        }
+
+        await context.SaveChangesAsync();
+
+        return await GetStatuses(projectId);
+    }
+
+    private async Task<List<TaskItemStatusDto>> GetStatuses(Guid projectId)
+    {
+        return GeneralService.ConvertProejctStatusToDto(await context.ProjectTaskStatusMapping.Include(s => s.TaskItemStatus.taskItemStatusType).Where(s => s.ProjectId == projectId).ToListAsync());
     }
 }
