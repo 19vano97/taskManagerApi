@@ -79,14 +79,14 @@ namespace TaskManagerApi.Controllers
             return Ok(project);
         }
 
-        [HttpGet("{Id}/tasks")]
-        public async Task<ActionResult<ProjectItemWithTasksDto>> GetProjectWithTasksByIdAsync(Guid Id)
+        [HttpGet("{projectId}/tasks")]
+        public async Task<ActionResult<ProjectItemWithTasksDto>> GetProjectWithTasksByIdAsync(Guid projectId)
         {
             if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId) 
-                || !await ValidateAccountOrganizationConnectionAsync(organizationId!, Id)) 
+                || !await ValidateAccountOrganizationConnectionAsync(organizationId!, projectId)) 
                 return BadRequest("Invalid request");
 
-            var project = await _projectService.GetProjectByIdAsync(Id);
+            var project = await _projectService.GetProjectByIdAsync(projectId);
 
             if (project is null)
                 return BadRequest();
@@ -97,6 +97,21 @@ namespace TaskManagerApi.Controllers
                 Project = project,
                 Tasks = tasks
             });
+        }
+
+        [HttpGet("{projectId}/accounts")]
+        public async Task<ActionResult<ProjectAccountsDto>> GetAccountsByProjectId(Guid projectId)
+        {
+            if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId) 
+                || !await ValidateAccountOrganizationConnectionAsync(organizationId!, projectId)) 
+                return BadRequest("Invalid request");
+
+            var project = await _projectService.GetAccountsByProjectId(projectId);
+
+            if (project is null)
+                return BadRequest();
+
+            return Ok(project);
         }
 
         [HttpPost("create")]

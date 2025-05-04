@@ -26,7 +26,8 @@ public class ProjectService(TaskManagerAPIDbContext context) : IProjectService
         context.ProjectItems.Update(projectToEdit);
         await context.SaveChangesAsync();
 
-        return ConvertProjectToOutput(await context.ProjectItems.FirstOrDefaultAsync(t => t.Id == projectId), await GetStatuses(projectId));
+        return ConvertProjectToOutput(await context.ProjectItems.FirstOrDefaultAsync(t => t.Id == projectId), 
+                                      await GetStatuses(projectId));
     }
 
     public async Task<ProjectItemDto> CreateProjectAsync(ProjectItemDto newProject)
@@ -61,7 +62,11 @@ public class ProjectService(TaskManagerAPIDbContext context) : IProjectService
         if (projectToDelete is null)
             return null;
 
+        var unassignPeopleFromProject = await context.ProjectAccounts.Where(p => p.ProjectId == projectToDelete.Id)
+                                                                     .ToListAsync();
+
         context.ProjectItems.Remove(projectToDelete);
+        context.ProjectAccounts.RemoveRange(unassignPeopleFromProject);
         await context.SaveChangesAsync();
 
         return ConvertProjectToOutput(projectToDelete, await GetStatuses(projectId));
@@ -91,7 +96,8 @@ public class ProjectService(TaskManagerAPIDbContext context) : IProjectService
         context.ProjectItems.Update(projectToEdit);
         await context.SaveChangesAsync();
 
-        return ConvertProjectToOutput(await context.ProjectItems.FirstOrDefaultAsync(t => t.Id == projectToEdit.Id), await GetStatuses(projectToEdit.Id));
+        return ConvertProjectToOutput(await context.ProjectItems.FirstOrDefaultAsync(t => t.Id == projectToEdit.Id), 
+                                      await GetStatuses(projectToEdit.Id));
     }
 
     public async Task<List<ProjectItemDto>> GetProjectsAsync(Guid organizationId)
@@ -110,7 +116,25 @@ public class ProjectService(TaskManagerAPIDbContext context) : IProjectService
     public async Task<ProjectItemDto> GetProjectByIdAsync(Guid projectId)
     {
         return await context.ProjectItems.Where(p => p.Id == projectId)
-            .Select(p => ConvertProjectToOutputAsync(p)).FirstOrDefaultAsync();
+                                         .Select(p => ConvertProjectToOutputAsync(p))
+                                         .FirstOrDefaultAsync();
+    }
+
+    public async Task<ProjectAccountsDto> GetAccountsByProjectId(Guid projectId)
+    {
+        var project = await GetProjectByIdAsync(projectId);
+
+        if (project is null)
+        {
+            return null!;
+        }
+        
+        return new ProjectAccountsDto
+        {
+            Project = project,
+            Accounts = await context.ProjectAccounts.Where(p => p.ProjectId == project.Id)
+                                                    .Select(p => p.AccountId).ToListAsync()
+        };
     }
 
     private static ProjectItemDto ConvertProjectToOutputAsync(ProjectItem project)

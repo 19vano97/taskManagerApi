@@ -12,9 +12,12 @@ public class TaskItemDto
     public string Description { get; set; } = string.Empty;
     public int? StatusId { get; set; } = 2;
     public string StatusName { get; set; } = string.Empty;
+    public int? Type { get; set; } = (int)TaskTypesEnum.Task;
+    public string TypeName { get; set; } = string.Empty;
     public Guid ReporterId { get; set; } = Guid.Empty;
     public Guid AssigneeId { get; set; } = Guid.Empty;
     public Guid ProjectId { get; set; } = Guid.Empty;
+    public Guid ParentId { get; set; } = Guid.Empty;
     public DateTime CreateDate { get; set; } = DateTime.UtcNow;
     public DateTime ModifyDate { get; set; } = DateTime.UtcNow;
 }

@@ -137,6 +137,21 @@ namespace TaskManagerApi.Controllers
             return Ok(taskToEdit);
         }
 
+        [HttpPost("parent")]
+        public async Task<ActionResult<TaskItemDto>> AddParentToTask(TaskParentDto task)
+        {
+            if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId) 
+                || !await ValidateAccountOrganizationConnectionAsync(organizationId!)) 
+                return BadRequest("Invalid request");
+
+            var taskEdit = await _taskItemService.AddParentTicket(task.ParentId, task.ParentId);
+
+            if(taskEdit is null)
+                return BadRequest("Invalid request");
+
+            return Ok(taskEdit);
+        }
+
         [HttpDelete("delete/{Id}")]
         public async Task<ActionResult<TaskItemDto>> DeleteTaskByIdAsync(Guid Id)
         {

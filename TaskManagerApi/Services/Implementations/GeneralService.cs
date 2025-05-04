@@ -67,6 +67,7 @@ public class GeneralService
             ProjectId = task.ProjectId,
             ReporterId = task.ReporterId,
             AssigneeId = task.AssigneeId,
+            ParentId = task.ParentId,
             CreateDate = task.CreateDate,
             ModifyDate = task.ModifyDate
         };

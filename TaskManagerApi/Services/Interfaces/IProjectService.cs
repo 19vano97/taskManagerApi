@@ -9,6 +9,7 @@ public interface IProjectService
 {
     Task<List<ProjectItemDto>> GetProjectsAsync(Guid organizationId);
     Task<ProjectItemDto> GetProjectByIdAsync(Guid projectId);
+    Task<ProjectAccountsDto> GetAccountsByProjectId(Guid projectId);
     Task<ProjectItemDto> CreateProjectAsync(ProjectItemDto newProject);
     Task<ProjectItemDto> EditProjectAsync(ProjectItemDto newProject);
     Task<ProjectItemDto> DeleteProjectAsync(Guid Id);
