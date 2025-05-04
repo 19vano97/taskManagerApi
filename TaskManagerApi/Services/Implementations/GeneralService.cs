@@ -21,7 +21,7 @@ public class GeneralService
         var project = await context.ProjectItems.FirstOrDefaultAsync(t => t.Id == projectId);
 
         if (project is null)
-            return null;
+            return null!;
 
         return project;
     }
@@ -64,6 +64,8 @@ public class GeneralService
             Description = task.Description,
             StatusId = task.StatusId,
             StatusName = task.TaskItemStatus.Name,
+            Type = task.TypeId,
+            TypeName = task.TaskType.Name,
             ProjectId = task.ProjectId,
             ReporterId = task.ReporterId,
             AssigneeId = task.AssigneeId,

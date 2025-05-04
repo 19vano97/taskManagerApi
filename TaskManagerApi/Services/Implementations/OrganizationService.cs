@@ -1,6 +1,7 @@
 using System;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using TaskManagerApi.Data;
 using TaskManagerApi.Enitities;
 using TaskManagerApi.Models.OrganizationModel;
@@ -9,7 +10,7 @@ using static TaskManagerApi.Models.Constants;
 
 namespace TaskManagerApi.Services.Implementations;
 
-public class OrganizationService(TaskManagerAPIDbContext context) : IOrganizationService
+public class OrganizationService(TaskManagerAPIDbContext context, ILogger<OrganizationService> logger) : IOrganizationService
 {
     public async Task<OrganizationDto> CreateAsync(ClaimsPrincipal user, OrganizationDto newOgranization)
     {
@@ -41,10 +42,18 @@ public class OrganizationService(TaskManagerAPIDbContext context) : IOrganizatio
         var toDelete = await DoesOrganizationExistEntity(Id: organizationToDelete.Id.ToString());
         
         if (organizationToDelete.Id == Guid.Empty && organizationToDelete.Name == null && organizationToDelete.Abbreviation == null)
-            return null;
+            return null!;
 
-        context.OrganizationItem.Remove(toDelete);
-        await context.SaveChangesAsync();
+        try
+        {
+            context.OrganizationItem.Remove(toDelete);
+            await context.SaveChangesAsync();
+        }
+        catch (System.Exception ex)
+        {
+            Log.Error(ex.ToString());
+            logger.LogError(ex.ToString());
+        }
 
         return ConvertToDto(toDelete);                                                                                                                                                                                                                                                                                                                                                                                                                                          
     }

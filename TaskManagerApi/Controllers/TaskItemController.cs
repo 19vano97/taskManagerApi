@@ -19,11 +19,15 @@ namespace TaskManagerApi.Controllers
     public class TaskItemController : ControllerBase
     {
         private ITaskItemService _taskItemService;
+        private ILogger<TaskItemController> _logger;
         private TaskManagerAPIDbContext _context;
 
-        public TaskItemController(ITaskItemService taskItemService, TaskManagerAPIDbContext context)
+        public TaskItemController(ITaskItemService taskItemService,
+                                  ILogger<TaskItemController> logger,
+                                  TaskManagerAPIDbContext context)
         {
             _taskItemService = taskItemService;
+            _logger = logger;
             _context = context;
         }
 
@@ -32,9 +36,15 @@ namespace TaskManagerApi.Controllers
         {
             if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId) 
                 || !await ValidateAccountOrganizationConnectionAsync(organizationId!)) 
+            {
+                _logger.LogError(LogPhrases.ApiLogs.API_AUTHORIZATION_FAILED_LOG);
                 return BadRequest("Invalid request");
+            }
 
-            return Ok(await _taskItemService.GetTasksByOrganizationAsync(Guid.Parse(organizationId)));
+            var result = await _taskItemService.GetTasksByOrganizationAsync(Guid.Parse(organizationId));
+            _logger.LogInformation($"{LogPhrases.PositiveActions.TASKS_SHOWN_LOG}", result.Select(s => s.Id));
+
+            return Ok(result);
         }
 
         [HttpGet("all/{projectId}")]
@@ -42,7 +52,10 @@ namespace TaskManagerApi.Controllers
         {
             if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId) 
                 || !await ValidateAccountOrganizationConnectionAsync(organizationId!)) 
+            {
+                _logger.LogError(LogPhrases.ApiLogs.API_AUTHORIZATION_FAILED_LOG);
                 return BadRequest("Invalid request");
+            }
 
             return Ok(await _taskItemService.GetTasksByProjectAsync(projectId));
         }
@@ -52,12 +65,18 @@ namespace TaskManagerApi.Controllers
         {
             if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId) 
                 || !await ValidateAccountOrganizationConnectionAsync(organizationId!)) 
+            {
+                _logger.LogError(LogPhrases.ApiLogs.API_AUTHORIZATION_FAILED_LOG);
                 return BadRequest("Invalid request");
+            }
 
             var task = await _taskItemService.GetTaskByIdAsync(Id);
 
             if (task is null)
-                return NotFound();
+            {
+                _logger.LogError($"{LogPhrases.NegativeActions.TASK_NOT_FOUND_LOG}", Id);
+                return BadRequest("Invalid request");
+            }
 
             return Ok(task);
         }
@@ -67,27 +86,39 @@ namespace TaskManagerApi.Controllers
         {
             if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId) 
                 || !await ValidateAccountOrganizationConnectionAsync(organizationId!)) 
+            {
+                _logger.LogError(LogPhrases.ApiLogs.API_AUTHORIZATION_FAILED_LOG);
                 return BadRequest("Invalid request");
+            }
 
             var createdTask = await _taskItemService.CreateTaskAsync(newTask);
 
             if (createdTask is null)
-                return BadRequest("Empty title");
+            {
+                _logger.LogError($"{LogPhrases.NegativeActions.TASK_CREATION_FAILED_LOG}", newTask);
+                return BadRequest("Invalid request");
+            }
 
             return Ok(createdTask);
         }
 
-        [HttpPost("edit/{Id}")]
-        public async Task<ActionResult<TaskItemDto>> EditTaskByIdAsync(Guid Id, TaskItemDto editTask)
+        [HttpPost("edit/{taskId}")]
+        public async Task<ActionResult<TaskItemDto>> EditTaskByIdAsync(Guid taskId, TaskItemDto editTask)
         {
             if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId) 
                 || !await ValidateAccountOrganizationConnectionAsync(organizationId!)) 
+            {
+                _logger.LogError(LogPhrases.ApiLogs.API_AUTHORIZATION_FAILED_LOG);
                 return BadRequest("Invalid request");
+            }
 
-            var taskToEdit = await _taskItemService.EditTaskByIdAsync(Id, editTask);
+            var taskToEdit = await _taskItemService.EditTaskByIdAsync(taskId, editTask);
 
             if (taskToEdit is null)
-                return BadRequest();
+            {
+                _logger.LogError($"{LogPhrases.NegativeActions.TASK_UPDATE_FAILED_LOG}", taskId);
+                return BadRequest("Invalid request");
+            }
 
             return Ok(taskToEdit);
         }
@@ -97,42 +128,60 @@ namespace TaskManagerApi.Controllers
         {
             if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId) 
                 || !await ValidateAccountOrganizationConnectionAsync(organizationId!)) 
+            {
+                _logger.LogError(LogPhrases.ApiLogs.API_AUTHORIZATION_FAILED_LOG);
                 return BadRequest("Invalid request");
+            }
 
             var taskToEdit = await _taskItemService.ChangeAssigneeAsync(taskId, assigneeId);
 
             if (taskToEdit is null)
-                return BadRequest();
+            {
+                _logger.LogError($"{LogPhrases.NegativeActions.TASK_UPDATE_FAILED_LOG}", taskId);
+                return BadRequest("Invalid request");
+            }
 
             return Ok(taskToEdit);
         }
 
         [HttpPut("edit/{taskId}/project/{projectId}")]
-        public async Task<ActionResult<TaskItemDto>> ChangeTaskProjectAsync(Guid Id, Guid projectId)
+        public async Task<ActionResult<TaskItemDto>> ChangeTaskProjectAsync(Guid taskId, Guid projectId)
         {
             if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId) 
                 || !await ValidateAccountOrganizationConnectionAsync(organizationId!)) 
+            {
+                _logger.LogError(LogPhrases.ApiLogs.API_AUTHORIZATION_FAILED_LOG);
                 return BadRequest("Invalid request");
+            }
 
-            var taskToEdit = await _taskItemService.ChangeAssigneeAsync(Id, projectId);
+            var taskToEdit = await _taskItemService.ChangeAssigneeAsync(taskId, projectId);
 
             if (taskToEdit is null)
-                return BadRequest();
+            {
+                _logger.LogError($"{LogPhrases.NegativeActions.TASK_UPDATE_FAILED_LOG}", taskId);
+                return BadRequest("Invalid request");
+            }
 
             return Ok(taskToEdit);
         }
 
         [HttpPut("edit/{taskId}/task/{statusId}")]
-        public async Task<ActionResult<TaskItemDto>> ChangeTaskStatusAsync(Guid Id, int statusId)
+        public async Task<ActionResult<TaskItemDto>> ChangeTaskStatusAsync(Guid taskId, int statusId)
         {
             if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId) 
                 || !await ValidateAccountOrganizationConnectionAsync(organizationId!)) 
+            {
+                _logger.LogError(LogPhrases.ApiLogs.API_AUTHORIZATION_FAILED_LOG);
                 return BadRequest("Invalid request");
+            }
 
-            var taskToEdit = await _taskItemService.ChangeTaskStatusAsync(Id, statusId);
+            var taskToEdit = await _taskItemService.ChangeTaskStatusAsync(taskId, statusId);
 
             if (taskToEdit is null)
-                return BadRequest();
+            {
+                _logger.LogError($"{LogPhrases.NegativeActions.TASK_UPDATE_FAILED_LOG}", taskId);
+                return BadRequest("Invalid request");
+            }
 
             return Ok(taskToEdit);
         }
@@ -142,12 +191,18 @@ namespace TaskManagerApi.Controllers
         {
             if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId) 
                 || !await ValidateAccountOrganizationConnectionAsync(organizationId!)) 
+            {
+                _logger.LogError(LogPhrases.ApiLogs.API_AUTHORIZATION_FAILED_LOG);
                 return BadRequest("Invalid request");
+            }
 
             var taskEdit = await _taskItemService.AddParentTicket(task.ParentId, task.ParentId);
 
             if(taskEdit is null)
+            {
+                _logger.LogError($"{LogPhrases.NegativeActions.TASK_UPDATE_FAILED_LOG}", task);
                 return BadRequest("Invalid request");
+            }
 
             return Ok(taskEdit);
         }
@@ -157,21 +212,27 @@ namespace TaskManagerApi.Controllers
         {
             if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId) 
                 || !await ValidateAccountOrganizationConnectionAsync(organizationId!)) 
+            {
+                _logger.LogError(LogPhrases.ApiLogs.API_AUTHORIZATION_FAILED_LOG);
                 return BadRequest("Invalid request");
+            }
 
             var taskToDelete = await _taskItemService.DeleteTaskAsync(Id);
 
             if (taskToDelete is null)
-                return NotFound();
+            {
+                _logger.LogError($"{LogPhrases.NegativeActions.TASK_NOT_FOUND_LOG}", Id);
+                return BadRequest("Invalid request");
+            }
 
             return Ok(taskToDelete);
         }
 
         private async Task<bool> ValidateAccountOrganizationConnectionAsync(string organizationId)
         {
-            return (Guid.TryParse(organizationId, out var organizationIdGuid)
-                || await GeneralService.VerifyAccountRelatesToOrganization(_context, Guid.Parse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value)
-                    , organizationIdGuid) is not null);
+            return Guid.TryParse(organizationId, out var organizationIdGuid)
+                & await GeneralService.VerifyAccountRelatesToOrganization(_context, Guid.Parse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value)
+                    , organizationIdGuid) is not null;
         }
     }
 }

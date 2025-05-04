@@ -163,18 +163,26 @@ public class TaskItemService(TaskManagerAPIDbContext context) : ITaskItemService
 
     public async Task<List<TaskItemDto>> GetTasksByOrganizationAsync(Guid organizationId)
     {
-        return await context.TaskItems.Where(t => t.ProjectItem.OrganizationId == organizationId).Select(t => GeneralService.ConvertTaskToDtoAsync(t)).ToListAsync();
+        return await context.TaskItems.Include(t => t.TaskItemStatus)
+                                      .Include(t => t.TaskType)
+                                      .Where(t => t.ProjectItem.OrganizationId == organizationId)
+                                      .Select(t => GeneralService.ConvertTaskToDtoAsync(t))
+                                      .ToListAsync();
     }
 
     public async Task<List<TaskItemDto>> GetTasksByProjectAsync(Guid projectId)
     {
-        return await context.TaskItems.Where(t => t.ProjectId == projectId).Select(t => GeneralService.ConvertTaskToDtoAsync(t)).ToListAsync();
+        return await context.TaskItems.Include(t => t.TaskItemStatus)
+                                      .Include(t => t.TaskType)
+                                      .Where(t => t.ProjectId == projectId)
+                                      .Select(t => GeneralService.ConvertTaskToDtoAsync(t))
+                                      .ToListAsync();
     }
 
     private async Task<TaskItem> GetTaskById(Guid taskId)
     {
         return await context.TaskItems.Include(t => t.TaskItemStatus)
-                                              .Include(t => t.TaskType)
-                                              .FirstOrDefaultAsync(t => t.Id == taskId);
+                                      .Include(t => t.TaskType)
+                                      .FirstOrDefaultAsync(t => t.Id == taskId);
     }
 }
