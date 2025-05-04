@@ -16,8 +16,17 @@ namespace TaskManagerApi.Controllers
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/task")]
     [ApiController]
-    public class TaskItemController(ITaskItemService taskItemService, TaskManagerAPIDbContext context) : ControllerBase
+    public class TaskItemController : ControllerBase
     {
+        private ITaskItemService _taskItemService;
+        private TaskManagerAPIDbContext _context;
+
+        public TaskItemController(ITaskItemService taskItemService, TaskManagerAPIDbContext context)
+        {
+            _taskItemService = taskItemService;
+            _context = context;
+        }
+
         [HttpGet("all")]
         public async Task<ActionResult<List<TaskItemDto>>> GetTasksInOrganizationAsync()
         {
@@ -25,7 +34,17 @@ namespace TaskManagerApi.Controllers
                 || !await ValidateAccountOrganizationConnectionAsync(organizationId!)) 
                 return BadRequest("Invalid request");
 
-            return Ok(await taskItemService.GetTasksByOrganizationAsync(Guid.Parse(organizationId)));
+            return Ok(await _taskItemService.GetTasksByOrganizationAsync(Guid.Parse(organizationId)));
+        }
+
+        [HttpGet("all/{projectId}")]
+        public async Task<ActionResult<List<TaskItemDto>>> GetTasksInOrganizationProjectAsync(Guid projectId)
+        {
+            if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId) 
+                || !await ValidateAccountOrganizationConnectionAsync(organizationId!)) 
+                return BadRequest("Invalid request");
+
+            return Ok(await _taskItemService.GetTasksByProjectAsync(projectId));
         }
 
         [HttpGet("details/{Id}")]
@@ -35,7 +54,7 @@ namespace TaskManagerApi.Controllers
                 || !await ValidateAccountOrganizationConnectionAsync(organizationId!)) 
                 return BadRequest("Invalid request");
 
-            var task = await taskItemService.GetTaskByIdAsync(Id);
+            var task = await _taskItemService.GetTaskByIdAsync(Id);
 
             if (task is null)
                 return NotFound();
@@ -50,7 +69,7 @@ namespace TaskManagerApi.Controllers
                 || !await ValidateAccountOrganizationConnectionAsync(organizationId!)) 
                 return BadRequest("Invalid request");
 
-            var createdTask = await taskItemService.CreateTaskAsync(newTask);
+            var createdTask = await _taskItemService.CreateTaskAsync(newTask);
 
             if (createdTask is null)
                 return BadRequest("Empty title");
@@ -65,7 +84,7 @@ namespace TaskManagerApi.Controllers
                 || !await ValidateAccountOrganizationConnectionAsync(organizationId!)) 
                 return BadRequest("Invalid request");
 
-            var taskToEdit = await taskItemService.EditTaskByIdAsync(Id, editTask);
+            var taskToEdit = await _taskItemService.EditTaskByIdAsync(Id, editTask);
 
             if (taskToEdit is null)
                 return BadRequest();
@@ -80,7 +99,7 @@ namespace TaskManagerApi.Controllers
                 || !await ValidateAccountOrganizationConnectionAsync(organizationId!)) 
                 return BadRequest("Invalid request");
 
-            var taskToEdit = await taskItemService.ChangeAssigneeAsync(taskId, assigneeId);
+            var taskToEdit = await _taskItemService.ChangeAssigneeAsync(taskId, assigneeId);
 
             if (taskToEdit is null)
                 return BadRequest();
@@ -95,7 +114,7 @@ namespace TaskManagerApi.Controllers
                 || !await ValidateAccountOrganizationConnectionAsync(organizationId!)) 
                 return BadRequest("Invalid request");
 
-            var taskToEdit = await taskItemService.ChangeAssigneeAsync(Id, projectId);
+            var taskToEdit = await _taskItemService.ChangeAssigneeAsync(Id, projectId);
 
             if (taskToEdit is null)
                 return BadRequest();
@@ -110,7 +129,7 @@ namespace TaskManagerApi.Controllers
                 || !await ValidateAccountOrganizationConnectionAsync(organizationId!)) 
                 return BadRequest("Invalid request");
 
-            var taskToEdit = await taskItemService.ChangeTaskStatusAsync(Id, statusId);
+            var taskToEdit = await _taskItemService.ChangeTaskStatusAsync(Id, statusId);
 
             if (taskToEdit is null)
                 return BadRequest();
@@ -125,7 +144,7 @@ namespace TaskManagerApi.Controllers
                 || !await ValidateAccountOrganizationConnectionAsync(organizationId!)) 
                 return BadRequest("Invalid request");
 
-            var taskToDelete = await taskItemService.DeleteTaskAsync(Id);
+            var taskToDelete = await _taskItemService.DeleteTaskAsync(Id);
 
             if (taskToDelete is null)
                 return NotFound();
@@ -136,7 +155,7 @@ namespace TaskManagerApi.Controllers
         private async Task<bool> ValidateAccountOrganizationConnectionAsync(string organizationId)
         {
             return (Guid.TryParse(organizationId, out var organizationIdGuid)
-                || await GeneralService.VerifyAccountRelatesToOrganization(context, Guid.Parse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value)
+                || await GeneralService.VerifyAccountRelatesToOrganization(_context, Guid.Parse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value)
                     , organizationIdGuid) is not null);
         }
     }

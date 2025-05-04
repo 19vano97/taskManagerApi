@@ -19,6 +19,7 @@ builder.Services.AddDbContext<TaskManagerAPIDbContext>(options =>
 builder.Services.AddScoped<ITaskItemService, TaskItemService>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<IOrganizationService, OrganizationService>();
+builder.Services.AddScoped<IProjectStatusesService, ProjectStatusesService>();
 builder.WebHost.ConfigureKestrel(options =>
 {
     options.ListenAnyIP(5220);

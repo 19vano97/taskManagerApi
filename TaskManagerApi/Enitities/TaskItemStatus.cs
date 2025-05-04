@@ -13,5 +13,5 @@ public class TaskItemStatus
     public DateTime CreateDate { get; set; } = DateTime.UtcNow;
     public DateTime ModifyDate { get; set; } = DateTime.UtcNow;
     [ForeignKey("StatusTypeId")]
-    public required TaskItemStatusType taskItemStatusType { get; set; }
+    public TaskItemStatusType taskItemStatusType { get; set; }
 }

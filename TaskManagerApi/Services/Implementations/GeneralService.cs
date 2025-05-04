@@ -3,6 +3,7 @@ using System.Collections.Immutable;
 using Microsoft.EntityFrameworkCore;
 using TaskManagerApi.Data;
 using TaskManagerApi.Enitities;
+using TaskManagerApi.Models.TaskItem;
 using TaskManagerApi.Models.TaskItemStatuses;
 using static TaskManagerApi.Models.Constants;
 
@@ -52,6 +53,22 @@ public class GeneralService
             });
         }
 
-        return newList.OrderByDescending(t => t.Order).ToList();
+        return newList.OrderBy(t => t.Order).ToList();
+    }
+
+    public static TaskItemDto ConvertTaskToDtoAsync(TaskItem task)
+    {
+        return new TaskItemDto{
+            Id = task.Id,
+            Title = task!.Title,
+            Description = task.Description,
+            StatusId = task.StatusId,
+            StatusName = task.TaskItemStatus.Name,
+            ProjectId = task.ProjectId,
+            ReporterId = task.ReporterId,
+            AssigneeId = task.AssigneeId,
+            CreateDate = task.CreateDate,
+            ModifyDate = task.ModifyDate
+        };
     }
 }

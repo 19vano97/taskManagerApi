@@ -10,12 +10,19 @@ namespace TaskManagerApi.Controllers
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/organization")]
     [ApiController]
-    public class OrganizationController(IOrganizationService organizationService) : ControllerBase
+    public class OrganizationController : ControllerBase
     {
+        private IOrganizationService _organizationService;
+
+        public OrganizationController(IOrganizationService organizationService)
+        {
+            _organizationService = organizationService;
+        }
+
         [HttpPost("create")]
         public async Task<ActionResult<OrganizationDto>> CreateOrganizationAsync(OrganizationDto newOrganization)
         {
-            var newOrgToAdd = await organizationService.CreateAsync(User, newOrganization);
+            var newOrgToAdd = await _organizationService.CreateAsync(User, newOrganization);
 
             if (newOrgToAdd.Id == null)
                 return BadRequest();
@@ -26,7 +33,7 @@ namespace TaskManagerApi.Controllers
         [HttpPost("edit")]
         public async Task<ActionResult<OrganizationDto>> EditOrganizationAsync(OrganizationDto editOrganization)
         {
-            var editOrgToAdd = organizationService.EditAsync(User, editOrganization);
+            var editOrgToAdd = _organizationService.EditAsync(User, editOrganization);
 
             if (editOrgToAdd.Id == null)
                 return BadRequest();

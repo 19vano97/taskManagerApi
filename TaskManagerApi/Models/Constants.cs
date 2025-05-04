@@ -77,4 +77,13 @@ public class Constants
             }
         );
     }
+
+    public static class DefaultParametersForUsers
+    {
+        public static class ProjectLimitations
+        {
+            public const int MAX_STATUSES_VALUE = 10;
+            
+        }
+    }
 }

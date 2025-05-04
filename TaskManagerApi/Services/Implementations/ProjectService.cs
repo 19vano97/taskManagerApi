@@ -44,7 +44,7 @@ public class ProjectService(TaskManagerAPIDbContext context) : IProjectService
 
         var resultFromDb = await context.ProjectItems.FirstOrDefaultAsync(id => id.Id == projectToAdd.Id);
         var result = ConvertProjectToOutputAsync(resultFromDb!);
-        result.Statuses = await AddStatuses(result.Id);
+        result.Statuses = await AddDefaultStatuses(result.Id);
 
         return result;
     }
@@ -133,7 +133,7 @@ public class ProjectService(TaskManagerAPIDbContext context) : IProjectService
         };
     }
 
-    private async Task<List<TaskItemStatusDto>> AddStatuses(Guid projectId)
+    private async Task<List<TaskItemStatusDto>> AddDefaultStatuses(Guid projectId)
     {
         foreach (var status in StatusesConstants.DEFAULT_LIST)
         {
