@@ -40,6 +40,11 @@ public class ProjectService(TaskManagerAPIDbContext context) : IProjectService
             };
         
         context.ProjectItems.Add(projectToAdd);
+        context.ProjectAccounts.Add(new ProjectAccount 
+        {
+            AccountId = newProject.OwnerId,
+            ProjectId = projectToAdd.Id
+        });
         await context.SaveChangesAsync();
 
         var resultFromDb = await context.ProjectItems.FirstOrDefaultAsync(id => id.Id == projectToAdd.Id);
