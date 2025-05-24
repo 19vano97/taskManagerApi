@@ -1,5 +1,6 @@
 using System;
 using TaskManagerApi.Enums;
+using TaskManagerApi.Handlers;
 using TaskManagerApi.Models;
 using TaskManagerApi.Models.TaskItem;
 
@@ -14,7 +15,6 @@ public interface ITaskItemService
     Task<TaskItemDto> GetTaskByIdAsync(Guid taskId);
     Task<TaskItemDto> DeleteTaskAsync(Guid Id);
     Task<TaskItemDto> ChangeTaskStatusAsync(Guid taskId, int newStatus);
-    Task<TaskItemDto> ChangeAssigneeAsync(Guid taskId, Guid newAssignee);
-    Task<TaskItemDto> ChangeProjectAsync(Guid taskId, Guid newProject);
     Task<TaskItemDto> AddParentTicket(Guid parentId, Guid childId);
+    public event EventHandler<TaskHistoryEventArgs> TaskHistoryEventArgs;
 }

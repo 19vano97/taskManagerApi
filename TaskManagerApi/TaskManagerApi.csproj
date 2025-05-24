@@ -23,4 +23,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="7.3.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Enitities/Organization/" />
+    <Folder Include="Enitities/Project/" />
+  </ItemGroup>
+
 </Project>

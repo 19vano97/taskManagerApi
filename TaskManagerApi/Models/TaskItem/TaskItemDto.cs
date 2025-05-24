@@ -7,17 +7,17 @@ namespace TaskManagerApi.Models.TaskItem;
 
 public class TaskItemDto
 {
-    public Guid Id { get; set; } = Guid.Empty;
-    public string Title { get; set; } = string.Empty;
-    public string Description { get; set; } = string.Empty;
-    public int? StatusId { get; set; } = 2;
-    public string StatusName { get; set; } = string.Empty;
-    public int? Type { get; set; } = (int)TaskTypesEnum.Task;
-    public string TypeName { get; set; } = string.Empty;
-    public Guid ReporterId { get; set; } = Guid.Empty;
-    public Guid AssigneeId { get; set; } = Guid.Empty;
-    public Guid ProjectId { get; set; } = Guid.Empty;
-    public Guid ParentId { get; set; } = Guid.Empty;
+    public Guid? Id { get; set; }
+    public string? Title { get; set; }
+    public string? Description { get; set; }
+    public int? StatusId { get; set; }
+    public string? StatusName { get; set; }
+    public int? Type { get; set; }
+    public string? TypeName { get; set; }
+    public Guid? ReporterId { get; set; }
+    public Guid? AssigneeId { get; set; }
+    public Guid? ProjectId { get; set; }
+    public Guid? ParentId { get; set; }
     public DateTime CreateDate { get; set; } = DateTime.UtcNow;
     public DateTime ModifyDate { get; set; } = DateTime.UtcNow;
 }

@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "jwkIOMmwaPDFHFzXyfeSn9XWC3R2PTSahu7CK01O79I=",
+  "Source": "TaskHistoryService",
+  "BasePath": "_content/TaskHistoryService",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

@@ -1,8 +1,9 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using TaskManagerApi.Enitities.Project;
 
-namespace TaskManagerApi.Enitities;
+namespace TaskManagerApi.Enitities.Task;
 
 public class TaskItem
 {

@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace TaskManagerApi.Enitities;
+namespace TaskManagerApi.Enitities.Task;
 
 public class TaskItemStatus
 {

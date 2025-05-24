@@ -22,7 +22,7 @@ namespace TaskManagerApi.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("TaskManagerApi.Enitities.OrganizationAccount", b =>
+            modelBuilder.Entity("TaskManagerApi.Enitities.Organization.OrganizationAccount", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -51,7 +51,7 @@ namespace TaskManagerApi.Migrations
                     b.ToTable("OrganizationAccount");
                 });
 
-            modelBuilder.Entity("TaskManagerApi.Enitities.OrganizationItem", b =>
+            modelBuilder.Entity("TaskManagerApi.Enitities.Organization.OrganizationItem", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -87,7 +87,7 @@ namespace TaskManagerApi.Migrations
                     b.ToTable("OrganizationItem");
                 });
 
-            modelBuilder.Entity("TaskManagerApi.Enitities.ProjectAccount", b =>
+            modelBuilder.Entity("TaskManagerApi.Enitities.Project.ProjectAccount", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -116,7 +116,7 @@ namespace TaskManagerApi.Migrations
                     b.ToTable("ProjectAccounts");
                 });
 
-            modelBuilder.Entity("TaskManagerApi.Enitities.ProjectItem", b =>
+            modelBuilder.Entity("TaskManagerApi.Enitities.Project.ProjectItem", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -153,7 +153,7 @@ namespace TaskManagerApi.Migrations
                     b.ToTable("ProjectItems");
                 });
 
-            modelBuilder.Entity("TaskManagerApi.Enitities.ProjectTaskStatusMapping", b =>
+            modelBuilder.Entity("TaskManagerApi.Enitities.Project.ProjectTaskStatusMapping", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -189,7 +189,48 @@ namespace TaskManagerApi.Migrations
                     b.ToTable("ProjectTaskStatusMapping");
                 });
 
-            modelBuilder.Entity("TaskManagerApi.Enitities.TaskItem", b =>
+            modelBuilder.Entity("TaskManagerApi.Enitities.Task.TaskHistory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("Author")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreateDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETUTCDATE()");
+
+                    b.Property<string>("EventName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ModifyDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETUTCDATE()");
+
+                    b.Property<string>("NewState")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PreviousState")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("TaskId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TaskId");
+
+                    b.ToTable("TaskHistories");
+                });
+
+            modelBuilder.Entity("TaskManagerApi.Enitities.Task.TaskItem", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -228,7 +269,7 @@ namespace TaskManagerApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TypeId")
+                    b.Property<int?>("TypeId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -242,7 +283,7 @@ namespace TaskManagerApi.Migrations
                     b.ToTable("TaskItems");
                 });
 
-            modelBuilder.Entity("TaskManagerApi.Enitities.TaskItemStatus", b =>
+            modelBuilder.Entity("TaskManagerApi.Enitities.Task.TaskItemStatus", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -274,7 +315,7 @@ namespace TaskManagerApi.Migrations
                     b.ToTable("TaskItemStatuses");
                 });
 
-            modelBuilder.Entity("TaskManagerApi.Enitities.TaskItemStatusType", b =>
+            modelBuilder.Entity("TaskManagerApi.Enitities.Task.TaskItemStatusType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -300,7 +341,7 @@ namespace TaskManagerApi.Migrations
                     b.ToTable("TaskItemStatusType");
                 });
 
-            modelBuilder.Entity("TaskManagerApi.Enitities.TaskType", b =>
+            modelBuilder.Entity("TaskManagerApi.Enitities.Task.TaskType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -327,9 +368,9 @@ namespace TaskManagerApi.Migrations
                     b.ToTable("TaskTypes");
                 });
 
-            modelBuilder.Entity("TaskManagerApi.Enitities.OrganizationAccount", b =>
+            modelBuilder.Entity("TaskManagerApi.Enitities.Organization.OrganizationAccount", b =>
                 {
-                    b.HasOne("TaskManagerApi.Enitities.OrganizationItem", "Organization")
+                    b.HasOne("TaskManagerApi.Enitities.Organization.OrganizationItem", "Organization")
                         .WithMany("OrganizationAccounts")
                         .HasForeignKey("OrganizationId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -338,9 +379,9 @@ namespace TaskManagerApi.Migrations
                     b.Navigation("Organization");
                 });
 
-            modelBuilder.Entity("TaskManagerApi.Enitities.ProjectAccount", b =>
+            modelBuilder.Entity("TaskManagerApi.Enitities.Project.ProjectAccount", b =>
                 {
-                    b.HasOne("TaskManagerApi.Enitities.ProjectItem", "Project")
+                    b.HasOne("TaskManagerApi.Enitities.Project.ProjectItem", "Project")
                         .WithMany()
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -349,9 +390,9 @@ namespace TaskManagerApi.Migrations
                     b.Navigation("Project");
                 });
 
-            modelBuilder.Entity("TaskManagerApi.Enitities.ProjectItem", b =>
+            modelBuilder.Entity("TaskManagerApi.Enitities.Project.ProjectItem", b =>
                 {
-                    b.HasOne("TaskManagerApi.Enitities.OrganizationItem", "Organization")
+                    b.HasOne("TaskManagerApi.Enitities.Organization.OrganizationItem", "Organization")
                         .WithMany("ProjectItems")
                         .HasForeignKey("OrganizationId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -360,15 +401,15 @@ namespace TaskManagerApi.Migrations
                     b.Navigation("Organization");
                 });
 
-            modelBuilder.Entity("TaskManagerApi.Enitities.ProjectTaskStatusMapping", b =>
+            modelBuilder.Entity("TaskManagerApi.Enitities.Project.ProjectTaskStatusMapping", b =>
                 {
-                    b.HasOne("TaskManagerApi.Enitities.ProjectItem", "ProjectItem")
+                    b.HasOne("TaskManagerApi.Enitities.Project.ProjectItem", "ProjectItem")
                         .WithMany("ProjectItems")
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TaskManagerApi.Enitities.TaskItemStatus", "TaskItemStatus")
+                    b.HasOne("TaskManagerApi.Enitities.Task.TaskItemStatus", "TaskItemStatus")
                         .WithMany()
                         .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -379,23 +420,32 @@ namespace TaskManagerApi.Migrations
                     b.Navigation("TaskItemStatus");
                 });
 
-            modelBuilder.Entity("TaskManagerApi.Enitities.TaskItem", b =>
+            modelBuilder.Entity("TaskManagerApi.Enitities.Task.TaskHistory", b =>
                 {
-                    b.HasOne("TaskManagerApi.Enitities.ProjectItem", "ProjectItem")
-                        .WithOne("TaskItem")
-                        .HasForeignKey("TaskManagerApi.Enitities.TaskItem", "ProjectId")
+                    b.HasOne("TaskManagerApi.Enitities.Task.TaskItem", "Task")
+                        .WithMany()
+                        .HasForeignKey("TaskId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TaskManagerApi.Enitities.TaskItemStatus", "TaskItemStatus")
+                    b.Navigation("Task");
+                });
+
+            modelBuilder.Entity("TaskManagerApi.Enitities.Task.TaskItem", b =>
+                {
+                    b.HasOne("TaskManagerApi.Enitities.Project.ProjectItem", "ProjectItem")
+                        .WithOne("TaskItem")
+                        .HasForeignKey("TaskManagerApi.Enitities.Task.TaskItem", "ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TaskManagerApi.Enitities.Task.TaskItemStatus", "TaskItemStatus")
                         .WithMany()
                         .HasForeignKey("StatusId");
 
-                    b.HasOne("TaskManagerApi.Enitities.TaskType", "TaskType")
+                    b.HasOne("TaskManagerApi.Enitities.Task.TaskType", "TaskType")
                         .WithMany()
-                        .HasForeignKey("TypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TypeId");
 
                     b.Navigation("ProjectItem");
 
@@ -404,9 +454,9 @@ namespace TaskManagerApi.Migrations
                     b.Navigation("TaskType");
                 });
 
-            modelBuilder.Entity("TaskManagerApi.Enitities.TaskItemStatus", b =>
+            modelBuilder.Entity("TaskManagerApi.Enitities.Task.TaskItemStatus", b =>
                 {
-                    b.HasOne("TaskManagerApi.Enitities.TaskItemStatusType", "taskItemStatusType")
+                    b.HasOne("TaskManagerApi.Enitities.Task.TaskItemStatusType", "taskItemStatusType")
                         .WithMany()
                         .HasForeignKey("StatusTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -415,14 +465,14 @@ namespace TaskManagerApi.Migrations
                     b.Navigation("taskItemStatusType");
                 });
 
-            modelBuilder.Entity("TaskManagerApi.Enitities.OrganizationItem", b =>
+            modelBuilder.Entity("TaskManagerApi.Enitities.Organization.OrganizationItem", b =>
                 {
                     b.Navigation("OrganizationAccounts");
 
                     b.Navigation("ProjectItems");
                 });
 
-            modelBuilder.Entity("TaskManagerApi.Enitities.ProjectItem", b =>
+            modelBuilder.Entity("TaskManagerApi.Enitities.Project.ProjectItem", b =>
                 {
                     b.Navigation("ProjectItems");
 

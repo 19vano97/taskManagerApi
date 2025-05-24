@@ -1,15 +1,25 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using TaskManagerApi.Data;
-using TaskManagerApi.Enitities;
+using TaskManagerApi.Enitities.Project;
+using TaskManagerApi.Enitities.Task;
 using TaskManagerApi.Models.TaskItemStatuses;
 using TaskManagerApi.Services.Interfaces;
 using static TaskManagerApi.Models.Constants;
 
 namespace TaskManagerApi.Services.Implementations;
 
-public class ProjectStatusesService(TaskManagerAPIDbContext context) : IProjectStatusesService
+public class ProjectStatusesService : IProjectStatusesService
 {
+    private readonly TaskManagerAPIDbContext _context;
+    private readonly ILogger<ProjectStatusesService> _logger;
+
+    public ProjectStatusesService(TaskManagerAPIDbContext context, ILogger<ProjectStatusesService> logger)
+    {
+        _context = context;
+        _logger = logger;
+    }
+    
     public async Task<ProjectSingleStatusDto> AddAsync(ProjectSingleStatusDto status)
     {
         var currentStatuses = await GetAllStatusesFromProject(status.ProjectId);
@@ -36,7 +46,7 @@ public class ProjectStatusesService(TaskManagerAPIDbContext context) : IProjectS
             }
         }
 
-        context.ProjectTaskStatusMapping.Add(new ProjectTaskStatusMapping
+        _context.ProjectTaskStatusMapping.Add(new ProjectTaskStatusMapping
         {
             ProjectId = status.ProjectId,
             StatusId = statusToAdd.Id,
@@ -45,11 +55,11 @@ public class ProjectStatusesService(TaskManagerAPIDbContext context) : IProjectS
 
         foreach (var item in currentStatuses)
         {
-            context.ProjectTaskStatusMapping.Update(item);
+            _context.ProjectTaskStatusMapping.Update(item);
         }
 
-        await context.SaveChangesAsync();
-        var result = await context.ProjectTaskStatusMapping.Include(s => s.TaskItemStatus.taskItemStatusType).FirstOrDefaultAsync(s => s.ProjectId == status.ProjectId && s.Order == status.Status.Order);
+        await _context.SaveChangesAsync();
+        var result = await _context.ProjectTaskStatusMapping.Include(s => s.TaskItemStatus.taskItemStatusType).FirstOrDefaultAsync(s => s.ProjectId == status.ProjectId && s.Order == status.Status.Order);
 
         return CovertFromProjectStatusesMapping(result!);
     }
@@ -76,33 +86,33 @@ public class ProjectStatusesService(TaskManagerAPIDbContext context) : IProjectS
             }
         }
 
-        context.ProjectTaskStatusMapping.Remove(currentStatuses.First(s => s.Order == status.Status.Order));
+        _context.ProjectTaskStatusMapping.Remove(currentStatuses.First(s => s.Order == status.Status.Order));
 
-        await context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
 
         return status;
     }
 
     private async Task<TaskItemStatus> CheckStatusExisted(string status, int typeId)
     {
-        return await context.TaskItemStatuses.FirstOrDefaultAsync(s => s.Name == status && s.StatusTypeId == typeId);
+        return await _context.TaskItemStatuses.FirstOrDefaultAsync(s => s.Name == status && s.StatusTypeId == typeId);
     }
 
     private async Task<List<ProjectTaskStatusMapping>> GetAllStatusesFromProject(Guid projectId)
     {
-        return await context.ProjectTaskStatusMapping.Where(s => s.ProjectId == projectId).ToListAsync();
+        return await _context.ProjectTaskStatusMapping.Where(s => s.ProjectId == projectId).ToListAsync();
     }
 
     private async Task<TaskItemStatus> AddNewStatus(string status, int typeId)
     {
-        context.TaskItemStatuses.Add(new TaskItemStatus {
+        _context.TaskItemStatuses.Add(new TaskItemStatus {
             Name = status,
             StatusTypeId = typeId
         });
 
-        await context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
 
-        return await context.TaskItemStatuses.FirstAsync(s => s.Name == status && s.StatusTypeId == typeId);
+        return await _context.TaskItemStatuses.FirstAsync(s => s.Name == status && s.StatusTypeId == typeId);
     }
 
     private static ProjectSingleStatusDto CovertFromProjectStatusesMapping(ProjectTaskStatusMapping statusMapping)

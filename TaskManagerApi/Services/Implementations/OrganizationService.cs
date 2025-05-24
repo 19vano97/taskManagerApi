@@ -3,15 +3,24 @@ using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using TaskManagerApi.Data;
-using TaskManagerApi.Enitities;
+using TaskManagerApi.Enitities.Organization;
 using TaskManagerApi.Models.OrganizationModel;
 using TaskManagerApi.Services.Interfaces;
 using static TaskManagerApi.Models.Constants;
 
 namespace TaskManagerApi.Services.Implementations;
 
-public class OrganizationService(TaskManagerAPIDbContext context, ILogger<OrganizationService> logger) : IOrganizationService
+public class OrganizationService : IOrganizationService
 {
+    private readonly TaskManagerAPIDbContext _context;
+    private readonly ILogger<OrganizationService> _logger;
+    
+    public OrganizationService(TaskManagerAPIDbContext context, ILogger<OrganizationService> logger)
+    {
+        _context = context;
+        _logger = logger;
+    }
+
     public async Task<OrganizationDto> CreateAsync(ClaimsPrincipal user, OrganizationDto newOgranization)
     {
         if (await DoesOrganizationExistEntity(Id: newOgranization.Id.ToString()) is not null)
@@ -20,16 +29,16 @@ public class OrganizationService(TaskManagerAPIDbContext context, ILogger<Organi
         newOgranization.Id = Guid.NewGuid();
         newOgranization.Owner = Guid.Parse(user.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID).Value);
 
-        context.OrganizationItem.Add(ConvertToEntity(newOgranization));
-        await context.SaveChangesAsync();
+        _context.OrganizationItem.Add(ConvertToEntity(newOgranization));
+        await _context.SaveChangesAsync();
 
-        context.OrganizationAccount.Add(new OrganizationAccount { 
+        _context.OrganizationAccount.Add(new OrganizationAccount { 
             AccountId = newOgranization.Owner,
-            OrganizationId = context.OrganizationItem.First(o => o.Id == newOgranization.Id).Id});
+            OrganizationId = _context.OrganizationItem.First(o => o.Id == newOgranization.Id).Id});
 
-        await context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
 
-        var addedNewOrganization = await context.OrganizationItem.FirstOrDefaultAsync(o => o.Id == newOgranization.Id);
+        var addedNewOrganization = await _context.OrganizationItem.FirstOrDefaultAsync(o => o.Id == newOgranization.Id);
 
         if (addedNewOrganization is not null)
             return ConvertToDto(addedNewOrganization);
@@ -46,13 +55,13 @@ public class OrganizationService(TaskManagerAPIDbContext context, ILogger<Organi
 
         try
         {
-            context.OrganizationItem.Remove(toDelete);
-            await context.SaveChangesAsync();
+            _context.OrganizationItem.Remove(toDelete);
+            await _context.SaveChangesAsync();
         }
         catch (System.Exception ex)
         {
             Log.Error(ex.ToString());
-            logger.LogError(ex.ToString());
+            _logger.LogError(ex.ToString());
         }
 
         return ConvertToDto(toDelete);                                                                                                                                                                                                                                                                                                                                                                                                                                          
@@ -76,8 +85,8 @@ public class OrganizationService(TaskManagerAPIDbContext context, ILogger<Organi
         initialOrganization.Description = organizationToEdit.Description;
         initialOrganization.ModifyDate = DateTime.UtcNow;
 
-        context.OrganizationItem.Update(initialOrganization);
-        await context.SaveChangesAsync();
+        _context.OrganizationItem.Update(initialOrganization);
+        await _context.SaveChangesAsync();
 
         return ConvertToDto(await DoesOrganizationExistEntity(Id: organizationToEdit.Id.ToString()));
     }
@@ -85,14 +94,14 @@ public class OrganizationService(TaskManagerAPIDbContext context, ILogger<Organi
     private async Task<OrganizationItem> DoesOrganizationExistEntity(OrganizationItem entity = null, string Id = null)
     {
         if (Id != null)
-            return await context.OrganizationItem.FirstOrDefaultAsync(o => o.Id == Guid.Parse(Id));
+            return await _context.OrganizationItem.FirstOrDefaultAsync(o => o.Id == Guid.Parse(Id));
         
         if (entity.Id != null)
-            return await context.OrganizationItem.FirstOrDefaultAsync(o => o.Id == entity.Id);
+            return await _context.OrganizationItem.FirstOrDefaultAsync(o => o.Id == entity.Id);
 
 
         if (entity.Abbreviation != null)
-            return await context.OrganizationItem.FirstOrDefaultAsync(o => o.Abbreviation == entity.Abbreviation);
+            return await _context.OrganizationItem.FirstOrDefaultAsync(o => o.Abbreviation == entity.Abbreviation);
 
             
         return null;

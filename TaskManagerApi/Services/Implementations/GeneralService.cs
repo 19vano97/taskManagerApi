@@ -2,10 +2,11 @@ using System;
 using System.Collections.Immutable;
 using Microsoft.EntityFrameworkCore;
 using TaskManagerApi.Data;
-using TaskManagerApi.Enitities;
+using TaskManagerApi.Enitities.Organization;
+using TaskManagerApi.Enitities.Project;
+using TaskManagerApi.Enitities.Task;
 using TaskManagerApi.Models.TaskItem;
 using TaskManagerApi.Models.TaskItemStatuses;
-using static TaskManagerApi.Models.Constants;
 
 namespace TaskManagerApi.Services.Implementations;
 
@@ -44,7 +45,8 @@ public class GeneralService
 
         foreach (var item in list)
         {
-            newList.Add(new TaskItemStatusDto{
+            newList.Add(new TaskItemStatusDto
+            {
                 TypeId = item.TaskItemStatus.StatusTypeId,
                 TypeName = item.TaskItemStatus.taskItemStatusType.Name,
                 StatusId = item.StatusId,
@@ -58,7 +60,8 @@ public class GeneralService
 
     public static TaskItemDto ConvertTaskToDtoAsync(TaskItem task)
     {
-        return new TaskItemDto{
+        return new TaskItemDto
+        {
             Id = task.Id,
             Title = task!.Title,
             Description = task.Description,

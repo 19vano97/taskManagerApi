@@ -2,8 +2,7 @@ using System;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using TaskManagerApi.Data;
-using TaskManagerApi.Enitities;
-using TaskManagerApi.Models;
+using TaskManagerApi.Enitities.Project;
 using TaskManagerApi.Models.Project;
 using TaskManagerApi.Models.TaskItemStatuses;
 using TaskManagerApi.Services.Interfaces;
@@ -11,11 +10,20 @@ using static TaskManagerApi.Models.Constants;
 
 namespace TaskManagerApi.Services.Implementations;
 
-public class ProjectService(TaskManagerAPIDbContext context) : IProjectService
+public class ProjectService : IProjectService
 {
+    private readonly TaskManagerAPIDbContext _context;
+    private readonly ILogger<ProjectService> _logger;
+
+    public ProjectService(TaskManagerAPIDbContext context, ILogger<ProjectService> logger)
+    {
+        _context = context;
+        _logger = logger;
+    }
+
     public async Task<ProjectItemDto> ChangeOwnerAsync(Guid projectId, Guid newOwner)
     {
-        var projectToEdit =  await context.ProjectItems.FirstAsync(p => p.Id == projectId);
+        var projectToEdit =  await _context.ProjectItems.FirstAsync(p => p.Id == projectId);
 
         if (projectToEdit is null)
             return null;
@@ -23,10 +31,10 @@ public class ProjectService(TaskManagerAPIDbContext context) : IProjectService
         projectToEdit.OwnerId = newOwner;
         projectToEdit.ModifyDate = DateTime.UtcNow;
 
-        context.ProjectItems.Update(projectToEdit);
-        await context.SaveChangesAsync();
+        _context.ProjectItems.Update(projectToEdit);
+        await _context.SaveChangesAsync();
 
-        return ConvertProjectToOutput(await context.ProjectItems.FirstOrDefaultAsync(t => t.Id == projectId), 
+        return ConvertProjectToOutput(await _context.ProjectItems.FirstOrDefaultAsync(t => t.Id == projectId), 
                                       await GetStatuses(projectId));
     }
 
@@ -40,15 +48,15 @@ public class ProjectService(TaskManagerAPIDbContext context) : IProjectService
                 OwnerId = newProject.OwnerId
             };
         
-        context.ProjectItems.Add(projectToAdd);
-        context.ProjectAccounts.Add(new ProjectAccount 
+        _context.ProjectItems.Add(projectToAdd);
+        _context.ProjectAccounts.Add(new ProjectAccount 
         {
             AccountId = newProject.OwnerId,
             ProjectId = projectToAdd.Id
         });
-        await context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
 
-        var resultFromDb = await context.ProjectItems.FirstOrDefaultAsync(id => id.Id == projectToAdd.Id);
+        var resultFromDb = await _context.ProjectItems.FirstOrDefaultAsync(id => id.Id == projectToAdd.Id);
         var result = ConvertProjectToOutputAsync(resultFromDb!);
         result.Statuses = await AddDefaultStatuses(result.Id);
 
@@ -57,24 +65,24 @@ public class ProjectService(TaskManagerAPIDbContext context) : IProjectService
 
     public async Task<ProjectItemDto> DeleteProjectAsync(Guid projectId)
     {
-        var projectToDelete = await context.ProjectItems.FirstAsync(p => p.Id == projectId);
+        var projectToDelete = await _context.ProjectItems.FirstAsync(p => p.Id == projectId);
 
         if (projectToDelete is null)
             return null;
 
-        var unassignPeopleFromProject = await context.ProjectAccounts.Where(p => p.ProjectId == projectToDelete.Id)
+        var unassignPeopleFromProject = await _context.ProjectAccounts.Where(p => p.ProjectId == projectToDelete.Id)
                                                                      .ToListAsync();
 
-        context.ProjectItems.Remove(projectToDelete);
-        context.ProjectAccounts.RemoveRange(unassignPeopleFromProject);
-        await context.SaveChangesAsync();
+        _context.ProjectItems.Remove(projectToDelete);
+        _context.ProjectAccounts.RemoveRange(unassignPeopleFromProject);
+        await _context.SaveChangesAsync();
 
         return ConvertProjectToOutput(projectToDelete, await GetStatuses(projectId));
     }
 
     public async Task<ProjectItemDto> EditProjectAsync(ProjectItemDto newProject)
     {
-        var projectToEdit =  await context.ProjectItems.FirstAsync(p => p.Id == newProject.Id);
+        var projectToEdit =  await _context.ProjectItems.FirstAsync(p => p.Id == newProject.Id);
 
         if (projectToEdit is null)
             return null;
@@ -93,16 +101,16 @@ public class ProjectService(TaskManagerAPIDbContext context) : IProjectService
 
         projectToEdit.ModifyDate = DateTime.UtcNow;
 
-        context.ProjectItems.Update(projectToEdit);
-        await context.SaveChangesAsync();
+        _context.ProjectItems.Update(projectToEdit);
+        await _context.SaveChangesAsync();
 
-        return ConvertProjectToOutput(await context.ProjectItems.FirstOrDefaultAsync(t => t.Id == projectToEdit.Id), 
+        return ConvertProjectToOutput(await _context.ProjectItems.FirstOrDefaultAsync(t => t.Id == projectToEdit.Id), 
                                       await GetStatuses(projectToEdit.Id));
     }
 
     public async Task<List<ProjectItemDto>> GetProjectsAsync(Guid organizationId)
     {
-        var projects = await context.ProjectItems.Where(p => p.OrganizationId == organizationId).ToListAsync();
+        var projects = await _context.ProjectItems.Where(p => p.OrganizationId == organizationId).ToListAsync();
         var projectsDto = new List<ProjectItemDto>();
 
         foreach (var project in projects)
@@ -115,7 +123,7 @@ public class ProjectService(TaskManagerAPIDbContext context) : IProjectService
 
     public async Task<ProjectItemDto> GetProjectByIdAsync(Guid projectId)
     {
-        return await context.ProjectItems.Where(p => p.Id == projectId)
+        return await _context.ProjectItems.Where(p => p.Id == projectId)
                                          .Select(p => ConvertProjectToOutputAsync(p))
                                          .FirstOrDefaultAsync();
     }
@@ -132,7 +140,7 @@ public class ProjectService(TaskManagerAPIDbContext context) : IProjectService
         return new ProjectAccountsDto
         {
             Project = project,
-            Accounts = await context.ProjectAccounts.Where(p => p.ProjectId == project.Id)
+            Accounts = await _context.ProjectAccounts.Where(p => p.ProjectId == project.Id)
                                                     .Select(p => p.AccountId).ToListAsync()
         };
     }
@@ -166,20 +174,20 @@ public class ProjectService(TaskManagerAPIDbContext context) : IProjectService
     {
         foreach (var status in StatusesConstants.DEFAULT_LIST)
         {
-            context.ProjectTaskStatusMapping.Add(new ProjectTaskStatusMapping {
+            _context.ProjectTaskStatusMapping.Add(new ProjectTaskStatusMapping {
                 ProjectId = projectId,
                 StatusId = status.StatusId,
                 Order = status.Order
             });
         }
 
-        await context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
 
         return await GetStatuses(projectId);
     }
 
     private async Task<List<TaskItemStatusDto>> GetStatuses(Guid projectId)
     {
-        return GeneralService.ConvertProejctStatusToDto(await context.ProjectTaskStatusMapping.Include(s => s.TaskItemStatus.taskItemStatusType).Where(s => s.ProjectId == projectId).ToListAsync());
+        return GeneralService.ConvertProejctStatusToDto(await _context.ProjectTaskStatusMapping.Include(s => s.TaskItemStatus.taskItemStatusType).Where(s => s.ProjectId == projectId).ToListAsync());
     }
 }

@@ -2,16 +2,16 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace TaskManagerApi.Enitities;
+namespace TaskManagerApi.Enitities.Project;
 
-public class OrganizationAccount
+public class ProjectAccount
 {
     [Key]
     public Guid Id { get; set; }
     public required Guid AccountId { get; set; }
-    public required Guid OrganizationId { get; set; }
+    public required Guid ProjectId { get; set; }
     public DateTime CreateDate { get; set; }
     public DateTime ModifyDate { get; set; }
-    [ForeignKey("OrganizationId")]
-    public OrganizationItem Organization { get; set; }
+    [ForeignKey("ProjectId")]
+    public ProjectItem Project { get; set; }
 }

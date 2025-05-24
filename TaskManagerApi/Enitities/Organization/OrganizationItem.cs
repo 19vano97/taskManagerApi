@@ -1,7 +1,8 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using TaskManagerApi.Enitities.Project;
 
-namespace TaskManagerApi.Enitities;
+namespace TaskManagerApi.Enitities.Organization;
 
 public class OrganizationItem
 {

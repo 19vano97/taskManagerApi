@@ -123,48 +123,6 @@ namespace TaskManagerApi.Controllers
             return Ok(taskToEdit);
         }
 
-        [HttpPut("edit/{taskId}/assignee/{assigneeId}")]
-        public async Task<ActionResult<TaskItemDto>> ChangeTaskAssigneeByIdAsync(Guid taskId, Guid assigneeId)
-        {
-            if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId) 
-                || !await ValidateAccountOrganizationConnectionAsync(organizationId!)) 
-            {
-                _logger.LogError(LogPhrases.ApiLogs.API_AUTHORIZATION_FAILED_LOG);
-                return BadRequest("Invalid request");
-            }
-
-            var taskToEdit = await _taskItemService.ChangeAssigneeAsync(taskId, assigneeId);
-
-            if (taskToEdit is null)
-            {
-                _logger.LogError($"{LogPhrases.NegativeActions.TASK_UPDATE_FAILED_LOG}", taskId);
-                return BadRequest("Invalid request");
-            }
-
-            return Ok(taskToEdit);
-        }
-
-        [HttpPut("edit/{taskId}/project/{projectId}")]
-        public async Task<ActionResult<TaskItemDto>> ChangeTaskProjectAsync(Guid taskId, Guid projectId)
-        {
-            if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId) 
-                || !await ValidateAccountOrganizationConnectionAsync(organizationId!)) 
-            {
-                _logger.LogError(LogPhrases.ApiLogs.API_AUTHORIZATION_FAILED_LOG);
-                return BadRequest("Invalid request");
-            }
-
-            var taskToEdit = await _taskItemService.ChangeAssigneeAsync(taskId, projectId);
-
-            if (taskToEdit is null)
-            {
-                _logger.LogError($"{LogPhrases.NegativeActions.TASK_UPDATE_FAILED_LOG}", taskId);
-                return BadRequest("Invalid request");
-            }
-
-            return Ok(taskToEdit);
-        }
-
         [HttpPut("edit/{taskId}/task/{statusId}")]
         public async Task<ActionResult<TaskItemDto>> ChangeTaskStatusAsync(Guid taskId, int statusId)
         {

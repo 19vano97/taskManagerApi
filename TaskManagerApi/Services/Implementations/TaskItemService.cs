@@ -1,18 +1,41 @@
 using System;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TaskManagerApi.Data;
-using TaskManagerApi.Enitities;
+using TaskManagerApi.Enitities.Task;
 using TaskManagerApi.Enums;
-using TaskManagerApi.Models;
-using TaskManagerApi.Models.Project;
+using TaskManagerApi.Handlers;
+using TaskManagerApi.Models.TaskHistory;
 using TaskManagerApi.Models.TaskItem;
 using TaskManagerApi.Services.Interfaces;
+using static TaskManagerApi.Models.Constants;
 
 namespace TaskManagerApi.Services.Implementations;
 
-public class TaskItemService(TaskManagerAPIDbContext context) : ITaskItemService
+public class TaskItemService : ITaskItemService
 {
+    private readonly TaskManagerAPIDbContext _context;
+    private readonly ILogger<TaskItemService> _logger;
+    private EventHandler<TaskHistoryEventArgs> _taskHistoryEvent;
+    private TaskHistoryHandler _taskHistoryHandler;
+    private ITaskHistoryService _taskHistoryService;
+
+    public TaskItemService(TaskManagerAPIDbContext context, 
+                           ILogger<TaskItemService> logger, 
+                           ITaskHistoryService taskHistoryService)
+    {
+        _context = context;
+        _logger = logger;
+        _taskHistoryService = taskHistoryService;
+        _taskHistoryHandler = new TaskHistoryHandler(_taskHistoryService);
+        _taskHistoryHandler.Subscribe(this);
+    }
+
+    public event EventHandler<TaskHistoryEventArgs> TaskHistoryEventArgs
+    {
+        add => _taskHistoryEvent += value;
+        remove => _taskHistoryEvent -= value;
+    }
+    
     public async Task<TaskItemDto> AddParentTicket(Guid parentId, Guid childId)
     {
         var parentCheck = await GetTaskById(parentId);
@@ -30,58 +53,26 @@ public class TaskItemService(TaskManagerAPIDbContext context) : ITaskItemService
         }
 
         childCheck.ParentId = parentId;
-        context.TaskItems.Update(childCheck);
-        await context.SaveChangesAsync();
+        _context.TaskItems.Update(childCheck);
+        await _context.SaveChangesAsync();
 
         return GeneralService.ConvertTaskToDtoAsync(await GetTaskById(childId));
-    }
-
-    public async Task<TaskItemDto> ChangeAssigneeAsync(Guid taskId, Guid newAssignee)
-    {
-        var taskToEdit = await GetTaskById(taskId);
-
-        if (taskToEdit is null || !Guid.TryParse(newAssignee.ToString(), out var checkedAssignee))
-            return null;
-
-        taskToEdit.AssigneeId = newAssignee;
-        taskToEdit.ModifyDate = DateTime.UtcNow;
-
-        context.TaskItems.Update(taskToEdit);
-        await context.SaveChangesAsync();
-
-        return GeneralService.ConvertTaskToDtoAsync(await context.TaskItems.FirstOrDefaultAsync(t => t.Id == taskId));
-    }
-
-    public async Task<TaskItemDto> ChangeProjectAsync(Guid taskId, Guid newProject)
-    {
-        var taskToEdit = await GetTaskById(taskId);
-
-        if (taskToEdit is null || !Guid.TryParse(newProject.ToString(), out var checkedAssignee))
-            return null;
-
-        taskToEdit.ProjectId = newProject;
-        taskToEdit.ModifyDate = DateTime.UtcNow;
-
-        context.TaskItems.Update(taskToEdit);
-        await context.SaveChangesAsync();
-
-        return GeneralService.ConvertTaskToDtoAsync(await context.TaskItems.FirstOrDefaultAsync(t => t.Id == taskId));
     }
 
     public async Task<TaskItemDto> ChangeTaskStatusAsync(Guid taskId, int newStatus)
     {
         var taskToEdit = await GetTaskById(taskId);
 
-        if (taskToEdit is null || !Enum.IsDefined(typeof(TaskItemStatusTypesEnum), newStatus))
-            return null;
+        if (taskToEdit is null || !Enum.IsDefined(typeof(TaskStatusEnum), newStatus))
+            return null!;
 
         taskToEdit.StatusId = newStatus;
         taskToEdit.ModifyDate = DateTime.UtcNow;
 
-        context.TaskItems.Update(taskToEdit);
-        await context.SaveChangesAsync();
+        _context.TaskItems.Update(taskToEdit);
+        await _context.SaveChangesAsync();
 
-        return GeneralService.ConvertTaskToDtoAsync(await context.TaskItems.FirstOrDefaultAsync(t => t.Id == taskId));
+        return GeneralService.ConvertTaskToDtoAsync(await _context.TaskItems.FirstOrDefaultAsync(t => t.Id == taskId));
     }
 
     public async Task<TaskItemDto> CreateTaskAsync(TaskItemDto newTask)
@@ -93,17 +84,25 @@ public class TaskItemService(TaskManagerAPIDbContext context) : ITaskItemService
                 Id = Guid.NewGuid(),
                 Title = newTask.Title,
                 Description = newTask.Description,
-                StatusId = newTask.StatusId,
-                TypeId = newTask.Type,
-                ReporterId = newTask.ReporterId,
-                ProjectId = newTask.ProjectId,
-                AssigneeId = newTask.AssigneeId
-            };
+                StatusId = (int)TaskStatusEnum.ToDo,
+                TypeId = (int)TaskTypesEnum.Task,
+                ReporterId = (Guid)newTask.ReporterId!,
+                ProjectId = (Guid)newTask.ProjectId!,
+                AssigneeId = (Guid)newTask.AssigneeId!
+        };
 
-        context.TaskItems.Add(taskToAdd);
-        await context.SaveChangesAsync();
+        _context.TaskItems.Add(taskToAdd);
+        await _context.SaveChangesAsync();
 
         var result = await GetTaskById(taskToAdd.Id);
+        _taskHistoryEvent?.Invoke(this, new TaskHistoryEventArgs(new TaskHistoryDto
+        {
+            TaskId = result.Id,
+            Author = result.ReporterId,
+            EventName = TaskHistoryTypes.TaskCreate.TASK_CREATED
+        }));
+
+        _logger.LogInformation($"Task has been created => {result}");
 
         return GeneralService.ConvertTaskToDtoAsync(result!);
     }
@@ -113,10 +112,10 @@ public class TaskItemService(TaskManagerAPIDbContext context) : ITaskItemService
         var taskToDelete = await GetTaskById(taskId);
 
         if (taskToDelete is null)
-            return null;
+            return null!;
 
-        context.TaskItems.Remove(taskToDelete);
-        await context.SaveChangesAsync();
+        _context.TaskItems.Remove(taskToDelete);
+        await _context.SaveChangesAsync();
 
         return GeneralService.ConvertTaskToDtoAsync(taskToDelete);
     }
@@ -126,29 +125,90 @@ public class TaskItemService(TaskManagerAPIDbContext context) : ITaskItemService
         var taskToEdit = await GetTaskById(taskId);
 
         if (taskToEdit is null)
-            return null;
+            return null!;
         
-        if (newTask.Title != string.Empty)
-            taskToEdit.Title = newTask.Title;
-        
-        if (newTask.Description != string.Empty)
-            taskToEdit.Description = newTask.Description;
+        try
+        {
+            if (newTask.Title != string.Empty || taskToEdit.Title != newTask.Title)
+            {
+                var oldTitle = taskToEdit.Title;
+                taskToEdit.Title = newTask.Title!;
+                _taskHistoryEvent?.Invoke(this, new TaskHistoryEventArgs(new TaskHistoryDto
+                {
+                    TaskId = taskToEdit.Id,
+                    Author = taskToEdit.ReporterId,
+                    EventName = TaskHistoryTypes.TaskEdit.TASK_EDITED_TITLE,
+                    PreviousState = oldTitle,
+                    NewState = taskToEdit.Title
+                }));
+            }
+            
+            if (newTask.Description != string.Empty || taskToEdit.Description != newTask.Description)
+            {
+                var oldDescription = taskToEdit.Description;
+                taskToEdit.Description = newTask.Description!;
+                _taskHistoryEvent?.Invoke(this, new TaskHistoryEventArgs(new TaskHistoryDto
+                {
+                    TaskId = taskToEdit.Id,
+                    Author = taskToEdit.ReporterId,
+                    EventName = TaskHistoryTypes.TaskEdit.TASK_EDITED_DESCRIPTION,
+                    PreviousState = oldDescription,
+                    NewState = taskToEdit.Description
+                }));
+            }
+    
+            if (newTask.ReporterId != Guid.Empty || taskToEdit.ReporterId != newTask.ReporterId)
+            {
+                var oldReporter = taskToEdit.ReporterId;
+                taskToEdit.ReporterId = (Guid)newTask.ReporterId!;
+                _taskHistoryEvent?.Invoke(this, new TaskHistoryEventArgs(new TaskHistoryDto
+                {
+                    TaskId = taskToEdit.Id,
+                    Author = taskToEdit.ReporterId,
+                    EventName = TaskHistoryTypes.TaskEdit.TASK_EDITED_REPORTEDID,
+                    PreviousState = oldReporter.ToString(),
+                    NewState = taskToEdit.ReporterId.ToString()
+                }));
+            }
+    
+            if (newTask.AssigneeId != Guid.Empty || taskToEdit.AssigneeId != newTask.AssigneeId)
+            {
+                var oldAssignee= taskToEdit.AssigneeId;
+                taskToEdit.AssigneeId = (Guid)newTask.AssigneeId!;
+                _taskHistoryEvent?.Invoke(this, new TaskHistoryEventArgs(new TaskHistoryDto
+                {
+                    TaskId = taskToEdit.Id,
+                    Author = taskToEdit.ReporterId,
+                    EventName = TaskHistoryTypes.TaskEdit.TASK_EDITED_ASSIGNEEID,
+                    PreviousState = oldAssignee.ToString(),
+                    NewState = taskToEdit.AssigneeId.ToString()
+                }));
+            }    
+            if (newTask.ProjectId != Guid.Empty || taskToEdit.ProjectId != newTask.ProjectId)
+            {
+                var oldProject = taskToEdit.ProjectId;
+                taskToEdit.ProjectId = (Guid)newTask.ProjectId!;
+                _taskHistoryEvent?.Invoke(this, new TaskHistoryEventArgs(new TaskHistoryDto
+                {
+                    TaskId = taskToEdit.Id,
+                    Author = taskToEdit.ReporterId,
+                    EventName = TaskHistoryTypes.TaskEdit.TASK_EDITED_PROJECT,
+                    PreviousState = oldProject.ToString(),
+                    NewState = taskToEdit.ProjectId.ToString()
+                }));
+            }
+    
+            taskToEdit.ModifyDate = DateTime.UtcNow;
+    
+            _context.TaskItems.Update(taskToEdit);
+            await _context.SaveChangesAsync();
+        }
+        catch (System.Exception ex)
+        {
+            _logger.LogCritical($"Edit task => {ex}");
+        }
 
-        if (newTask.ReporterId != Guid.Empty)
-            taskToEdit.ReporterId = newTask.ReporterId;
-
-        if (newTask.AssigneeId != Guid.Empty)
-            taskToEdit.AssigneeId = newTask.AssigneeId;
-
-        if (newTask.Description != string.Empty)
-            taskToEdit.ProjectId = newTask.ProjectId;
-
-        taskToEdit.ModifyDate = DateTime.UtcNow;
-
-        context.TaskItems.Update(taskToEdit);
-        await context.SaveChangesAsync();
-
-        return GeneralService.ConvertTaskToDtoAsync(await context.TaskItems.FirstAsync(t => t.Id == taskId));
+        return GeneralService.ConvertTaskToDtoAsync(await _context.TaskItems.FirstAsync(t => t.Id == taskId));
     }
 
     public async Task<TaskItemDto> GetTaskByIdAsync(Guid taskId)
@@ -163,7 +223,7 @@ public class TaskItemService(TaskManagerAPIDbContext context) : ITaskItemService
 
     public async Task<List<TaskItemDto>> GetTasksByOrganizationAsync(Guid organizationId)
     {
-        return await context.TaskItems.Include(t => t.TaskItemStatus)
+        return await _context.TaskItems.Include(t => t.TaskItemStatus)
                                       .Include(t => t.TaskType)
                                       .Where(t => t.ProjectItem.OrganizationId == organizationId)
                                       .Select(t => GeneralService.ConvertTaskToDtoAsync(t))
@@ -172,7 +232,7 @@ public class TaskItemService(TaskManagerAPIDbContext context) : ITaskItemService
 
     public async Task<List<TaskItemDto>> GetTasksByProjectAsync(Guid projectId)
     {
-        return await context.TaskItems.Include(t => t.TaskItemStatus)
+        return await _context.TaskItems.Include(t => t.TaskItemStatus)
                                       .Include(t => t.TaskType)
                                       .Where(t => t.ProjectId == projectId)
                                       .Select(t => GeneralService.ConvertTaskToDtoAsync(t))
@@ -181,7 +241,7 @@ public class TaskItemService(TaskManagerAPIDbContext context) : ITaskItemService
 
     private async Task<TaskItem> GetTaskById(Guid taskId)
     {
-        return await context.TaskItems.Include(t => t.TaskItemStatus)
+        return await _context.TaskItems.Include(t => t.TaskItemStatus)
                                       .Include(t => t.TaskType)
                                       .FirstOrDefaultAsync(t => t.Id == taskId);
     }

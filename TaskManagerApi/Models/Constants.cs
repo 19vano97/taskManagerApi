@@ -20,7 +20,7 @@ public class Constants
         {
             public const string PROJECT_API = "project";
             public const string PROJECT_GET_ALL_PROJECTS_BY_ORG = "/all";
-            
+
         }
     }
 
@@ -59,7 +59,7 @@ public class Constants
                 StatusName = DefaultStatuses.IN_PROGRESS_NAME,
                 Order = DefaultStatusOrder.TO_DO
             },
-            new TaskItemStatusDto 
+            new TaskItemStatusDto
             {
                 TypeId = DefaultStatusTypes.IN_PROGRESS,
                 TypeName = DefaultStatusTypes.IN_PROGRESS_NAME,
@@ -67,7 +67,7 @@ public class Constants
                 StatusName = DefaultStatuses.IN_PROGRESS_NAME,
                 Order = DefaultStatusOrder.IN_PROGRESS
             },
-            new TaskItemStatusDto 
+            new TaskItemStatusDto
             {
                 TypeId = DefaultStatusTypes.DONE,
                 TypeName = DefaultStatusTypes.DONE_NAME,
@@ -111,8 +111,6 @@ public class Constants
             public const string ORGANIZATION_MEMBER_ADDED_LOG = "User added to organization: {object}";
             public const string ORGANIZATION_MEMBER_REMOVED_LOG = "User removed from organization: {object}";
 
-            public const string USER_LOGGED_IN_LOG = "User logged in: {object}";
-            public const string USER_LOGGED_OUT_LOG = "User logged out: {object}";
             public const string USER_ROLE_CHANGED_LOG = "User role changed: {object}";
             public const string USER_INVITED_LOG = "User invited: {object}";
             public const string USER_PROFILE_UPDATED_LOG = "User profile updated: {object}";
@@ -172,6 +170,36 @@ public class Constants
             public const string API_INTERNAL_SERVER_ERROR_LOG = "API internal server error: {object}";
             public const string API_TIMEOUT_LOG = "API request timed out: {object}";
             public const string API_RATE_LIMIT_EXCEEDED_LOG = "API rate limit exceeded: {object}";
+        }
+    }
+
+    public static class TaskHistoryTypes
+    {
+        public static class TaskCreate
+        {
+            public const string TASK_CREATED = "TASK_CREATED";
+        }
+        public static class TaskEdit
+        {
+            public const string TASK_EDITED_TITLE = "TASK_EDITED_TITLE";
+            public const string TASK_EDITED_DESCRIPTION = "TASK_EDITED_DESCRIPTION";
+            public const string TASK_EDITED_REPORTEDID = "TASK_EDITED_REPORTEDID";
+            public const string TASK_EDITED_ASSIGNEEID = "TASK_EDITED_ASSIGNEEID";
+            public const string TASK_EDITED_STATUS = "TASK_EDITED_STATUS";
+            public const string TASK_EDITED_PROJECT = "TASK_EDITED_PROJECT";
+        }
+        public static class TaskDelete
+        {
+            public const string TASK_DELETED = "TASK_DELETED";
+        }
+    }
+
+    public static class ServerSettingsConstants
+    {
+        public static class ApiServicesConstants
+        {
+            public const string TASK_HISTORY = "TaskHistory";
+            
         }
     }
 }

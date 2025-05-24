@@ -1,6 +1,8 @@
 using System;
 using Microsoft.EntityFrameworkCore;
-using TaskManagerApi.Enitities;
+using TaskManagerApi.Enitities.Organization;
+using TaskManagerApi.Enitities.Project;
+using TaskManagerApi.Enitities.Task;
 
 namespace TaskManagerApi.Data;
 
