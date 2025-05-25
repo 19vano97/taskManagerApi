@@ -5,6 +5,7 @@ using TaskManagerApi.Data;
 using TaskManagerApi.Enitities.Organization;
 using TaskManagerApi.Enitities.Project;
 using TaskManagerApi.Enitities.Task;
+using TaskManagerApi.Models.Project;
 using TaskManagerApi.Models.TaskItem;
 using TaskManagerApi.Models.TaskItemStatuses;
 
@@ -75,6 +76,31 @@ public class GeneralService
             ParentId = task.ParentId,
             CreateDate = task.CreateDate,
             ModifyDate = task.ModifyDate
+        };
+    }
+
+    public static ProjectItemDto ConvertProjectToOutput(ProjectItem project)
+    {
+        return new ProjectItemDto{
+            Id = project.Id,
+            Title = project.Title,
+            Description = project.Description,
+            OwnerId = project.OwnerId,
+            OrganizationId = project.OrganizationId,
+            CreateDate = project.CreateDate
+        };
+    }
+
+    public static ProjectItemDto ConvertProjectToOutput(ProjectItem project, List<TaskItemStatusDto> statuses)
+    {
+        return new ProjectItemDto{
+            Id = project.Id,
+            Title = project.Title,
+            Description = project.Description,
+            Statuses = statuses,
+            OwnerId = project.OwnerId,
+            OrganizationId = project.OrganizationId,
+            CreateDate = project.CreateDate
         };
     }
 }

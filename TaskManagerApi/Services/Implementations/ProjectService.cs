@@ -34,7 +34,7 @@ public class ProjectService : IProjectService
         _context.ProjectItems.Update(projectToEdit);
         await _context.SaveChangesAsync();
 
-        return ConvertProjectToOutput(await _context.ProjectItems.FirstOrDefaultAsync(t => t.Id == projectId), 
+        return GeneralService.ConvertProjectToOutput(await _context.ProjectItems.FirstOrDefaultAsync(t => t.Id == projectId), 
                                       await GetStatuses(projectId));
     }
 
@@ -57,7 +57,7 @@ public class ProjectService : IProjectService
         await _context.SaveChangesAsync();
 
         var resultFromDb = await _context.ProjectItems.FirstOrDefaultAsync(id => id.Id == projectToAdd.Id);
-        var result = ConvertProjectToOutputAsync(resultFromDb!);
+        var result = GeneralService.ConvertProjectToOutput(resultFromDb!);
         result.Statuses = await AddDefaultStatuses(result.Id);
 
         return result;
@@ -77,7 +77,7 @@ public class ProjectService : IProjectService
         _context.ProjectAccounts.RemoveRange(unassignPeopleFromProject);
         await _context.SaveChangesAsync();
 
-        return ConvertProjectToOutput(projectToDelete, await GetStatuses(projectId));
+        return GeneralService.ConvertProjectToOutput(projectToDelete, await GetStatuses(projectId));
     }
 
     public async Task<ProjectItemDto> EditProjectAsync(ProjectItemDto newProject)
@@ -104,7 +104,7 @@ public class ProjectService : IProjectService
         _context.ProjectItems.Update(projectToEdit);
         await _context.SaveChangesAsync();
 
-        return ConvertProjectToOutput(await _context.ProjectItems.FirstOrDefaultAsync(t => t.Id == projectToEdit.Id), 
+        return GeneralService.ConvertProjectToOutput(await _context.ProjectItems.FirstOrDefaultAsync(t => t.Id == projectToEdit.Id), 
                                       await GetStatuses(projectToEdit.Id));
     }
 
@@ -115,7 +115,7 @@ public class ProjectService : IProjectService
 
         foreach (var project in projects)
         {
-            projectsDto.Add(ConvertProjectToOutput(project, await GetStatuses(project.Id)));
+            projectsDto.Add(GeneralService.ConvertProjectToOutput(project, await GetStatuses(project.Id)));
         }
 
         return projectsDto;
@@ -124,7 +124,7 @@ public class ProjectService : IProjectService
     public async Task<ProjectItemDto> GetProjectByIdAsync(Guid projectId)
     {
         return await _context.ProjectItems.Where(p => p.Id == projectId)
-                                         .Select(p => ConvertProjectToOutputAsync(p))
+                                         .Select(p => GeneralService.ConvertProjectToOutput(p))
                                          .FirstOrDefaultAsync();
     }
 
@@ -142,31 +142,6 @@ public class ProjectService : IProjectService
             Project = project,
             Accounts = await _context.ProjectAccounts.Where(p => p.ProjectId == project.Id)
                                                     .Select(p => p.AccountId).ToListAsync()
-        };
-    }
-
-    private static ProjectItemDto ConvertProjectToOutputAsync(ProjectItem project)
-    {
-        return new ProjectItemDto{
-            Id = project.Id,
-            Title = project.Title,
-            Description = project.Description,
-            OwnerId = project.OwnerId,
-            OrganizationId = project.OrganizationId,
-            CreateDate = project.CreateDate
-        };
-    }
-
-    private static ProjectItemDto ConvertProjectToOutput(ProjectItem project, List<TaskItemStatusDto> statuses)
-    {
-        return new ProjectItemDto{
-            Id = project.Id,
-            Title = project.Title,
-            Description = project.Description,
-            Statuses = statuses,
-            OwnerId = project.OwnerId,
-            OrganizationId = project.OrganizationId,
-            CreateDate = project.CreateDate
         };
     }
 

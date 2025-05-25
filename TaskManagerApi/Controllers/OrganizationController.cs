@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TaskManagerApi.Models.OrganizationModel;
 using TaskManagerApi.Services.Interfaces;
+using static TaskManagerApi.Models.Constants;
 
 namespace TaskManagerApi.Controllers
 {
@@ -33,12 +34,18 @@ namespace TaskManagerApi.Controllers
         [HttpPost("edit")]
         public async Task<ActionResult<OrganizationDto>> EditOrganizationAsync(OrganizationDto editOrganization)
         {
-            var editOrgToAdd =await _organizationService.EditAsync(User, editOrganization);
+            var editOrgToAdd = await _organizationService.EditAsync(User, editOrganization);
 
             if (editOrgToAdd is null)
                 return BadRequest();
 
             return Ok(editOrgToAdd);
+        }
+
+        [HttpGet("account/default")]
+        public async Task<ActionResult<List<OrganizationProjectDto>>> GetDefaultOrganizationAsync()
+        {
+            return Ok(await _organizationService.GetOrganizationsAsync(Guid.Parse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID).Value)));
         }
     }
 }
