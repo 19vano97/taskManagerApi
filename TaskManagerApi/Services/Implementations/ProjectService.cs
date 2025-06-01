@@ -123,8 +123,9 @@ public class ProjectService : IProjectService
 
     public async Task<ProjectItemDto> GetProjectByIdAsync(Guid projectId)
     {
+        var statuses = await GetStatuses(projectId);
         return await _context.ProjectItems.Where(p => p.Id == projectId)
-                                         .Select(p => GeneralService.ConvertProjectToOutput(p))
+                                         .Select(p => GeneralService.ConvertProjectToOutput(p, statuses))
                                          .FirstOrDefaultAsync();
     }
 

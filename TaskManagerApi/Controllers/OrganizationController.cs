@@ -45,7 +45,21 @@ namespace TaskManagerApi.Controllers
         [HttpGet("account/default")]
         public async Task<ActionResult<List<OrganizationProjectDto>>> GetDefaultOrganizationAsync()
         {
-            return Ok(await _organizationService.GetOrganizationsAsync(Guid.Parse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID).Value)));
+            return Ok(await _organizationService.GetOrganizationsByAccountAsync(Guid.Parse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID).Value)));
+        }
+
+        [HttpGet("info/accounts")]
+        public async Task<ActionResult<OrganizationAccountsDto>> GetOrganizationInfoAsync()
+        {
+            var organization = Request.Headers.TryGetValue("organizationId", out var organizationId) &&
+                              Guid.TryParse(organizationId, out var organizationIdGuid)
+                ? await _organizationService.GetOrganizationProjectsAsync(organizationIdGuid)
+                : null;
+
+            if (organization is null)
+                return NotFound();
+
+            return Ok(organization);
         }
     }
 }

@@ -1,27 +1,30 @@
-import { useAuth } from 'react-oidc-context';
+import { Button, Container } from '@mantine/core';
+import { LoaderMain } from '../components/LoaderMain';
+import { useSafeAuth } from '../hooks/useSafeAuth';
 
-function Home(){
-    const auth = useAuth();
+function Home() {
+    const auth = useSafeAuth();
     
     if (auth.isLoading) {
-        return <p>Loading...</p>;
+        return <LoaderMain />;
     }
     
     if (auth.isAuthenticated) {
         return (
-            <div>
+            <Container>
                 <p>Welcome back, {auth.user?.profile.email}!</p>
-                <button onClick={() => auth.signoutRedirect()}>Logout</button>
-            </div>
+                <Button onClick={() => auth.signoutRedirect()}>Logout</Button>
+            </Container>
      );
     }
     
     return (
-        <div>
+        <Container>
             <h1>Welcome to the Task Manager</h1>
             <p>Please sign in to continue.</p>
-            <button onClick={() => auth.signinRedirect()}>Login</button>
-        </div>
+            <Button onClick={() => auth.signinRedirect()}>Login</Button>
+        </Container>
     );
 }
-export default Home
+
+export default Home;

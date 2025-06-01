@@ -88,6 +88,7 @@ public class TaskItemService : ITaskItemService
                 TypeId = (int)TaskTypesEnum.Task,
                 ReporterId = (Guid)newTask.ReporterId!,
                 ProjectId = (Guid)newTask.ProjectId!,
+                ParentId = (Guid)newTask.ParentId,
                 AssigneeId = (Guid)newTask.AssigneeId!
         };
 
@@ -129,7 +130,7 @@ public class TaskItemService : ITaskItemService
         
         try
         {
-            if (newTask.Title != string.Empty || taskToEdit.Title != newTask.Title)
+            if (taskToEdit.Title != newTask.Title)
             {
                 var oldTitle = taskToEdit.Title;
                 taskToEdit.Title = newTask.Title!;
@@ -143,7 +144,7 @@ public class TaskItemService : ITaskItemService
                 }));
             }
             
-            if (newTask.Description != string.Empty || taskToEdit.Description != newTask.Description)
+            if (taskToEdit.Description != newTask.Description)
             {
                 var oldDescription = taskToEdit.Description;
                 taskToEdit.Description = newTask.Description!;
@@ -157,7 +158,7 @@ public class TaskItemService : ITaskItemService
                 }));
             }
     
-            if (newTask.ReporterId != Guid.Empty || taskToEdit.ReporterId != newTask.ReporterId)
+            if (taskToEdit.ReporterId != newTask.ReporterId)
             {
                 var oldReporter = taskToEdit.ReporterId;
                 taskToEdit.ReporterId = (Guid)newTask.ReporterId!;
@@ -171,7 +172,7 @@ public class TaskItemService : ITaskItemService
                 }));
             }
     
-            if (newTask.AssigneeId != Guid.Empty || taskToEdit.AssigneeId != newTask.AssigneeId)
+            if (taskToEdit.AssigneeId != newTask.AssigneeId)
             {
                 var oldAssignee= taskToEdit.AssigneeId;
                 taskToEdit.AssigneeId = (Guid)newTask.AssigneeId!;
@@ -183,8 +184,9 @@ public class TaskItemService : ITaskItemService
                     PreviousState = oldAssignee.ToString(),
                     NewState = taskToEdit.AssigneeId.ToString()
                 }));
-            }    
-            if (newTask.ProjectId != Guid.Empty || taskToEdit.ProjectId != newTask.ProjectId)
+            }  
+
+            if (taskToEdit.ProjectId != newTask.ProjectId)
             {
                 var oldProject = taskToEdit.ProjectId;
                 taskToEdit.ProjectId = (Guid)newTask.ProjectId!;
@@ -194,6 +196,48 @@ public class TaskItemService : ITaskItemService
                     Author = taskToEdit.ReporterId,
                     EventName = TaskHistoryTypes.TaskEdit.TASK_EDITED_PROJECT,
                     PreviousState = oldProject.ToString(),
+                    NewState = taskToEdit.ProjectId.ToString()
+                }));
+            }
+
+            if (taskToEdit.ParentId != newTask.ParentId)
+            {
+                var oldParent = taskToEdit.ParentId;
+                taskToEdit.ParentId = (Guid)newTask.ParentId!;
+                _taskHistoryEvent?.Invoke(this, new TaskHistoryEventArgs(new TaskHistoryDto
+                {
+                    TaskId = taskToEdit.Id,
+                    Author = taskToEdit.ReporterId,
+                    EventName = TaskHistoryTypes.TaskEdit.TASK_EDITED_PARENTTASK,
+                    PreviousState = oldParent.ToString(),
+                    NewState = taskToEdit.ParentId.ToString()
+                }));
+            }
+
+            if (taskToEdit.StatusId != newTask.StatusId)
+            {
+                var oldstatus = taskToEdit.StatusId;
+                taskToEdit.StatusId = newTask.StatusId!;
+                _taskHistoryEvent?.Invoke(this, new TaskHistoryEventArgs(new TaskHistoryDto
+                {
+                    TaskId = taskToEdit.Id,
+                    Author = taskToEdit.ReporterId,
+                    EventName = TaskHistoryTypes.TaskEdit.TASK_EDITED_STATUS,
+                    PreviousState = oldstatus.ToString(),
+                    NewState = taskToEdit.ProjectId.ToString()
+                }));
+            }
+
+            if (taskToEdit.TypeId != newTask.Type)
+            {
+                var oldType = taskToEdit.TypeId;
+                taskToEdit.TypeId = newTask.Type!;
+                _taskHistoryEvent?.Invoke(this, new TaskHistoryEventArgs(new TaskHistoryDto
+                {
+                    TaskId = taskToEdit.Id,
+                    Author = taskToEdit.ReporterId,
+                    EventName = TaskHistoryTypes.TaskEdit.TASK_EDITED_TASKTYPE,
+                    PreviousState = oldType.ToString(),
                     NewState = taskToEdit.ProjectId.ToString()
                 }));
             }
@@ -208,7 +252,9 @@ public class TaskItemService : ITaskItemService
             _logger.LogCritical($"Edit task => {ex}");
         }
 
-        return GeneralService.ConvertTaskToDtoAsync(await _context.TaskItems.FirstAsync(t => t.Id == taskId));
+        var result = await GetTaskById(taskToEdit.Id);
+
+        return GeneralService.ConvertTaskToDtoAsync(result!);
     }
 
     public async Task<TaskItemDto> GetTaskByIdAsync(Guid taskId)

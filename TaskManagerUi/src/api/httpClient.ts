@@ -1,8 +1,9 @@
-import { useAuth } from 'react-oidc-context'
-
 const taskManagerUrl = 'https://localhost:7099'
+const identityServerUrl = 'https://localhost:7270'
 
-export const taskManagerApiClient = async (getToken: () => string | undefined, getOrganizationId: () => string | undefined) => {
+export const taskManagerApiClient = async (getToken: () => string | undefined, 
+                                           getOrganizationId: () => string | undefined,
+                                           getProjectId: () => string | undefined) => {
   const request = async (path: string, options: RequestInit = {}) => {
     const token = getToken()
     const organizationId = getOrganizationId()
@@ -12,6 +13,7 @@ export const taskManagerApiClient = async (getToken: () => string | undefined, g
         'Content-Type': 'application/json',
         Authorization: token ? `Bearer ${token}` : '',
         'organizationId': organizationId || '',
+        'projectId': organizationId || '',
         ...(options.headers || {})
       },
     })
@@ -29,3 +31,32 @@ export const taskManagerApiClient = async (getToken: () => string | undefined, g
       request(path, { method: 'DELETE' }),
   }
 }
+
+export const identityServerApiClient = async (getToken: () => string | undefined) => {
+  const request = async (path: string, options: RequestInit = {}) => {
+    const token = getToken();
+
+    const res = await fetch(`${identityServerUrl}${path}`, {
+      ...options,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token ? `Bearer ${token}` : '',
+        ...(options.headers || {}),
+      },
+    });
+
+    if (!res.ok) throw new Error('API Error');
+    return res.json();
+  };
+
+  return {
+    get: (path: string) => request(path),
+    post: (path: string, body: any) =>
+      request(path, { method: 'POST', body: JSON.stringify(body) }),
+    put: (path: string, body: any) =>
+      request(path, { method: 'PUT', body: JSON.stringify(body) }),
+    delete: (path: string) =>
+      request(path, { method: 'DELETE' }),
+  };
+};
+

@@ -7,4 +7,5 @@ public interface IHistoryService
 {
     Task Write(TaskHistoryDto history);
     void WriteNoSaveToDb(TaskHistoryDto history);
+    Task<List<TaskHistoryDto>> GetHistoryByTaskId(Guid taskId);
 }

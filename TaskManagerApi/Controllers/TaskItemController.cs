@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using TaskManagerApi.Data;
 using TaskManagerApi.Enitities;
 using TaskManagerApi.Models;
+using TaskManagerApi.Models.TaskHistory;
 using TaskManagerApi.Models.TaskItem;
 using TaskManagerApi.Services.Implementations;
 using TaskManagerApi.Services.Interfaces;
@@ -21,14 +22,18 @@ namespace TaskManagerApi.Controllers
         private ITaskItemService _taskItemService;
         private ILogger<TaskItemController> _logger;
         private TaskManagerAPIDbContext _context;
+        private ITaskHistoryService _taskHistoryService;
 
         public TaskItemController(ITaskItemService taskItemService,
                                   ILogger<TaskItemController> logger,
-                                  TaskManagerAPIDbContext context)
+                                  TaskManagerAPIDbContext context,
+                                  ITaskHistoryService taskHistoryService)
+
         {
             _taskItemService = taskItemService;
             _logger = logger;
             _context = context;
+            _taskHistoryService = taskHistoryService;
         }
 
         [HttpGet("all")]
@@ -121,6 +126,21 @@ namespace TaskManagerApi.Controllers
             }
 
             return Ok(taskToEdit);
+        }
+
+        [HttpGet("history/{taskId}")]
+        public async Task<ActionResult<List<TaskHistoryDto>>> GetHistoryByTaskId(Guid taskId)
+        {
+            if (!this.Request.Headers.TryGetValue("organizationId", out var organizationId)
+                || !await ValidateAccountOrganizationConnectionAsync(organizationId!))
+            {
+                _logger.LogError(LogPhrases.ApiLogs.API_AUTHORIZATION_FAILED_LOG);
+                return BadRequest("Invalid request");
+            }
+
+            var history = await _taskHistoryService.GetHistoryByTaskId(taskId);
+
+            return Ok(history);
         }
 
         [HttpPut("edit/{taskId}/task/{statusId}")]

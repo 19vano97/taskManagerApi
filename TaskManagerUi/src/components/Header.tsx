@@ -1,72 +1,117 @@
-import { Group, Text, Container, Flex, Image, Input, InputBase, Combobox, useCombobox, Select } from '@mantine/core'
-import { LoaderMain } from "./LoaderMain";
-import { useAuth } from 'react-oidc-context';
+import { Text, Container, Flex, Image, Select, Button, Burger } from '@mantine/core';
+import { LoaderMain } from './LoaderMain';
 import { useEffect, useState } from 'react';
 import { useOrganizationApi } from '../api/taskManagerApi';
+import { useSafeAuth } from '../hooks/useSafeAuth';
 
-export function Header() {
-  const auth  = useAuth();
+export function Header({ opened, toggle }: { opened: boolean; toggle: () => void }) {
+  const auth = useSafeAuth();
+  const { getOrganizationProjects } = useOrganizationApi();
 
-  const { getOrganizationProjects } = useOrganizationApi()
   const [orgOptions, setOrgOptions] = useState<
-  { value: string; label: string; projects?: { id: string; title: string }[] }[]
+    { value: string; label: string; projects?: { id: string; title: string }[] }[]
   >([]);
-  const [selectedOrgId, setSelectedOrgId] = useState<string | null>(null)
-
-  const [projectOptions, setProjectOptions] = useState<{ value: string; label: string }[]>([])
-  const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null)
+  const [projectOptions, setProjectOptions] = useState<{ value: string; label: string }[]>([]);
+  const [selectedOrgId, setSelectedOrgId] = useState<string | null>(null);
+  const [selectedProject, setSelectedProject] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!auth.isAuthenticated) return
+    const savedOrgId = localStorage.getItem('organizationId');
+    const savedProjectId = localStorage.getItem('projectId');
+
+    setSelectedOrgId(savedOrgId || null);
+    setSelectedProject(savedProjectId || null);
+  }, []);
+
+  useEffect(() => {
+    if (!auth || !auth.isAuthenticated) return; // Fallback check for auth
 
     const loadOrgs = async () => {
-      const data = await getOrganizationProjects()
-      const mapped = data.map((org: any) => ({
-        value: org.id,
-        label: org.name,
-        projects: org.projects,
-      }))
-      setOrgOptions(mapped)
-    }
+      try {
+        const data = await getOrganizationProjects();
+        const mappedOrgs = data.map((org: any) => ({
+          value: org.id,
+          label: org.name,
+          projects: org.projects,
+        }));
+        setOrgOptions(mappedOrgs);
 
-    loadOrgs()
-  }, [auth.isAuthenticated])
+        const savedOrgId = localStorage.getItem('organizationId');
+        if (savedOrgId) {
+          const selectedOrg = mappedOrgs.find((org: { value: string; label: string; projects?: { id: string; title: string }[] }) => org.value === savedOrgId);
+          if (selectedOrg && selectedOrg.projects) {
+            const mappedProjects = selectedOrg.projects.map((p: any) => ({
+              value: p.id,
+              label: p.title,
+            }));
+            setProjectOptions(mappedProjects);
+
+            const savedProjectId = localStorage.getItem('projectId');
+            if (savedProjectId) {
+              const selectedProject = mappedProjects.find((p: { value: string; label: string }) => p.value === savedProjectId);
+              if (selectedProject) {
+                setSelectedProject(savedProjectId);
+              }
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching organizations:', error);
+      }
+    };
+
+    loadOrgs();
+  }, [auth?.isAuthenticated]); // Ensure auth is defined before accessing its properties
 
   const handleOrgChange = (orgId: string | null) => {
-    setSelectedOrgId(orgId)
-    setSelectedProjectId(null)
+    setSelectedOrgId(orgId);
+    setSelectedProject(null);
 
-    const selectedOrg = orgOptions.find(org => org.value === orgId)
-
+    const selectedOrg = orgOptions.find((org) => org.value === orgId);
     if (selectedOrg && selectedOrg.projects) {
-      const projects = selectedOrg.projects.map((p: any) => ({
+      const mappedProjects = selectedOrg.projects.map((p: any) => ({
         value: p.id,
         label: p.title,
-      }))
-      setProjectOptions(projects)
-      localStorage.setItem('organizationId', orgId || '')
+      }));
+      setProjectOptions(mappedProjects);
+      localStorage.setItem('organizationId', orgId || '');
+      localStorage.setItem('projectId', '');
     } else {
-      setProjectOptions([])
+      setProjectOptions([]);
     }
-  }
+  };
 
   const handleProjectChange = (projectId: string | null) => {
-    setSelectedProjectId(projectId)
-    console.log('Selected Project ID:', projectId)
-  }
+    setSelectedProject(projectId);
+    if (projectId) {
+      localStorage.setItem('projectId', projectId);
 
+      const kanbanEvent = new CustomEvent('updateKanban', { detail: { projectId } });
+      window.dispatchEvent(kanbanEvent);
+    } else {
+      localStorage.removeItem('projectId');
+    }
+  };
 
-  return ( 
-      <Container fluid p="xs" style={{ display: 'flex', justifyContent: 'space-between', gap: '10px' }}>
-        <Flex align="center" gap="xs">
-          <Image src="../assets/react.svg" alt="Logo" />
-        </Flex>
-        <Flex justify="flex-start" align="flex-start" gap="xs">
-          {auth.isLoading ? (
-            <LoaderMain />
-          ) : auth.isAuthenticated ? (
-            <Flex  gap="xs" align="center">
-              <Select
+  return (
+    <Container fluid p="xs" style={{ display: 'flex', justifyContent: 'space-between', gap: '10px' }}>
+      <Flex align="center" gap="xs">
+        <Image src="/logo.svg" alt="Logo" w={40} h={40} />
+        <Text
+          size="lg"
+          w={600}
+          style={{ fontFamily: 'Segoe UI, sans-serif', fontSize: 28, color: '#111', fontWeight: 600 }}
+        >
+          TaskType
+        </Text>
+        <Burger size="sm" color="#111" opened={opened} onClick={toggle} />
+      </Flex>
+      <Flex justify="flex-start" align="center" gap="xs">
+        {auth?.isLoading ? (
+          <LoaderMain />
+        ) : auth?.isAuthenticated ? (
+          <Flex gap="xs" align="center">
+            <Select
               placeholder="Select Organization"
               data={orgOptions}
               value={selectedOrgId}
@@ -76,20 +121,20 @@ export function Header() {
             <Select
               placeholder="Select Project"
               data={projectOptions}
-              value={selectedProjectId}
+              value={selectedProject}
               onChange={handleProjectChange}
               searchable
               disabled={!selectedOrgId}
             />
-              <Text size="md">{auth.user?.profile.email}</Text>
-              <button onClick={() => auth.signoutRedirect()}>Logout</button>
-            </Flex>
-          ) : (
-            <button onClick={() => auth.signinRedirect()}>Login</button>
-          )
-          }
-        </Flex>
-      </Container>
-    );
-  
+            <Text size="md">{auth.user?.profile.email}</Text>
+            <Button variant="outline" onClick={() => auth.signoutRedirect()}>
+              Logout
+            </Button>
+          </Flex>
+        ) : (
+          <Button onClick={() => auth.signinRedirect()}>Login</Button>
+        )}
+      </Flex>
+    </Container>
+  );
 }

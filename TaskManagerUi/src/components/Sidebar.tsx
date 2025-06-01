@@ -1,115 +1,111 @@
-import { NavLink } from 'react-router-dom'
-import { Stack, Text } from '@mantine/core'
+import { NavLink, useLocation } from 'react-router-dom';
+import { ActionIcon, Burger, Container, Stack, Text, useMantineColorScheme } from '@mantine/core';
 import { useState } from 'react';
+import classes from '../styles/Sidebar.module.css';
 import {
-  Icon2fa,
-  IconBellRinging,
-  IconDatabaseImport,
-  IconFingerprint,
-  IconKey,
-  IconLogout,
-  IconReceipt2,
-  IconSettings,
-  IconSwitchHorizontal,
+  IconHome,
+  IconBrandTrello,
+  IconPackages,
+  IconUserCircle,
+  IconSun,
+  IconMoon,
 } from '@tabler/icons-react';
-import { Code, Group } from '@mantine/core';
-// import classes from '../styles/Sidebar.module.css';
-import '../styles/Sidebar.css';
 
-// const data = [
-//   { link: '/kanban', label: 'Kanban', icon: IconBellRinging },
-//   { link: '/backlog', label: 'Backlog', icon: IconReceipt2 },
-//   { link: 'profile', label: 'Profile', icon: IconFingerprint },
-//   { link: '', label: 'SSH Keys', icon: IconKey },
-//   { link: '', label: 'Databases', icon: IconDatabaseImport },
-//   { link: '', label: 'Authentication', icon: Icon2fa },
-//   { link: '', label: 'Other Settings', icon: IconSettings },
-// ];
+const data = [
+  { link: '/#', label: 'Home', icon: IconHome },
+  { link: '/kanban', label: 'Kanban', icon: IconBrandTrello },
+  { link: '/backlog', label: 'Backlog', icon: IconPackages },
+  { link: '/profile', label: 'Profile', icon: IconUserCircle },
+];
+
+// export function Sidebar({ opened, toggle }: { opened: boolean; toggle: () => void }) {
+export function Sidebar() {
+  const location = useLocation();
+  const { colorScheme, setColorScheme } = useMantineColorScheme();
+
+  const links = data.map((item) => (
+    <NavLink
+      to={item.link}
+      key={item.label}
+      className={({ isActive }) =>
+        `${classes.link} ${isActive ? classes.active : ''}`
+      }
+    >
+      <item.icon className={classes.linkIcon} stroke={1.5} />
+      <span>{item.label}</span>
+    </NavLink>
+  ));
+
+  return (
+   <nav className={classes.navbar}>
+      <div className={classes.navbarMain}>{links}</div>
+      <ActionIcon
+          variant="default"
+          onClick={() => setColorScheme(colorScheme === 'dark' ? 'light' : 'dark')}
+          size="lg"
+          aria-label="Toggle color scheme"
+        >
+          {colorScheme === 'dark' ? <IconSun size={18} /> : <IconMoon size={18} />}
+      </ActionIcon>
+
+      {/* <div className={classes.footer}>
+        <a href="#" className={classes.link} onClick={(e) => e.preventDefault()}>
+          <IconSwitchHorizontal className={classes.linkIcon} stroke={1.5} />
+          <span className={classes.linkLabel}>Change account</span>
+        </a>
+
+        <a href="#" className={classes.link} onClick={(e) => e.preventDefault()}>
+          <IconLogout className={classes.linkIcon} stroke={1.5} />
+          <span className={classes.linkLabel}>Logout</span>
+        </a>
+      </div> */}
+    </nav>
+
+
+  );
+}
+
 
 // export function Sidebar() {
-//   // <aside className="sidebar">
-//   //   <div className="logo">TaskType</div>
-//   //   <nav>
-//   //     <NavLink to="/" end>Home</NavLink>
-//   //     <NavLink to="/kanban">Kanban</NavLink>
-//   //     <NavLink to="/backlog">Backlog</NavLink>
-//   //     <NavLink to="/profile">Profile</NavLink>
-//   //   </nav>
-//   // </aside>
-//   const [active, setActive] = useState('Billing');
-
-//   const links = data.map((item) => (
-//     <a
-//       className={classes.link}
-//       data-active={item.label === active || undefined}
-//       href={item.link}
-//       key={item.label}
-//       onClick={(event) => {
-//         event.preventDefault();
-//         setActive(item.label);
-//       }}
-//     >
-//       <item.icon className={classes.linkIcon} stroke={1.5} />
-//       <span>{item.label}</span>
-//     </a>
-//   ));
+//   const [active, setActive] = useState<string | null>(null);
+//   const location = useLocation();
 
 //   return (
-//     <nav className={classes.navbar}>
-//       <div className={classes.navbarMain}>
-//         <Group className={classes.header} justify="space-between">
-//           <img src="../assets/logo.svg" alt="logo" />
-//         </Group>
-//         {links}
-//       </div>
-
-//       <div className={classes.footer}>
-//         <a href="#" className={classes.link} onClick={(event) => event.preventDefault()}>
-//           <IconSwitchHorizontal className={classes.linkIcon} stroke={1.5} />
-//           <span>Change account</span>
-//         </a>
-
-//         <a href="#" className={classes.link} onClick={(event) => event.preventDefault()}>
-//           <IconLogout className={classes.linkIcon} stroke={1.5} />
-//           <span>Logout</span>
-//         </a>
-//       </div>
-//     </nav>
+//     <aside className="sidebar">
+//       <Container>
+//         <Stack >
+//           <nav>
+//             <NavLink
+//               to="/"
+//               end
+//               className={({ isActive }) => (isActive ? 'active' : '')}
+//               onClick={() => setActive('home')}
+//             >
+//               Home
+//             </NavLink>
+//             <NavLink
+//               to="/kanban"
+//               className={({ isActive }) => (isActive ? 'active' : '')}
+//               onClick={() => setActive('kanban')}
+//             >
+//               Kanban
+//             </NavLink>
+//             <NavLink
+//               to="/backlog"
+//               className={({ isActive }) => (isActive ? 'active' : '')}
+//               onClick={() => setActive('backlog')}
+//             >
+//               Backlog
+//             </NavLink>
+//             <NavLink
+//               to="/profile"
+//               className={({ isActive }) => (isActive ? 'active' : '')}
+//               onClick={() => setActive('profile')}
+//             >
+//               Profile
+//             </NavLink>
+//           </nav>
+//         </Stack>
+//       </Container>
+//     </aside>
 //   );
-// }
-
-// export function Sidebar() {
-//   return (
-//     <aside className="sidebar">
-//       <div className="logo">TaskType</div>
-//       <nav>
-//         <NavLink to="/" end>Home</NavLink>
-//         <NavLink to="/kanban">Kanban</NavLink>
-//         <NavLink to="/backlog">Backlog</NavLink>
-//         <NavLink to="/profile">Profile</NavLink>
-//       </nav>
-//     </aside>
-//   )
-// }
-
-// export function Sidebar() {
-//   return (
-//     <aside className="sidebar">
-//       <div className="logo">TaskType</div>
-//       <nav>
-//         <NavLink to="/" end>Home</NavLink>
-//         <NavLink to="/kanban">Kanban</NavLink>
-//         <NavLink to="/backlog">Backlog</NavLink>
-//         <NavLink to="/profile">Profile</NavLink>
-//       </nav>
-//     </aside>
-//   )
-// }
-export const Sidebar = () => (
-  <Stack>
-    <NavLink to="/" end>Home</NavLink>
-    <NavLink to="/kanban">Kanban</NavLink>
-    <NavLink to="/backlog">Backlog</NavLink>
-    <NavLink to="/profile">Profile</NavLink>
-  </Stack>
-)

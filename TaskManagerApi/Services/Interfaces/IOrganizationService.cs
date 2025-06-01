@@ -11,5 +11,5 @@ public interface IOrganizationService
     Task<OrganizationDto> DeleteAsync(OrganizationDto newOgranization);
     Task<OrganizationProjectDto> GetOrganizationProjectsAsync(Guid organizationId);
     Task<OrganizationDto> GetOrganizationAsync(Guid organizationId);
-    Task<List<OrganizationProjectDto>> GetOrganizationsAsync(Guid accountId);
+    Task<List<OrganizationProjectDto>> GetOrganizationsByAccountAsync(Guid accountId);
 }

@@ -1,11 +1,15 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
-import { useAuth } from "react-oidc-context";
+import { LoaderMain } from "../components/LoaderMain";
+import { useSafeAuth } from "../hooks/useSafeAuth";
 
 const PrivateRoute: React.FC<React.PropsWithChildren> = ({ children }) => {
-  const auth = useAuth();
+  const auth = useSafeAuth();
 
-  if (auth.isLoading) return <p>Loading...</p>;
+  if (auth.isLoading) return <LoaderMain />;
+  if (!auth.isAuthenticated) {
+    return ;
+  }
 
   return auth.isAuthenticated ? children : <Navigate to="/" />;
 };

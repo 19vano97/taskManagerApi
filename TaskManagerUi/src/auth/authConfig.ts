@@ -1,3 +1,7 @@
+import { Log as oidcLog} from 'oidc-client-ts';
+
+oidcLog.setLevel(oidcLog.DEBUG);
+
 export const oidcConfig = {
     authority: "https://localhost:7270",
     client_id: "react-client",

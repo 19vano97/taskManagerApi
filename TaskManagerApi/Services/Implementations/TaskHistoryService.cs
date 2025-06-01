@@ -31,4 +31,18 @@ public class TaskHistoryService : ITaskHistoryService
 
         _logger.LogInformation(data);
     }
+
+    public async Task<List<TaskHistoryDto>> GetHistoryByTaskId(Guid taskId)
+    {
+        var httpClient = _httpClientFactory.CreateClient("taskHistory");
+        var response = await httpClient.GetFromJsonAsync<List<TaskHistoryDto>>($"api/thistory/info/{taskId}");
+
+        if (response is null)
+        {
+            _logger.LogWarning("no reponce");
+            return null!;
+        }
+
+        return response;
+    }
 }

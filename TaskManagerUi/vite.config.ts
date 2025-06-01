@@ -22,6 +22,11 @@ export default defineConfig({
     },
     port: 5173,
   },
+  resolve: {
+    alias: {
+      '@tabler/icons-react': '@tabler/icons-react/dist/esm/icons/index.mjs',
+    },
+  },
   build: {
   rollupOptions: {
     output: {

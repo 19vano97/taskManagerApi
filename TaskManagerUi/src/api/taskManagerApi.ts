@@ -1,14 +1,19 @@
 import { taskManagerApiClient } from './httpClient'
-import { useAuth } from 'react-oidc-context'
+import type { CreateTask } from '../components/Types'
+import { useSafeAuth } from '../hooks/useSafeAuth';
 
 export const useOrganizationApi = () => {
-  const { user } = useAuth()
+  const { user } = useSafeAuth();
   const defaultPath = '/api/organization'
   const apiPromise = taskManagerApiClient(
     () => user?.access_token,
     () => {
       const orgId = localStorage.getItem('organizationId');
       return orgId === null ? undefined : orgId;
+    },
+    () => {
+      const projectId = localStorage.getItem('projectId');
+      return projectId === null ? undefined : projectId;
     }
   )
 
@@ -16,17 +21,22 @@ export const useOrganizationApi = () => {
     getOrganizationProjects: async () => (await apiPromise).get(`${defaultPath}/account/default`),
     createOrganizationProjects: async (data: any) => (await apiPromise).post(`${defaultPath}/create`, data),
     editOrganization: async (data: any) => (await apiPromise).post(`${defaultPath}/edit`, data),
+    getOrganizationAccounts: async () => (await apiPromise).get(`${defaultPath}/info/accounts`),
   }
 }
 
 export const useProjectApi = () => {
-  const { user } = useAuth();
+  const { user } = useSafeAuth();
   const defaultPath = '/api/project';
   const apiPromise = taskManagerApiClient(
     () => user?.access_token,
     () => {
       const orgId = localStorage.getItem('organizationId');
       return orgId === null ? undefined : orgId;
+    },
+    () => {
+      const projectId = localStorage.getItem('projectId');
+      return projectId === null ? undefined : projectId;
     }
   );
 
@@ -61,13 +71,17 @@ export const useProjectApi = () => {
 };
 
 export const useTaskApi = () => {
-  const { user } = useAuth();
+  const { user } = useSafeAuth();
   const defaultPath = '/api/task';
   const apiPromise = taskManagerApiClient(
     () => user?.access_token,
     () => {
       const orgId = localStorage.getItem('organizationId');
       return orgId === null ? undefined : orgId;
+    },
+    () => {
+      const projectId = localStorage.getItem('projectId');
+      return projectId === null ? undefined : projectId;
     }
   );
 
@@ -84,7 +98,7 @@ export const useTaskApi = () => {
       (await apiPromise).get(`${defaultPath}/details/${taskId}`),
 
     // Create a new task
-    createTask: async (data: any) =>
+    createTask: async (data: CreateTask) =>
       (await apiPromise).post(`${defaultPath}/create`, data),
 
     // Edit an existing task by task ID
@@ -98,6 +112,9 @@ export const useTaskApi = () => {
     // Add a parent task to a task
     addParentToTask: async (data: { parentId: string; taskId: string }) =>
       (await apiPromise).post(`${defaultPath}/parent`, data),
+
+    getTaskHistory: async ( taskId: string) =>
+      (await apiPromise).get(`${defaultPath}/history/${taskId}`),
 
     // Delete a task by task ID
     deleteTask: async (taskId: string) =>

@@ -13,4 +13,5 @@ public class OrganizationProjectDto
     public DateTime CreateDate { get; set; } = DateTime.UtcNow;
     public DateTime ModifyDate { get; set; } = DateTime.UtcNow;
     public List<ProjectItemDto>? Projects { get; set; }
+    public List<Guid>? Accounts { get; set; }
 }

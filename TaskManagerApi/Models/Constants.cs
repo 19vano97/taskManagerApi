@@ -185,6 +185,8 @@ public class Constants
             public const string TASK_EDITED_DESCRIPTION = "TASK_EDITED_DESCRIPTION";
             public const string TASK_EDITED_REPORTEDID = "TASK_EDITED_REPORTEDID";
             public const string TASK_EDITED_ASSIGNEEID = "TASK_EDITED_ASSIGNEEID";
+            public const string TASK_EDITED_PARENTTASK = "TASK_EDITED_PARENTTASK";
+            public const string TASK_EDITED_TASKTYPE = "TASK_EDITED_TASKTYPE";
             public const string TASK_EDITED_STATUS = "TASK_EDITED_STATUS";
             public const string TASK_EDITED_PROJECT = "TASK_EDITED_PROJECT";
         }

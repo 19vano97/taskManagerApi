@@ -1,4 +1,5 @@
 using System;
+using Microsoft.EntityFrameworkCore;
 using TaskHistoryService.Data;
 using TaskHistoryService.Enitities;
 using TaskHistoryService.Models;
@@ -30,6 +31,20 @@ public class HistoryService : IHistoryService
         }
     }
 
+    public async Task<List<TaskHistoryDto>> GetHistoryByTaskId(Guid taskId)
+    {
+        var historyList = new List<TaskHistoryDto>();
+        var history = await _context.TaskHistories.Where(t => t.TaskId == taskId)
+                                           .ToListAsync();
+
+        foreach (var item in history)
+        {
+            historyList.Add(ConvertFromEntityToDto(item));
+        }
+
+        return historyList;
+    }
+
     private static TaskHistory ConvertFromDtoToEntityNoId(TaskHistoryDto historyDto)
     {
         return new TaskHistory
@@ -39,6 +54,21 @@ public class HistoryService : IHistoryService
             EventName = historyDto.EventName,
             PreviousState = historyDto.PreviousState,
             NewState = historyDto.NewState
+        };
+    }
+
+    private static TaskHistoryDto ConvertFromEntityToDto(TaskHistory taskHistory)
+    {
+        return new TaskHistoryDto
+        {
+            Id = taskHistory.Id,
+            TaskId = taskHistory.TaskId,
+            EventName = taskHistory.EventName,
+            PreviousState = taskHistory.PreviousState,
+            NewState = taskHistory.NewState,
+            Author = taskHistory.Author,
+            CreateDate = taskHistory.CreateDate,
+            ModifyDate = taskHistory.ModifyDate
         };
     }
 

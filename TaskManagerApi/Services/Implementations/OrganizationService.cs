@@ -101,20 +101,27 @@ public class OrganizationService : IOrganizationService
         var projects = await _context.ProjectItems.
             Where(p => p.OrganizationId == organizationId)
             .ToListAsync();
+            
+        var accounts = await _context.OrganizationAccount
+            .Where(o => o.OrganizationId == organizationId)
+            .Select(o => o.AccountId)
+            .ToListAsync();
 
-        return new OrganizationProjectDto {
+        return new OrganizationProjectDto
+        {
             Id = organization.Id,
             Name = organization.Name,
             Abbreviation = organization.Abbreviation,
             Owner = organization.Owner,
             Description = organization.Description,
+            Accounts = accounts,
             CreateDate = organization.CreateDate,
             ModifyDate = organization.ModifyDate,
             Projects = projects.Select(p => GeneralService.ConvertProjectToOutput(p)).ToList()
         };
     }
     
-    public async Task<List<OrganizationProjectDto>> GetOrganizationsAsync(Guid accountId)
+    public async Task<List<OrganizationProjectDto>> GetOrganizationsByAccountAsync(Guid accountId)
     {
         var organizations = await _context.OrganizationAccount.Where(o => o.AccountId == accountId)
             .Select(o => o.OrganizationId)
@@ -123,19 +130,36 @@ public class OrganizationService : IOrganizationService
         var result = new List<OrganizationProjectDto>();
         foreach (var organizationId in organizations)
         {
-            var organization = await GetOrganizationProjectsAsync(organizationId);
-            if (organization != null)
-            {
-                result.Add(organization);
-            }
+            result.Add(await GetOrganizationProjectsAsync(organizationId));
         }
 
         return result;
     }
 
-    public Task<OrganizationDto> GetOrganizationAsync(Guid organizationId)
+    public async Task<OrganizationDto> GetOrganizationAsync(Guid organizationId)
     {
-        throw new NotImplementedException();
+        return ConvertToDto(await DoesOrganizationExistEntity(Id: organizationId.ToString()));
+    }
+
+    public async Task<OrganizationAccountsDto> GetOrganizationAccountAsync(string organizationId)
+    {
+        var organization = await DoesOrganizationExistEntity(Id: organizationId);
+        var accounts = await _context.OrganizationAccount
+            .Where(o => o.OrganizationId == organization.Id)
+            .Select(o => o.AccountId)
+            .ToListAsync();
+            
+        return new OrganizationAccountsDto
+        {
+            Id = organization.Id,
+            Name = organization.Name,
+            Abbreviation = organization.Abbreviation,
+            Owner = organization.Owner,
+            Description = organization.Description,
+            CreateDate = organization.CreateDate,
+            ModifyDate = organization.ModifyDate,
+            Accounts = accounts
+        };
     }
 
     private async Task<OrganizationItem> DoesOrganizationExist(Guid Id)

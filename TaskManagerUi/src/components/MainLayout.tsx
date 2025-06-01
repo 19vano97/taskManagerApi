@@ -1,67 +1,55 @@
-// import { Outlet } from 'react-router-dom'
-// import { Header } from './Header'
-// import { Sidebar } from './Sidebar'
-// import { Footer } from './Footer'
-// import '../styles/MainLayout.css'
-
-// export const MainLayout = () => {
-//   return (
-//     <div className="layout">
-
-//       <div className="body">
-//         <Sidebar />
-//         <main className="content">
-//           <Outlet />
-//         </main>
-//       </div>
-//       <Footer />
-//     </div>
-//   )
-// }
-
-import { AppShell, Burger, Container } from '@mantine/core'
+import { AppShell } from '@mantine/core'
 import { Outlet } from 'react-router-dom'
 import { Header } from '../components/Header'
 import { Sidebar } from '../components/Sidebar'
 import { Footer } from '../components/Footer'
 import { useDisclosure } from '@mantine/hooks'
+import { LoaderMain } from './LoaderMain'
+import { useSafeAuth } from '../hooks/useSafeAuth'
 
 export const MainLayout = () => {
+  const [opened, { toggle }] = useDisclosure(false);
+  const auth = useSafeAuth();
+
+  if (auth.isLoading) return <LoaderMain />;
+
+  if (!auth.isAuthenticated) {
+    auth.signinRedirect();
+    return <LoaderMain />; 
+  }
+  
   return (
     <AppShell
-      padding="md"
       header={{ height: 60 }}
-      navbar={{
-        width: 200,
-        breakpoint: 'sm',
-        collapsed: { mobile: false },
-      }}
-      footer={{
-        height: 60
-      }}
+      footer={{ height: 60 }}
+      navbar={{ width: 250, breakpoint: 'sm', collapsed: { desktop: !opened, mobile: !opened } }}
+      padding="md"
       styles={{
-        main: { backgroundColor: '#f8f9fa' },
+        root: {
+          minHeight: '100vh',
+
+        },
+        main: {
+          
+          width: '100%',
+          overflowX: 'auto',
+        },
       }}
     >
       <AppShell.Header>
-        {/* <Burger
-          opened={opened}
-          onClick={toggle}
-          hiddenFrom="sm"
-          size="sm"
-        /> */}
-        <Header />
+        <Header opened={opened} toggle={toggle}/>
       </AppShell.Header>
-      <AppShell.Navbar p="xs">
+
+      <AppShell.Navbar p="md">
         <Sidebar />
       </AppShell.Navbar>
+
       <AppShell.Footer>
         <Footer />
       </AppShell.Footer>
+
       <AppShell.Main>
-        <Container size={'lg'} p="md">
-          <Outlet />
-        </Container>
+        <Outlet />
       </AppShell.Main>
     </AppShell>
   )
