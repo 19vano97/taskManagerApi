@@ -22,11 +22,7 @@ export default defineConfig({
     },
     port: 5173,
   },
-  resolve: {
-    alias: {
-      '@tabler/icons-react': '@tabler/icons-react/dist/esm/icons/index.mjs',
-    },
-  },
+  
   build: {
   rollupOptions: {
     output: {
@@ -35,7 +31,7 @@ export default defineConfig({
           if (id.includes('@mantine')) return 'mantine'
           if (id.includes('react')) return 'react'
           if (id.includes('react-oidc-context')) return 'oidc'
-          if (id.includes('@tabler')) return 'icons'
+
           return 'vendor'
         }
         if (id.includes('/src/components/')) {

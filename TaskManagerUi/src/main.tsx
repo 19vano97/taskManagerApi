@@ -7,6 +7,7 @@ import { AuthProvider } from 'react-oidc-context'
 
 import { ErrorBoundary } from 'react-error-boundary';
 import { MantineThemeWrapper } from './wrappers/MantineThemeWrapper.tsx'
+import { BrowserRouter } from 'react-router-dom'
 
 function ErrorFallback({ error }: { error: any }) {
   return (
@@ -21,9 +22,11 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <MantineThemeWrapper>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <AuthProvider {...oidcConfig}>
-          <App />
-        </AuthProvider>
+        <BrowserRouter>
+          <AuthProvider {...oidcConfig}>
+            <App />
+          </AuthProvider>
+        </BrowserRouter>
       </ErrorBoundary>
     </MantineThemeWrapper>
   </StrictMode>,

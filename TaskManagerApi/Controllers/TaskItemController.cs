@@ -20,33 +20,36 @@ namespace TaskManagerApi.Controllers
     public class TaskItemController : ControllerBase
     {
         private ITaskItemService _taskItemService;
+        private ITaskHistoryService _taskHistoryService;
+        private IAccountVerification _accountVerification;
         private ILogger<TaskItemController> _logger;
         private TaskManagerAPIDbContext _context;
-        private ITaskHistoryService _taskHistoryService;
 
         public TaskItemController(ITaskItemService taskItemService,
+                                  ITaskHistoryService taskHistoryService,
+                                  IAccountVerification accountVerification,
                                   ILogger<TaskItemController> logger,
-                                  TaskManagerAPIDbContext context,
-                                  ITaskHistoryService taskHistoryService)
+                                  TaskManagerAPIDbContext context)
 
         {
             _taskItemService = taskItemService;
+            _taskHistoryService = taskHistoryService;
+            _accountVerification = accountVerification;
             _logger = logger;
             _context = context;
-            _taskHistoryService = taskHistoryService;
+            
         }
 
         [HttpGet("all")]
         public async Task<ActionResult<List<TaskItemDto>>> GetTasksInOrganizationAsync()
         {
-            if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId) 
-                || !await ValidateAccountOrganizationConnectionAsync(organizationId!)) 
-            {
-                _logger.LogError(LogPhrases.ApiLogs.API_AUTHORIZATION_FAILED_LOG);
-                return BadRequest("Invalid request");
-            }
+            if (this.Request.Headers.TryGetValue("organizationId", out var organizationIdString)
+                || !Guid.TryParse(organizationIdString, out Guid organizationId)
+                || !Guid.TryParse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value, out Guid accountId)
+                || !await _accountVerification.VerifyAccountInOrganization(accountId, organizationId))
+                return BadRequest();
 
-            var result = await _taskItemService.GetTasksByOrganizationAsync(Guid.Parse(organizationId));
+            var result = await _taskItemService.GetTasksByOrganizationAsync(organizationId);
             _logger.LogInformation($"{LogPhrases.PositiveActions.TASKS_SHOWN_LOG}", result.Select(s => s.Id));
 
             return Ok(result);
@@ -55,26 +58,12 @@ namespace TaskManagerApi.Controllers
         [HttpGet("all/{projectId}")]
         public async Task<ActionResult<List<TaskItemDto>>> GetTasksInOrganizationProjectAsync(Guid projectId)
         {
-            if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId) 
-                || !await ValidateAccountOrganizationConnectionAsync(organizationId!)) 
-            {
-                _logger.LogError(LogPhrases.ApiLogs.API_AUTHORIZATION_FAILED_LOG);
-                return BadRequest("Invalid request");
-            }
-
             return Ok(await _taskItemService.GetTasksByProjectAsync(projectId));
         }
 
         [HttpGet("details/{Id}")]
         public async Task<ActionResult<TaskItemDto>> GetTaskByIdAsync(Guid Id)
         {
-            if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId) 
-                || !await ValidateAccountOrganizationConnectionAsync(organizationId!)) 
-            {
-                _logger.LogError(LogPhrases.ApiLogs.API_AUTHORIZATION_FAILED_LOG);
-                return BadRequest("Invalid request");
-            }
-
             var task = await _taskItemService.GetTaskByIdAsync(Id);
 
             if (task is null)
@@ -89,13 +78,6 @@ namespace TaskManagerApi.Controllers
         [HttpPost("create")]
         public async Task<ActionResult<TaskItemDto>> CreateTaskAsync(TaskItemDto newTask)
         {
-            if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId) 
-                || !await ValidateAccountOrganizationConnectionAsync(organizationId!)) 
-            {
-                _logger.LogError(LogPhrases.ApiLogs.API_AUTHORIZATION_FAILED_LOG);
-                return BadRequest("Invalid request");
-            }
-
             var createdTask = await _taskItemService.CreateTaskAsync(newTask);
 
             if (createdTask is null)
@@ -110,13 +92,6 @@ namespace TaskManagerApi.Controllers
         [HttpPost("edit/{taskId}")]
         public async Task<ActionResult<TaskItemDto>> EditTaskByIdAsync(Guid taskId, TaskItemDto editTask)
         {
-            if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId) 
-                || !await ValidateAccountOrganizationConnectionAsync(organizationId!)) 
-            {
-                _logger.LogError(LogPhrases.ApiLogs.API_AUTHORIZATION_FAILED_LOG);
-                return BadRequest("Invalid request");
-            }
-
             var taskToEdit = await _taskItemService.EditTaskByIdAsync(taskId, editTask);
 
             if (taskToEdit is null)
@@ -131,70 +106,20 @@ namespace TaskManagerApi.Controllers
         [HttpGet("history/{taskId}")]
         public async Task<ActionResult<List<TaskHistoryDto>>> GetHistoryByTaskId(Guid taskId)
         {
-            if (!this.Request.Headers.TryGetValue("organizationId", out var organizationId)
-                || !await ValidateAccountOrganizationConnectionAsync(organizationId!))
+            try
             {
-                _logger.LogError(LogPhrases.ApiLogs.API_AUTHORIZATION_FAILED_LOG);
-                return BadRequest("Invalid request");
+                return Ok(await _taskHistoryService.GetHistoryByTaskId(taskId));
             }
-
-            var history = await _taskHistoryService.GetHistoryByTaskId(taskId);
-
-            return Ok(history);
-        }
-
-        [HttpPut("edit/{taskId}/task/{statusId}")]
-        public async Task<ActionResult<TaskItemDto>> ChangeTaskStatusAsync(Guid taskId, int statusId)
-        {
-            if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId) 
-                || !await ValidateAccountOrganizationConnectionAsync(organizationId!)) 
+            catch (System.Exception ex)
             {
-                _logger.LogError(LogPhrases.ApiLogs.API_AUTHORIZATION_FAILED_LOG);
-                return BadRequest("Invalid request");
+                _logger.LogWarning(ex.ToString());
+                return BadRequest();
             }
-
-            var taskToEdit = await _taskItemService.ChangeTaskStatusAsync(taskId, statusId);
-
-            if (taskToEdit is null)
-            {
-                _logger.LogError($"{LogPhrases.NegativeActions.TASK_UPDATE_FAILED_LOG}", taskId);
-                return BadRequest("Invalid request");
-            }
-
-            return Ok(taskToEdit);
-        }
-
-        [HttpPost("parent")]
-        public async Task<ActionResult<TaskItemDto>> AddParentToTask(TaskParentDto task)
-        {
-            if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId) 
-                || !await ValidateAccountOrganizationConnectionAsync(organizationId!)) 
-            {
-                _logger.LogError(LogPhrases.ApiLogs.API_AUTHORIZATION_FAILED_LOG);
-                return BadRequest("Invalid request");
-            }
-
-            var taskEdit = await _taskItemService.AddParentTicket(task.ParentId, task.ParentId);
-
-            if(taskEdit is null)
-            {
-                _logger.LogError($"{LogPhrases.NegativeActions.TASK_UPDATE_FAILED_LOG}", task);
-                return BadRequest("Invalid request");
-            }
-
-            return Ok(taskEdit);
         }
 
         [HttpDelete("delete/{Id}")]
         public async Task<ActionResult<TaskItemDto>> DeleteTaskByIdAsync(Guid Id)
         {
-            if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId) 
-                || !await ValidateAccountOrganizationConnectionAsync(organizationId!)) 
-            {
-                _logger.LogError(LogPhrases.ApiLogs.API_AUTHORIZATION_FAILED_LOG);
-                return BadRequest("Invalid request");
-            }
-
             var taskToDelete = await _taskItemService.DeleteTaskAsync(Id);
 
             if (taskToDelete is null)

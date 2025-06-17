@@ -1,15 +1,62 @@
 import { useEffect, useState } from "react";
 import { useTaskApi } from "../../api/taskManagerApi"
-import type { TaskHistory } from "../Types";
-import { Card } from "@mantine/core";
+import type { AccountDetails, TaskHistory, TaskHistoryType } from "../Types";
+import { Card, Timeline, Text } from "@mantine/core";
+import { useIdentityServerApi } from "../../api/IdentityServerApi";
+import TaskDate from "./TaskDate";
+import { BadgePlus, Delete, Pencil } from "lucide-react";
 
 type TaskHistoryComponentProp = {
     taskId: string
 }
 
+export const TaskHistoryTypesConst: TaskHistoryType[] = [
+    { id: 1, name: "TASK_CREATED" },
+    { id: 2, name: "TASK_EDITED_TITLE" },
+    { id: 3, name: "TASK_EDITED_DESCRIPTION" },
+    { id: 4, name: "TASK_EDITED_REPORTEDID" },
+    { id: 5, name: "TASK_EDITED_ASSIGNEEID" },
+    { id: 6, name: "TASK_EDITED_PARENTTASK" },
+    { id: 7, name: "TASK_EDITED_TASKTYPE" },
+    { id: 8, name: "TASK_EDITED_STATUS" },
+    { id: 9, name: "TASK_EDITED_PROJECT" },
+    { id: 10, name: "TASK_DELETED" },
+]
+
+type UniqueArray<T> = T extends ReadonlyArray<infer U> ? U[] & { __unique: never } : never;
+
+
+function createUniqueArray<T>(arr: ReadonlyArray<T>): UniqueArray<T> {
+    return Array.from(new Set(arr)) as UniqueArray<T>;
+}
+
 export const TaskHistoryComponent = (taskId: TaskHistoryComponentProp) => {
     const { getTaskHistory } = useTaskApi();
-    const [taskHistories, setTaskHistories] = useState<TaskHistory[]>();
+    const { getAllAccountDetails } = useIdentityServerApi();
+    const [ taskHistories, setTaskHistories ] = useState<TaskHistory[]>();
+    const [ active, setActive ] = useState(10);
+    const [ accounts, setAccounts ] = useState<AccountDetails[]>();
+    const accountIds: string[] = [];
+
+  const getIconTaskHistory = (id: number) => {
+      switch (id) {
+        case 1:
+          return BadgePlus;
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+        case 8:
+        case 9:
+          return Pencil;
+        case 10:
+          return Delete;
+        default:
+          return Pencil;
+      }
+    };
 
     useEffect(() =>
     {
@@ -25,15 +72,58 @@ export const TaskHistoryComponent = (taskId: TaskHistoryComponentProp) => {
         fetchHistory();
     },[])
 
+    useEffect(() => {
+        if (!taskHistories || taskHistories.length === 0) return;
+
+        const accountIds = taskHistories.map((t) => t.author);
+        const accountIdsUnique: UniqueArray<string> = createUniqueArray(accountIds);
+
+        const fetchAccounts = async () => {
+            try {
+                const data = await getAllAccountDetails(accountIdsUnique);
+                setAccounts(data);
+            } catch (error) {
+                console.log("TaskHistoryAccounts:", error);
+            }
+        };
+
+        fetchAccounts();
+    }, [taskHistories]);
+
     return (
-        <Card>
-            {taskHistories?.map((taskHistory) => (
-                <div key={taskHistory.id}>
-                    {/* Render taskHistory details here */}
-                    {JSON.stringify(taskHistory)}
-                </div>
-                
-            ))}
-        </Card>
-    )
-}
+        <Timeline active={taskHistories?.length} bulletSize={30} lineWidth={2}>
+          {taskHistories
+            ?.slice()
+            .sort((a, b) => new Date(b.createDate).getTime() - new Date(a.createDate).getTime())
+            .map((taskHistory) => {
+              const iconId = TaskHistoryTypesConst.find(
+                (taskHistoryType: TaskHistoryType) => taskHistoryType.name === taskHistory.eventName
+              )?.id ?? 2;
+              const IconComponent = getIconTaskHistory(iconId);
+
+              return (
+                <Timeline.Item
+                  key={taskHistory.id}
+                  bullet={<IconComponent size={20} />}
+                  title={
+                    taskHistory.eventName +
+                    ' By ' +
+                    accounts?.find((account: AccountDetails) => account.id === taskHistory.author)?.email
+                  }
+                  w="100%"
+                >
+                  <Text c="dimmed" size="sm">
+                    {taskHistory.newState
+                      ? `${taskHistory.previousState} -> ${taskHistory.newState}`
+                      : ''}
+                  </Text>
+                  <Text size="xs" mt={4}>
+                    <TaskDate dateString={taskHistory.createDate.toString()} />
+                  </Text>
+                </Timeline.Item>
+              );
+            })}
+        </Timeline>
+
+    );
+  }

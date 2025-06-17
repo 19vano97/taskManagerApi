@@ -3,6 +3,7 @@ import { LoaderMain } from './LoaderMain';
 import { useEffect, useState } from 'react';
 import { useOrganizationApi } from '../api/taskManagerApi';
 import { useSafeAuth } from '../hooks/useSafeAuth';
+import { Link } from 'react-router-dom';
 
 export function Header({ opened, toggle }: { opened: boolean; toggle: () => void }) {
   const auth = useSafeAuth();
@@ -61,7 +62,7 @@ export function Header({ opened, toggle }: { opened: boolean; toggle: () => void
     };
 
     loadOrgs();
-  }, [auth?.isAuthenticated]); // Ensure auth is defined before accessing its properties
+  }, [auth?.isAuthenticated]);
 
   const handleOrgChange = (orgId: string | null) => {
     setSelectedOrgId(orgId);
@@ -85,7 +86,6 @@ export function Header({ opened, toggle }: { opened: boolean; toggle: () => void
     setSelectedProject(projectId);
     if (projectId) {
       localStorage.setItem('projectId', projectId);
-
       const kanbanEvent = new CustomEvent('updateKanban', { detail: { projectId } });
       window.dispatchEvent(kanbanEvent);
     } else {
@@ -96,15 +96,28 @@ export function Header({ opened, toggle }: { opened: boolean; toggle: () => void
   return (
     <Container fluid p="xs" style={{ display: 'flex', justifyContent: 'space-between', gap: '10px' }}>
       <Flex align="center" gap="xs">
-        <Image src="/logo.svg" alt="Logo" w={40} h={40} />
-        <Text
-          size="lg"
-          w={600}
-          style={{ fontFamily: 'Segoe UI, sans-serif', fontSize: 28, color: '#111', fontWeight: 600 }}
-        >
-          TaskType
-        </Text>
         <Burger size="sm" color="#111" opened={opened} onClick={toggle} />
+        <Flex
+          component={Link}
+          to="/"
+          align="center"
+          gap="xs"
+          style={{ textDecoration: 'none', cursor: 'pointer' }}
+        >
+          <Image src="/logo.svg" alt="Logo" w={40} h={40} />
+          <Text
+            size="lg"
+            w={600}
+            style={{
+              fontFamily: 'Segoe UI, sans-serif',
+              fontSize: 28,
+              color: '#111',
+              fontWeight: 600,
+            }}
+          >
+            TaskType
+          </Text>
+        </Flex>
       </Flex>
       <Flex justify="flex-start" align="center" gap="xs">
         {auth?.isLoading ? (

@@ -5,6 +5,7 @@ import { lazy, Suspense } from 'react'
 import { LoaderMain } from './components/LoaderMain'
 import '@mantine/core/styles.css'
 import '@mantine/tiptap/styles.css';
+import { TaskPage } from './pages/TaskPage'
 
 const Home = lazy(() => import('./pages/Home'))
 const Kanban = lazy(() => import('./pages/Kanban'))
@@ -14,52 +15,61 @@ const SignInOidcHandler = lazy(() => import('./auth/SignInOidcHandler'))
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<MainLayout />}>
-          <Route
-            index
-            element={
-              <Suspense fallback={<LoaderMain />}>
-                <Home />
-              </Suspense>
-            }
-          />
-          <Route
-            path="kanban"
-            element={
-              <Suspense fallback={<LoaderMain />}>
-                <Kanban />
-              </Suspense>
-            }
-          />
-          <Route
-            path="profile"
-            element={
-              <Suspense fallback={<LoaderMain />}>
-                <Profile />
-              </Suspense>
-            }
-          />
-          <Route
-            path="backlog"
-            element={
-              <Suspense fallback={<LoaderMain />}>
-                <Backlog />
-              </Suspense>
-            }
-          />
-          <Route
-            path="signin-oidc"
-            element={
-              <Suspense fallback={<LoaderMain />}>
-                <SignInOidcHandler />
-              </Suspense>
-            }
-          />
-        </Route>
-      </Routes>
-    </Router>
+    <Routes>
+      <Route path="/" element={<MainLayout />}>
+        <Route
+          index
+          element={
+            <Suspense fallback={<LoaderMain />}>
+              <Home />
+            </Suspense>
+          }
+        />
+        <Route
+          // path="project/:id/kanban"
+          path="kanban"
+          element={
+            <Suspense fallback={<LoaderMain />}>
+              <Kanban />
+            </Suspense>
+          }
+        />
+        <Route
+          path="profile"
+          element={
+            <Suspense fallback={<LoaderMain />}>
+              <Profile />
+            </Suspense>
+          }
+        />
+        <Route
+          // path="project/:id/backlog"
+          path="backlog"
+          element={
+            <Suspense fallback={<LoaderMain />}>
+              <Backlog />
+            </Suspense>
+          }
+        />
+        <Route
+          // path="project/:id/backlog"
+          path="task/:id"
+          element={
+            <Suspense fallback={<LoaderMain />}>
+              <TaskPage />
+            </Suspense>
+          }
+        />
+        <Route
+          path="signin-oidc"
+          element={
+            <Suspense fallback={<LoaderMain />}>
+              <SignInOidcHandler />
+            </Suspense>
+          }
+        />
+      </Route>
+    </Routes>
   );
 }
 

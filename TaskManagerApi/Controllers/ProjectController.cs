@@ -19,37 +19,44 @@ namespace TaskManagerApi.Controllers
         private IProjectService _projectService;
         private IProjectStatusesService _projectStatuses;
         private ITaskItemService _taskItemService;
+        private IAccountVerification _accountVerification;
         private TaskManagerAPIDbContext _context;
 
         public ProjectController(IProjectService projectService,
                                  IProjectStatusesService projectStatuses,
                                  ITaskItemService taskItemService,
+                                 IAccountVerification accountVerification,
                                  TaskManagerAPIDbContext context)
         {
             _projectService = projectService;
             _projectStatuses = projectStatuses;
             _taskItemService = taskItemService;
+            _accountVerification = accountVerification;
             _context = context;
         }
 
         [HttpGet("all")]
         public async Task<ActionResult<List<ProjectItemDto>>> GetAllProjectsListAsync()
         {
-            if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId)
-                || !Guid.TryParse(organizationId, out var organizationIdGuid)) 
-                return BadRequest("Invalid request");
+            if (!this.Request.Headers.TryGetValue("organizationId", out var organizationIdString)
+                || !Guid.TryParse(organizationIdString, out Guid organizationId)
+                || !Guid.TryParse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value, out Guid accountId)
+                || !await _accountVerification.VerifyAccountInOrganization(accountId, organizationId))
+                return BadRequest();
 
-            return Ok(await _projectService.GetProjectsAsync(organizationIdGuid));
+            return Ok(await _projectService.GetProjectsAsync(organizationId));
         }
 
         [HttpGet("all/tasks")]
         public async Task<ActionResult<List<ProjectItemWithTasksDto>>> GetAllProjectsWithTasksListAsync()
         {
-            if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId)
-                || !Guid.TryParse(organizationId, out var organizationIdGuid)) 
-                return BadRequest("Invalid request");
+            if (!this.Request.Headers.TryGetValue("organizationId", out var organizationIdString)
+                || !Guid.TryParse(organizationIdString, out Guid organizationId)
+                || !Guid.TryParse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value, out Guid accountId)
+                || !await _accountVerification.VerifyAccountInOrganization(accountId, organizationId))
+                return BadRequest();
 
-            var projects = await _projectService.GetProjectsAsync(organizationIdGuid);
+            var projects = await _projectService.GetProjectsAsync(organizationId);
             var projectList = new List<ProjectItemWithTasksDto>();
 
             foreach (var item in projects)
@@ -67,9 +74,9 @@ namespace TaskManagerApi.Controllers
         [HttpGet("{projectId}")]
         public async Task<ActionResult<ProjectItemWithTasksDto>> GetProjectByIdAsync(Guid projectId)
         {
-            if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId) 
-                || !await ValidateAccountOrganizationConnectionAsync(organizationId!, projectId)) 
-                return BadRequest("Invalid request");
+            if (!Guid.TryParse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value, out Guid accountId)
+                || !await _accountVerification.VerifyAccountInOrganizationByProject(accountId, projectId))
+                return BadRequest();
 
             var project = await _projectService.GetProjectByIdAsync(projectId);
 
@@ -82,9 +89,9 @@ namespace TaskManagerApi.Controllers
         [HttpGet("{projectId}/tasks")]
         public async Task<ActionResult<ProjectItemWithTasksDto>> GetProjectWithTasksByIdAsync(Guid projectId)
         {
-            if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId) 
-                || !await ValidateAccountOrganizationConnectionAsync(organizationId!, projectId)) 
-                return BadRequest("Invalid request");
+            if (!Guid.TryParse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value, out Guid accountId)
+                || !await _accountVerification.VerifyAccountInOrganizationByProject(accountId, projectId))
+                return BadRequest();
 
             var project = await _projectService.GetProjectByIdAsync(projectId);
 
@@ -102,9 +109,9 @@ namespace TaskManagerApi.Controllers
         [HttpGet("{projectId}/accounts")]
         public async Task<ActionResult<ProjectAccountsDto>> GetAccountsByProjectId(Guid projectId)
         {
-            if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId) 
-                || !await ValidateAccountOrganizationConnectionAsync(organizationId!, projectId)) 
-                return BadRequest("Invalid request");
+            if (!Guid.TryParse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value, out Guid accountId)
+                || !await _accountVerification.VerifyAccountInOrganizationByProject(accountId, projectId))
+                return BadRequest();
 
             var project = await _projectService.GetAccountsByProjectId(projectId);
 
@@ -117,10 +124,11 @@ namespace TaskManagerApi.Controllers
         [HttpPost("create")]
         public async Task<ActionResult<ProjectItemDto>> CreateProjectAsync(ProjectItemDto newProject)
         {
-            if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId) || !Guid.TryParse(organizationId, out var organizationIdGuid))
-                return BadRequest("Invalid request");
+            if (!Guid.TryParse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value, out Guid accountId)
+                || !await _accountVerification.VerifyAccountInOrganization(accountId, newProject.OrganizationId))
+                return BadRequest();
 
-            newProject.OrganizationId = organizationIdGuid;
+            newProject.OrganizationId = newProject.OrganizationId;
             newProject.OwnerId = Guid.Parse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value);
 
             var project = await _projectService.CreateProjectAsync(newProject);
@@ -131,12 +139,12 @@ namespace TaskManagerApi.Controllers
             return Ok(project);
         }
 
-        [HttpPut("edit/")]
+        [HttpPut("edit")]
         public async Task<ActionResult<ProjectItemDto>> EditProjectByIdAsync([FromBody] ProjectItemDto editProject)
         {
-            if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId) 
-                || !await ValidateAccountOrganizationConnectionAsync(organizationId!, editProject.Id)) 
-                return BadRequest("Invalid request");
+            if (!Guid.TryParse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value, out Guid accountId)
+                || !await _accountVerification.VerifyAccountInOrganization(accountId, editProject.OrganizationId))
+                return BadRequest();
 
             var project = await _projectService.EditProjectAsync(editProject);
 
@@ -146,42 +154,19 @@ namespace TaskManagerApi.Controllers
             return Ok(project);
         }
 
-        [HttpPut("edit/{projectId}/owner/{ownerId}")]
-        public async Task<ActionResult<ProjectItemDto>> ChangeProjectOwnerByIdAsync(Guid projectId, Guid ownerId)
-        {
-            if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId) 
-                || !await ValidateAccountOrganizationConnectionAsync(organizationId!, projectId)) 
-                return BadRequest("Invalid request");
-
-            var project = await _projectService.ChangeOwnerAsync(projectId, ownerId);
-
-            if (project is null)
-                return BadRequest();
-
-            return Ok(project);
-        }
-
         [HttpDelete("delete/{Id}")]
-        public async Task<ActionResult<ProjectItemDto>> DeleteProjectAsync(Guid Id)
+        public async Task<ActionResult<ProjectItemDto>> DeleteProjectAsync(Guid projectId)
         {
-            if(!this.Request.Headers.TryGetValue("organizationId", out var organizationId) 
-                || !await ValidateAccountOrganizationConnectionAsync(organizationId!, Id)) 
-                return BadRequest("Invalid request");
+            if (!Guid.TryParse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value, out Guid accountId)
+                || !await _accountVerification.VerifyAccountInOrganizationByProject(accountId, projectId))
+                return BadRequest();
 
-            var project = await _projectService.DeleteProjectAsync(Id);
+            var project = await _projectService.DeleteProjectAsync(projectId);
 
             if (project is null)
                 return BadRequest();
 
             return Ok(project);
-        }
-
-        private async Task<bool> ValidateAccountOrganizationConnectionAsync(string organizationId, Guid projectId)
-        {
-            return Guid.TryParse(organizationId, out var organizationIdGuid)
-                && await GeneralService.VerifyAccountRelatesToOrganization(_context, Guid.Parse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value)
-                    , organizationIdGuid) is not null
-                && await GeneralService.VerifyProjectInOrganization(_context, projectId, organizationIdGuid) is not null;
         }
     }
 }

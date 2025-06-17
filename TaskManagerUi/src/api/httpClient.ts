@@ -1,3 +1,5 @@
+import { useAuth } from "react-oidc-context"
+
 const taskManagerUrl = 'https://localhost:7099'
 const identityServerUrl = 'https://localhost:7270'
 
@@ -5,19 +7,27 @@ export const taskManagerApiClient = async (getToken: () => string | undefined,
                                            getOrganizationId: () => string | undefined,
                                            getProjectId: () => string | undefined) => {
   const request = async (path: string, options: RequestInit = {}) => {
+
     const token = getToken()
     const organizationId = getOrganizationId()
+    const projectId = getProjectId()
     const res = await fetch(`${taskManagerUrl}${path}`, {
       ...options,
       headers: {
         'Content-Type': 'application/json',
         Authorization: token ? `Bearer ${token}` : '',
         'organizationId': organizationId || '',
-        'projectId': organizationId || '',
+        'projectId': projectId || '',
         ...(options.headers || {})
       },
     })
-    if (!res.ok) throw new Error('API Error')
+    if (!res.ok) {
+      // if (res.status === 401) {
+      //     auth.signinSilent;
+      //   }
+
+        throw new Error('API Error');
+    }
     return res.json()
   }
 

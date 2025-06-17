@@ -49,6 +49,7 @@ export interface Task {
   assigneeId: string;
   projectId: string;
   parentId: string;
+  childIssues?: Task[]
   createDate: string;
   modifyDate: string;
 }
@@ -79,7 +80,7 @@ export interface TaskHistory {
   previousState:string;
   newState: string;
   author: string;
-  createDate: string;
+  createDate: Date;
   modifyDate: string;
 }
 
@@ -88,7 +89,7 @@ export interface ProjectResponse {
   tasks: Task[];
 }
 
-export type CreateTask = {
+export interface CreateTask {
   title: string;
   description: string;
   type: number  | null;
@@ -98,10 +99,15 @@ export type CreateTask = {
   parentId?: string | null;
 };
 
-export type TaskType = {
+export interface TaskType {
   id: number;
   name: string;
 };
+
+export interface TaskHistoryType {
+  id: number;
+  name: string;
+}
 
 
 export interface AccountDetails {

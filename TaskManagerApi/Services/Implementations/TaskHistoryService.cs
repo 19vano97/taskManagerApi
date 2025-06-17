@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using TaskManagerApi.Models.TaskHistory;
 using TaskManagerApi.Services.Interfaces;
@@ -34,15 +35,24 @@ public class TaskHistoryService : ITaskHistoryService
 
     public async Task<List<TaskHistoryDto>> GetHistoryByTaskId(Guid taskId)
     {
-        var httpClient = _httpClientFactory.CreateClient("taskHistory");
-        var response = await httpClient.GetFromJsonAsync<List<TaskHistoryDto>>($"api/thistory/info/{taskId}");
-
-        if (response is null)
+        try
         {
-            _logger.LogWarning("no reponce");
-            return null!;
+            var httpClient = _httpClientFactory.CreateClient("taskHistory");
+            var response = await httpClient.GetFromJsonAsync<List<TaskHistoryDto>>($"api/thistory/info/{taskId}");
+        
+            if (response is null)
+            {
+                _logger.LogWarning("no reponce");
+                return null!;
+            }
+
+            return response;
+        }
+        catch (System.Exception er)
+        {
+            _logger.LogError(er.ToString());
         }
 
-        return response;
+        return null!;
     }
 }

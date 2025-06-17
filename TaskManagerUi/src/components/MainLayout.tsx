@@ -6,16 +6,20 @@ import { Footer } from '../components/Footer'
 import { useDisclosure } from '@mantine/hooks'
 import { LoaderMain } from './LoaderMain'
 import { useSafeAuth } from '../hooks/useSafeAuth'
+import { useEffect } from 'react'
 
 export const MainLayout = () => {
   const [opened, { toggle }] = useDisclosure(false);
   const auth = useSafeAuth();
 
-  if (auth.isLoading) return <LoaderMain />;
+  useEffect(() => {
+    if (!auth.isLoading && !auth.isAuthenticated) {
+      auth.signinRedirect();
+    }
+  }, [auth]);
 
-  if (!auth.isAuthenticated) {
-    auth.signinRedirect();
-    return <LoaderMain />; 
+  if (auth.isLoading || !auth.isAuthenticated) {
+    return <LoaderMain />;
   }
   
   return (

@@ -1,4 +1,3 @@
-// src/MantineThemeWrapper.tsx
 import { MantineProvider, createTheme } from '@mantine/core';
 import { useColorScheme } from '@mantine/hooks';
 import { useState } from 'react';

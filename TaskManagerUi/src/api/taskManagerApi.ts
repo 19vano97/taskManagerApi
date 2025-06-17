@@ -42,13 +42,16 @@ export const useProjectApi = () => {
 
   return {
     // Fetch all projects for the organization
-    getAllProjects: async () => (await apiPromise).get(`${defaultPath}/all`),
+    getAllProjects: async () =>
+      (await apiPromise).get(`${defaultPath}/all`),
 
     // Fetch all projects with their tasks
-    getAllProjectsWithTasks: async () => (await apiPromise).get(`${defaultPath}/all/tasks`),
+    getAllProjectsWithTasks: async () =>
+      (await apiPromise).get(`${defaultPath}/all/tasks`),
 
     // Fetch a specific project by its ID
-    getProjectById: async (projectId: string) => (await apiPromise).get(`${defaultPath}/${projectId}`),
+    getProjectById: async (projectId: string) =>
+      (await apiPromise).get(`${defaultPath}/${projectId}`),
 
     // Fetch a specific project with its tasks by project ID
     getProjectWithTasksById: async (projectId: string) =>
@@ -59,10 +62,12 @@ export const useProjectApi = () => {
       (await apiPromise).get(`${defaultPath}/${projectId}/accounts`),
 
     // Create a new project
-    createProject: async (data: any) => (await apiPromise).post(`${defaultPath}/create`, data),
+    createProject: async (data: any) =>
+      (await apiPromise).post(`${defaultPath}/create`, data),
 
     // Edit an existing project
-    editProject: async (data: any) => (await apiPromise).put(`${defaultPath}/edit/`, data),
+    editProject: async (data: any) =>
+      (await apiPromise).put(`${defaultPath}/edit`, data),
 
     // Delete a project by its ID
     deleteProject: async (projectId: string) =>

@@ -34,6 +34,7 @@ builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<IOrganizationService, OrganizationService>();
 builder.Services.AddScoped<IProjectStatusesService, ProjectStatusesService>();
 builder.Services.AddScoped<ITaskHistoryService, TaskHistoryService>();
+builder.Services.AddScoped<IAccountVerification, AccountVerification>();
 builder.WebHost.ConfigureKestrel(options =>
     {
         options.ListenAnyIP(5220);

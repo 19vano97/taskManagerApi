@@ -14,7 +14,5 @@ public interface ITaskItemService
     Task<TaskItemDto> EditTaskByIdAsync(Guid Id, TaskItemDto newTask);
     Task<TaskItemDto> GetTaskByIdAsync(Guid taskId);
     Task<TaskItemDto> DeleteTaskAsync(Guid Id);
-    Task<TaskItemDto> ChangeTaskStatusAsync(Guid taskId, int newStatus);
-    Task<TaskItemDto> AddParentTicket(Guid parentId, Guid childId);
     public event EventHandler<TaskHistoryEventArgs> TaskHistoryEventArgs;
 }

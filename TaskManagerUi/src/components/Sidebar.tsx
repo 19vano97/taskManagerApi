@@ -1,27 +1,23 @@
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useInRouterContext, useLocation } from 'react-router-dom';
 import { ActionIcon, Burger, Container, Stack, Text, useMantineColorScheme } from '@mantine/core';
 import { useState } from 'react';
 import classes from '../styles/Sidebar.module.css';
-import {
-  IconHome,
-  IconBrandTrello,
-  IconPackages,
-  IconUserCircle,
-  IconSun,
-  IconMoon,
-} from '@tabler/icons-react';
+import { House, Kanban, Scroll, UserRoundPen, Sun, Moon } from 'lucide-react';
 
 const data = [
-  { link: '/#', label: 'Home', icon: IconHome },
-  { link: '/kanban', label: 'Kanban', icon: IconBrandTrello },
-  { link: '/backlog', label: 'Backlog', icon: IconPackages },
-  { link: '/profile', label: 'Profile', icon: IconUserCircle },
+  { link: '/#', label: 'Home', icon: House },
+  { link: '/kanban', label: 'Kanban', icon: Kanban },
+  { link: '/backlog', label: 'Backlog', icon: Scroll },
+  { link: '/profile', label: 'Profile', icon: UserRoundPen },
 ];
 
 // export function Sidebar({ opened, toggle }: { opened: boolean; toggle: () => void }) {
 export function Sidebar() {
+  const inRouter = useInRouterContext();
   const location = useLocation();
   const { colorScheme, setColorScheme } = useMantineColorScheme();
+
+  if (!inRouter) return null;
 
   const links = data.map((item) => (
     <NavLink
@@ -31,7 +27,7 @@ export function Sidebar() {
         `${classes.link} ${isActive ? classes.active : ''}`
       }
     >
-      <item.icon className={classes.linkIcon} stroke={1.5} />
+      <item.icon className={classes.linkIcon} />
       <span>{item.label}</span>
     </NavLink>
   ));
@@ -45,7 +41,7 @@ export function Sidebar() {
           size="lg"
           aria-label="Toggle color scheme"
         >
-          {colorScheme === 'dark' ? <IconSun size={18} /> : <IconMoon size={18} />}
+          {colorScheme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
       </ActionIcon>
 
       {/* <div className={classes.footer}>

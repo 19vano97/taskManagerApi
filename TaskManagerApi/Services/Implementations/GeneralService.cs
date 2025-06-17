@@ -59,7 +59,7 @@ public class GeneralService
         return newList.OrderBy(t => t.Order).ToList();
     }
 
-    public static TaskItemDto ConvertTaskToDtoAsync(TaskItem task)
+    public static TaskItemDto ConvertTaskToDto(TaskItem task)
     {
         return new TaskItemDto
         {
@@ -67,9 +67,9 @@ public class GeneralService
             Title = task!.Title,
             Description = task.Description,
             StatusId = task.StatusId,
-            StatusName = task.TaskItemStatus.Name,
+            StatusName = task.TaskItemStatus?.Name ?? null,
             Type = task.TypeId,
-            TypeName = task.TaskType.Name,
+            TypeName = task.TaskType?.Name ?? null,
             ProjectId = task.ProjectId,
             ReporterId = task.ReporterId,
             AssigneeId = task.AssigneeId,

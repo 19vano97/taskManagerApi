@@ -1,15 +1,22 @@
 import { useEffect, useState } from "react"
-import { useProjectApi } from "../api/taskManagerApi"
-import type { Task } from "../components/Types"
+import { useOrganizationApi, useProjectApi } from "../api/taskManagerApi"
+import type { AccountDetails, Task } from "../components/Types"
 import { Button, Container, Flex, Title } from "@mantine/core"
 import { TaskDialog } from "../components/TicketView/TaskDialog"
 import { TaskBacklog } from "../components/Backlog/TaskBacklog"
+import { useParams } from "react-router-dom"
+import { TaskTable } from "../components/TicketView/TableTickets"
+import { useIdentityServerApi } from "../api/IdentityServerApi"
 
 const Backlog = () => {
-    const { getProjectWithTasksById } = useProjectApi()
-
+    const { getProjectWithTasksById } = useProjectApi();
+    const { id } = useParams<{ id: string }>();
     const [tasks, setTasks] = useState<Task[]>([])
     const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+    const [accountsLoading, setAccountsLoading] = useState(false);
+    const { getOrganizationAccounts } = useOrganizationApi();
+    const { getAllAccountDetails } = useIdentityServerApi();
+    const [accounts, setAccounts ] = useState<AccountDetails[]>([]);
     const [dialogOpen, setDialogOpen] = useState(false);
     const openTaskDialog = (task: Task) => {
         setSelectedTask(task);
@@ -26,6 +33,7 @@ const Backlog = () => {
     
         const fetchOrganizationProjects = async () => {
             try {
+                // const data = await getProjectWithTasksById(id || '')
                 const data = await getProjectWithTasksById(localStorage.getItem('projectId') || '')
                 setTasks(data.tasks || [])
             } catch (error) {
@@ -40,7 +48,7 @@ const Backlog = () => {
         }, [])
 
         useEffect(() => {
-            const handleKanbanUpdate = (event: Event) => {
+            const handleBacklogUpdate = (event: Event) => {
                 const customEvent = event as CustomEvent;
                 const { projectId } = customEvent.detail;
                 if (projectId) {
@@ -52,11 +60,27 @@ const Backlog = () => {
                 }
             };
 
-            window.addEventListener('updateKanban', handleKanbanUpdate as EventListener);
+            window.addEventListener('updateBacklog', handleBacklogUpdate as EventListener);
 
             return () => {
-                window.removeEventListener('updateKanban', handleKanbanUpdate as EventListener);
+                window.removeEventListener('updateBacklog', handleBacklogUpdate as EventListener);
             };
+        }, []);
+
+        useEffect(() => {
+            const fetchOrganizationAccounts = async () => {
+                setAccountsLoading(true); // Start loading
+                try {
+                    const data = await getOrganizationAccounts();
+                    const dataAccountDetails = await getAllAccountDetails(data.accounts);
+                    setAccounts(dataAccountDetails);
+                } catch (error) {
+                    console.error('Error fetching accounts:', error);
+                } finally {
+                    setAccountsLoading(false); // End loading
+                }
+            };
+            fetchOrganizationAccounts();
         }, []);
 
         return (
@@ -78,13 +102,7 @@ const Backlog = () => {
                     </Flex>
                 </Flex>
                 <Flex gap="md" align="flex-start" wrap="wrap">
-                    {tasks.map((task) => (
-                        <TaskBacklog
-                            key={task.id}
-                            task={task}
-                            onTaskClick = {openTaskDialog}  
-                        />
-                    ))}
+                    <TaskTable tasks={tasks} accounts={accounts} onTaskClick={openTaskDialog} />
                 </Flex>
                 {selectedTask && (
                     <TaskDialog task={selectedTask} opened={dialogOpen} onClose={closeTaskDialog} />

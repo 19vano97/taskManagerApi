@@ -18,6 +18,7 @@ public class TaskItemDto
     public Guid? AssigneeId { get; set; }
     public Guid? ProjectId { get; set; }
     public Guid? ParentId { get; set; }
+    public List<TaskItemDto>? ChildIssues { get; set; }
     public DateTime CreateDate { get; set; } = DateTime.UtcNow;
     public DateTime ModifyDate { get; set; } = DateTime.UtcNow;
 }
