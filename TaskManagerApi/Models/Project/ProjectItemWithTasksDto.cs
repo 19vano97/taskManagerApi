@@ -6,5 +6,5 @@ namespace TaskManagerApi.Models.Project;
 public class ProjectItemWithTasksDto
 {
     public ProjectItemDto Project { get; set; }
-    public List<TaskItemDto> Tasks { get; set; }
+    public List<TicketDto> Tasks { get; set; }
 }

@@ -1,117 +1,73 @@
-import { Text, Container, Flex, Image, Select, Button, Burger } from '@mantine/core';
-import { LoaderMain } from './LoaderMain';
+import {
+  Text,
+  Container,
+  Flex,
+  Image,
+  Select,
+  Button,
+  Burger,
+  Menu,
+  UnstyledButton,
+  Group,
+  Avatar,
+  Loader,
+  useMantineColorScheme,
+} from '@mantine/core';
 import { useEffect, useState } from 'react';
-import { useOrganizationApi } from '../api/taskManagerApi';
 import { useSafeAuth } from '../hooks/useSafeAuth';
-import { Link } from 'react-router-dom';
+import { useInRouterContext, useNavigate } from 'react-router-dom';
+import { ChevronDown, CircleUserRound, Moon, Sun } from 'lucide-react';
+import classes from '../styles/Header.module.css';
+import cx from 'clsx';
+import type { AccountDetails } from './Types';
+import { useIdentityServerApi } from '../api/IdentityServerApi';
 
 export function Header({ opened, toggle }: { opened: boolean; toggle: () => void }) {
   const auth = useSafeAuth();
-  const { getOrganizationProjects } = useOrganizationApi();
+  const { getAccountDetails } = useIdentityServerApi();
+  const [account, setAccount] = useState<AccountDetails>();
+  const [userMenuOpened, setUserMenuOpened] = useState(false);
+  const nav = useNavigate();
+  const { colorScheme, setColorScheme } = useMantineColorScheme();
+  const isDark = colorScheme === 'dark';
+  const inRouter = useInRouterContext();
 
-  const [orgOptions, setOrgOptions] = useState<
-    { value: string; label: string; projects?: { id: string; title: string }[] }[]
-  >([]);
-  const [projectOptions, setProjectOptions] = useState<{ value: string; label: string }[]>([]);
-  const [selectedOrgId, setSelectedOrgId] = useState<string | null>(null);
-  const [selectedProject, setSelectedProject] = useState<string | null>(null);
+  if (!inRouter) return null;
+
+  const fetchAccount = async () => {
+    try {
+      const data = await getAccountDetails();
+      setAccount(data.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   useEffect(() => {
-    const savedOrgId = localStorage.getItem('organizationId');
-    const savedProjectId = localStorage.getItem('projectId');
-
-    setSelectedOrgId(savedOrgId || null);
-    setSelectedProject(savedProjectId || null);
+    fetchAccount();
+    const intervalId = setInterval(fetchAccount, 60 * 1000);
+    return () => clearInterval(intervalId);
   }, []);
 
-  useEffect(() => {
-    if (!auth || !auth.isAuthenticated) return; // Fallback check for auth
-
-    const loadOrgs = async () => {
-      try {
-        const data = await getOrganizationProjects();
-        const mappedOrgs = data.map((org: any) => ({
-          value: org.id,
-          label: org.name,
-          projects: org.projects,
-        }));
-        setOrgOptions(mappedOrgs);
-
-        const savedOrgId = localStorage.getItem('organizationId');
-        if (savedOrgId) {
-          const selectedOrg = mappedOrgs.find((org: { value: string; label: string; projects?: { id: string; title: string }[] }) => org.value === savedOrgId);
-          if (selectedOrg && selectedOrg.projects) {
-            const mappedProjects = selectedOrg.projects.map((p: any) => ({
-              value: p.id,
-              label: p.title,
-            }));
-            setProjectOptions(mappedProjects);
-
-            const savedProjectId = localStorage.getItem('projectId');
-            if (savedProjectId) {
-              const selectedProject = mappedProjects.find((p: { value: string; label: string }) => p.value === savedProjectId);
-              if (selectedProject) {
-                setSelectedProject(savedProjectId);
-              }
-            }
-          }
-        }
-      } catch (error) {
-        console.error('Error fetching organizations:', error);
-      }
-    };
-
-    loadOrgs();
-  }, [auth?.isAuthenticated]);
-
-  const handleOrgChange = (orgId: string | null) => {
-    setSelectedOrgId(orgId);
-    setSelectedProject(null);
-
-    const selectedOrg = orgOptions.find((org) => org.value === orgId);
-    if (selectedOrg && selectedOrg.projects) {
-      const mappedProjects = selectedOrg.projects.map((p: any) => ({
-        value: p.id,
-        label: p.title,
-      }));
-      setProjectOptions(mappedProjects);
-      localStorage.setItem('organizationId', orgId || '');
-      localStorage.setItem('projectId', '');
-    } else {
-      setProjectOptions([]);
-    }
-  };
-
-  const handleProjectChange = (projectId: string | null) => {
-    setSelectedProject(projectId);
-    if (projectId) {
-      localStorage.setItem('projectId', projectId);
-      const kanbanEvent = new CustomEvent('updateKanban', { detail: { projectId } });
-      window.dispatchEvent(kanbanEvent);
-    } else {
-      localStorage.removeItem('projectId');
-    }
-  };
+  const getInitials = (firstName: string, lastName: string) =>
+    `${firstName?.[0] ?? ''}${lastName?.[0] ?? ''}`.toUpperCase();
 
   return (
-    <Container fluid p="xs" style={{ display: 'flex', justifyContent: 'space-between', gap: '10px' }}>
+    <Container fluid p="xs" style={{ display: 'flex', justifyContent: 'space-between', gap: '10px', flexWrap: 'wrap' }}>
       <Flex align="center" gap="xs">
-        <Burger size="sm" color="#111" opened={opened} onClick={toggle} />
+        <Burger size="sm" color={isDark ? "white" : "black"} opened={opened} onClick={toggle} />
         <Flex
-          component={Link}
-          to="/"
           align="center"
           gap="xs"
           style={{ textDecoration: 'none', cursor: 'pointer' }}
+          onClick={() => nav('/')}
         >
-          <Image src="/logo.svg" alt="Logo" w={40} h={40} />
+          <Image src="/logo.svg" alt="Logo" w={28} h={28} />
           <Text
             size="lg"
-            w={600}
+            c={isDark ? "white" : "black"}
             style={{
               fontFamily: 'Segoe UI, sans-serif',
-              fontSize: 28,
-              color: '#111',
               fontWeight: 600,
             }}
           >
@@ -119,31 +75,59 @@ export function Header({ opened, toggle }: { opened: boolean; toggle: () => void
           </Text>
         </Flex>
       </Flex>
-      <Flex justify="flex-start" align="center" gap="xs">
+
+      <Flex justify="flex-end" align="center" gap="xs" style={{ flexWrap: 'wrap' }}>
         {auth?.isLoading ? (
-          <LoaderMain />
-        ) : auth?.isAuthenticated ? (
-          <Flex gap="xs" align="center">
-            <Select
-              placeholder="Select Organization"
-              data={orgOptions}
-              value={selectedOrgId}
-              onChange={handleOrgChange}
-              searchable
-            />
-            <Select
-              placeholder="Select Project"
-              data={projectOptions}
-              value={selectedProject}
-              onChange={handleProjectChange}
-              searchable
-              disabled={!selectedOrgId}
-            />
-            <Text size="md">{auth.user?.profile.email}</Text>
-            <Button variant="outline" onClick={() => auth.signoutRedirect()}>
-              Logout
-            </Button>
-          </Flex>
+          <Loader />
+        ) : auth?.isAuthenticated && account ? (
+          <Menu
+            width={260}
+            position="bottom-end"
+            transitionProps={{ transition: 'pop-top-right' }}
+            onClose={() => setUserMenuOpened(false)}
+            onOpen={() => setUserMenuOpened(true)}
+            withinPortal
+          >
+            <Menu.Target>
+              <UnstyledButton
+                className={cx(classes.user, { [classes.userActive]: userMenuOpened })}
+              >
+                <Group gap={7}>
+                  <Avatar color="blue" radius="xl" size="md">
+                    {getInitials(account.firstName, account.lastName)}
+                  </Avatar>
+                  <Flex direction="column" gap={0} align="flex-end">
+                    <Text fw={500} size="sm" lh={1} style={{ maxWidth: 130, textAlign: 'right' }} lineClamp={1}>
+                      {account.firstName} {account.lastName}
+                    </Text>
+                    <Text fw={400} size="xs" c="dimmed" lh={1} style={{ maxWidth: 130 }} lineClamp={1}>
+                      {account.email}
+                    </Text>
+                  </Flex>
+                  <ChevronDown size={12} />
+                </Group>
+              </UnstyledButton>
+            </Menu.Target>
+            <Menu.Dropdown>
+              <Menu.Item
+                component="a"
+                href="/profile"
+                leftSection={<CircleUserRound size={14} />}
+              >
+                Profile
+              </Menu.Item>
+              <Menu.Item
+                onClick={() => setColorScheme(colorScheme === 'dark' ? 'light' : 'dark')}
+                leftSection={colorScheme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+              >
+                {colorScheme === 'dark' ? 'Light mode' : 'Dark mode'}
+              </Menu.Item>
+              <Menu.Divider />
+              <Menu.Item onClick={() => auth.signoutRedirect()} color="red">
+                Logout
+              </Menu.Item>
+            </Menu.Dropdown>
+          </Menu>
         ) : (
           <Button onClick={() => auth.signinRedirect()}>Login</Button>
         )}

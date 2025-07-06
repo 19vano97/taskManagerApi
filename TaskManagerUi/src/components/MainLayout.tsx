@@ -1,4 +1,4 @@
-import { AppShell } from '@mantine/core'
+import { AppShell, Container } from '@mantine/core'
 import { Outlet } from 'react-router-dom'
 import { Header } from '../components/Header'
 import { Sidebar } from '../components/Sidebar'
@@ -53,7 +53,9 @@ export const MainLayout = () => {
       </AppShell.Footer>
 
       <AppShell.Main>
+        <Container size={1300} px="md">
         <Outlet />
+        </Container>
       </AppShell.Main>
     </AppShell>
   )

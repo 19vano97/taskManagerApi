@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useOrganizationApi, useProjectApi, useTaskApi } from '../../api/taskManagerApi';
-import type { AccountDetails, Project, Status, Task, TaskStatus, TaskType } from '../Types';
+import type { AccountDetails, OrganizationDetails, Project, Status, Task, TaskStatus, TaskType } from '../Types';
 import { Card, Text, Group, Badge, Dialog, Modal, Flex, Fieldset, Select, Input, Button, ScrollArea } from '@mantine/core';
 import { LoaderMain } from '../LoaderMain';
 import { useEditor } from '@tiptap/react';
@@ -11,6 +11,7 @@ import TextAlign from '@tiptap/extension-text-align';
 import Superscript from '@tiptap/extension-superscript';
 import SubScript from '@tiptap/extension-subscript';
 import Link from '@tiptap/extension-link';
+
 import { TicketDesciption } from '../TicketView/TicketDesciption';
 import { TaskTypesBadge, taskTypesConst } from './TaskTypeBadge';
 import { useIdentityServerApi } from '../../api/IdentityServerApi';
@@ -20,20 +21,21 @@ import { TaskTypeDropdown } from '../DropdownData/TaskTypeDropdown';
 import { TaskDropdown } from '../DropdownData/TaskDropdown';
 import { AccountDropdown } from '../DropdownData/AccountDropdown';
 import { TaskAdditionalInfo } from './TaskAdditionalInfo';
-import { TaskTable } from './TableTickets';
+import { TableTickets } from './TableTickets';
 
 type TaskDialogProps = {
+    organizationId: string;
     task: Task;
     opened: boolean;
     onClose: () => void;
 };
 
-export const TaskDialog = ({ task, opened, onClose }: TaskDialogProps) => {
-    const { getTaskById, getAllTasks } = useTaskApi();
-    const { getAllProjects } = useProjectApi();
+export const TaskDialog = ({organizationId, task, opened, onClose }: TaskDialogProps) => {
+    const { getTaskById, getAllTasksByOrganization } = useTaskApi();
+    const { getOrganizationProjectsById } = useOrganizationApi();
     const { editTask } = useTaskApi();
-    const { getOrganizationAccounts } = useOrganizationApi();
     const { getAllAccountDetails } = useIdentityServerApi();
+    const [ organization, setOrganization] = useState<OrganizationDetails>();
     const [taskDetails, setTaskDetails] = useState<Task | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -43,7 +45,7 @@ export const TaskDialog = ({ task, opened, onClose }: TaskDialogProps) => {
     const [selectedParentTaskId, setSelectedParentTaskId] = useState<string | null>(null);
     const [taskType, setTaskType] = useState<TaskType | null>(null);
     const [projects, setProjects] = useState<Project[] | null>(null);
-    const [accounts, setAccounts ] = useState<AccountDetails[]>([]);
+    const [accounts, setAccounts] = useState<AccountDetails[]>([]);
     const [reporterId, setReporterId] = useState<AccountDetails | null>(null);
     const [assigneeId, setAssigneeId] = useState<AccountDetails | null>(null);
     const [taskStatus, setTaskStatus] = useState<Status | null>(null);
@@ -68,72 +70,73 @@ export const TaskDialog = ({ task, opened, onClose }: TaskDialogProps) => {
         ],
     });
     const openTaskDialog = (task: Task) => {
-                setSelectedTask(task);
-                setDialogOpen(true);
-                };
-        
+        setSelectedTask(task);
+        setDialogOpen(true);
+    };
+
     const closeTaskDialog = () => {
         setSelectedTask(null);
         setDialogOpen(false);
-        };
+    };
 
     useEffect(() => {
         if (!task.id) return;
-    
+
         const fetchTaskDetails = async () => {
             setLoading(true);
             try {
                 const data = await getTaskById(task.id);
-                setTaskDetails(data);
+                setTaskDetails(data.data);
             } catch {
                 setError('Failed to load task details');
             } finally {
                 setLoading(false);
             }
         };
-    
+
         fetchTaskDetails();
     }, [task.id]);
-    
-    
+
+
     useEffect(() => {
         if (!taskDetails) return;
-    
+
         const fetchProjects = async () => {
             try {
-                const data = await getAllProjects();
-                setProjects(data);
-                const project = data.find((p: { id: string; }) => p.id === taskDetails.projectId);
-    
+                const data = await getOrganizationProjectsById(organizationId);
+                setOrganization(data.data);
+                setProjects(data.data.projects);
+                const project = data.data.projects.find((p: Project) => p.id !== undefined && p.id === taskDetails.projectId);
+
                 if (project) {
-                    const status = project.statuses.find((s: { statusId: number; }) => s.statusId === taskDetails.statusId) || null;
+                    const status = project.statuses?.find((s: { statusId: number; }) => s.statusId === taskDetails.statusId) || null;
                     setTaskStatus(status);
                 }
-    
-                const type = taskTypes.find((t) => t.id === taskDetails.type) || null;
+
+                const type = taskTypes.find((t) => t.id === taskDetails.typeId) || null;
                 setTaskType(type);
             } catch (error) {
                 console.error('Error fetching projects:', error);
             }
         };
-    
+
         fetchProjects();
     }, [taskDetails]);
-    
-    
+
+
     useEffect(() => {
         if (!taskDetails) return;
-    
+
         const fetchOrganizationAccounts = async () => {
             setAccountsLoading(true);
+            if (!organization) return null;
             try {
-                const data = await getOrganizationAccounts();
-                const accountDetails = await getAllAccountDetails(data.accounts);
-                setAccounts(accountDetails);
-    
-                const reporter = accountDetails.find((a: { id: string; }) => a.id === taskDetails.reporterId) || null;
-                const assignee = accountDetails.find((a: { id: string; }) => a.id === taskDetails.assigneeId) || null;
-    
+                const accountDetails = await getAllAccountDetails(organization?.accounts);
+                setAccounts(accountDetails.data);
+
+                const reporter = accountDetails.data.find((a) => a.id !== undefined && a.id === taskDetails.reporterId) || null;
+                const assignee = accountDetails.data.find((a) => a.id !== undefined && a.id === taskDetails.assigneeId) || null;
+
                 setReporterId(reporter);
                 setAssigneeId(assignee);
             } catch (error) {
@@ -142,23 +145,23 @@ export const TaskDialog = ({ task, opened, onClose }: TaskDialogProps) => {
                 setAccountsLoading(false);
             }
         };
-    
+
         fetchOrganizationAccounts();
     }, [taskDetails]);
-    
-    
+
+
     useEffect(() => {
         const fetchTasks = async () => {
             try {
-                const data = await getAllTasks();
-                setTasks(data);
+                const data = await getAllTasksByOrganization(organizationId);
+                setTasks(data.data);
             } catch (error) {
                 console.error('Error fetching tasks:', error);
-            } 
+            }
         };
         fetchTasks();
     }, []);
-    
+
     useEffect(() => {
         if (taskDetails) {
             setTaskTitle(taskDetails.title || '');
@@ -167,7 +170,7 @@ export const TaskDialog = ({ task, opened, onClose }: TaskDialogProps) => {
             setOriginalDescription(taskDetails.description || '');
             setSelectedProjectId(taskDetails.projectId || null);
             setSelectedParentTaskId(taskDetails.parentId || null);
-            setTaskType(taskTypes.find(type => type.id === taskDetails.type) || null);
+            setTaskType(taskTypes.find(type => type.id === taskDetails.typeId) || null);
         }
     }, [taskDetails]);
 
@@ -231,7 +234,7 @@ export const TaskDialog = ({ task, opened, onClose }: TaskDialogProps) => {
     const handleTaskTypeChange = (selectedType: TaskType | null) => {
         setTaskType(selectedType);
         if (selectedType && taskDetails) {
-            taskDetails!.type = selectedType.id
+            taskDetails!.typeId = selectedType.id
             handleEditTask();
         }
     };
@@ -247,8 +250,8 @@ export const TaskDialog = ({ task, opened, onClose }: TaskDialogProps) => {
 
     const handleReporterChange = (value: AccountDetails | null) => {
         setReporterId(value);
-        if (value && taskDetails) {
-            taskDetails.reporterId = value.id;
+        if (value && taskDetails && value.id) {
+            taskDetails.reporterId = value.id ?? '';
             handleEditTask();
         }
     }
@@ -256,7 +259,7 @@ export const TaskDialog = ({ task, opened, onClose }: TaskDialogProps) => {
     const handleAssigneeChange = (value: AccountDetails | null) => {
         setAssigneeId(value);
         if (value && taskDetails) {
-            taskDetails.assigneeId = value.id;
+            taskDetails.assigneeId = value.id ?? '';
             handleEditTask();
         }
     }
@@ -266,7 +269,7 @@ export const TaskDialog = ({ task, opened, onClose }: TaskDialogProps) => {
             id: taskDetails!.id,
             title: taskDetails?.title || taskTitle || null,
             description: taskDetails?.description || taskDescription || null,
-            type: taskDetails?.type || taskType?.id || null,
+            type: taskDetails?.typeId || taskType?.id || null,
             reporterId: taskDetails?.reporterId || reporterId?.id || null,
             assigneeId: taskDetails?.assigneeId || assigneeId?.id || null,
             projectId: taskDetails?.projectId || selectedProjectId || null,
@@ -296,24 +299,23 @@ export const TaskDialog = ({ task, opened, onClose }: TaskDialogProps) => {
             ) : error ? (
                 <Text c="red">{error}</Text>
             ) : taskDetails ? (
-                <Card 
-                    shadow="sm" 
-                    padding="lg" 
-                    radius="md" 
-                    withBorder 
+                <Card
+                    shadow="sm"
+                    padding="lg"
+                    radius="md"
+                    withBorder
                     style={{ maxWidth: '1200px' }}
                 >
-                    <ScrollArea h={800} type="scroll">
-                        <Flex justify="space-between" align="center" mb="md">
-                            <Fieldset legend="Summary" mb="md" style={{ width: '100%' }}>
-                                {!isEditingTitle ? (
-                                    <div onClick={handleStartEditingTitle} style={{ cursor: 'pointer', padding: '6px 8px' }}>
+                    <Flex justify="space-between" align="center" mb="md">
+                        <Fieldset legend="Summary" mb="md" style={{ width: '100%' }}>
+                            {!isEditingTitle ? (
+                                <div onClick={handleStartEditingTitle} style={{ cursor: 'pointer', padding: '6px 8px' }}>
                                     <Text size="sm" fw={500}>
                                         {taskTitle || <i style={{ color: '#aaa' }}>Click to add title</i>}
                                     </Text>
-                                    </div>
-                                ) : (
-                                    <>
+                                </div>
+                            ) : (
+                                <>
                                     <Input
                                         value={taskTitle}
                                         onChange={handleTaskTitleChange}
@@ -322,105 +324,110 @@ export const TaskDialog = ({ task, opened, onClose }: TaskDialogProps) => {
                                     />
                                     <Flex mt="sm" gap="sm" justify="flex-end">
                                         <Button size="xs" color="gray" onClick={handleCancelEditingTitle}>
-                                        Cancel
+                                            Cancel
                                         </Button>
                                         <Button size="xs" color="blue" onClick={handleSaveEditingTitle}>
-                                        Save
+                                            Save
                                         </Button>
                                     </Flex>
-                                    </>
-                                )}
-                            </Fieldset>
-                        </Flex>
-                        <Flex justify="space-between" align="center" mb="md">
-                            <Fieldset legend="Description" mb="md" style={{ width: '100%', minHeight: '300px' }}>
-                                {!isEditingDescription ? (
-                                    <div
-                                        style={{ minHeight: '150px', cursor: 'pointer' }}
-                                        onClick={handleStartEditingDescription}
-                                        dangerouslySetInnerHTML={{ __html: taskDescription || '<i>Click to add description</i>' }}
-                                    />
-                                ) : (
-                                    <>
+                                </>
+                            )}
+                        </Fieldset>
+                    </Flex>
+                    <Flex justify="space-between" align="center" mb="md">
+                        <Fieldset legend="Description" mb="md" style={{ width: '100%', minHeight: '300px' }}>
+                            {!isEditingDescription ? (
+                                <div
+                                    style={{ minHeight: '150px', cursor: 'pointer' }}
+                                    onClick={handleStartEditingDescription}
+                                    dangerouslySetInnerHTML={{ __html: taskDescription || '<i>Click to add description</i>' }}
+                                />
+                            ) : (
+                                <>
                                     <TicketDesciption editor={editor} content={taskDescription} onChange={handleTaskDescriptionChange} />
                                     <Flex mt="sm" gap="sm" justify="flex-end">
                                         <Button size="xs" color="gray" onClick={handleCancelEditingDescription}>
-                                        Cancel
+                                            Cancel
                                         </Button>
                                         <Button size="xs" color="blue" onClick={handleSaveEditingDescription}>
-                                        Save
+                                            Save
                                         </Button>
                                     </Flex>
-                                    </>
-                                )}
-                            </Fieldset>
-                        </Flex>
-                        <Flex justify="space-between" align="center" mb="md">
-                            <Fieldset legend="Status" style={{ width: '50%' }}>
-                                <ProjectTaskStatusesDdData
-                                    selectedProjectId={selectedProjectId}
-                                    taskStatus={taskStatus}
-                                    projects={projects}
-                                    onStatusChange={handleStatusChange}
+                                </>
+                            )}
+                        </Fieldset>
+                    </Flex>
+                    <Flex justify="space-between" align="center" mb="md">
+                        <Fieldset legend="Status" style={{ width: '50%' }}>
+                            <ProjectTaskStatusesDdData
+                                selectedProjectId={selectedProjectId}
+                                taskStatus={taskStatus}
+                                projects={projects}
+                                onStatusChange={handleStatusChange}
+                            />
+                        </Fieldset>
+                        <Fieldset legend="Task Type" style={{ width: '50%' }}>
+                            <TaskTypeDropdown
+                                taskType={taskType}
+                                taskTypes={taskTypes}
+                                onTaskTypeChange={handleTaskTypeChange}
+                            />
+                        </Fieldset>
+                    </Flex>
+                    <Flex justify="space-between" align="center" mb="md">
+                        <Fieldset legend="Select Project" style={{ width: '100%' }}>
+                            <ProjectDropdownData
+                                selectedProjectId={selectedProjectId}
+                                onProjectChange={handleProjectChange}
+                                organizationId={organizationId}
+                            />
+                        </Fieldset>
+                    </Flex>
+                    <Flex justify="space-between" align="center" mb="md">
+                        <Fieldset legend="Parent Task" style={{ width: '100%' }}>
+                            <TaskDropdown
+                                selectedTaskId={selectedParentTaskId}
+                                tasks={tasks}
+                                onTaskChange={handleParentTaskChange}
+                            />
+                        </Fieldset>
+                    </Flex>
+                    <Flex justify="space-between" align="center" mb="md">
+                        <Fieldset legend="Reporter" style={{ width: '50%' }}>
+                            <AccountDropdown
+                                selectedAccount={reporterId}
+                                accounts={accounts}
+                                placeholder="Select Reporter"
+                                onAccountChange={handleReporterChange}
+                            />
+                        </Fieldset>
+                        <Fieldset legend="Assignee" style={{ width: '50%' }}>
+                            <AccountDropdown
+                                selectedAccount={assigneeId}
+                                accounts={accounts}
+                                placeholder="Select Assignee"
+                                onAccountChange={handleAssigneeChange}
+                            />
+                        </Fieldset>
+                    </Flex>
+                    <Flex justify="space-between" align="center" mb="md">
+                        <Fieldset legend="Child issues" style={{ width: '100%' }}>
+                            {taskDetails.childIssues ? (
+                                <TableTickets tasks={taskDetails.childIssues ?? []} accounts={accounts} onTaskClick={openTaskDialog} />
+                            ) : (null)}
+                            {selectedTask && (
+                                <TaskDialog 
+                                    task={selectedTask} 
+                                    opened={dialogOpen} 
+                                    onClose={closeTaskDialog} 
+                                    organizationId={organizationId}
                                 />
-                            </Fieldset>
-                            <Fieldset legend="Task Type" style={{ width: '50%' }}>
-                                <TaskTypeDropdown
-                                    taskType={taskType}
-                                    taskTypes={taskTypes}
-                                    onTaskTypeChange={handleTaskTypeChange}
-                                />
-                            </Fieldset>
-                        </Flex>
-                        <Flex justify="space-between" align="center" mb="md">
-                            <Fieldset legend="Select Project" style={{ width: '100%' }}>
-                                <ProjectDropdownData
-                                    selectedProjectId={selectedProjectId}
-                                    onProjectChange={handleProjectChange}
-                                />
-                            </Fieldset>
-                        </Flex>
-                        <Flex justify="space-between" align="center" mb="md">
-                            <Fieldset legend="Parent Task" style={{ width: '100%' }}>
-                                <TaskDropdown
-                                    selectedTaskId={selectedParentTaskId}
-                                    tasks={tasks}
-                                    onTaskChange={handleParentTaskChange}
-                                />
-                            </Fieldset>
-                        </Flex>
-                        <Flex justify="space-between" align="center" mb="md">
-                            <Fieldset legend="Reporter" style={{ width: '50%' }}>
-                                <AccountDropdown
-                                    selectedAccount={reporterId}
-                                    accounts={accounts}
-                                    placeholder="Select Reporter"
-                                    onAccountChange={handleReporterChange}
-                                />
-                            </Fieldset>
-                            <Fieldset legend="Assignee" style={{ width: '50%' }}>
-                                <AccountDropdown
-                                    selectedAccount={assigneeId}
-                                    accounts={accounts}
-                                    placeholder="Select Assignee"
-                                    onAccountChange={handleAssigneeChange}
-                                />
-                            </Fieldset>
-                        </Flex>
-                        <Flex justify="space-between" align="center" mb="md">
-                            <Fieldset legend="Child issues" style={{ width: '100%' }}>
-                                {taskDetails.childIssues ? (
-                                    <TaskTable tasks={taskDetails.childIssues ?? []} accounts={accounts} onTaskClick={openTaskDialog} />
-                                ) : (null)}
-                                {selectedTask && (
-                                    <TaskDialog task={selectedTask} opened={dialogOpen} onClose={closeTaskDialog} />
-                                )}
-                            </Fieldset>
-                        </Flex>
-                        <Flex justify="space-between" align="center" mb="md">
-                            <TaskAdditionalInfo taskId={taskDetails.id} />
-                        </Flex>
-                    </ScrollArea>
+                            )}
+                        </Fieldset>
+                    </Flex>
+                    <Flex justify="space-between" align="center" mb="md">
+                        <TaskAdditionalInfo taskId={taskDetails.id} />
+                    </Flex>
                 </Card>
             ) : (
                 <Text c="dimmed">No task selected</Text>

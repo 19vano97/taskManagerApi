@@ -50,8 +50,8 @@ public class Constants
             public const int IN_PROGRESS = 2;
             public const int DONE = 3;
         }
-        public static ImmutableList<TaskItemStatusDto> DEFAULT_LIST = ImmutableList.Create(
-            new TaskItemStatusDto
+        public static ImmutableList<TicketStatusDto> DEFAULT_LIST = ImmutableList.Create(
+            new TicketStatusDto
             {
                 TypeId = DefaultStatusTypes.TO_DO,
                 TypeName = DefaultStatusTypes.TO_DO_NAME,
@@ -59,7 +59,7 @@ public class Constants
                 StatusName = DefaultStatuses.IN_PROGRESS_NAME,
                 Order = DefaultStatusOrder.TO_DO
             },
-            new TaskItemStatusDto
+            new TicketStatusDto
             {
                 TypeId = DefaultStatusTypes.IN_PROGRESS,
                 TypeName = DefaultStatusTypes.IN_PROGRESS_NAME,
@@ -67,7 +67,7 @@ public class Constants
                 StatusName = DefaultStatuses.IN_PROGRESS_NAME,
                 Order = DefaultStatusOrder.IN_PROGRESS
             },
-            new TaskItemStatusDto
+            new TicketStatusDto
             {
                 TypeId = DefaultStatusTypes.DONE,
                 TypeName = DefaultStatusTypes.DONE_NAME,

@@ -1,107 +1,80 @@
-import { NavLink, useInRouterContext, useLocation } from 'react-router-dom';
-import { ActionIcon, Burger, Container, Stack, Text, useMantineColorScheme } from '@mantine/core';
-import { useState } from 'react';
+import { NavLink, useInRouterContext, useLocation, useParams } from 'react-router-dom';
+import { ActionIcon } from '@mantine/core';
+import { useMantineColorScheme } from '@mantine/core';
+import {
+  House, Kanban, Scroll, UserRoundPen, Sun, Moon, Building2, BotMessageSquare, Settings, Users2, LayoutDashboard,
+} from 'lucide-react';
 import classes from '../styles/Sidebar.module.css';
-import { House, Kanban, Scroll, UserRoundPen, Sun, Moon } from 'lucide-react';
+import { useSafeAuth } from '../hooks/useSafeAuth';
+import { useMemo } from 'react';
 
-const data = [
-  { link: '/#', label: 'Home', icon: House },
-  { link: '/kanban', label: 'Kanban', icon: Kanban },
-  { link: '/backlog', label: 'Backlog', icon: Scroll },
-  { link: '/profile', label: 'Profile', icon: UserRoundPen },
-];
-
-// export function Sidebar({ opened, toggle }: { opened: boolean; toggle: () => void }) {
 export function Sidebar() {
+  const auth = useSafeAuth();
   const inRouter = useInRouterContext();
   const location = useLocation();
+  const routeParams = useParams();
+  const orgId = routeParams.orgId || routeParams.id;
+  const projectId = routeParams.projectId || routeParams.id;;
   const { colorScheme, setColorScheme } = useMantineColorScheme();
 
-  if (!inRouter) return null;
+  const sidebarLinks = useMemo(() => {
+    if (location.pathname.includes('/project/') && projectId) {
+      return [
+        { link: '/me', label: 'Home', icon: House },
+        { link: `/project/${projectId}`, label: 'Project details', icon: LayoutDashboard },
+        { link: `/project/${projectId}/kanban`, label: 'Kanban', icon: Kanban },
+        { link: `/project/${projectId}/backlog`, label: 'Backlog', icon: Scroll },
+        { link: `/project/${projectId}/chatai`, label: 'ChatAI', icon: BotMessageSquare },
+        { link: `/project/${projectId}/settings`, label: 'Settings', icon: Settings },
+      ];
+    }
 
-  const links = data.map((item) => (
+    if (location.pathname.startsWith('/org/') && !location.pathname.includes('/project/') && orgId) {
+      return [
+        { link: '/me', label: 'Home', icon: House },
+        { link: `/org/${orgId}`, label: 'Dashboard', icon: LayoutDashboard },
+        { link: `/org/${orgId}/members`, label: 'Members', icon: Users2 },
+        { link: `/org/${orgId}/settings`, label: 'Settings', icon: Settings },
+      ];
+    }
+
+    return [
+      { link: '/me', label: 'Home', icon: House },
+      // { link: '/organizations', label: 'Organizations', icon: Building2 },
+      { link: '/profile', label: 'Profile', icon: UserRoundPen },
+    ];
+  }, [location.pathname, orgId, projectId]);
+
+  const links = sidebarLinks.map((item) => (
     <NavLink
       to={item.link}
       key={item.label}
+      end={item.link === `/project/${projectId}` || item.link === `/org/${orgId}`}
       className={({ isActive }) =>
         `${classes.link} ${isActive ? classes.active : ''}`
       }
     >
+
       <item.icon className={classes.linkIcon} />
       <span>{item.label}</span>
     </NavLink>
   ));
 
+  if (!inRouter) return null;
+  if (!auth.isAuthenticated) return null;
+
   return (
-   <nav className={classes.navbar}>
+    <nav className={classes.navbar}>
       <div className={classes.navbarMain}>{links}</div>
+
       <ActionIcon
-          variant="default"
-          onClick={() => setColorScheme(colorScheme === 'dark' ? 'light' : 'dark')}
-          size="lg"
-          aria-label="Toggle color scheme"
-        >
-          {colorScheme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+        variant="default"
+        onClick={() => setColorScheme(colorScheme === 'dark' ? 'light' : 'dark')}
+        size="lg"
+        aria-label="Toggle color scheme"
+      >
+        {colorScheme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
       </ActionIcon>
-
-      {/* <div className={classes.footer}>
-        <a href="#" className={classes.link} onClick={(e) => e.preventDefault()}>
-          <IconSwitchHorizontal className={classes.linkIcon} stroke={1.5} />
-          <span className={classes.linkLabel}>Change account</span>
-        </a>
-
-        <a href="#" className={classes.link} onClick={(e) => e.preventDefault()}>
-          <IconLogout className={classes.linkIcon} stroke={1.5} />
-          <span className={classes.linkLabel}>Logout</span>
-        </a>
-      </div> */}
     </nav>
-
-
   );
 }
-
-
-// export function Sidebar() {
-//   const [active, setActive] = useState<string | null>(null);
-//   const location = useLocation();
-
-//   return (
-//     <aside className="sidebar">
-//       <Container>
-//         <Stack >
-//           <nav>
-//             <NavLink
-//               to="/"
-//               end
-//               className={({ isActive }) => (isActive ? 'active' : '')}
-//               onClick={() => setActive('home')}
-//             >
-//               Home
-//             </NavLink>
-//             <NavLink
-//               to="/kanban"
-//               className={({ isActive }) => (isActive ? 'active' : '')}
-//               onClick={() => setActive('kanban')}
-//             >
-//               Kanban
-//             </NavLink>
-//             <NavLink
-//               to="/backlog"
-//               className={({ isActive }) => (isActive ? 'active' : '')}
-//               onClick={() => setActive('backlog')}
-//             >
-//               Backlog
-//             </NavLink>
-//             <NavLink
-//               to="/profile"
-//               className={({ isActive }) => (isActive ? 'active' : '')}
-//               onClick={() => setActive('profile')}
-//             >
-//               Profile
-//             </NavLink>
-//           </nav>
-//         </Stack>
-//       </Container>
-//     </aside>
-//   );

@@ -14,7 +14,7 @@ export const TaskCardOnBoard = ({ task, reporter, assignee, onClick }: TaskCardO
         <Card shadow="sm" padding="lg" radius="md" withBorder onClick={onClick} style={{ cursor: 'pointer' }}>
             <Group justify="space-between" mb="xs">
                 <Text fw={500}>{task.title}</Text>
-                <TaskTypesBadge typeId={task.type} />
+                <TaskTypesBadge typeId={task.typeId ?? 0} />
             </Group>
             <Group justify="space-between" mt="md">
                 <Text size="xs" c="dimmed">Reporter: {reporter ? reporter.firstName + ' ' + reporter.lastName : null}</Text>

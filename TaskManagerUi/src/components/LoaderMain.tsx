@@ -1,5 +1,13 @@
-import { Loader } from '@mantine/core';
+import { Flex, Loader } from '@mantine/core';
 
 export function LoaderMain() {
-  return <Loader color="blue" size="md" type="bars" />;
+
+  return (
+    <Flex
+      justify="center"
+      align="center"
+      style={{ height: '100vh', width: '100vw' }}
+    >
+      <Loader color="blue" size="md" type="bars" />
+    </Flex>);
 }

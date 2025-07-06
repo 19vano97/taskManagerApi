@@ -35,14 +35,13 @@ namespace TaskManagerApi.Controllers
             return Ok(newOrgToAdd);
         }
 
-        [HttpPost("edit")]
-        public async Task<ActionResult<OrganizationDto>> EditOrganizationAsync(OrganizationDto editOrganization)
+        [HttpPost("{organizationId}/edit")]
+        public async Task<ActionResult<OrganizationDto>> EditOrganizationAsync(OrganizationDto editOrganization, Guid organizationId)
         {
-            if (this.Request.Headers.TryGetValue("organizationId", out var organizationIdString)
-                || !Guid.TryParse(organizationIdString, out Guid organizationId)
-                || !Guid.TryParse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value, out Guid accountId)
-                || !await _accountVerification.VerifyAccountInOrganization(accountId, organizationId))
-                return BadRequest();
+            if (!Guid.TryParse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value, out Guid accountId)
+                    || !await _accountVerification.VerifyAccountInOrganization(accountId, organizationId)
+                    || organizationId != editOrganization.Id)
+                    return BadRequest();
 
             var editOrgToAdd = await _organizationService.EditAsync(User, editOrganization);
 
@@ -52,24 +51,29 @@ namespace TaskManagerApi.Controllers
             return Ok(editOrgToAdd);
         }
 
-        [HttpGet("account/default")]
-        public async Task<ActionResult<List<OrganizationProjectDto>>> GetDefaultOrganizationAsync(Guid organizationId1)
+        [HttpGet("details/me")]
+        public async Task<ActionResult<List<OrganizationProjectDto>>> GetSelfOrganizationsAsync()
         {
-            if (!this.Request.Headers.TryGetValue("organizationId", out var organizationIdString)
-                || !Guid.TryParse(organizationIdString, out Guid organizationId)
-                || !Guid.TryParse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value, out Guid accountId)
+            if (!Guid.TryParse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value, out Guid accountId))
+                return BadRequest();
+
+            return Ok(await _organizationService.GetOrganizationsByAccountAsync(accountId));
+        }
+
+        [HttpGet("{organizationId}/details")]
+        public async Task<ActionResult<OrganizationProjectDto>> GetOrganizationByIdAsync(Guid organizationId)
+        {
+            if (!Guid.TryParse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value, out Guid accountId)
                 || !await _accountVerification.VerifyAccountInOrganization(accountId, organizationId))
                 return BadRequest();
 
-            return Ok(await _organizationService.GetOrganizationsByAccountAsync(Guid.Parse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID).Value)));
+            return Ok(await _organizationService.GetOrganizationProjectsAsync(organizationId));
         }
 
-        [HttpGet("info/accounts")]
-        public async Task<ActionResult<OrganizationAccountsDto>> GetOrganizationInfoAsync(Guid organizationId1)
+        [HttpGet("{organizationId}/accounts")]
+        public async Task<ActionResult<OrganizationAccountsDto>> GetOrganizationInfoAsync(Guid organizationId)
         {
-            if (!this.Request.Headers.TryGetValue("organizationId", out var organizationIdString)
-                || !Guid.TryParse(organizationIdString, out Guid organizationId)
-                || !Guid.TryParse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value, out Guid accountId)
+            if (!Guid.TryParse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value, out Guid accountId)
                 || !await _accountVerification.VerifyAccountInOrganization(accountId, organizationId))
                 return BadRequest();
 
@@ -77,6 +81,21 @@ namespace TaskManagerApi.Controllers
 
             if (organization is null)
                 return NotFound();
+
+            return Ok(organization);
+        }
+
+        [HttpPost("details/{organizationId}/new-member/{accountId}")]
+        public async Task<ActionResult<OrganizationProjectDto>> AddNewAccountToOrganization(Guid organizationId, Guid accountId)
+        {
+            if (!Guid.TryParse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value, out Guid accountIdInitiator)
+                || !await _accountVerification.VerifyAccountInOrganization(accountIdInitiator, organizationId))
+                return BadRequest();
+
+            var organization = await _organizationService.AddNewMemberToOrganization(organizationId, accountId);
+
+            if (organization is null)
+                return BadRequest();
 
             return Ok(organization);
         }

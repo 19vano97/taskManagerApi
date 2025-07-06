@@ -19,8 +19,8 @@ export const AccountDropdown: React.FC<AccountDropdownProps> = ({ selectedAccoun
       <Select
         placeholder={placeholder}
         data={accounts.map((account) => ({
-          value: account.id,
-          label: account.email,
+          value: account.id ?? '',
+          label: account.email ?? '',
         }))}
         value={selectedAccount ? selectedAccount.id : null}
         onChange={handleAccountChange}

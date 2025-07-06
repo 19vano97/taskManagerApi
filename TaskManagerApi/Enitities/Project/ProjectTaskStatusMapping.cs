@@ -17,5 +17,5 @@ public class ProjectTaskStatusMapping
     [ForeignKey("ProjectId")]
     public ProjectItem ProjectItem { get; set; }
     [ForeignKey("StatusId")]
-    public TaskItemStatus TaskItemStatus { get; set; }
+    public TicketStatus TicketStatus { get; set; }
 }

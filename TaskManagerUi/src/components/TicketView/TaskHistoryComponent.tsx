@@ -63,7 +63,9 @@ export const TaskHistoryComponent = (taskId: TaskHistoryComponentProp) => {
         const fetchHistory = async () => {
             try {
                 const data = await getTaskHistory(taskId.taskId);
-                setTaskHistories(data);
+                // Guard: ensure data.data is always an array
+                const historyArray = Array.isArray(data.data) ? data.data : [];
+                setTaskHistories(historyArray);
             } catch (error) {
                 console.log(error)
             }
@@ -81,7 +83,7 @@ export const TaskHistoryComponent = (taskId: TaskHistoryComponentProp) => {
         const fetchAccounts = async () => {
             try {
                 const data = await getAllAccountDetails(accountIdsUnique);
-                setAccounts(data);
+                setAccounts(data.data);
             } catch (error) {
                 console.log("TaskHistoryAccounts:", error);
             }
@@ -91,38 +93,39 @@ export const TaskHistoryComponent = (taskId: TaskHistoryComponentProp) => {
     }, [taskHistories]);
 
     return (
-        <Timeline active={taskHistories?.length} bulletSize={30} lineWidth={2}>
-          {taskHistories
-            ?.slice()
-            .sort((a, b) => new Date(b.createDate).getTime() - new Date(a.createDate).getTime())
-            .map((taskHistory) => {
-              const iconId = TaskHistoryTypesConst.find(
-                (taskHistoryType: TaskHistoryType) => taskHistoryType.name === taskHistory.eventName
-              )?.id ?? 2;
-              const IconComponent = getIconTaskHistory(iconId);
+        <Timeline active={Array.isArray(taskHistories) ? taskHistories.length : 0} bulletSize={30} lineWidth={2}>
+          {Array.isArray(taskHistories) &&
+            taskHistories
+              .slice()
+              .sort((a, b) => new Date(b.createDate).getTime() - new Date(a.createDate).getTime())
+              .map((taskHistory) => {
+                const iconId = TaskHistoryTypesConst.find(
+                  (taskHistoryType: TaskHistoryType) => taskHistoryType.name === taskHistory.eventName
+                )?.id ?? 2;
+                const IconComponent = getIconTaskHistory(iconId);
 
-              return (
-                <Timeline.Item
-                  key={taskHistory.id}
-                  bullet={<IconComponent size={20} />}
-                  title={
-                    taskHistory.eventName +
-                    ' By ' +
-                    accounts?.find((account: AccountDetails) => account.id === taskHistory.author)?.email
-                  }
-                  w="100%"
-                >
-                  <Text c="dimmed" size="sm">
-                    {taskHistory.newState
-                      ? `${taskHistory.previousState} -> ${taskHistory.newState}`
-                      : ''}
-                  </Text>
-                  <Text size="xs" mt={4}>
-                    <TaskDate dateString={taskHistory.createDate.toString()} />
-                  </Text>
-                </Timeline.Item>
-              );
-            })}
+                return (
+                  <Timeline.Item
+                    key={taskHistory.id}
+                    bullet={<IconComponent size={20} />}
+                    title={
+                      taskHistory.eventName +
+                      ' By ' +
+                      accounts?.find((account: AccountDetails) => account.id === taskHistory.author)?.email
+                    }
+                    w="100%"
+                  >
+                    <Text c="dimmed" size="sm">
+                      {taskHistory.newState
+                        ? `${taskHistory.previousState} -> ${taskHistory.newState}`
+                        : ''}
+                    </Text>
+                    <Text size="xs" mt={4}>
+                      <TaskDate dateString={taskHistory.createDate.toString()} />
+                    </Text>
+                  </Timeline.Item>
+                );
+              })}
         </Timeline>
 
     );

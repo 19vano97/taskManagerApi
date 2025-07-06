@@ -1,128 +1,133 @@
-import { taskManagerApiClient } from './httpClient'
-import type { CreateTask } from '../components/Types'
+import { taskManagerAxios } from './httpClient';
 import { useSafeAuth } from '../hooks/useSafeAuth';
+import { useEffect } from 'react';
+import { configureAxiosAuth } from './httpClient';
+import type {
+  AiThreadDetails,
+  ChatMessage,
+  CreateTask,
+  Organization,
+  OrganizationAccounts,
+  OrganizationDetails,
+  Project,
+  ProjectSingleStatusDto,
+  ProjectWithTasks,
+  Task,
+  TaskHistory,
+  TicketAiView,
+} from '../components/Types';
+
+const getOrgId = () => localStorage.getItem('organizationId') || undefined;
+const getProjId = () => localStorage.getItem('projectId') || undefined;
 
 export const useOrganizationApi = () => {
-  const { user } = useSafeAuth();
-  const defaultPath = '/api/organization'
-  const apiPromise = taskManagerApiClient(
-    () => user?.access_token,
-    () => {
-      const orgId = localStorage.getItem('organizationId');
-      return orgId === null ? undefined : orgId;
-    },
-    () => {
-      const projectId = localStorage.getItem('projectId');
-      return projectId === null ? undefined : projectId;
-    }
-  )
+  const auth = useSafeAuth();
+
+  useEffect(() => {
+    configureAxiosAuth(
+      taskManagerAxios,
+      () => auth.user?.access_token,
+      getOrgId,
+      () => { auth.signoutRedirect(); }
+    );
+  }, [auth.user]);
+
+  const path = '/api/organization';
 
   return {
-    getOrganizationProjects: async () => (await apiPromise).get(`${defaultPath}/account/default`),
-    createOrganizationProjects: async (data: any) => (await apiPromise).post(`${defaultPath}/create`, data),
-    editOrganization: async (data: any) => (await apiPromise).post(`${defaultPath}/edit`, data),
-    getOrganizationAccounts: async () => (await apiPromise).get(`${defaultPath}/info/accounts`),
-  }
-}
+    getAllOrganizationProjects: async () => 
+      (await taskManagerAxios.get<OrganizationDetails[]>(`${path}/details/me`)),
+    getOrganizationProjectsById: async (organizationId: string) => 
+      (await taskManagerAxios.get<OrganizationDetails>(`${path}/${organizationId}/details/`)),
+    postCreateOrganization: async (data: Organization) => 
+      (await taskManagerAxios.post<Organization>(`${path}/create`, data)),
+    postEditOrganization: async (id: string, data: Organization) => 
+      (await taskManagerAxios.post<Organization>(`${path}/${id}/edit`, data)),
+    postAddAccountToOrganization: async (organizationId: string, accountId: string) => 
+      (await taskManagerAxios.post<OrganizationDetails>(`${path}/details/${organizationId}/new-member/${accountId}`)),
+    getOrganizationAccounts: async (organizationId: string) => 
+      (await taskManagerAxios.get<OrganizationAccounts>(`${path}/${organizationId}/accounts`))
+  };
+};
 
 export const useProjectApi = () => {
-  const { user } = useSafeAuth();
-  const defaultPath = '/api/project';
-  const apiPromise = taskManagerApiClient(
-    () => user?.access_token,
-    () => {
-      const orgId = localStorage.getItem('organizationId');
-      return orgId === null ? undefined : orgId;
-    },
-    () => {
-      const projectId = localStorage.getItem('projectId');
-      return projectId === null ? undefined : projectId;
-    }
-  );
+  const path = '/api/project';
+  const auth = useSafeAuth();
+
+  useEffect(() => {
+    configureAxiosAuth(
+      taskManagerAxios,
+      () => auth.user?.access_token,
+      getOrgId,
+      () => { auth.signoutRedirect(); }
+    );
+  }, [auth.user]);
 
   return {
-    // Fetch all projects for the organization
-    getAllProjects: async () =>
-      (await apiPromise).get(`${defaultPath}/all`),
-
-    // Fetch all projects with their tasks
-    getAllProjectsWithTasks: async () =>
-      (await apiPromise).get(`${defaultPath}/all/tasks`),
-
-    // Fetch a specific project by its ID
-    getProjectById: async (projectId: string) =>
-      (await apiPromise).get(`${defaultPath}/${projectId}`),
-
-    // Fetch a specific project with its tasks by project ID
-    getProjectWithTasksById: async (projectId: string) =>
-      (await apiPromise).get(`${defaultPath}/${projectId}/tasks`),
-
-    // Fetch accounts associated with a specific project
-    getAccountsByProjectId: async (projectId: string) =>
-      (await apiPromise).get(`${defaultPath}/${projectId}/accounts`),
-
-    // Create a new project
-    createProject: async (data: any) =>
-      (await apiPromise).post(`${defaultPath}/create`, data),
-
-    // Edit an existing project
-    editProject: async (data: any) =>
-      (await apiPromise).put(`${defaultPath}/edit`, data),
-
-    // Delete a project by its ID
-    deleteProject: async (projectId: string) =>
-      (await apiPromise).delete(`${defaultPath}/delete/${projectId}`),
+    getAllProjectsWithTasks: async (organizationId: string) => 
+      (await taskManagerAxios.get<ProjectWithTasks>(`${path}/all/${organizationId}`)),
+    getProjectById: async (id: string) => 
+      (await taskManagerAxios.get<Project>(`${path}/${id}`)),
+    getProjectWithTasksById: async (id: string) => 
+      (await taskManagerAxios.get<ProjectWithTasks>(`${path}/${id}/tasks`)),
+    createProject: async (data: Project) => 
+      (await taskManagerAxios.post<Project>(`${path}/create`, data)),
+    editProject: async (data: Project, projectId: string) => 
+      (await taskManagerAxios.post<Project>(`${path}/${projectId}/edit`, data)),
+    deleteProject: async (projectId: string) => {
+      await taskManagerAxios.delete(`${path}/${projectId}/delete`);
+    }
   };
 };
 
 export const useTaskApi = () => {
-  const { user } = useSafeAuth();
-  const defaultPath = '/api/task';
-  const apiPromise = taskManagerApiClient(
-    () => user?.access_token,
-    () => {
-      const orgId = localStorage.getItem('organizationId');
-      return orgId === null ? undefined : orgId;
-    },
-    () => {
-      const projectId = localStorage.getItem('projectId');
-      return projectId === null ? undefined : projectId;
-    }
-  );
+  const path = '/api/task';
 
   return {
-    // Fetch all tasks in the organization
-    getAllTasks: async () => (await apiPromise).get(`${defaultPath}/all`),
-
-    // Fetch all tasks in a specific project
-    getTasksByProjectId: async (projectId: string) =>
-      (await apiPromise).get(`${defaultPath}/all/${projectId}`),
-
-    // Fetch task details by task ID
-    getTaskById: async (taskId: string) =>
-      (await apiPromise).get(`${defaultPath}/details/${taskId}`),
-
-    // Create a new task
+    getAllTasksByOrganization: async (organizationId: string) => 
+      (await taskManagerAxios.get<Task[]>(`${path}/all/${organizationId}/organization`)),
+    getTasksByProject: async (id: string) => 
+      (await taskManagerAxios.get<Task[]>(`${path}/all/${id}/project`)),
+    getTaskById: async (taskId: string) => 
+      (await taskManagerAxios.get<Task>(`${path}/${taskId}/details`)),
     createTask: async (data: CreateTask) =>
-      (await apiPromise).post(`${defaultPath}/create`, data),
-
-    // Edit an existing task by task ID
+      (await taskManagerAxios.post<Task>(`${path}/create`, data)),
+    createTicketsForAi: async (data: TicketAiView[]) => 
+        (await taskManagerAxios.post<Task>(`${path}/create/ai/list`, data)),
     editTask: async (taskId: string, data: any) =>
-      (await apiPromise).post(`${defaultPath}/edit/${taskId}`, data),
-
-    // // Change the status of a task
-    // changeTaskStatus: async (taskId: string, statusId: number) =>
-    //   (await apiPromise).put(`${defaultPath}/edit/${taskId}/task/${statusId}`),
-
-    // Add a parent task to a task
+      (await taskManagerAxios.post(`${path}/${taskId}/edit`, data)),
     addParentToTask: async (data: { parentId: string; taskId: string }) =>
-      (await apiPromise).post(`${defaultPath}/parent`, data),
+      (await taskManagerAxios.post(`${path}/parent`, data)),
+    getTaskHistory: async (taskId: string) => 
+      (await taskManagerAxios.get<TaskHistory[]>(`${path}/${taskId}/history`)),
+    deleteTask: async (taskId: string) => 
+      (await taskManagerAxios.delete<void>(`${path}${taskId}/delete`)),
+  };
+};
 
-    getTaskHistory: async ( taskId: string) =>
-      (await apiPromise).get(`${defaultPath}/history/${taskId}`),
+export const useAiChatApi = () => {
+  const path = '/api/ai';
+  const auth = useSafeAuth();
 
-    // Delete a task by task ID
-    deleteTask: async (taskId: string) =>
-      (await apiPromise).delete(`${defaultPath}/delete/${taskId}`),
+  useEffect(() => {
+    configureAxiosAuth(
+      taskManagerAxios,
+      () => auth.user?.access_token,
+      getOrgId,
+      () => { auth.signoutRedirect(); }
+    );
+  }, [auth.user]);
+
+  return {
+    getChatHistoryByThreadId: async (threadId: string) =>
+      (await taskManagerAxios.get<ChatMessage[]>(`${path}/chat/${threadId}/history`)),
+    createNewThread: async (data: { name: AiThreadDetails }) =>
+      (await taskManagerAxios.post<AiThreadDetails>(`${path}/thread/create`, data)),
+    postSendMessageToChat: async (data: ChatMessage, threadId: string) =>
+      (await taskManagerAxios.post<ChatMessage>(`${path}/chat/${threadId}/message`, data)),
+    getThreadInfo: async (threadId: string) =>
+      (await taskManagerAxios.get<AiThreadDetails>(`${path}/thread/${threadId}/info`)),
+    getAllThreads: async () =>
+      (await taskManagerAxios.get<AiThreadDetails[]>(`${path}/thread/all`)),
   };
 };

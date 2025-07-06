@@ -15,10 +15,14 @@ public class OrganizationService : IOrganizationService
 {
     private readonly TaskManagerAPIDbContext _context;
     private readonly ILogger<OrganizationService> _logger;
+    private IProjectService _projectService;
     
-    public OrganizationService(TaskManagerAPIDbContext context, ILogger<OrganizationService> logger)
+    public OrganizationService(TaskManagerAPIDbContext context,
+                               IProjectService projectService,
+                               ILogger<OrganizationService> logger)
     {
         _context = context;
+        _projectService = projectService;
         _logger = logger;
     }
 
@@ -98,9 +102,7 @@ public class OrganizationService : IOrganizationService
         if (organization == null)
             return null;
 
-        var projects = await _context.ProjectItems.
-            Where(p => p.OrganizationId == organizationId)
-            .ToListAsync();
+        var projects = await _projectService.GetProjectsByOrganizationIdAsync(organizationId);
             
         var accounts = await _context.OrganizationAccount
             .Where(o => o.OrganizationId == organizationId)
@@ -117,7 +119,7 @@ public class OrganizationService : IOrganizationService
             Accounts = accounts,
             CreateDate = organization.CreateDate,
             ModifyDate = organization.ModifyDate,
-            Projects = projects.Select(p => GeneralService.ConvertProjectToOutput(p)).ToList()
+            Projects = projects
         };
     }
     
@@ -164,10 +166,7 @@ public class OrganizationService : IOrganizationService
 
     private async Task<OrganizationItem> DoesOrganizationExist(Guid Id)
     {
-        if (Id != null)
-            return await _context.OrganizationItem.FirstOrDefaultAsync(o => o.Id == Id);
-
-        return null;
+        return await _context.OrganizationItem.FirstOrDefaultAsync(o => o.Id == Id);
     }
 
     private async Task<OrganizationItem> DoesOrganizationExistEntity(OrganizationItem entity = null, string Id = null)
@@ -216,5 +215,21 @@ public class OrganizationService : IOrganizationService
             CreateDate = dto.CreateDate,
             ModifyDate = dto.ModifyDate
         };
+    }
+
+    public async Task<OrganizationProjectDto> AddNewMemberToOrganization(Guid organizationId, Guid accountId)
+    {
+        if (await _context.OrganizationAccount.FirstOrDefaultAsync(a => a.AccountId == accountId && a.OrganizationId == organizationId) is not null)
+            return await GetOrganizationProjectsAsync(organizationId);
+            
+        _context.OrganizationAccount.Add(new OrganizationAccount { AccountId = accountId, OrganizationId = organizationId });
+        await _context.SaveChangesAsync();
+
+        var res = await _context.OrganizationAccount.FirstOrDefaultAsync(a => a.AccountId == accountId && a.OrganizationId == organizationId);
+        if (res is null)
+            return null;
+
+
+        return await GetOrganizationProjectsAsync(organizationId);
     }
 }

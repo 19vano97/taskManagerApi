@@ -1,72 +1,136 @@
-import { useAuth } from "react-oidc-context"
+import axios from 'axios';
+type AxiosInstance = ReturnType<typeof axios.create>;
 
-const taskManagerUrl = 'https://localhost:7099'
-const identityServerUrl = 'https://localhost:7270'
+export const taskManagerAxios: AxiosInstance = axios.create({
+  baseURL: 'https://localhost:7099',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
 
-export const taskManagerApiClient = async (getToken: () => string | undefined, 
-                                           getOrganizationId: () => string | undefined,
-                                           getProjectId: () => string | undefined) => {
-  const request = async (path: string, options: RequestInit = {}) => {
+export const identityServerAxios: AxiosInstance = axios.create({
+  baseURL: 'https://localhost:7270',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
 
-    const token = getToken()
-    const organizationId = getOrganizationId()
-    const projectId = getProjectId()
-    const res = await fetch(`${taskManagerUrl}${path}`, {
-      ...options,
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: token ? `Bearer ${token}` : '',
-        'organizationId': organizationId || '',
-        'projectId': projectId || '',
-        ...(options.headers || {})
-      },
-    })
-    if (!res.ok) {
-      // if (res.status === 401) {
-      //     auth.signinSilent;
-      //   }
-
-        throw new Error('API Error');
+export function configureAxiosAuth(
+  axiosInstance: AxiosInstance,
+  getToken: () => string | undefined,
+  getOrganizationId?: () => string | undefined,
+ 
+  onUnauthorized?: () => void,
+  userManager?: { signinSilent: () => Promise<any> }
+) {
+  axiosInstance.interceptors.request.use((config) => {
+    const token = getToken();
+    if (token) {
+      config.headers = config.headers || {};
+      config.headers.Authorization = `Bearer ${token}`;
     }
-    return res.json()
-  }
 
-  return {
-    get: (path: string) => request(path),
-    post: (path: string, body: any) =>
-      request(path, { method: 'POST', body: JSON.stringify(body) }),
-    put: (path: string, body: any) =>
-      request(path, { method: 'PUT', body: JSON.stringify(body) }),
-    delete: (path: string) =>
-      request(path, { method: 'DELETE' }),
-  }
+    const orgId = getOrganizationId?.();
+    if (orgId) {
+      config.headers = config.headers || {};
+      config.headers['organizationId'] = orgId;
+    }
+
+
+
+    console.log('[Request]', config.method?.toUpperCase(), config.url);
+    return config;
+  }, (error) => {
+    console.error('[Request Error]', error);
+    return Promise.reject(error);
+  });
+
+  axiosInstance.interceptors.response.use(
+    (response) => {
+      console.log('[Response]', response.status, response.config.url);
+      return response;
+    },
+    async (error) => {
+      const originalRequest = error.config;
+      const status = error.response?.status;
+
+      console.error('[Response Error]', status, originalRequest?.url);
+
+      if ((status === 401 || status === 403) && !originalRequest._retry) {
+        originalRequest._retry = true;
+        try {
+          if (userManager && typeof userManager.signinSilent === 'function') {
+            const user = await userManager.signinSilent();
+            const newToken = user && (user.access_token || user.id_token);
+            if (newToken) {
+              // Обновляем заголовки с новым токеном
+              axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
+              if (!originalRequest.headers) originalRequest.headers = {};
+              originalRequest.headers.Authorization = `Bearer ${newToken}`;
+              // Повторяем запрос
+              return axiosInstance(originalRequest);
+            } else {
+              throw new Error('No token received from signinSilent');
+            }
+          }
+          if (onUnauthorized) {
+            onUnauthorized();
+          } else {
+            window.location.href = '/signin-oidc';
+          }
+        } catch (refreshError) {
+          console.error('Token refresh failed:', refreshError);
+          if (onUnauthorized) {
+            onUnauthorized();
+          } else {
+            window.location.href = '/signin-oidc';
+          }
+        }
+      }
+
+      return Promise.reject(error);
+    }
+  );
 }
 
-export const identityServerApiClient = async (getToken: () => string | undefined) => {
-  const request = async (path: string, options: RequestInit = {}) => {
+
+export function configureIdentityAxiosAuth(
+  axiosInstance: AxiosInstance,
+  getToken: () => string | undefined,
+  onUnauthorized?: () => void
+) {
+  axiosInstance.interceptors.request.use((config) => {
     const token = getToken();
+    if (token) {
+      config.headers = config.headers || {};
+      config.headers.Authorization = `Bearer ${token}`;
+    }
 
-    const res = await fetch(`${identityServerUrl}${path}`, {
-      ...options,
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: token ? `Bearer ${token}` : '',
-        ...(options.headers || {}),
-      },
-    });
+    console.log('[Identity Request]', config.method?.toUpperCase(), config.url);
+    return config;
+  }, (error) => {
+    console.error('[Identity Request Error]', error);
+    return Promise.reject(error);
+  });
 
-    if (!res.ok) throw new Error('API Error');
-    return res.json();
-  };
+  axiosInstance.interceptors.response.use(
+    (response) => {
+      console.log('[Identity Response]', response.status, response.config.url);
+      return response;
+    },
+    async (error) => {
+      const status = error.response?.status;
+      console.error('[Identity Response Error]', status);
 
-  return {
-    get: (path: string) => request(path),
-    post: (path: string, body: any) =>
-      request(path, { method: 'POST', body: JSON.stringify(body) }),
-    put: (path: string, body: any) =>
-      request(path, { method: 'PUT', body: JSON.stringify(body) }),
-    delete: (path: string) =>
-      request(path, { method: 'DELETE' }),
-  };
-};
+      if ((status === 401 || status === 403)) {
+        if (onUnauthorized) {
+          onUnauthorized();
+        } else {
+          window.location.href = '/signin-oidc';
+        }
+      }
 
+      return Promise.reject(error);
+    }
+  );
+}

@@ -22,6 +22,40 @@ namespace TaskManagerApi.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("TaskManagerApi.Enitities.Ai.AiThreads", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreateDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETUTCDATE()");
+
+                    b.Property<DateTime>("ModifyDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETUTCDATE()");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("OrganizationAccountId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Thread")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrganizationAccountId");
+
+                    b.ToTable("AiThreads");
+                });
+
             modelBuilder.Entity("TaskManagerApi.Enitities.Organization.OrganizationAccount", b =>
                 {
                     b.Property<Guid>("Id")
@@ -189,54 +223,13 @@ namespace TaskManagerApi.Migrations
                     b.ToTable("ProjectTaskStatusMapping");
                 });
 
-            modelBuilder.Entity("TaskManagerApi.Enitities.Task.TaskHistory", b =>
+            modelBuilder.Entity("TaskManagerApi.Enitities.Task.Ticket", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("Author")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreateDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETUTCDATE()");
-
-                    b.Property<string>("EventName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("ModifyDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETUTCDATE()");
-
-                    b.Property<string>("NewState")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PreviousState")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("TaskId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TaskId");
-
-                    b.ToTable("TaskHistories");
-                });
-
-            modelBuilder.Entity("TaskManagerApi.Enitities.Task.TaskItem", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("AssigneeId")
+                    b.Property<Guid?>("AssigneeId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreateDate")
@@ -248,19 +241,31 @@ namespace TaskManagerApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateOnly?>("DueDate")
+                        .HasColumnType("date");
+
+                    b.Property<TimeOnly?>("Estimate")
+                        .HasColumnType("time");
+
                     b.Property<DateTime>("ModifyDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETUTCDATE()");
 
-                    b.Property<Guid>("ParentId")
+                    b.Property<Guid?>("ParentId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("ProjectId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ReporterId")
+                    b.Property<Guid?>("ReporterId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<TimeOnly?>("SpentTime")
+                        .HasColumnType("time");
+
+                    b.Property<DateOnly?>("StartDate")
+                        .HasColumnType("date");
 
                     b.Property<int?>("StatusId")
                         .HasColumnType("int");
@@ -272,6 +277,9 @@ namespace TaskManagerApi.Migrations
                     b.Property<int?>("TypeId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("isCreatedByAi")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ProjectId");
@@ -280,10 +288,10 @@ namespace TaskManagerApi.Migrations
 
                     b.HasIndex("TypeId");
 
-                    b.ToTable("TaskItems");
+                    b.ToTable("Tickets");
                 });
 
-            modelBuilder.Entity("TaskManagerApi.Enitities.Task.TaskItemStatus", b =>
+            modelBuilder.Entity("TaskManagerApi.Enitities.Task.TicketStatus", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -312,10 +320,10 @@ namespace TaskManagerApi.Migrations
 
                     b.HasIndex("StatusTypeId");
 
-                    b.ToTable("TaskItemStatuses");
+                    b.ToTable("TicketStatuses");
                 });
 
-            modelBuilder.Entity("TaskManagerApi.Enitities.Task.TaskItemStatusType", b =>
+            modelBuilder.Entity("TaskManagerApi.Enitities.Task.TicketStatusType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -338,10 +346,10 @@ namespace TaskManagerApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TaskItemStatusType");
+                    b.ToTable("TicketStatusType");
                 });
 
-            modelBuilder.Entity("TaskManagerApi.Enitities.Task.TaskType", b =>
+            modelBuilder.Entity("TaskManagerApi.Enitities.Task.TicketType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -365,7 +373,18 @@ namespace TaskManagerApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TaskTypes");
+                    b.ToTable("TicketTypes");
+                });
+
+            modelBuilder.Entity("TaskManagerApi.Enitities.Ai.AiThreads", b =>
+                {
+                    b.HasOne("TaskManagerApi.Enitities.Organization.OrganizationAccount", "OrganizationAccount")
+                        .WithMany()
+                        .HasForeignKey("OrganizationAccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("OrganizationAccount");
                 });
 
             modelBuilder.Entity("TaskManagerApi.Enitities.Organization.OrganizationAccount", b =>
@@ -409,7 +428,7 @@ namespace TaskManagerApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TaskManagerApi.Enitities.Task.TaskItemStatus", "TaskItemStatus")
+                    b.HasOne("TaskManagerApi.Enitities.Task.TicketStatus", "TicketStatus")
                         .WithMany()
                         .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -417,33 +436,22 @@ namespace TaskManagerApi.Migrations
 
                     b.Navigation("ProjectItem");
 
-                    b.Navigation("TaskItemStatus");
+                    b.Navigation("TicketStatus");
                 });
 
-            modelBuilder.Entity("TaskManagerApi.Enitities.Task.TaskHistory", b =>
-                {
-                    b.HasOne("TaskManagerApi.Enitities.Task.TaskItem", "Task")
-                        .WithMany()
-                        .HasForeignKey("TaskId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Task");
-                });
-
-            modelBuilder.Entity("TaskManagerApi.Enitities.Task.TaskItem", b =>
+            modelBuilder.Entity("TaskManagerApi.Enitities.Task.Ticket", b =>
                 {
                     b.HasOne("TaskManagerApi.Enitities.Project.ProjectItem", "ProjectItem")
                         .WithOne("TaskItem")
-                        .HasForeignKey("TaskManagerApi.Enitities.Task.TaskItem", "ProjectId")
+                        .HasForeignKey("TaskManagerApi.Enitities.Task.Ticket", "ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TaskManagerApi.Enitities.Task.TaskItemStatus", "TaskItemStatus")
+                    b.HasOne("TaskManagerApi.Enitities.Task.TicketStatus", "TaskItemStatus")
                         .WithMany()
                         .HasForeignKey("StatusId");
 
-                    b.HasOne("TaskManagerApi.Enitities.Task.TaskType", "TaskType")
+                    b.HasOne("TaskManagerApi.Enitities.Task.TicketType", "TaskType")
                         .WithMany()
                         .HasForeignKey("TypeId");
 
@@ -454,15 +462,15 @@ namespace TaskManagerApi.Migrations
                     b.Navigation("TaskType");
                 });
 
-            modelBuilder.Entity("TaskManagerApi.Enitities.Task.TaskItemStatus", b =>
+            modelBuilder.Entity("TaskManagerApi.Enitities.Task.TicketStatus", b =>
                 {
-                    b.HasOne("TaskManagerApi.Enitities.Task.TaskItemStatusType", "taskItemStatusType")
+                    b.HasOne("TaskManagerApi.Enitities.Task.TicketStatusType", "TicketStatusType")
                         .WithMany()
                         .HasForeignKey("StatusTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("taskItemStatusType");
+                    b.Navigation("TicketStatusType");
                 });
 
             modelBuilder.Entity("TaskManagerApi.Enitities.Organization.OrganizationItem", b =>

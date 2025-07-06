@@ -29,12 +29,12 @@ builder.Services.AddDbContext<TaskManagerAPIDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
     // options.UseSqlServer(builder.Configuration.GetConnectionString(serverSettings.ConnectionStrings.Connections.First(c => c == "DefaultConnection")))
 );
-builder.Services.AddScoped<ITaskItemService, TaskItemService>();
+builder.Services.AddScoped<ITicketService, TicketService>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<IOrganizationService, OrganizationService>();
-builder.Services.AddScoped<IProjectStatusesService, ProjectStatusesService>();
-builder.Services.AddScoped<ITaskHistoryService, TaskHistoryService>();
+builder.Services.AddScoped<ITicketHistoryService, TicketHistoryService>();
 builder.Services.AddScoped<IAccountVerification, AccountVerification>();
+builder.Services.AddScoped<IAiService, AiService>();
 builder.WebHost.ConfigureKestrel(options =>
     {
         options.ListenAnyIP(5220);

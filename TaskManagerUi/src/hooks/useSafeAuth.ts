@@ -1,15 +1,17 @@
-import { useAuth } from 'react-oidc-context';
+import { useAuth, type AuthContextProps } from 'react-oidc-context';
 
-export const useSafeAuth = () => {
+export const useSafeAuth = (): AuthContextProps => {
   const auth = useAuth();
-  if (!auth) {
-    return {
+
+  return (
+    auth ?? {
       isAuthenticated: false,
       isLoading: true,
       signinRedirect: () => {},
       signoutRedirect: () => {},
       user: null,
-    };
-  }
-  return auth;
+      userManager: undefined,
+      events: undefined,
+    }
+  );
 };

@@ -1,18 +1,32 @@
-import { identityServerApiClient } from "./httpClient";
-import { useSafeAuth } from "../hooks/useSafeAuth";
+import { useEffect } from 'react';
+import { useAuth } from 'react-oidc-context';
+import {
+  configureIdentityAxiosAuth,
+  identityServerAxios,
+} from './httpClient';
+import type { AccountDetails } from '../components/Types';
 
 export const useIdentityServerApi = () => {
-    const { user } = useSafeAuth();;
-    const defaultPath = '/api/auth';
-    const apiPromise = identityServerApiClient(() => user?.access_token);
+  const auth = useAuth(); // используем напрямую, чтобы получить userManager
 
-    return {
-        getAccountDetails: async () =>
-            (await apiPromise).get(`${defaultPath}/details`),
+  useEffect(() => {
+    configureIdentityAxiosAuth(
+      identityServerAxios,
+      () => auth.user?.access_token,
+      () => auth.signoutRedirect()
+    );
+  }, [auth.user]);
 
-        getAllAccountDetails: async (accountIds: string[]) =>
-            (await apiPromise).post(`${defaultPath}/details/accounts`, accountIds),
+  const defaultPath = '/api/auth';
 
-
-    };
+  return {
+    getAccountDetails: async () =>
+      (await identityServerAxios.get<AccountDetails>(`${defaultPath}/details`)),
+    getAllAccountDetails: async (accountIds: string[]) =>
+      (await identityServerAxios.post<AccountDetails[]>(`${defaultPath}/details/accounts`, accountIds)),
+    postAccountData: async (data: AccountDetails) =>
+      (await identityServerAxios.post<AccountDetails>(`${defaultPath}/details`, data)),
+    postInviteAccount: async (data: AccountDetails) =>
+      (await identityServerAxios.post<AccountDetails>(`${defaultPath}/invite`, data)),
+  };
 };

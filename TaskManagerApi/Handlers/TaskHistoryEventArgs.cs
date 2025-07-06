@@ -5,14 +5,14 @@ namespace TaskManagerApi.Handlers;
 
 public class TaskHistoryEventArgs
 {
-    private TaskHistoryDto _history;
+    private TicketHistoryDto _history;
 
-    public TaskHistoryEventArgs(TaskHistoryDto history)
+    public TaskHistoryEventArgs(TicketHistoryDto history)
     {
         _history = history;
     }
 
-    public TaskHistoryDto History 
+    public TicketHistoryDto History 
     { 
         get => _history;
     }

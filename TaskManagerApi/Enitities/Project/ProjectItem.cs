@@ -16,7 +16,7 @@ public class ProjectItem
     public Guid OrganizationId { get; set; } = Guid.Empty;
     public DateTime CreateDate { get; set; } = DateTime.UtcNow;
     public DateTime ModifyDate { get; set; } = DateTime.UtcNow;
-    public TaskItem? TaskItem { get; set; }
+    public Ticket? TaskItem { get; set; }
     [ForeignKey("OrganizationId")]
     public OrganizationItem Organization { get; set; }
     public virtual ICollection<ProjectTaskStatusMapping> ProjectItems { get; set; } = new List<ProjectTaskStatusMapping>();

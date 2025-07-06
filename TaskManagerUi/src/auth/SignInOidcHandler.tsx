@@ -3,23 +3,25 @@ import { useAuth } from "react-oidc-context";
 import { useNavigate } from "react-router-dom";
 
 function SignInOidcHandler() {
-  console.log("SignInOidcHandler component rendered");
   const auth = useAuth();
-  const navigate = useNavigate();
+  const nav = useNavigate();
 
   useEffect(() => {
+    const storedRedirectPath = sessionStorage.getItem("postLoginRedirectPath");
+
     if (auth.isAuthenticated) {
-      console.log("User is already authenticated:", auth.user);
-      navigate("/kanban"); // Redirect if authenticated
-    } else {
-      console.log("Handling authentication callback...");
-      auth.signinSilent()
-        .then(() => navigate("/kanban")) // Refresh tokens and redirect
-        .catch((error) => console.error("OIDC Sign-in Callback Error:", error));
+      nav(storedRedirectPath || "/");
+      sessionStorage.removeItem("postLoginRedirectPath");
     }
-  }, [auth.isAuthenticated, navigate]);
+  }, [auth.isAuthenticated]);
 
   return <p>Processing login...</p>;
+}
+
+export function initiateLogin(redirectPath: string) {
+  const auth = useAuth();
+  sessionStorage.setItem("postLoginRedirectPath", redirectPath);
+  auth.signinRedirect();
 }
 
 export default SignInOidcHandler;

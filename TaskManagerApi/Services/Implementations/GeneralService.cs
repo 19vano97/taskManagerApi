@@ -28,9 +28,9 @@ public class GeneralService
         return project;
     }
 
-    public static List<TaskItemStatusDto> CopyListFromImmutableList(ImmutableList<TaskItemStatusDto> immutableList)
+    public static List<TicketStatusDto> CopyListFromImmutableList(ImmutableList<TicketStatusDto> immutableList)
     {
-        var newList = new List<TaskItemStatusDto>();
+        var newList = new List<TicketStatusDto>();
 
         foreach (var item in immutableList)
         {
@@ -40,18 +40,18 @@ public class GeneralService
         return newList;
     }
 
-    public static List<TaskItemStatusDto> ConvertProejctStatusToDto(List<ProjectTaskStatusMapping> list)
+    public static List<TicketStatusDto> ConvertProjectStatusToDto(List<ProjectTaskStatusMapping> list)
     {
-        var newList = new List<TaskItemStatusDto>();
+        var newList = new List<TicketStatusDto>();
 
         foreach (var item in list)
         {
-            newList.Add(new TaskItemStatusDto
+            newList.Add(new TicketStatusDto
             {
-                TypeId = item.TaskItemStatus.StatusTypeId,
-                TypeName = item.TaskItemStatus.taskItemStatusType.Name,
+                TypeId = item.TicketStatus.StatusTypeId,
+                TypeName = item.TicketStatus.TicketStatusType.Name,
                 StatusId = item.StatusId,
-                StatusName = item.TaskItemStatus.Name,
+                StatusName = item.TicketStatus.Name,
                 Order = item.Order
             });
         }
@@ -59,21 +59,25 @@ public class GeneralService
         return newList.OrderBy(t => t.Order).ToList();
     }
 
-    public static TaskItemDto ConvertTaskToDto(TaskItem task)
+    public static TicketDto? ConvertTaskToDto(Ticket? task)
     {
-        return new TaskItemDto
+        if (task == null)
+            return null;
+
+        return new TicketDto
         {
             Id = task.Id,
-            Title = task!.Title,
+            Title = task.Title,
             Description = task.Description,
             StatusId = task.StatusId,
             StatusName = task.TaskItemStatus?.Name ?? null,
-            Type = task.TypeId,
+            TypeId = task.TypeId,
             TypeName = task.TaskType?.Name ?? null,
             ProjectId = task.ProjectId,
             ReporterId = task.ReporterId,
             AssigneeId = task.AssigneeId,
             ParentId = task.ParentId,
+            OrganizationId = task.ProjectItem?.OrganizationId,
             CreateDate = task.CreateDate,
             ModifyDate = task.ModifyDate
         };
@@ -91,7 +95,7 @@ public class GeneralService
         };
     }
 
-    public static ProjectItemDto ConvertProjectToOutput(ProjectItem project, List<TaskItemStatusDto> statuses)
+    public static ProjectItemDto ConvertProjectToOutput(ProjectItem project, List<TicketStatusDto> statuses)
     {
         return new ProjectItemDto{
             Id = project.Id,

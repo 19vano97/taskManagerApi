@@ -10,6 +10,7 @@ public interface IOrganizationService
     Task<OrganizationDto> EditAsync(ClaimsPrincipal user, OrganizationDto newOgranization);
     Task<OrganizationDto> DeleteAsync(OrganizationDto newOgranization);
     Task<OrganizationProjectDto> GetOrganizationProjectsAsync(Guid organizationId);
+    Task<OrganizationProjectDto> AddNewMemberToOrganization(Guid organizationId, Guid accountId);
     Task<OrganizationDto> GetOrganizationAsync(Guid organizationId);
     Task<List<OrganizationProjectDto>> GetOrganizationsByAccountAsync(Guid accountId);
 }

@@ -1,3 +1,5 @@
+import type { TimeOnly } from "../hooks/useTimeOnly";
+
 export interface Organization {
   id: string;
   name: string;
@@ -5,28 +7,34 @@ export interface Organization {
   accounts: string[];
   createDate: string;
   modifyDate: string;
-  ownerId: string;
+  owner: string;
 }
 
 export interface OrganizationAccounts {
+  accounts: string[]
+}
+
+export interface OrganizationDetails {
   id: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  organizationId: string;
+  name: string;
+  abbreviation: string;
+  owner: string;
+  description: string;
   createDate: string;
   modifyDate: string;
+  projects: Project[];
+  accounts: string[];
 }
 
 export interface Project {
-  id: string;
+  id?: string;
   title: string;
   description: string;
   ownerId: string;
   organizationId: string;
-  statuses: Status[];
-  createDate: string;
-  modidyDate: string;
+  statuses?: Status[];
+  createDate?: string;
+  modidyDate?: string;
 }
 
 export interface Status {
@@ -37,21 +45,43 @@ export interface Status {
   order: number;
 }
 
+export interface ProjectSingleStatusDto {
+  projectId: string;
+  status: Status
+}
+
 export interface Task {
   id: string;
   title: string;
   description: string;
-  statusId: TaskStatus["statusId"];
-  statusName: TaskStatus["statusName"];
-  type: number;
-  typeName: string;
-  reporterId: string;
-  assigneeId: string;
-  projectId: string;
-  parentId: string;
+  statusId?: TaskStatus["statusId"];
+  statusName?: TaskStatus["statusName"];
+  typeId?: number;
+  typeName?: string;
+  reporterId?: string;
+  assigneeId?: string;
+  projectId?: string;
+  parentId?: string;
+  startDate?: Date;
+  dueDate?: Date;
+  spentTime?: string;
+  estimate?: string;
+  organizationId?:string;
   childIssues?: Task[]
-  createDate: string;
-  modifyDate: string;
+  isCreatedByAi?: boolean;
+  createDate?: string;
+  modifyDate?: string;
+}
+
+export interface TicketAiView {
+  title: string;
+  description: string;
+  type: number;
+  reporterId?: string;
+  assigneeId?: string;
+  isCreatedByAi?: boolean;
+  parentName?: string;
+  projectId?: string;
 }
 
 export interface TaskStatus {
@@ -77,14 +107,14 @@ export interface TaskHistory {
   id: string;
   taskId: string;
   eventName: string;
-  previousState:string;
+  previousState: string;
   newState: string;
   author: string;
   createDate: Date;
   modifyDate: string;
 }
 
-export interface ProjectResponse {
+export interface ProjectWithTasks {
   project: Project;
   tasks: Task[];
 }
@@ -92,7 +122,7 @@ export interface ProjectResponse {
 export interface CreateTask {
   title: string;
   description: string;
-  type: number  | null;
+  type: number | null;
   reporterId: string;
   assigneeId: string;
   projectId: string;
@@ -111,8 +141,25 @@ export interface TaskHistoryType {
 
 
 export interface AccountDetails {
-  id: string;
-  email: string;
+  id?: string;
+  email?: string;
   firstName: string;
   lastName: string;
+  createDate?: Date;
+  modifyDate?: Date;
+}
+
+export interface ChatMessage {
+  role: string;
+  content: string;
+  IsAutomatedTicketCreationFlag: boolean;
+  createDate?: Date;
+}
+
+export interface AiThreadDetails {
+  id?: string;
+  name?: string;
+  organziationId?: string;
+  accountId?: string;
+  createDate?: Date;
 }

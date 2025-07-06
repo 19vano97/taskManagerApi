@@ -6,19 +6,19 @@ namespace TaskManagerApi.Handlers;
 
 public class TaskHistoryHandler
 {
-    private ITaskHistoryService _history;
+    private ITicketHistoryService _history;
 
-    public TaskHistoryHandler(ITaskHistoryService history)
+    public TaskHistoryHandler(ITicketHistoryService history)
     {
         _history = history;
     }
 
-    public void Subscribe(ITaskItemService taskItemService)
+    public void Subscribe(ITicketService taskItemService)
     {
         taskItemService.TaskHistoryEventArgs += HandlerLoggerEvent;
     }
 
-    public void Unsubscribe(ITaskItemService taskItemService)
+    public void Unsubscribe(ITicketService taskItemService)
     {
         taskItemService.TaskHistoryEventArgs -= HandlerLoggerEvent;
     }

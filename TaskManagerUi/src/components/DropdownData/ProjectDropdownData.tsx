@@ -1,22 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { Select, Fieldset } from '@mantine/core';
 import type { Project } from '../Types';
-import { useProjectApi } from '../../api/taskManagerApi';
+import { useOrganizationApi, useProjectApi } from '../../api/taskManagerApi';
 
 type ProjectDropdownProps = {
   selectedProjectId: string | null;
   onProjectChange: (projectId: string | null) => void;
+  organizationId: string
 };
 
-export const ProjectDropdownData: React.FC<ProjectDropdownProps> = ({ selectedProjectId, onProjectChange }) => {
-  const { getAllProjects } = useProjectApi();
+export const ProjectDropdownData = ({ selectedProjectId, onProjectChange, organizationId }: ProjectDropdownProps) => {
+  const { getOrganizationProjectsById } = useOrganizationApi();
   const [projects, setProjects] = useState<Project[] | null>(null);
 
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const data = await getAllProjects();
-        setProjects(data);
+        const data = await getOrganizationProjectsById(organizationId);
+        setProjects(data.data.projects);
       } catch (error) {
         console.error('Error fetching projects:', error);
       }
@@ -33,7 +34,7 @@ export const ProjectDropdownData: React.FC<ProjectDropdownProps> = ({ selectedPr
       }
       data={
         projects?.map((project) => ({
-          value: project.id,
+          value: String(project.id),
           label: project.title,
         })) || []
       }

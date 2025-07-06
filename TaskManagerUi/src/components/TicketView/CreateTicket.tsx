@@ -14,26 +14,29 @@ import { useEffect, useState } from "react";
 import { useSafeAuth } from "../../hooks/useSafeAuth";
 import { AccountDropdown } from "../DropdownData/AccountDropdown";
 import { useIdentityServerApi } from "../../api/IdentityServerApi";
+import { TimeOnlyInput, type TimeOnly } from "../../hooks/useTimeOnly";
+import SuccessAlert from "../alerts/SuccessAlert";
 
 type CreateTicketProps = {
     opened: boolean;
     onClose: () => void;
+    organizationId: string;
 }
 
-export const CreateTicket = ({opened, onClose}: CreateTicketProps) => {
+export const CreateTicket = ({ opened, onClose, organizationId }: CreateTicketProps) => {
     const editor = useEditor({
         extensions: [
-        StarterKit,
-        Underline,
-        Link,
-        Superscript,
-        SubScript,
-        Highlight,
-        TextAlign.configure({ types: ['heading', 'paragraph'] }),
+            StarterKit,
+            Underline,
+            Link,
+            Superscript,
+            SubScript,
+            Highlight,
+            TextAlign.configure({ types: ['heading', 'paragraph'] }),
         ],
     });
-    const { getAllProjects } = useProjectApi();
-    const { getAllTasks, createTask } = useTaskApi();
+    const { getOrganizationProjectsById } = useOrganizationApi();
+    const { getAllTasksByOrganization, createTask } = useTaskApi();
     const { getOrganizationAccounts } = useOrganizationApi();
     const { getAllAccountDetails } = useIdentityServerApi();
     const [projects, setProjects] = useState<Project[] | null>(null);
@@ -41,18 +44,21 @@ export const CreateTicket = ({opened, onClose}: CreateTicketProps) => {
     const [titleTask, setTitleTask] = useState<string>('');
     const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
     const [selectedParentTaskId, setSelectedParentTaskId] = useState<string | null>(null);
-    const [accounts, setAccounts ] = useState<AccountDetails[]>([]);
+    const [accounts, setAccounts] = useState<AccountDetails[]>([]);
     const [reporterId, setReporterId] = useState<AccountDetails | null>(null);
     const [assigneeId, setAssigneeId] = useState<AccountDetails | null>(null);
-    const [accountsLoading, setAccountsLoading] = useState(false);
+    const [startDate, setStartDate] = useState<Date | null>(null);
+    const [dueDate, setDueDate] = useState<Date | null>(null);
+    const [estimatedTime, setEstimatedTime] = useState<TimeOnly | null>(null);
+    const [loading, setLoading] = useState(false);
     const auth = useSafeAuth();
-    
+
 
     useEffect(() => {
         const fetchProjects = async () => {
             try {
-                const data = await getAllProjects();
-                setProjects(data);
+                const data = await getOrganizationProjectsById(organizationId);
+                setProjects(data.data.projects);
             } catch (error) {
                 console.error('Error fetching projects:', error);
             }
@@ -63,31 +69,31 @@ export const CreateTicket = ({opened, onClose}: CreateTicketProps) => {
     useEffect(() => {
         const fetchTasks = async () => {
             try {
-                const data = await getAllTasks();
-                setTasks(data);
+                const data = await getAllTasksByOrganization(organizationId);
+                setTasks(data.data);
             } catch (error) {
                 console.error('Error fetching tasks:', error);
             }
         };
         fetchTasks();
     }
-    , []);
+        , []);
 
     useEffect(() => {
-            const fetchOrganizationAccounts = async () => {
-                setAccountsLoading(true); // Start loading
-                try {
-                    const data = await getOrganizationAccounts();
-                    const dataAccountDetails = await getAllAccountDetails(data.accounts);
-                    setAccounts(dataAccountDetails);
-                } catch (error) {
-                    console.error('Error fetching accounts:', error);
-                } finally {
-                    setAccountsLoading(false); // End loading
-                }
-            };
-            fetchOrganizationAccounts();
-        }, []);
+        const fetchOrganizationAccounts = async () => {
+            setLoading(true);
+            try {
+                const data = await getOrganizationAccounts(organizationId);
+                const dataAccountDetails = await getAllAccountDetails(data.data.accounts);
+                setAccounts(dataAccountDetails.data);
+            } catch (error) {
+                console.error('Error fetching accounts:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchOrganizationAccounts();
+    }, []);
 
     const handleProjectChange = (projectId: string | null) => {
         setSelectedProjectId(projectId);
@@ -100,9 +106,21 @@ export const CreateTicket = ({opened, onClose}: CreateTicketProps) => {
     const handleReporterChange = (value: AccountDetails | null) => {
         setReporterId(value);
     }
-    
+
     const handleAssigneeChange = (value: AccountDetails | null) => {
         setAssigneeId(value);
+    }
+
+    const handleStartDateChange = (date: Date | null) => {
+        setStartDate(date);
+    }
+
+    const handleDueDateChange = (date: Date | null) => {
+        setDueDate(date);
+    }
+
+    const handleEstimatedTimeChange = (time: TimeOnly | null) => {
+        setEstimatedTime(time);
     }
 
     const handleCreateTask = async () => {
@@ -110,24 +128,42 @@ export const CreateTicket = ({opened, onClose}: CreateTicketProps) => {
             console.error('No project selected');
             return;
         }
-        const taskData = {
-            title: titleTask,
-            description: editor ? editor.getHTML() : '',
-            type: null, // Set the type as needed
-            reporterId: auth.user?.profile.sub || '', 
-            assigneeId: auth.user?.profile.sub || '', 
-            projectId: selectedProjectId,
-            parentId: selectedParentTaskId || null,
+
+        if (!titleTask.trim()) {
+            console.error('Task title is required');
+            return;
         }
 
-        try {
-            const responce = await createTask(taskData);
-            console.log('Task created successfully:', responce);
-        } catch (error) {
-            console.error('Error creating task:', error);
+        if (!auth.user?.profile.sub) {
+            console.error('User is not authenticated');
+            return;
         }
-        onClose();
-    }
+
+        const taskData = {
+            title: titleTask.trim(),
+            description: editor?.getHTML() || '',
+            reporterId: reporterId?.id || auth.user.profile.sub,
+            assigneeId: assigneeId?.id || "",
+            startDate: startDate ? startDate.toISOString().split("T")[0] : null,
+            dueDate: dueDate ? dueDate.toISOString().split("T")[0] : null,
+            estimate: estimatedTime ?? null,
+            projectId: selectedProjectId,
+            parentId: selectedParentTaskId ?? null,
+            type: 1,
+            statusId: 1
+        };
+
+        console.log("Submitting task:", taskData);
+
+        try {
+            const response = await createTask(taskData);
+            console.log("Task created successfully:", response);
+            onClose(); // Only close after success
+        } catch (error: any) {
+            console.error("Error creating task:", error.response?.data || error.message);
+        }
+    };
+
 
     return (
         <Modal
@@ -138,12 +174,6 @@ export const CreateTicket = ({opened, onClose}: CreateTicketProps) => {
             withCloseButton
             transitionProps={{ transition: 'fade', duration: 200 }}
         >
-            {/* <Modal.Header>
-                <Title order={3} style={{ width: '100%' }}>
-                    Create New Ticket
-                </Title>
-            </Modal.Header> */}
-
             <Modal.Body>
                 <Flex direction="column" gap="md" style={{ width: '100%' }}>
                     <div>
@@ -161,7 +191,7 @@ export const CreateTicket = ({opened, onClose}: CreateTicketProps) => {
                                 <TicketDesciption
                                     editor={editor}
                                     content=""
-                                    onChange={() => {}}
+                                    onChange={() => { }}
                                 />
                             </Flex>
                         </Fieldset>
@@ -169,17 +199,17 @@ export const CreateTicket = ({opened, onClose}: CreateTicketProps) => {
                     <div>
                         <Fieldset legend="Select Project" style={{ width: '100%' }}>
                             <Select
-                            placeholder="Select Project"
-                            data={
-                            projects?.map((project) => ({
-                                value: project.id,
-                                label: project.title,
-                            })) || []
-                            }
-                            value={selectedProjectId}
-                            onChange={handleProjectChange}
-                            searchable
-                            style={{ width: '100%' }}
+                                placeholder="Select Project"
+                                data={
+                                    projects?.map((project) => ({
+                                        value: project.id ?? "",
+                                        label: project.title,
+                                    })) || []
+                                }
+                                value={selectedProjectId}
+                                onChange={handleProjectChange}
+                                searchable
+                                style={{ width: '100%' }}
                             />
                         </Fieldset>
                     </div>
@@ -188,10 +218,10 @@ export const CreateTicket = ({opened, onClose}: CreateTicketProps) => {
                             <Select
                                 placeholder="Select parent task"
                                 data={
-                                tasks?.map((task) => ({
-                                    value: task.id,
-                                    label: task.title,
-                                })) || []
+                                    tasks?.map((task) => ({
+                                        value: task.id,
+                                        label: task.title,
+                                    })) || []
                                 }
                                 value={selectedParentTaskId}
                                 onChange={handleTaskChange}
@@ -201,23 +231,56 @@ export const CreateTicket = ({opened, onClose}: CreateTicketProps) => {
                         </Fieldset>
                     </div>
                     <Flex justify="space-between" align="center" mb="md">
-                                            <Fieldset legend="Reporter" style={{ width: '50%' }}>
-                                                <AccountDropdown
-                                                    selectedAccount={reporterId}
-                                                    accounts={accounts}
-                                                    placeholder="Select Reporter"
-                                                    onAccountChange={handleReporterChange}
-                                                />
-                                            </Fieldset>
-                                            <Fieldset legend="Assignee" style={{ width: '50%' }}>
-                                                <AccountDropdown
-                                                    selectedAccount={assigneeId}
-                                                    accounts={accounts}
-                                                    placeholder="Select Assignee"
-                                                    onAccountChange={handleAssigneeChange}
-                                                />
-                                            </Fieldset>
-                                        </Flex>
+                        <Fieldset legend="Reporter" style={{ width: '50%' }}>
+                            <AccountDropdown
+                                selectedAccount={reporterId}
+                                accounts={accounts}
+                                placeholder="Select Reporter"
+                                onAccountChange={handleReporterChange}
+                            />
+                        </Fieldset>
+                        <Fieldset legend="Assignee" style={{ width: '50%' }}>
+                            <AccountDropdown
+                                selectedAccount={assigneeId}
+                                accounts={accounts}
+                                placeholder="Select Assignee"
+                                onAccountChange={handleAssigneeChange}
+                            />
+                        </Fieldset>
+                    </Flex>
+                </Flex>
+                <Flex justify={"space-between"} align="center" mt="md">
+                    <Fieldset legend="StartDate" style={{ width: '50%' }}>
+                        <Input
+                            type="date"
+                            placeholder="Select Start Date"
+                            style={{ width: '100%' }}
+                            onChange={(event) => {
+                                const value = event.currentTarget.value;
+                                handleStartDateChange(value ? new Date(value) : null);
+                            }}
+                        />
+                    </Fieldset>
+                    <Fieldset legend="Due Date" style={{ width: '50%' }}>
+                        <Input
+                            type="date"
+                            placeholder="Select Due Date"
+                            style={{ width: '100%' }}
+                            onChange={(event) => {
+                                const value = event.currentTarget.value;
+                                handleDueDateChange(value ? new Date(value) : null);
+                            }}
+                        />
+                    </Fieldset>
+                </Flex>
+                <Flex justify={"space-between"} align="center" mt="md">
+                    <Fieldset legend="Estimated Time" style={{ width: '50%' }}>
+                        <TimeOnlyInput
+                            value={estimatedTime ?? ''}
+                            onChange={setEstimatedTime}
+                        />
+                    </Fieldset>
+
                 </Flex>
             </Modal.Body>
             <Flex justify="flex-end" gap="md" mt="md">

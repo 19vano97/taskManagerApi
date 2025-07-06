@@ -27,13 +27,15 @@
     "@tiptap/pm": "^2.12.0",
     "@tiptap/react": "^2.12.0",
     "@tiptap/starter-kit": "^2.12.0",
+    "axios": "^1.10.0",
     "lucide-react": "^0.516.0",
     "oidc-client-ts": "^3.2.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-error-boundary": "^6.0.0",
     "react-oidc-context": "^3.3.0",
-    "react-router-dom": "^7.6.0"
+    "react-router-dom": "^7.6.0",
+    "recharts": "^3.0.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",

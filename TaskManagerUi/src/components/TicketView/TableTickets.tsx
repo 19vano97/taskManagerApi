@@ -1,53 +1,107 @@
-import { Badge, Table } from "@mantine/core";
-import type { AccountDetails, Task } from "../Types";
-import { TaskTypesBadge } from "./TaskTypeBadge";
+import {
+    Avatar,
+    Badge,
+    Flex,
+    ScrollArea,
+    Table,
+    Text,
+} from '@mantine/core';
+import { TaskTypesBadge } from './TaskTypeBadge';
+import type { AccountDetails, Task } from '../Types';
 
 type TaskTableProps = {
-  tasks: Task[];
-  accounts: AccountDetails[];
-  onTaskClick: (task: Task) => void;
+    tasks: Task[];
+    accounts: AccountDetails[];
+    onTaskClick: (task: Task) => void;
 };
 
+const getInitials = (firstName?: string, lastName?: string) =>
+    `${firstName?.[0] ?? ''}${lastName?.[0] ?? ''}`.toUpperCase();
 
-export const TaskTable = ({ tasks, accounts, onTaskClick }: TaskTableProps) => {
-    const rows = tasks.map((task) => (
-        <Table.Tr
-            key={task.id}
-            onClick={() => onTaskClick(task)}
-            style={{ cursor: 'pointer' }}
-        >
-            <Table.Td>{task.title}</Table.Td>
-            <Table.Td>{
-                    accounts.find((account: AccountDetails) => account.id == task.reporterId)?.firstName
-                    + ' ' +
-                    accounts.find((account: AccountDetails) => account.id == task.reporterId)?.lastName
-                    || 'Unassigned'
-                }</Table.Td>
-            <Table.Td>
-                {
-                    accounts.find((account: AccountDetails) => account.id == task.assigneeId)?.firstName
-                    + ' ' +
-                    accounts.find((account: AccountDetails) => account.id == task.assigneeId)?.lastName
-                    || 'Unassigned'
-                }
-            </Table.Td>
-            <Table.Td><TaskTypesBadge typeId={task.type} /></Table.Td>
-            <Table.Td>{task.statusName}</Table.Td>
-        </Table.Tr>
-    ));
+const getAccount = (id: string | undefined, accounts: AccountDetails[]) =>
+    accounts.find((acc) => acc.id === id);
+
+export const TableTickets = ({ tasks, accounts, onTaskClick }: TaskTableProps) => {
+    const rows = tasks
+        .filter((task) => task.statusName?.toLowerCase() !== 'done')
+        .map((task) => {
+            const reporter = getAccount(task.reporterId, accounts);
+            const assignee = getAccount(task.assigneeId, accounts);
+
+            return (
+                <Table.Tr
+                    key={task.id}
+                    onClick={() => onTaskClick(task)}
+                    style={{ cursor: 'pointer' }}
+                >
+                    <Table.Td>
+                        <Text fw={500}>{task.title}</Text>
+                    </Table.Td>
+
+                    <Table.Td>
+                        {reporter ? (
+                            <Flex>
+                                <Avatar size="sm" radius="xl" color="blue">
+                                    {getInitials(reporter.firstName, reporter.lastName)}
+                                </Avatar>
+                                <Text ml="xs">{reporter.firstName} {reporter.lastName}</Text>
+                            </Flex>
+                        ) : (
+                            <Badge variant="light" color="gray">
+                                Unassigned
+                            </Badge>
+                        )}
+                    </Table.Td>
+
+                    <Table.Td>
+                        {assignee ? (
+                            <Flex>
+                                <Avatar size="sm" radius="xl" color="blue">
+                                    {getInitials(assignee.firstName, assignee.lastName)}
+                                </Avatar>
+                                <Text ml="xs">{assignee.firstName} {assignee.lastName}</Text>
+                            </Flex>
+                        ) : (
+                            <Badge variant="light" color="gray">
+                                Unassigned
+                            </Badge>
+                        )}
+                    </Table.Td>
+
+                    <Table.Td>
+                        <TaskTypesBadge typeId={task.typeId ?? 0} />
+                    </Table.Td>
+
+                    <Table.Td>
+                        <Badge variant="light" color="indigo" radius="sm">
+                            {task.statusName}
+                        </Badge>
+                    </Table.Td>
+                </Table.Tr>
+            );
+        });
 
     return (
-        <Table striped highlightOnHover withTableBorder withColumnBorders>
-            <Table.Thead>
-                <Table.Tr>
-                <Table.Th>Title</Table.Th>
-                <Table.Th>Reporter</Table.Th>
-                <Table.Th>Assignee</Table.Th>
-                <Table.Th>Type</Table.Th>
-                <Table.Th>Status</Table.Th>
-                </Table.Tr>
-            </Table.Thead>
-            <Table.Tbody>{rows}</Table.Tbody>
-        </Table>
+        <ScrollArea style={{ width: '100%', height: '100%' }}>
+            <Table
+                striped
+                highlightOnHover
+                withTableBorder
+                withColumnBorders
+                verticalSpacing="md"
+                style={{ minWidth: '900px' }}
+            >
+                <Table.Thead>
+                    <Table.Tr>
+                        <Table.Th>Task</Table.Th>
+                        <Table.Th>Reporter</Table.Th>
+                        <Table.Th>Assignee</Table.Th>
+                        <Table.Th>Type</Table.Th>
+                        <Table.Th>Status</Table.Th>
+                    </Table.Tr>
+                </Table.Thead>
+                <Table.Tbody>{rows}</Table.Tbody>
+            </Table>
+        </ScrollArea>
     );
 };
