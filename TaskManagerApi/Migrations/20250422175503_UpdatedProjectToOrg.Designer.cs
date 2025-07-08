@@ -11,7 +11,7 @@ using TaskManagerApi.Data;
 
 namespace TaskManagerApi.Migrations
 {
-    [DbContext(typeof(TaskManagerAPIDbContext))]
+    [DbContext(typeof(TicketManagerAPIDbContext))]
     [Migration("20250422175503_UpdatedProjectToOrg")]
     partial class UpdatedProjectToOrg
     {

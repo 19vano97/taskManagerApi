@@ -2,19 +2,19 @@ using System;
 using TaskManagerApi.Enums;
 using TaskManagerApi.Handlers;
 using TaskManagerApi.Models;
-using TaskManagerApi.Models.TaskItem;
+using TaskManagerApi.Models.TicketItem;
 using TaskManagerApi.Models.Tickets;
 
 namespace TaskManagerApi.Services.Interfaces;
 
 public interface ITicketService
 {
-    Task<List<TicketDto>> GetTasksByOrganizationAsync(Guid organizationId);
-    Task<List<TicketDto>> GetTasksByProjectAsync(Guid projectId);
-    Task<TicketDto> CreateTaskAsync(TicketDto newTask);
-    Task<List<TicketDto>> CreateTicketsForAiAsync(TicketForAiDto[] newTasks);
-    Task<TicketDto> EditTaskByIdAsync(Guid Id, TicketDto newTask);
-    Task<TicketDto> GetTaskByIdAsync(Guid taskId);
-    Task<TicketDto> DeleteTaskAsync(Guid Id);
-    public event EventHandler<TaskHistoryEventArgs> TaskHistoryEventArgs;
+    Task<ServiceResult<List<TicketDto>>> GetTasksByOrganizationAsync(Guid organizationId, CancellationToken cancellationToken);
+    Task<ServiceResult<List<TicketDto>>> GetTasksByProjectAsync(Guid projectId, CancellationToken cancellationToken);
+    Task<ServiceResult<TicketDto>> CreateTaskAsync(TicketDto newTask, CancellationToken cancellationToken);
+    Task<ServiceResult<List<TicketDto>>> CreateTicketsForAiAsync(TicketForAiDto[] newTasks, CancellationToken cancellationToken);
+    Task<ServiceResult<TicketDto>> EditTaskByIdAsync(Guid Id, TicketDto newTask, CancellationToken cancellationToken);
+    Task<ServiceResult<TicketDto>> GetTaskByIdAsync(Guid taskId, CancellationToken cancellationToken);
+    Task<ServiceResult<TicketDto>> DeleteTaskAsync(Guid Id, CancellationToken cancellationToken);
+    public event EventHandler<TicketHistoryEventArgs> TaskHistoryEventArgs;
 }

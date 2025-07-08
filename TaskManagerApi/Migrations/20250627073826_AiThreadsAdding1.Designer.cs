@@ -11,7 +11,7 @@ using TaskManagerApi.Data;
 
 namespace TaskManagerApi.Migrations
 {
-    [DbContext(typeof(TaskManagerAPIDbContext))]
+    [DbContext(typeof(TicketManagerAPIDbContext))]
     [Migration("20250627073826_AiThreadsAdding1")]
     partial class AiThreadsAdding1
     {

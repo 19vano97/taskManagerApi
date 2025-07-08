@@ -11,7 +11,7 @@ using TaskManagerApi.Data;
 
 namespace TaskManagerApi.Migrations
 {
-    [DbContext(typeof(TaskManagerAPIDbContext))]
+    [DbContext(typeof(TicketManagerAPIDbContext))]
     [Migration("20250425223648_AddedStatusTypes")]
     partial class AddedStatusTypes
     {

@@ -1,5 +1,5 @@
 using System;
-using TaskManagerApi.Models.TaskItemStatuses;
+using TaskManagerApi.Models.TicketItemStatuses;
 
 namespace TaskManagerApi.Models.Project;
 

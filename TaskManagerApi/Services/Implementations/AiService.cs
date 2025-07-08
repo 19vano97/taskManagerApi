@@ -4,8 +4,10 @@ using System.Net.Http.Headers;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 using TaskManagerApi.Data;
+using TaskManagerApi.Models;
 using TaskManagerApi.Models.AI;
 using TaskManagerApi.Services.Interfaces;
+using static TaskManagerApi.Models.Constants;
 
 namespace TaskManagerApi.Services.Implementations;
 
@@ -13,12 +15,12 @@ public class AiService : IAiService
 {
     private readonly IConfiguration _configuration;
     private readonly IHttpClientFactory _httpClientFactory;
-    private readonly TaskManagerAPIDbContext _context;
+    private readonly TicketManagerAPIDbContext _context;
     private readonly ILogger<AiService> _logger;
 
     public AiService(IConfiguration configuration,
                      IHttpClientFactory httpClientFactory,
-                     TaskManagerAPIDbContext context,
+                     TicketManagerAPIDbContext context,
                      ILogger<AiService> logger)
     {
         _configuration = configuration;
@@ -27,14 +29,19 @@ public class AiService : IAiService
         _logger = logger;
     }
 
-    public async Task<AiThreadDetailsDto> CreateNewThread(AiThreadDetailsDto aiThread)
+    public async Task<ServiceResult<AiThreadDetailsDto>> CreateNewThread(AiThreadDetailsDto aiThread, CancellationToken cancellationToken)
     {
         var organizationAccountMap = await _context.OrganizationAccount
             .FirstOrDefaultAsync(o => o.AccountId == aiThread.AccountId
-                                   && o.OrganizationId == aiThread.OrganizationId);
+                                   && o.OrganizationId == aiThread.OrganizationId
+                                   , cancellationToken);
 
         if (organizationAccountMap is null)
-            return null!;
+            return new ServiceResult<AiThreadDetailsDto>
+            {
+                Success = false,
+                ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
+            };
 
         var token = _configuration["OpenAI:ApiKey"];
         var client = _httpClientFactory.CreateClient();
@@ -42,7 +49,7 @@ public class AiService : IAiService
             new AuthenticationHeaderValue("Bearer", token);
         client.DefaultRequestHeaders.Add("OpenAI-Beta", "assistants=v2");
 
-        var threadResponse = await client.PostAsJsonAsync("https://api.openai.com/v1/threads", (object)null);
+        var threadResponse = await client.PostAsJsonAsync("https://api.openai.com/v1/threads", (object)null, cancellationToken);
         var threadParce = await threadResponse.Content.ReadFromJsonAsync<Dictionary<string, object>>();
         var threadId = threadParce["id"].ToString();
 
@@ -53,32 +60,50 @@ public class AiService : IAiService
             Thread = threadId
         });
 
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken);
 
-        var thread = await _context.AiThreads.FirstOrDefaultAsync(t => t.Thread == threadId);
+        var thread = await _context.AiThreads.FirstOrDefaultAsync(t => t.Thread == threadId, cancellationToken);
         if (thread is null)
-            return null;
+            return new ServiceResult<AiThreadDetailsDto>
+            {
+                Success = false,
+                ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
+            };
 
-        var organizationAccountIdThread = await _context.OrganizationAccount.FirstAsync(o => o.Id == thread.OrganizationAccountId);
+        var organizationAccountIdThread = await _context.OrganizationAccount.FirstAsync(o => o.Id == thread.OrganizationAccountId
+                                                                                                                , cancellationToken);
 
-        return new AiThreadDetailsDto
+        return new ServiceResult<AiThreadDetailsDto>
         {
-            Id = thread.Id,
-            Name = thread.Name,
-            OrganizationId = organizationAccountIdThread.OrganizationId,
-            AccountId = organizationAccountIdThread.AccountId,
-            CreateDate = thread.CreateDate
+            Success = true,
+            Data = new AiThreadDetailsDto
+            {
+                Id = thread.Id,
+                Name = thread.Name,
+                OrganizationId = organizationAccountIdThread.OrganizationId,
+                AccountId = organizationAccountIdThread.AccountId,
+                CreateDate = thread.CreateDate
+            }
         };
     }
 
-    public async Task<List<AiThreadDetailsDto>> GetAllThreadsByOrganizationAccount(Guid organizationId, Guid accountId)
+    public async Task<ServiceResult<List<AiThreadDetailsDto>>> GetAllThreadsByOrganizationAccount(Guid organizationId,
+                                                                                   Guid accountId,
+                                                                                   CancellationToken cancellationToken)
     {
         var organizationAccountMap = await _context.OrganizationAccount
             .FirstOrDefaultAsync(o => o.AccountId == accountId
-                                   && o.OrganizationId == organizationId);
+                                   && o.OrganizationId == organizationId
+                                   , cancellationToken);
 
         if (organizationAccountMap is null)
-            return null!;
+        {
+            return new ServiceResult<List<AiThreadDetailsDto>>
+            {
+                Success = false,
+                ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
+            };
+        }
 
         var threads = await _context.AiThreads.Where(t => t.OrganizationAccountId == organizationAccountMap.Id)
                                               .Select(t => new AiThreadDetailsDto
@@ -89,18 +114,30 @@ public class AiService : IAiService
                                                   AccountId = organizationAccountMap.AccountId,
                                                   CreateDate = t.CreateDate
                                               })
-                                              .ToListAsync();
+                                              .ToListAsync(cancellationToken);
         if (threads is null)
-            return null!;
+            return new ServiceResult<List<AiThreadDetailsDto>>
+            {
+                Success = false,
+                ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
+            };
 
-        return threads;
+        return new ServiceResult<List<AiThreadDetailsDto>>
+        {
+            Success = true,
+            Data = threads
+        };
     }
 
-    public async Task<List<ChatMessageDto>> GetChatHistoryByThread(Guid aiThread)
+    public async Task<ServiceResult<List<ChatMessageDto>>> GetChatHistoryByThread(Guid aiThread, CancellationToken cancellationToken)
     {
-        var threadInformation = await _context.AiThreads.FirstOrDefaultAsync(t => t.Id == aiThread);
+        var threadInformation = await _context.AiThreads.FirstOrDefaultAsync(t => t.Id == aiThread, cancellationToken);
         if (threadInformation is null)
-            return null!;
+            return new ServiceResult<List<ChatMessageDto>>
+            {
+                Success = false,
+                ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
+            };
 
         var token = _configuration["OpenAI:ApiKey"];
         var client = _httpClientFactory.CreateClient();
@@ -108,41 +145,61 @@ public class AiService : IAiService
             new AuthenticationHeaderValue("Bearer", token);
         client.DefaultRequestHeaders.Add("OpenAI-Beta", "assistants=v2");
 
-        var messageResponse = await client.GetAsync($"https://api.openai.com/v1/threads/{threadInformation.Thread}/messages");
+        var messageResponse = await client.GetAsync($"https://api.openai.com/v1/threads/{threadInformation.Thread}/messages", cancellationToken);
         var jsonString = await messageResponse.Content.ReadAsStringAsync();
         var messagesData = JObject.Parse(jsonString);
         var messages = (JArray)messagesData["data"];
 
-        return ParseMessages(messages);
-    }
-
-    public async Task<AiThreadDetailsDto> GetThreadInfo(Guid aiThread)
-    {
-        var thread = await _context.AiThreads.FirstOrDefaultAsync(t => t.Id == aiThread);
-        if (thread is null)
-            return null;
-
-        var organizationAccountIdThread = await _context.OrganizationAccount.FirstAsync(o => o.Id == thread.OrganizationAccountId);
-        if (thread.OrganizationAccountId != organizationAccountIdThread.Id)
-            return null!;
-
-        return new AiThreadDetailsDto
+        return new ServiceResult<List<ChatMessageDto>>
         {
-            Id = thread.Id,
-            Name = thread.Name,
-            OrganizationId = organizationAccountIdThread.OrganizationId,
-            AccountId = organizationAccountIdThread.AccountId,
-            CreateDate = thread.CreateDate
+            Success = true,
+            Data = ParseMessages(messages)
         };
     }
 
-    public async Task<ChatMessageDto> PostChatMessageAsync(ChatMessageDto userMessage, AiThreadDetailsDto aiThread)
+    public async Task<ServiceResult<AiThreadDetailsDto>> GetThreadInfo(Guid aiThread, CancellationToken cancellationToken)
+    {
+        var thread = await _context.AiThreads.FirstOrDefaultAsync(t => t.Id == aiThread, cancellationToken);
+        if (thread is null)
+            return new ServiceResult<AiThreadDetailsDto>
+            {
+                Success = false,
+                ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
+            };
+
+        var organizationAccountIdThread = await _context.OrganizationAccount.FirstAsync(o => o.Id == thread.OrganizationAccountId
+                                                                                                                , cancellationToken);
+        if (thread.OrganizationAccountId != organizationAccountIdThread.Id)
+            return null!;
+
+        return new ServiceResult<AiThreadDetailsDto>
+        {
+            Success = true,
+            Data = new AiThreadDetailsDto
+            {
+                Id = thread.Id,
+                Name = thread.Name,
+                OrganizationId = organizationAccountIdThread.OrganizationId,
+                AccountId = organizationAccountIdThread.AccountId,
+                CreateDate = thread.CreateDate
+            }
+        };
+    }
+
+    public async Task<ServiceResult<ChatMessageDto>> PostChatMessageAsync(ChatMessageDto userMessage,
+                                                           AiThreadDetailsDto aiThread,
+                                                           CancellationToken cancellationToken)
     {
         var thread = await _context.AiThreads.FirstOrDefaultAsync(t => t.Id == aiThread.Id);
         if (thread is null)
-            return null;
+            return new ServiceResult<ChatMessageDto>
+            {
+                Success = false,
+                ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
+            };
 
-        var organizationAccountIdThread = await _context.OrganizationAccount.FirstAsync(o => o.Id == thread.OrganizationAccountId);
+        var organizationAccountIdThread = await _context.OrganizationAccount.FirstAsync(o => o.Id == thread.OrganizationAccountId
+                                                                                                                 , cancellationToken);
 
         var token = _configuration["OpenAI:ApiKey"];
         var client = _httpClientFactory.CreateClient();
@@ -154,12 +211,12 @@ public class AiService : IAiService
         {
             role = "user",
             content = userMessage.Content
-        });
+        }, cancellationToken);
 
         var runResponse = await client.PostAsJsonAsync($"https://api.openai.com/v1/threads/{thread.Thread}/runs", new
         {
             assistant_id = _configuration["OpenAI:AssistantId"]
-        });
+        }, cancellationToken);
 
         var run = await runResponse.Content.ReadFromJsonAsync<Dictionary<string, object>>();
         var runId = run["id"].ToString();
@@ -168,25 +225,36 @@ public class AiService : IAiService
         do
         {
             await Task.Delay(500);
-            var statusResponse = await client.GetAsync($"https://api.openai.com/v1/threads/{thread.Thread}/runs/{runId}");
-            var statusData = await statusResponse.Content.ReadFromJsonAsync<Dictionary<string, object>>();
+            var statusResponse = await client.GetAsync($"https://api.openai.com/v1/threads/{thread.Thread}/runs/{runId}", cancellationToken);
+            var statusData = await statusResponse.Content.ReadFromJsonAsync<Dictionary<string, object>>(cancellationToken);
             status = statusData["status"].ToString();
         }
         while (status == "in_progress" || status == "queued");
 
-        var messageResponse = await client.GetAsync($"https://api.openai.com/v1/threads/{thread.Thread}/messages");
-        var jsonString = await messageResponse.Content.ReadAsStringAsync();
+        var messageResponse = await client.GetAsync($"https://api.openai.com/v1/threads/{thread.Thread}/messages", cancellationToken);
+        var jsonString = await messageResponse.Content.ReadAsStringAsync(cancellationToken);
         var messagesData = JObject.Parse(jsonString);
         var messages = (JArray)messagesData["data"];
+
+        if (messages is null)
+            return new ServiceResult<ChatMessageDto>
+            {
+                Success = false,
+                ErrorMessage = LogPhrases.ServiceResult.Error.FAILED_PARSED_JSON
+            };
 
         var firstMessage = messages.First;
         var content = firstMessage["content"]?[0]?["text"]?["value"]?.ToString();
 
-        return new ChatMessageDto
+        return new ServiceResult<ChatMessageDto>
         {
-            Role = "assistant",
-            Content = content,
-            IsAutomatedTicketCreationFlag = false
+            Success = true,
+            Data = new ChatMessageDto
+            {
+                Role = "assistant",
+                Content = content,
+                IsAutomatedTicketCreationFlag = false
+            }
         };
     }
 

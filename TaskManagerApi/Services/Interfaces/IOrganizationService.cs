@@ -1,16 +1,17 @@
 using System;
 using System.Security.Claims;
+using TaskManagerApi.Models;
 using TaskManagerApi.Models.OrganizationModel;
 
 namespace TaskManagerApi.Services.Interfaces;
 
 public interface IOrganizationService
 {
-    Task<OrganizationDto> CreateAsync(ClaimsPrincipal user, OrganizationDto newOgranization);
-    Task<OrganizationDto> EditAsync(ClaimsPrincipal user, OrganizationDto newOgranization);
-    Task<OrganizationDto> DeleteAsync(OrganizationDto newOgranization);
-    Task<OrganizationProjectDto> GetOrganizationProjectsAsync(Guid organizationId);
-    Task<OrganizationProjectDto> AddNewMemberToOrganization(Guid organizationId, Guid accountId);
-    Task<OrganizationDto> GetOrganizationAsync(Guid organizationId);
-    Task<List<OrganizationProjectDto>> GetOrganizationsByAccountAsync(Guid accountId);
+    Task<ServiceResult<OrganizationDto>> CreateAsync(ClaimsPrincipal user, OrganizationDto newOgranization, CancellationToken cancellationToken);
+    Task<ServiceResult<OrganizationDto>> EditAsync(ClaimsPrincipal user, OrganizationDto newOgranization, CancellationToken cancellationToken);
+    Task<ServiceResult<OrganizationDto>> DeleteAsync(OrganizationDto newOgranization, CancellationToken cancellationToken);
+    Task<ServiceResult<OrganizationProjectDto>> GetOrganizationProjectsAsync(Guid organizationId, CancellationToken cancellationToken);
+    Task<ServiceResult<OrganizationProjectDto>> AddNewMemberToOrganization(Guid organizationId, Guid accountId, CancellationToken cancellationToken);
+    Task<ServiceResult<OrganizationDto>> GetOrganizationAsync(Guid organizationId, CancellationToken cancellationToken);
+    Task<ServiceResult<List<OrganizationProjectDto>>> GetOrganizationsByAccountAsync(Guid accountId, CancellationToken cancellationToken);
 }

@@ -25,9 +25,9 @@ namespace TaskManagerApi.Controllers
         }
 
         [HttpPost("chat/{threadId}/message")]
-        public async Task<ActionResult<ChatMessageDto>> ChattingWithUser([FromBody] ChatMessageDto message, Guid threadId)
+        public async Task<ActionResult<ChatMessageDto>> ChattingWithUser([FromBody] ChatMessageDto message, Guid threadId, CancellationToken cancellationToken)
         {
-            var verification = await VerifyAccountInOrganization();
+            var verification = await VerifyAccountInOrganization(cancellationToken);
             if (!verification.IsVerified)
                 return BadRequest();
 
@@ -36,59 +36,60 @@ namespace TaskManagerApi.Controllers
                 Id = threadId,
                 AccountId = verification.AccountId,
                 OrganizationId = verification.OrganizationId
-            }));
+            }, cancellationToken));
         }
 
         [HttpGet("chat/{aiThread}/history")]
-        public async Task<ActionResult<List<ChatMessageDto>>> GetChatHistoryByThreadId(Guid aiThread)
+        public async Task<ActionResult<List<ChatMessageDto>>> GetChatHistoryByThreadId(Guid aiThread, CancellationToken cancellationToken)
         {
-            var verification = await VerifyAccountInOrganization();
+            var verification = await VerifyAccountInOrganization(cancellationToken);
             if (!verification.IsVerified)
                 return BadRequest();
 
-            return Ok(await _aiService.GetChatHistoryByThread(aiThread));
+            return Ok(await _aiService.GetChatHistoryByThread(aiThread, cancellationToken));
         }
 
         [HttpPost("thread/create")]
-        public async Task<ActionResult<AiThreadDetailsDto>> CreateNewThread(AiThreadDetailsDto aiThread)
+        public async Task<ActionResult<AiThreadDetailsDto>> CreateNewThread(AiThreadDetailsDto aiThread, CancellationToken cancellationToken)
         {
-            var verification = await VerifyAccountInOrganization();
+            var verification = await VerifyAccountInOrganization(cancellationToken);
             if (!verification.IsVerified)
                 return BadRequest();
 
             aiThread.AccountId = verification.AccountId;
             aiThread.OrganizationId = verification.OrganizationId;
 
-            return Ok(await _aiService.CreateNewThread(aiThread));
+            return Ok(await _aiService.CreateNewThread(aiThread, cancellationToken));
         }
 
         [HttpGet("thread/all")]
-        public async Task<ActionResult<List<AiThreadDetailsDto>>> GetAllThreads()
+        public async Task<ActionResult<List<AiThreadDetailsDto>>> GetAllThreads(CancellationToken cancellationToken)
         {
-            var verification = await VerifyAccountInOrganization();
+            var verification = await VerifyAccountInOrganization(cancellationToken);
             if (!verification.IsVerified)
                 return BadRequest();
 
             return Ok(await _aiService.GetAllThreadsByOrganizationAccount(verification.OrganizationId,
-                                                                          verification.AccountId));
+                                                                          verification.AccountId,
+                                                                          cancellationToken));
         }
 
         [HttpGet("thread/{threadId}/info")]
-        public async Task<ActionResult<AiThreadDetailsDto>> GetThreadInfo(Guid aiThread)
+        public async Task<ActionResult<AiThreadDetailsDto>> GetThreadInfo(Guid aiThread, CancellationToken cancellationToken)
         {
-            var verification = await VerifyAccountInOrganization();
+            var verification = await VerifyAccountInOrganization(cancellationToken);
             if (!verification.IsVerified)
                 return BadRequest();
 
-            return Ok(await _aiService.GetThreadInfo(aiThread));
+            return Ok(await _aiService.GetThreadInfo(aiThread, cancellationToken));
         }
 
-        private async Task<VerificationOrganizationAccountDto> VerifyAccountInOrganization()
+        private async Task<VerificationOrganizationAccountDto> VerifyAccountInOrganization(CancellationToken cancellationToken)
         {
             if (!this.Request.Headers.TryGetValue("organizationId", out var organizationIdString)
                || !Guid.TryParse(organizationIdString, out Guid organizationId)
                || !Guid.TryParse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value, out Guid accountId)
-               || !await _accountVerification.VerifyAccountInOrganization(accountId, organizationId))
+               || !await _accountVerification.VerifyAccountInOrganization(accountId, organizationId, cancellationToken))
                 return new VerificationOrganizationAccountDto
                 {
                     IsVerified = false,

@@ -7,9 +7,9 @@ using TaskManagerApi.Enitities.Task;
 
 namespace TaskManagerApi.Data;
 
-public class TaskManagerAPIDbContext : DbContext
+public class TicketManagerAPIDbContext : DbContext
 {
-    public TaskManagerAPIDbContext(DbContextOptions<TaskManagerAPIDbContext> options) : base (options)
+    public TicketManagerAPIDbContext(DbContextOptions<TicketManagerAPIDbContext> options) : base (options)
     {    }
 
     public DbSet<Ticket> Tickets { get; set; }

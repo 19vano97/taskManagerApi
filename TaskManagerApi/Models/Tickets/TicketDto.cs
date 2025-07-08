@@ -3,7 +3,7 @@ using TaskManagerApi.Enitities;
 using TaskManagerApi.Enums;
 using TaskManagerApi.Models.Project;
 
-namespace TaskManagerApi.Models.TaskItem;
+namespace TaskManagerApi.Models.TicketItem;
 
 public class TicketDto
 {

@@ -1,6 +1,6 @@
 using System;
 
-namespace TaskManagerApi.Models.TaskItem;
+namespace TaskManagerApi.Models.TicketItem;
 
 public class TicketParentDto
 {

@@ -2,8 +2,10 @@ using System;
 using System.Text;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using TaskManagerApi.Models;
 using TaskManagerApi.Models.TaskHistory;
 using TaskManagerApi.Services.Interfaces;
+using static TaskManagerApi.Models.Constants;
 
 namespace TaskManagerApi.Services.Implementations;
 
@@ -33,26 +35,37 @@ public class TicketHistoryService : ITicketHistoryService
         _logger.LogInformation(data);
     }
 
-    public async Task<List<TicketHistoryDto>> GetHistoryByTaskId(Guid taskId)
+    public async Task<ServiceResult<List<TicketHistoryDto>>> GetHistoryByTaskId(Guid taskId, CancellationToken cancellationToken)
     {
         try
         {
             var httpClient = _httpClientFactory.CreateClient("taskHistory");
-            var response = await httpClient.GetFromJsonAsync<List<TicketHistoryDto>>($"api/thistory/info/{taskId}");
-        
+            var response = await httpClient.GetFromJsonAsync<List<TicketHistoryDto>>($"api/thistory/info/{taskId}", cancellationToken);
+
             if (response is null)
             {
                 _logger.LogWarning("no reponce");
-                return null!;
+                return new ServiceResult<List<TicketHistoryDto>>
+                {
+                    Success = false,
+                    ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
+                };
             }
 
-            return response;
+            return new ServiceResult<List<TicketHistoryDto>>
+            {
+                Success = true,
+                Data = response
+            };
         }
         catch (System.Exception er)
         {
             _logger.LogError(er.ToString());
+            return new ServiceResult<List<TicketHistoryDto>>
+            {
+                Success = false,
+                ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
+            };
         }
-
-        return null!;
     }
 }

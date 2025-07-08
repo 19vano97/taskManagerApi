@@ -1,4 +1,5 @@
 using System;
+using TaskManagerApi.Models;
 using TaskManagerApi.Models.TaskHistory;
 
 namespace TaskManagerApi.Services.Interfaces;
@@ -6,5 +7,5 @@ namespace TaskManagerApi.Services.Interfaces;
 public interface ITicketHistoryService
 {
     Task Write(TicketHistoryDto history);
-    Task<List<TicketHistoryDto>> GetHistoryByTaskId(Guid taskId);
+    Task<ServiceResult<List<TicketHistoryDto>>> GetHistoryByTaskId(Guid taskId, CancellationToken cancellationToken);
 }

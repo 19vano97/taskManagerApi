@@ -4,5 +4,5 @@ namespace TaskManagerApi.Models.Settings;
 
 public class ApiServices
 {
-    public ICollection<string> ServiceIPs { get; set; }
+    public string ServiceIPs { get; set; }
 }

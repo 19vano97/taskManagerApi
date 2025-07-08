@@ -1,11 +1,16 @@
+using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
+using Serilog;
 using TaskManagerApi.Data;
+using TaskManagerApi.Middlewares;
 using TaskManagerApi.Models.Settings;
 using TaskManagerApi.Services.Implementations;
 using TaskManagerApi.Services.Interfaces;
+using System.Linq;
 using static TaskManagerApi.Models.Constants.ServerSettingsConstants;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,21 +18,23 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 var serverSettings = new ServerSettings();
-builder.Configuration.GetSection("IdentityServerSettings").Bind(serverSettings);
+builder.Configuration.GetSection("serverSettings").Bind(serverSettings);
 builder.Services.AddOpenApi();
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+       .AddNewtonsoftJson(opts =>
+           opts.SerializerSettings.ReferenceLoopHandling 
+             = ReferenceLoopHandling.Ignore);
 builder.Services.AddSwaggerGen();
-builder.Services.AddHttpClient(
-    "taskHistory",
-    client =>
-    {
-        client.BaseAddress = new Uri("http://localhost:5178");
-        client.DefaultRequestHeaders.Add("Accept", "application/json");
-    }
-);
-builder.Services.AddDbContext<TaskManagerAPIDbContext>(options => 
+
+var taskHistoryUrl = serverSettings.ApiServices["TaskHistory"];
+builder.Services.AddHttpClient("taskHistory", client =>
+{
+    client.BaseAddress = new Uri(taskHistoryUrl);
+    client.DefaultRequestHeaders.Accept.Add(
+        new MediaTypeWithQualityHeaderValue("application/json"));
+});
+builder.Services.AddDbContext<TicketManagerAPIDbContext>(options => 
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
-    // options.UseSqlServer(builder.Configuration.GetConnectionString(serverSettings.ConnectionStrings.Connections.First(c => c == "DefaultConnection")))
 );
 builder.Services.AddScoped<ITicketService, TicketService>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
@@ -46,10 +53,10 @@ builder.WebHost.ConfigureKestrel(options =>
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
-        options.Authority = "https://localhost:7270";
-        options.Audience = "taskManagerApi";
-        // options.Authority = serverSettings.Client.Authority;
-        // options.Audience = serverSettings.Client.Audience;
+        options.Authority = serverSettings.Client.Authority;
+        options.Audience = serverSettings.Client.Audience;
+        options.TokenValidationParameters.ValidateAudience = true;
+        options.TokenValidationParameters.ValidateLifetime = true;
     });
 builder.Services.AddAuthorization();
 builder.Services.AddCors(options =>
@@ -61,11 +68,10 @@ builder.Services.AddCors(options =>
             .AllowAnyMethod()
             .AllowCredentials());
 });
-builder.Services.AddControllers()
-    .AddNewtonsoftJson(options =>
-    {
-        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-    });
+builder.Host.UseSerilog((ctx, cfg) =>
+{
+    cfg.ReadFrom.Configuration(ctx.Configuration);
+});
 
 
 var app = builder.Build();
@@ -79,6 +85,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("AllowReactClient");
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseHsts();

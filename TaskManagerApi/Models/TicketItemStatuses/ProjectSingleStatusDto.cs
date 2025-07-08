@@ -1,6 +1,6 @@
 using System;
 
-namespace TaskManagerApi.Models.TaskItemStatuses;
+namespace TaskManagerApi.Models.TicketItemStatuses;
 
 public class ProjectSingleStatusDto
 {

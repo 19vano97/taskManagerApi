@@ -7,7 +7,7 @@ using TaskManagerApi.Data;
 using TaskManagerApi.Enitities;
 using TaskManagerApi.Models;
 using TaskManagerApi.Models.TaskHistory;
-using TaskManagerApi.Models.TaskItem;
+using TaskManagerApi.Models.TicketItem;
 using TaskManagerApi.Models.Tickets;
 using TaskManagerApi.Models.Verification;
 using TaskManagerApi.Services.Implementations;
@@ -21,21 +21,21 @@ namespace TaskManagerApi.Controllers
     [ApiController]
     public class TicketController : ControllerBase
     {
-        private ITicketService _taskItemService;
-        private ITicketHistoryService _taskHistoryService;
+        private ITicketService _ticketItemService;
+        private ITicketHistoryService _ticketHistoryService;
         private IAccountVerification _accountVerification;
         private ILogger<TicketController> _logger;
-        private TaskManagerAPIDbContext _context;
+        private TicketManagerAPIDbContext _context;
 
-        public TicketController(ITicketService taskItemService,
+        public TicketController(ITicketService ticketItemService,
                                   ITicketHistoryService taskHistoryService,
                                   IAccountVerification accountVerification,
                                   ILogger<TicketController> logger,
-                                  TaskManagerAPIDbContext context)
+                                  TicketManagerAPIDbContext context)
 
         {
-            _taskItemService = taskItemService;
-            _taskHistoryService = taskHistoryService;
+            _ticketItemService = ticketItemService;
+            _ticketHistoryService = taskHistoryService;
             _accountVerification = accountVerification;
             _logger = logger;
             _context = context;
@@ -43,142 +43,187 @@ namespace TaskManagerApi.Controllers
         }
 
         [HttpGet("all/{organizationId}/organization")]
-        public async Task<ActionResult<List<TicketDto>>> GetTasksInOrganizationAsync(Guid organizationId)
+        public async Task<ActionResult<List<TicketDto>>> GetTasksInOrganizationAsync(Guid organizationId,
+                                                                                     CancellationToken cancellationToken)
         {
             if (!Guid.TryParse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value, out Guid accountId)
-                || !await _accountVerification.VerifyAccountInOrganization(accountId, organizationId))
+                || !await _accountVerification.VerifyAccountInOrganization(accountId, organizationId, cancellationToken))
                 return BadRequest();
 
-            var result = await _taskItemService.GetTasksByOrganizationAsync(organizationId);
-            _logger.LogInformation($"{LogPhrases.PositiveActions.TASKS_SHOWN_LOG}", result.Select(s => s.Id));
+            var result = await _ticketItemService.GetTasksByOrganizationAsync(organizationId, cancellationToken);
+            if (!result.Success)
+            {
+                if (result.ErrorMessage == LogPhrases.ServiceResult.Error.NOT_FOUND)
+                {
+                    return NotFound();
+                }
+
+                return BadRequest(result.ErrorMessage);
+            }
+
+            _logger.LogInformation($"{LogPhrases.PositiveActions.TASKS_SHOWN_LOG}", result.Data.Select(s => s.Id));
 
             return Ok(result);
         }
 
         [HttpGet("all/{projectId}/project")]
-        public async Task<ActionResult<List<TicketDto>>> GetTasksInOrganizationProjectAsync(Guid projectId)
+        public async Task<ActionResult<List<TicketDto>>> GetTasksInOrganizationProjectAsync(Guid projectId,
+                                                                                            CancellationToken cancellationToken)
         {
-            var verification = await VerifyAccountInOrganization();
+            var verification = await VerifyAccountInOrganization(cancellationToken);
             if (!verification.IsVerified)
                 return BadRequest();
 
-            return Ok(await _taskItemService.GetTasksByProjectAsync(projectId));
+            var res = await _ticketItemService.GetTasksByProjectAsync(projectId, cancellationToken);
+            if (!res.Success)
+            {
+                if (res.ErrorMessage == LogPhrases.ServiceResult.Error.NOT_FOUND)
+                {
+                    return NotFound();
+                }
+
+                return BadRequest(res.ErrorMessage);
+            }
+
+            return Ok(res.Data);
         }
 
         [HttpGet("{Id}/details")]
-        public async Task<ActionResult<TicketDto>> GetTaskByIdAsync(Guid Id)
+        public async Task<ActionResult<TicketDto>> GetTaskByIdAsync(Guid Id, CancellationToken cancellationToken)
         {
-            var verification = await VerifyAccountInOrganization();
+            var verification = await VerifyAccountInOrganization(cancellationToken);
             if (!verification.IsVerified)
                 return BadRequest();
 
-            var task = await _taskItemService.GetTaskByIdAsync(Id);
-
-            if (task is null)
+            var task = await _ticketItemService.GetTaskByIdAsync(Id, cancellationToken);
+            if (!task.Success)
             {
-                _logger.LogError($"{LogPhrases.NegativeActions.TASK_NOT_FOUND_LOG}", Id);
-                return BadRequest("Invalid request");
+                if (task.ErrorMessage == LogPhrases.ServiceResult.Error.NOT_FOUND)
+                {
+                    return NotFound();
+                }
+
+                return BadRequest(task.ErrorMessage);
             }
 
-            return Ok(task);
+            return Ok(task.Data);
         }
 
         [HttpPost("create")]
-        public async Task<ActionResult<TicketDto>> CreateTaskAsync(TicketDto newTask)
+        public async Task<ActionResult<TicketDto>> CreateTaskAsync(TicketDto newTask, CancellationToken cancellationToken)
         {
-            var verification = await VerifyAccountInOrganization();
+            var verification = await VerifyAccountInOrganization(cancellationToken);
             if (!verification.IsVerified)
                 return BadRequest();
 
-            var createdTask = await _taskItemService.CreateTaskAsync(newTask);
-
-            if (createdTask is null)
+            var createdTask = await _ticketItemService.CreateTaskAsync(newTask, cancellationToken);
+            if (!createdTask.Success)
             {
-                _logger.LogError($"{LogPhrases.NegativeActions.TASK_CREATION_FAILED_LOG}", newTask);
-                return BadRequest("Invalid request");
+                if (createdTask.ErrorMessage == LogPhrases.ServiceResult.Error.NOT_FOUND)
+                {
+                    return NotFound();
+                }
+
+                return BadRequest(createdTask.ErrorMessage);
             }
 
-            return Ok(createdTask);
+            return Ok(createdTask.Data);
         }
 
         [HttpPost("create/ai/list")]
-        public async Task<ActionResult<List<TicketDto>>> CreateTaskForAiAsync(TicketForAiDto[] newTasks)
+        public async Task<ActionResult<List<TicketDto>>> CreateTaskForAiAsync(TicketForAiDto[] newTasks,
+                                                                              CancellationToken cancellationToken)
         {
-            var verification = await VerifyAccountInOrganization();
+            var verification = await VerifyAccountInOrganization(cancellationToken);
             if (!verification.IsVerified)
                 return BadRequest();
 
-            var createdTask = await _taskItemService.CreateTicketsForAiAsync(newTasks);
-
-            if (createdTask is null)
+            var createdTask = await _ticketItemService.CreateTicketsForAiAsync(newTasks, cancellationToken);
+            if (!createdTask.Success)
             {
-                _logger.LogError($"{LogPhrases.NegativeActions.TASK_CREATION_FAILED_LOG}", newTasks);
-                return BadRequest("Invalid request");
+                if (createdTask.ErrorMessage == LogPhrases.ServiceResult.Error.NOT_FOUND)
+                {
+                    return NotFound();
+                }
+
+                return BadRequest(createdTask.ErrorMessage);
             }
 
-            return Ok(createdTask);
+            return Ok(createdTask.Data);
         }
 
         [HttpPost("{taskId}/edit")]
-        public async Task<ActionResult<TicketDto>> EditTaskByIdAsync(Guid taskId, TicketDto editTask)
+        public async Task<ActionResult<TicketDto>> EditTaskByIdAsync(Guid taskId,
+                                                                     TicketDto editTask,
+                                                                     CancellationToken cancellationToken)
         {
-            var verification = await VerifyAccountInOrganization();
+            var verification = await VerifyAccountInOrganization(cancellationToken);
             if (!verification.IsVerified)
                 return BadRequest();
 
-            var taskToEdit = await _taskItemService.EditTaskByIdAsync(taskId, editTask);
-
-            if (taskToEdit is null)
+            var taskToEdit = await _ticketItemService.EditTaskByIdAsync(taskId, editTask, cancellationToken);
+            if (!taskToEdit.Success)
             {
-                _logger.LogError($"{LogPhrases.NegativeActions.TASK_UPDATE_FAILED_LOG}", taskId);
-                return BadRequest("Invalid request");
+                if (taskToEdit.ErrorMessage == LogPhrases.ServiceResult.Error.NOT_FOUND)
+                {
+                    return NotFound();
+                }
+
+                return BadRequest(taskToEdit.ErrorMessage);
             }
 
-            return Ok(taskToEdit);
+            return Ok(taskToEdit.Data);
         }
 
         [HttpGet("{taskId}/history")]
-        public async Task<ActionResult<List<TicketHistoryDto>>> GetHistoryByTaskId(Guid taskId)
+        public async Task<ActionResult<List<TicketHistoryDto>>> GetHistoryByTaskId(Guid taskId,
+                                                                                   CancellationToken cancellationToken)
         {
-            var verification = await VerifyAccountInOrganization();
+            var verification = await VerifyAccountInOrganization(cancellationToken);
             if (!verification.IsVerified)
                 return BadRequest();
 
-            try
+            var res = await _ticketHistoryService.GetHistoryByTaskId(taskId, cancellationToken);
+            if (!res.Success)
             {
-                return Ok(await _taskHistoryService.GetHistoryByTaskId(taskId));
+                if (res.ErrorMessage == LogPhrases.ServiceResult.Error.NOT_FOUND)
+                {
+                    return NotFound();
+                }
+
+                return BadRequest(res.ErrorMessage);
             }
-            catch (System.Exception ex)
-            {
-                _logger.LogWarning(ex.ToString());
-                return BadRequest();
-            }
+
+            return Ok(res.Data);
         }
 
         [HttpDelete("{Id}/delete")]
-        public async Task<ActionResult> DeleteTaskByIdAsync(Guid Id)
+        public async Task<ActionResult> DeleteTaskByIdAsync(Guid Id, CancellationToken cancellationToken)
         {
-            var verification = await VerifyAccountInOrganization();
+            var verification = await VerifyAccountInOrganization(cancellationToken);
             if (!verification.IsVerified)
                 return BadRequest();
 
-            var taskToDelete = await _taskItemService.DeleteTaskAsync(Id);
-
-            if (taskToDelete is null)
+            var taskToDelete = await _ticketItemService.DeleteTaskAsync(Id, cancellationToken);
+            if (!taskToDelete.Success)
             {
-                _logger.LogError($"{LogPhrases.NegativeActions.TASK_NOT_FOUND_LOG}", Id);
-                return BadRequest("Invalid request");
+                if (taskToDelete.ErrorMessage == LogPhrases.ServiceResult.Error.NOT_FOUND)
+                {
+                    return NotFound();
+                }
+
+                return BadRequest(taskToDelete.ErrorMessage);
             }
 
             return Ok();
         }
-        
-        private async Task<VerificationOrganizationAccountDto> VerifyAccountInOrganization()
+
+        private async Task<VerificationOrganizationAccountDto> VerifyAccountInOrganization(CancellationToken cancellationToken)
         {
             if (!this.Request.Headers.TryGetValue("organizationId", out var organizationIdString)
                || !Guid.TryParse(organizationIdString, out Guid organizationId)
                || !Guid.TryParse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value, out Guid accountId)
-               || !await _accountVerification.VerifyAccountInOrganization(accountId, organizationId))
+               || !await _accountVerification.VerifyAccountInOrganization(accountId, organizationId, cancellationToken))
                 return new VerificationOrganizationAccountDto
                 {
                     IsVerified = false,

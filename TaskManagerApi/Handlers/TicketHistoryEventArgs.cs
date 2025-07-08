@@ -3,11 +3,11 @@ using TaskManagerApi.Models.TaskHistory;
 
 namespace TaskManagerApi.Handlers;
 
-public class TaskHistoryEventArgs
+public class TicketHistoryEventArgs
 {
     private TicketHistoryDto _history;
 
-    public TaskHistoryEventArgs(TicketHistoryDto history)
+    public TicketHistoryEventArgs(TicketHistoryDto history)
     {
         _history = history;
     }

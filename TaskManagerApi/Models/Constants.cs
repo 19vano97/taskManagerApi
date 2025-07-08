@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Immutable;
-using TaskManagerApi.Models.TaskItemStatuses;
+using TaskManagerApi.Models.TicketItemStatuses;
 
 namespace TaskManagerApi.Models;
 
@@ -170,6 +170,19 @@ public class Constants
             public const string API_INTERNAL_SERVER_ERROR_LOG = "API internal server error: {object}";
             public const string API_TIMEOUT_LOG = "API request timed out: {object}";
             public const string API_RATE_LIMIT_EXCEEDED_LOG = "API rate limit exceeded: {object}";
+        }
+        public static class ServiceResult
+        {
+            public static class Error
+            {
+                public const string NOT_FOUND = "Not found";
+                public const string FAILED_PARSED_JSON = "failed parced json";
+                public const string FAILED_UNTRACE = "Failed untrace";
+                public const string DELETETION_ISSUE = "Deletion issue {0}";
+                public const string STATUSES_EMPTY = "Statuses are empty";
+                public const string MAX_STATUSES_VALUE = "Reached max number of statuses";
+                
+            }
         }
     }
 

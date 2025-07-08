@@ -14,123 +14,168 @@ namespace TaskManagerApi.Controllers
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/project")]
     [ApiController]
-    public partial class ProjectController : ControllerBase
+    public class ProjectController : ControllerBase
     {
         private IProjectService _projectService;
-        private ITicketService _taskItemService;
+        private ITicketService _ticketItemService;
         private IAccountVerification _accountVerification;
 
         public ProjectController(IProjectService projectService,
-                                 ITicketService taskItemService,
+                                 ITicketService ticketItemService,
                                  IAccountVerification accountVerification)
         {
             _projectService = projectService;
-            _taskItemService = taskItemService;
+            _ticketItemService = ticketItemService;
             _accountVerification = accountVerification;
         }
 
         [HttpGet("/all/{organizationId}")]
-        public async Task<ActionResult<List<ProjectItemWithTasksDto>>> GetAllProjectsWithTasksListAsync(Guid organizationId)
+        public async Task<ActionResult<List<ProjectItemWithTasksDto>>> GetAllProjectsWithTasksListAsync(Guid organizationId, CancellationToken cancellationToken)
         {
             if (!Guid.TryParse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value, out Guid accountId)
-                || !await _accountVerification.VerifyAccountInOrganization(accountId, organizationId))
+                || !await _accountVerification.VerifyAccountInOrganization(accountId, organizationId, cancellationToken))
                 return BadRequest();
 
-            var projects = await _projectService.GetProjectsByOrganizationIdAsync(organizationId);
+            var projects = await _projectService.GetProjectsByOrganizationIdAsync(organizationId, cancellationToken);
             var projectList = new List<ProjectItemWithTasksDto>();
 
-            foreach (var item in projects)
+            foreach (var item in projects.Data)
             {
+                var res = await _ticketItemService.GetTasksByProjectAsync(item.Id, cancellationToken);
+                if (!res.Success) continue;
+
                 projectList.Add(new ProjectItemWithTasksDto 
                 { 
                     Project = item, 
-                    Tasks = await _taskItemService.GetTasksByProjectAsync(item.Id)
+                    Tasks = res.Data!
                 });
             }
+
+            if (projectList.Count == 0) return NotFound();
 
             return Ok(projectList);
         }
 
         [HttpGet("{projectId}")]
-        public async Task<ActionResult<ProjectItemWithTasksDto>> GetProjectByIdAsync(Guid projectId)
+        public async Task<ActionResult<ProjectItemWithTasksDto>> GetProjectByIdAsync(Guid projectId, CancellationToken cancellationToken)
         {
             if (!Guid.TryParse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value, out Guid accountId)
-                || !await _accountVerification.VerifyAccountInOrganizationByProject(accountId, projectId))
+                || !await _accountVerification.VerifyAccountInOrganizationByProject(accountId, projectId, cancellationToken))
                 return BadRequest();
 
-            var project = await _projectService.GetProjectByIdAsync(projectId);
+            var project = await _projectService.GetProjectByIdAsync(projectId, cancellationToken);
 
-            if (project is null)
-                return BadRequest();
+            if (!project.Success)
+            {
+                if (project.ErrorMessage == LogPhrases.ServiceResult.Error.NOT_FOUND)
+                {
+                    return NotFound();
+                }
 
-            return Ok(project);
+                return BadRequest(project.ErrorMessage);
+            }
+
+            return Ok(project.Data);
         }
 
         [HttpGet("{projectId}/tasks")]
-        public async Task<ActionResult<ProjectItemWithTasksDto>> GetProjectWithTasksByIdAsync(Guid projectId)
+        public async Task<ActionResult<ProjectItemWithTasksDto>> GetProjectWithTasksByIdAsync(Guid projectId, CancellationToken cancellationToken)
         {
             if (!Guid.TryParse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value, out Guid accountId)
-                || !await _accountVerification.VerifyAccountInOrganizationByProject(accountId, projectId))
+                || !await _accountVerification.VerifyAccountInOrganizationByProject(accountId, projectId, cancellationToken))
                 return BadRequest();
 
-            var project = await _projectService.GetProjectByIdAsync(projectId);
+            var project = await _projectService.GetProjectByIdAsync(projectId, cancellationToken);
 
-            if (project is null)
-                return BadRequest();
+            if (!project.Success)
+            {
+                if (project.ErrorMessage == LogPhrases.ServiceResult.Error.NOT_FOUND)
+                {
+                    return NotFound();
+                }
 
-            var tasks = await _taskItemService.GetTasksByProjectAsync(project.Id);
+                return BadRequest(project.ErrorMessage);
+            }
 
-            return Ok(new ProjectItemWithTasksDto{
-                Project = project,
-                Tasks = tasks
+            var tasks = await _ticketItemService.GetTasksByProjectAsync(project.Data.Id, cancellationToken);
+            if (!tasks.Success) return Ok(new ProjectItemWithTasksDto { Project = project.Data });
+
+            return Ok(new ProjectItemWithTasksDto
+            {
+                Project = project.Data,
+                Tasks = tasks.Data
             });
         }
 
         [HttpPost("create")]
-        public async Task<ActionResult<ProjectItemDto>> CreateProjectAsync(ProjectItemDto newProject)
+        public async Task<ActionResult<ProjectItemDto>> CreateProjectAsync(ProjectItemDto newProject,
+                                                                           CancellationToken cancellationToken)
         {
             if (!Guid.TryParse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value, out Guid accountId)
-                || !await _accountVerification.VerifyAccountInOrganization(accountId, newProject.OrganizationId))
+                || !await _accountVerification.VerifyAccountInOrganization(accountId, newProject.OrganizationId, cancellationToken))
                 return BadRequest();
 
             newProject.OrganizationId = newProject.OrganizationId;
             newProject.OwnerId = Guid.Parse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value);
 
-            var project = await _projectService.CreateProjectAsync(newProject);
+            var project = await _projectService.CreateProjectAsync(newProject, cancellationToken);
 
-            if (project is null)
-                return BadRequest();
+            if (!project.Success)
+            {
+                if (project.ErrorMessage == LogPhrases.ServiceResult.Error.NOT_FOUND)
+                {
+                    return NotFound();
+                }
 
-            return Ok(project);
+                return BadRequest(project.ErrorMessage);
+            }
+
+            return Ok(project.Data);
         }
 
         [HttpPost("{projectId}/edit")]
-        public async Task<ActionResult<ProjectItemDto>> EditProjectByIdAsync([FromBody] ProjectItemDto editProject, Guid projectId)
+        public async Task<ActionResult<ProjectItemDto>> EditProjectByIdAsync([FromBody] ProjectItemDto editProject,
+                                                                             Guid projectId,
+                                                                             CancellationToken cancellationToken)
         {
             if (!Guid.TryParse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value, out Guid accountId)
                 || projectId != editProject.Id
-                || !await _accountVerification.VerifyAccountInOrganizationByProject(accountId, projectId))
+                || !await _accountVerification.VerifyAccountInOrganizationByProject(accountId, projectId, cancellationToken))
                 return BadRequest();
 
-            var project = await _projectService.EditProjectAsync(editProject);
+            var project = await _projectService.EditProjectAsync(editProject, cancellationToken);
 
-            if (project is null)
-                return BadRequest();
+            if (!project.Success)
+            {
+                if (project.ErrorMessage == LogPhrases.ServiceResult.Error.NOT_FOUND)
+                {
+                    return NotFound();
+                }
 
-            return Ok(project);
+                return BadRequest(project.ErrorMessage);
+            }
+
+            return Ok(project.Data);
         }
 
         [HttpDelete("{projectId}/delete")]
-        public async Task<ActionResult> DeleteProjectAsync(Guid projectId)
+        public async Task<ActionResult> DeleteProjectAsync(Guid projectId, CancellationToken cancellationToken)
         {
             if (!Guid.TryParse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value, out Guid accountId)
-                || !await _accountVerification.VerifyAccountInOrganizationByProject(accountId, projectId))
+                || !await _accountVerification.VerifyAccountInOrganizationByProject(accountId, projectId, cancellationToken))
                 return BadRequest();
 
-            var project = await _projectService.DeleteProjectAsync(projectId);
+            var project = await _projectService.DeleteProjectAsync(projectId, cancellationToken);
 
-            if (project is null)
-                return BadRequest();
+            if (!project.Success)
+            {
+                if (project.ErrorMessage == LogPhrases.ServiceResult.Error.NOT_FOUND)
+                {
+                    return NotFound();
+                }
+
+                return BadRequest(project.ErrorMessage);
+            }
 
             return Ok();
         }

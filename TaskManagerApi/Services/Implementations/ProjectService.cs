@@ -6,8 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using TaskManagerApi.Data;
 using TaskManagerApi.Enitities.Project;
 using TaskManagerApi.Enitities.Task;
+using TaskManagerApi.Models;
 using TaskManagerApi.Models.Project;
-using TaskManagerApi.Models.TaskItemStatuses;
+using TaskManagerApi.Models.TicketItemStatuses;
 using TaskManagerApi.Services.Interfaces;
 using static TaskManagerApi.Models.Constants;
 
@@ -15,29 +16,16 @@ namespace TaskManagerApi.Services.Implementations;
 
 public class ProjectService : IProjectService
 {
-    private readonly TaskManagerAPIDbContext _context;
+    private readonly TicketManagerAPIDbContext _context;
     private readonly ILogger<ProjectService> _logger;
 
-    public ProjectService(TaskManagerAPIDbContext context, ILogger<ProjectService> logger)
+    public ProjectService(TicketManagerAPIDbContext context, ILogger<ProjectService> logger)
     {
         _context = context;
         _logger = logger;
     }
 
-    public async Task<ProjectItemDto> ChangeOwnerAsync(Guid projectId, Guid newOwner)
-    {
-        var projectToEdit = await _context.ProjectItems.FirstOrDefaultAsync(p => p.Id == projectId);
-        if (projectToEdit is null) return null;
-
-        projectToEdit.OwnerId = newOwner;
-        projectToEdit.ModifyDate = DateTime.UtcNow;
-        _context.ProjectItems.Update(projectToEdit);
-        await _context.SaveChangesAsync();
-
-        return GeneralService.ConvertProjectToOutput(projectToEdit, await GetStatuses(projectId));
-    }
-
-    public async Task<ProjectItemDto> CreateProjectAsync(ProjectItemDto newProject)
+    public async Task<ServiceResult<ProjectItemDto>> CreateProjectAsync(ProjectItemDto newProject, CancellationToken cancellationToken)
     {
         var projectToAdd = new ProjectItem
         {
@@ -54,35 +42,55 @@ public class ProjectService : IProjectService
             AccountId = newProject.OwnerId,
             ProjectId = projectToAdd.Id
         });
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken);
 
-        var result = GeneralService.ConvertProjectToOutput(projectToAdd);
-        result.Statuses = await AddDefaultStatuses(result.Id);
+        await AddDefaultStatuses(projectToAdd.Id, cancellationToken);
 
-        return result;
+        return await GetProjectByIdAsync(projectToAdd.Id, cancellationToken);
     }
 
-    public async Task<ProjectItemDto> DeleteProjectAsync(Guid projectId)
+    public async Task<ServiceResult<ProjectItemDto>> DeleteProjectAsync(Guid projectId, CancellationToken cancellationToken)
     {
-        var projectToDelete = await _context.ProjectItems.FirstOrDefaultAsync(p => p.Id == projectId);
-        if (projectToDelete is null) return null;
+        var projectToDelete = await _context.ProjectItems.FirstOrDefaultAsync(p => p.Id == projectId, cancellationToken);
+        if (projectToDelete is null)
+            return new ServiceResult<ProjectItemDto>
+            {
+                Success = false,
+                ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
+            };
 
-        var unassign = await _context.ProjectAccounts.Where(p => p.ProjectId == projectToDelete.Id).ToListAsync();
+        var unassign = await _context.ProjectAccounts.Where(p => p.ProjectId == projectToDelete.Id).ToListAsync(cancellationToken);
 
         _context.ProjectItems.Remove(projectToDelete);
         _context.ProjectAccounts.RemoveRange(unassign);
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken);
 
-        return GeneralService.ConvertProjectToOutput(projectToDelete, await GetStatuses(projectId));
+        var check = await GetProjectByIdAsync(projectToDelete.Id, cancellationToken);
+        if (!check.Success)
+            return new ServiceResult<ProjectItemDto>
+            {
+                Success = true
+            };
+
+        return new ServiceResult<ProjectItemDto>
+        {
+            Success = false,
+            ErrorMessage = string.Format(LogPhrases.ServiceResult.Error.DELETETION_ISSUE, projectId)
+        };
     }
 
-    public async Task<ProjectItemDto> EditProjectAsync(ProjectItemDto newProject)
+    public async Task<ServiceResult<ProjectItemDto>> EditProjectAsync(ProjectItemDto newProject, CancellationToken cancellationToken)
     {
         var projectToEdit = await _context.ProjectItems.FirstOrDefaultAsync(p => p.Id == newProject.Id);
-        if (projectToEdit is null) return null;
+        if (projectToEdit is null)
+            return new ServiceResult<ProjectItemDto>
+            {
+                Success = false,
+                ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
+            };
 
         if (projectToEdit.Title != newProject.Title && newProject.Title != null)
-            projectToEdit.Title = newProject.Title;
+                projectToEdit.Title = newProject.Title;
         if (projectToEdit.Description != newProject.Description && newProject.Description != null)
             projectToEdit.Description = newProject.Description;
         if (projectToEdit.OwnerId != newProject.OwnerId && newProject.OwnerId != Guid.Empty)
@@ -90,30 +98,35 @@ public class ProjectService : IProjectService
 
         projectToEdit.ModifyDate = DateTime.UtcNow;
         _context.ProjectItems.Update(projectToEdit);
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken);
 
-        return await EditStatusesAsync(newProject);
+        return await EditStatusesAsync(newProject, cancellationToken);
     }
 
-    public async Task<ProjectItemDto> EditStatusesAsync(ProjectItemDto project)
+    public async Task<ServiceResult<ProjectItemDto>> EditStatusesAsync(ProjectItemDto project, CancellationToken cancellationToken)
     {
-        if (project.Statuses is null) return project;
+        if (project.Statuses is null)
+            return new ServiceResult<ProjectItemDto>
+            {
+                Success = false,
+                ErrorMessage = LogPhrases.ServiceResult.Error.STATUSES_EMPTY
+            };
 
         var currentMappings = await _context.ProjectTaskStatusMapping
             .Where(s => s.ProjectId == project.Id)
             .Include(s => s.TicketStatus)
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
 
         var newStatuses = project.Statuses;
-        var statusesInDb = await _context.TicketStatuses.ToListAsync();
+        var statusesInDb = await _context.TicketStatuses.ToListAsync(cancellationToken);
 
-        // Ensure all statuses have valid StatusIds (either pre-existing or newly created)
         foreach (var newStatus in newStatuses)
         {
             if (!newStatus.StatusId.HasValue && !string.IsNullOrWhiteSpace(newStatus.StatusName))
             {
-                // Try to find existing status
-                var existing = await _context.TicketStatuses.FirstOrDefaultAsync(s => s.Name == newStatus.StatusName && s.StatusTypeId == newStatus.TypeId);
+                var existing = await _context.TicketStatuses.FirstOrDefaultAsync(s => s.Name == newStatus.StatusName
+                                                                                    && s.StatusTypeId == newStatus.TypeId
+                                                                                , cancellationToken);
                 if (existing != null)
                 {
                     newStatus.StatusId = existing.Id;
@@ -127,7 +140,7 @@ public class ProjectService : IProjectService
                     };
 
                     _context.TicketStatuses.Add(created);
-                    await _context.SaveChangesAsync();
+                    await _context.SaveChangesAsync(cancellationToken);
 
                     newStatus.StatusId = created.Id;
                 }
@@ -157,17 +170,17 @@ public class ProjectService : IProjectService
             if (exists == null)
             {
                 var created = await AddStatusAsync(new ProjectSingleStatusDto
+                {
+                    ProjectId = project.Id,
+                    Status = new TicketStatusDto
                     {
-                        ProjectId = project.Id,
-                        Status = new TicketStatusDto
-                        {
-                            StatusId = newStatus.StatusId,
-                            StatusName = newStatus.StatusName,
-                            TypeId = newStatus.TypeId,
-                            TypeName = newStatus.TypeName,
-                            Order = newStatus.Order
-                        }
-                    });
+                        StatusId = newStatus.StatusId,
+                        StatusName = newStatus.StatusName,
+                        TypeId = newStatus.TypeId,
+                        TypeName = newStatus.TypeName,
+                        Order = newStatus.Order
+                    }
+                }, cancellationToken);
             }
             else if (exists.Order != newStatus.Order)
             {
@@ -176,20 +189,24 @@ public class ProjectService : IProjectService
             }
         }
 
-        await _context.SaveChangesAsync();
-        return await GetProjectByIdAsync(project.Id);
+        await _context.SaveChangesAsync(cancellationToken);
+        return await GetProjectByIdAsync(project.Id, cancellationToken);
     }
 
-    public async Task<ProjectSingleStatusDto> AddStatusAsync(ProjectSingleStatusDto status, bool shouldSave = true)
+    public async Task<ServiceResult<ProjectSingleStatusDto>> AddStatusAsync(ProjectSingleStatusDto status, CancellationToken cancellationToken)
     {
-        var currentStatuses = await GetAllStatusesFromProject(status.ProjectId);
-        if (currentStatuses.Count > DefaultParametersForUsers.ProjectLimitations.MAX_STATUSES_VALUE)
-            return null!;
+        var currentStatuses = await GetAllStatusesFromProject(status.ProjectId, cancellationToken);
+        if (currentStatuses.Data!.Count > DefaultParametersForUsers.ProjectLimitations.MAX_STATUSES_VALUE)
+            return new ServiceResult<ProjectSingleStatusDto>
+            {
+                Success = false,
+                ErrorMessage = LogPhrases.ServiceResult.Error.MAX_STATUSES_VALUE
+            };
 
-        var checkStatus = await CheckStatusExisted(status.Status.StatusName, status.Status.TypeId);
-        var statusToAdd = checkStatus ?? await AddNewStatus(status.Status.StatusName, status.Status.TypeId);
+        var checkStatus = await CheckStatusExisted(status.Status.StatusName, status.Status.TypeId, cancellationToken);
+        var statusToAdd = checkStatus ?? await AddNewStatus(status.Status.StatusName, status.Status.TypeId, cancellationToken);
 
-        var toShift = currentStatuses.Where(s => s.Order >= status.Status.Order).ToList();
+        var toShift = currentStatuses.Data.Where(s => s.Order >= status.Status.Order).ToList();
         foreach (var item in toShift)
         {
             item.Order++;
@@ -199,51 +216,180 @@ public class ProjectService : IProjectService
         _context.ProjectTaskStatusMapping.Add(new ProjectTaskStatusMapping
         {
             ProjectId = status.ProjectId,
-            StatusId = statusToAdd.Id,
+            StatusId = statusToAdd.Data.Id,
             Order = status.Status.Order
         });
 
-        if (shouldSave)
-            await _context.SaveChangesAsync();
-
         var result = await _context.ProjectTaskStatusMapping
             .Include(s => s.TicketStatus.TicketStatusType)
-            .FirstOrDefaultAsync(s => s.ProjectId == status.ProjectId && s.Order == status.Status.Order);
+            .FirstOrDefaultAsync(s => s.ProjectId == status.ProjectId && s.Order == status.Status.Order, cancellationToken);
 
-        return CovertFromProjectStatusesMapping(result!);
+        return new ServiceResult<ProjectSingleStatusDto>
+        {
+            Success = true,
+            Data = CovertFromProjectStatusesMapping(result!)
+        };
     }
 
-    public async Task<ProjectSingleStatusDto> DeleteStatusAsync(ProjectSingleStatusDto status)
+    public async Task<ServiceResult<ProjectSingleStatusDto>> DeleteStatusAsync(ProjectSingleStatusDto status, CancellationToken cancellationToken)
     {
-        var currentStatuses = await GetAllStatusesFromProject(status.ProjectId);
-        var target = currentStatuses.FirstOrDefault(s => s.StatusId == status.Status.StatusId);
-        if (target == null) return null!;
+        var currentStatuses = await GetAllStatusesFromProject(status.ProjectId, cancellationToken);
+        if (!currentStatuses.Success)
+            return new ServiceResult<ProjectSingleStatusDto>
+            {
+                Success = false,
+                ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
+            };
+
+        var target = currentStatuses.Data.FirstOrDefault(s => s.StatusId == status.Status.StatusId);
+        if (target == null)
+            return new ServiceResult<ProjectSingleStatusDto>
+            {
+                Success = false,
+                ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
+            };
 
         bool isUsed = await _context.Tickets.AnyAsync(t => t.StatusId == status.Status.StatusId);
-        if (isUsed) return null!; // can't delete used status
+        if (isUsed)
+            return new ServiceResult<ProjectSingleStatusDto>
+            {
+                Success = false,
+                ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
+            };
 
         _context.ProjectTaskStatusMapping.Remove(target);
-        foreach (var item in currentStatuses.Where(s => s.Order > target.Order))
+        foreach (var item in currentStatuses.Data.Where(s => s.Order > target.Order))
         {
             item.Order--;
             _context.ProjectTaskStatusMapping.Update(item);
         }
 
-        await _context.SaveChangesAsync();
-        return status;
+        await _context.SaveChangesAsync(cancellationToken);
+        return new ServiceResult<ProjectSingleStatusDto>
+        {
+            Success = true,
+            Data = status
+        };
     }
 
-    private async Task<TicketStatus> CheckStatusExisted(string status, int typeId) =>
-        await _context.TicketStatuses.FirstOrDefaultAsync(s => s.Name == status && s.StatusTypeId == typeId);
+    public async Task<ServiceResult<ProjectItemDto>> GetProjectByIdAsync(Guid projectId, CancellationToken cancellationToken)
+    {
+        var statuses = await GetStatuses(projectId, cancellationToken);
+        if (statuses is null)
+            return new ServiceResult<ProjectItemDto>
+            {
+                Success = false,
+                ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
+            };
 
-    private async Task<List<ProjectTaskStatusMapping>> GetAllStatusesFromProject(Guid projectId) =>
-        await _context.ProjectTaskStatusMapping.Where(s => s.ProjectId == projectId).ToListAsync();
+        var project = await _context.ProjectItems.FirstOrDefaultAsync(p => p.Id == projectId, cancellationToken);
+        if (project is null)
+            return new ServiceResult<ProjectItemDto>
+            {
+                Success = false,
+                ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
+            };
 
-    private async Task<TicketStatus> AddNewStatus(string status, int typeId)
+
+        return new ServiceResult<ProjectItemDto>
+        {
+            Success = true,
+            Data = ConvertProjectToOutput(project, ConvertProjectStatusToDto(statuses.Data))
+        };
+    }
+
+    public async Task<ServiceResult<List<ProjectItemDto>>> GetProjectsByOrganizationIdAsync(Guid organizationId, CancellationToken cancellationToken)
+    {
+        var projects = await _context.ProjectItems.Where(p => p.OrganizationId == organizationId).ToListAsync(cancellationToken);
+        var result = new List<ProjectItemDto>();
+
+        foreach (var project in projects)
+        {
+            var statuses = await GetStatuses(project.Id, cancellationToken);
+            if (!statuses.Success) result.Add(ConvertProjectToOutput(project, ConvertProjectStatusToDto(statuses.Data)));
+        }
+
+        return new ServiceResult<List<ProjectItemDto>>
+        {
+            Success = true,
+            Data = result
+        };
+    }
+
+    public async Task<ServiceResult<ProjectAccountsDto>> GetAccountsByProjectId(Guid projectId, CancellationToken cancellationToken)
+    {
+        var project = await GetProjectByIdAsync(projectId, cancellationToken);
+        if (project == null)
+            return new ServiceResult<ProjectAccountsDto>
+            {
+                Success = false,
+                ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
+            };
+
+        return new ServiceResult<ProjectAccountsDto>
+        {
+            Success = true,
+            Data = new ProjectAccountsDto
+            {
+                Project = project.Data,
+                Accounts = await _context.ProjectAccounts.Where(p => p.ProjectId == project.Data.Id)
+                    .Select(p => p.AccountId).ToListAsync(cancellationToken)
+            }
+        };
+    }
+
+    private async Task<ServiceResult<TicketStatus>> CheckStatusExisted(string status, int typeId, CancellationToken cancellationToken)
+    {
+        var res = await _context.TicketStatuses.FirstOrDefaultAsync(s => s.Name == status && s.StatusTypeId == typeId, cancellationToken);
+        if (res is null)
+            return new ServiceResult<TicketStatus>
+            {
+                Success = false,
+                ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
+            };
+
+        return new ServiceResult<TicketStatus>
+        {
+            Success = true,
+            Data = res
+        };
+    }
+
+    private async Task<ServiceResult<List<ProjectTaskStatusMapping>>> GetAllStatusesFromProject(Guid projectId, CancellationToken cancellationToken)
+    {
+        var res = await _context.ProjectTaskStatusMapping.Where(s => s.ProjectId == projectId).ToListAsync(cancellationToken);
+        if (res is null)
+            return new ServiceResult<List<ProjectTaskStatusMapping>>
+            {
+                Success = false,
+                ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
+            };
+
+        return new ServiceResult<List<ProjectTaskStatusMapping>>
+        {
+            Success = true,
+            Data = res
+        };
+    }
+
+    private async Task<ServiceResult<TicketStatus>> AddNewStatus(string status, int typeId, CancellationToken cancellationToken)
     {
         _context.TicketStatuses.Add(new TicketStatus { Name = status, StatusTypeId = typeId });
-        await _context.SaveChangesAsync();
-        return await _context.TicketStatuses.FirstAsync(s => s.Name == status && s.StatusTypeId == typeId);
+        await _context.SaveChangesAsync(cancellationToken);
+
+        var res = await _context.TicketStatuses.FirstAsync(s => s.Name == status && s.StatusTypeId == typeId);
+        if (res is null)
+            return new ServiceResult<TicketStatus>
+            {
+                Success = false,
+                ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
+            };
+
+        return new ServiceResult<TicketStatus>
+        {
+            Success = true,
+            Data = res
+        };
     }
 
     private static ProjectSingleStatusDto CovertFromProjectStatusesMapping(ProjectTaskStatusMapping statusMapping)
@@ -262,7 +408,7 @@ public class ProjectService : IProjectService
         };
     }
 
-    private async Task<List<TicketStatusDto>> AddDefaultStatuses(Guid projectId)
+    private async Task<ServiceResult<List<ProjectTaskStatusMapping>>> AddDefaultStatuses(Guid projectId, CancellationToken cancellationToken)
     {
         foreach (var status in StatusesConstants.DEFAULT_LIST)
         {
@@ -274,49 +420,58 @@ public class ProjectService : IProjectService
             });
         }
 
-        await _context.SaveChangesAsync();
-        return await GetStatuses(projectId);
+        await _context.SaveChangesAsync(cancellationToken);
+        return await GetStatuses(projectId, cancellationToken);
     }
 
-    private async Task<List<TicketStatusDto>> GetStatuses(Guid projectId)
+    private async Task<ServiceResult<List<ProjectTaskStatusMapping>>> GetStatuses(Guid projectId, CancellationToken cancellationToken)
     {
-        return GeneralService.ConvertProjectStatusToDto(
-            await _context.ProjectTaskStatusMapping.Include(s => s.TicketStatus.TicketStatusType)
-                .Where(s => s.ProjectId == projectId).ToListAsync()
-        );
-    }
+        var res = await _context.ProjectTaskStatusMapping.Include(s => s.TicketStatus.TicketStatusType)
+                .Where(s => s.ProjectId == projectId).ToListAsync(cancellationToken);
+        if (res is null)
+            return new ServiceResult<List<ProjectTaskStatusMapping>>
+            {
+                Success = false,
+                ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
+            };
 
-    public async Task<ProjectItemDto> GetProjectByIdAsync(Guid projectId)
-    {
-        var statuses = await GetStatuses(projectId);
-        var project = await _context.ProjectItems.FirstOrDefaultAsync(p => p.Id == projectId);
-        return project == null ? null : GeneralService.ConvertProjectToOutput(project, statuses);
-    }
-
-    public async Task<List<ProjectItemDto>> GetProjectsByOrganizationIdAsync(Guid organizationId)
-    {
-        var projects = await _context.ProjectItems.Where(p => p.OrganizationId == organizationId).ToListAsync();
-        var result = new List<ProjectItemDto>();
-
-        foreach (var project in projects)
+        return new ServiceResult<List<ProjectTaskStatusMapping>>
         {
-            var statuses = await GetStatuses(project.Id);
-            result.Add(GeneralService.ConvertProjectToOutput(project, statuses));
+            Success = true,
+            Data = res
+        };
+    }
+
+    private static ProjectItemDto ConvertProjectToOutput(ProjectItem project, List<TicketStatusDto> statuses)
+    {
+        return new ProjectItemDto
+        {
+            Id = project.Id,
+            Title = project.Title,
+            Description = project.Description,
+            Statuses = statuses,
+            OwnerId = project.OwnerId,
+            OrganizationId = project.OrganizationId,
+            CreateDate = project.CreateDate
+        };
+    }
+
+    private static List<TicketStatusDto> ConvertProjectStatusToDto(List<ProjectTaskStatusMapping> list)
+    {
+        var newList = new List<TicketStatusDto>();
+
+        foreach (var item in list)
+        {
+            newList.Add(new TicketStatusDto
+            {
+                TypeId = item.TicketStatus.StatusTypeId,
+                TypeName = item.TicketStatus.TicketStatusType.Name,
+                StatusId = item.StatusId,
+                StatusName = item.TicketStatus.Name,
+                Order = item.Order
+            });
         }
 
-        return result;
-    }
-
-    public async Task<ProjectAccountsDto> GetAccountsByProjectId(Guid projectId)
-    {
-        var project = await GetProjectByIdAsync(projectId);
-        if (project == null) return null!;
-
-        return new ProjectAccountsDto
-        {
-            Project = project,
-            Accounts = await _context.ProjectAccounts.Where(p => p.ProjectId == project.Id)
-                .Select(p => p.AccountId).ToListAsync()
-        };
+        return newList.OrderBy(t => t.Order).ToList();
     }
 }

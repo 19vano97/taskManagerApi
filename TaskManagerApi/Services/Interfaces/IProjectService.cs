@@ -2,20 +2,19 @@ using System;
 using System.Security.Claims;
 using TaskManagerApi.Models;
 using TaskManagerApi.Models.Project;
-using TaskManagerApi.Models.TaskItemStatuses;
+using TaskManagerApi.Models.TicketItemStatuses;
 
 namespace TaskManagerApi.Services.Interfaces;
 
 public interface IProjectService
 {
-    Task<List<ProjectItemDto>> GetProjectsByOrganizationIdAsync(Guid organizationId);
-    Task<ProjectItemDto> GetProjectByIdAsync(Guid projectId);
-    Task<ProjectAccountsDto> GetAccountsByProjectId(Guid projectId);
-    Task<ProjectItemDto> CreateProjectAsync(ProjectItemDto newProject);
-    Task<ProjectItemDto> EditProjectAsync(ProjectItemDto newProject);
-    Task<ProjectItemDto> DeleteProjectAsync(Guid Id);
-    Task<ProjectItemDto> ChangeOwnerAsync(Guid projectId, Guid newOwner);
-    Task<ProjectSingleStatusDto> AddStatusAsync(ProjectSingleStatusDto status, bool ShouldBeSavedOnDb = true);
-    Task<ProjectItemDto> EditStatusesAsync(ProjectItemDto status);
-    Task<ProjectSingleStatusDto> DeleteStatusAsync(ProjectSingleStatusDto status);
+    Task<ServiceResult<List<ProjectItemDto>>> GetProjectsByOrganizationIdAsync(Guid organizationId, CancellationToken cancellationToken);
+    Task<ServiceResult<ProjectItemDto>> GetProjectByIdAsync(Guid projectId, CancellationToken cancellationToken);
+    Task<ServiceResult<ProjectAccountsDto>> GetAccountsByProjectId(Guid projectId, CancellationToken cancellationToken);
+    Task<ServiceResult<ProjectItemDto>> CreateProjectAsync(ProjectItemDto newProject, CancellationToken cancellationToken);
+    Task<ServiceResult<ProjectItemDto>> EditProjectAsync(ProjectItemDto newProject, CancellationToken cancellationToken);
+    Task<ServiceResult<ProjectItemDto>> DeleteProjectAsync(Guid Id, CancellationToken cancellationToken);
+    Task<ServiceResult<ProjectSingleStatusDto>> AddStatusAsync(ProjectSingleStatusDto status, CancellationToken cancellationToken);
+    Task<ServiceResult<ProjectItemDto>> EditStatusesAsync(ProjectItemDto status, CancellationToken cancellationToken);
+    Task<ServiceResult<ProjectSingleStatusDto>> DeleteStatusAsync(ProjectSingleStatusDto status, CancellationToken cancellationToken);
 }

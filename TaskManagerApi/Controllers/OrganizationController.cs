@@ -25,79 +25,117 @@ namespace TaskManagerApi.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<ActionResult<OrganizationDto>> CreateOrganizationAsync(OrganizationDto newOrganization)
+        public async Task<ActionResult<OrganizationDto>> CreateOrganizationAsync(OrganizationDto newOrganization,
+                                                                                 CancellationToken cancellationToken)
         {
-            var newOrgToAdd = await _organizationService.CreateAsync(User, newOrganization);
+            var newOrgToAdd = await _organizationService.CreateAsync(User, newOrganization, cancellationToken);
 
-            if (newOrgToAdd is null)
-                return BadRequest();
+            if (!newOrgToAdd.Success)
+                return BadRequest(newOrgToAdd.ErrorMessage);
 
-            return Ok(newOrgToAdd);
+            return Ok(newOrgToAdd.Data);
         }
 
         [HttpPost("{organizationId}/edit")]
-        public async Task<ActionResult<OrganizationDto>> EditOrganizationAsync(OrganizationDto editOrganization, Guid organizationId)
+        public async Task<ActionResult<OrganizationDto>> EditOrganizationAsync(OrganizationDto editOrganization,
+                                                                               Guid organizationId,
+                                                                               CancellationToken cancellationToken)
         {
             if (!Guid.TryParse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value, out Guid accountId)
-                    || !await _accountVerification.VerifyAccountInOrganization(accountId, organizationId)
+                    || !await _accountVerification.VerifyAccountInOrganization(accountId, organizationId, cancellationToken)
                     || organizationId != editOrganization.Id)
-                    return BadRequest();
-
-            var editOrgToAdd = await _organizationService.EditAsync(User, editOrganization);
-
-            if (editOrgToAdd is null)
                 return BadRequest();
 
-            return Ok(editOrgToAdd);
+            var editOrgToAdd = await _organizationService.EditAsync(User, editOrganization, cancellationToken);
+
+            if (!editOrgToAdd.Success)
+                return BadRequest(editOrgToAdd.ErrorMessage);
+
+            return Ok(editOrgToAdd.Data);
         }
 
         [HttpGet("details/me")]
-        public async Task<ActionResult<List<OrganizationProjectDto>>> GetSelfOrganizationsAsync()
+        public async Task<ActionResult<List<OrganizationProjectDto>>> GetSelfOrganizationsAsync(CancellationToken cancellationToken)
         {
             if (!Guid.TryParse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value, out Guid accountId))
                 return BadRequest();
 
-            return Ok(await _organizationService.GetOrganizationsByAccountAsync(accountId));
+            var res = await _organizationService.GetOrganizationsByAccountAsync(accountId, cancellationToken);
+
+            if (!res.Success)
+            {
+                if (res.ErrorMessage == LogPhrases.ServiceResult.Error.NOT_FOUND)
+                {
+                    return NotFound();
+                }
+
+                return BadRequest(res.ErrorMessage);
+            }
+
+            return Ok(res.Data);
         }
 
         [HttpGet("{organizationId}/details")]
-        public async Task<ActionResult<OrganizationProjectDto>> GetOrganizationByIdAsync(Guid organizationId)
+        public async Task<ActionResult<OrganizationProjectDto>> GetOrganizationByIdAsync(Guid organizationId, CancellationToken cancellationToken)
         {
             if (!Guid.TryParse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value, out Guid accountId)
-                || !await _accountVerification.VerifyAccountInOrganization(accountId, organizationId))
+                || !await _accountVerification.VerifyAccountInOrganization(accountId, organizationId, cancellationToken))
                 return BadRequest();
 
-            return Ok(await _organizationService.GetOrganizationProjectsAsync(organizationId));
+            var res = await _organizationService.GetOrganizationProjectsAsync(organizationId, cancellationToken);
+            if (!res.Success)
+            {
+                if (res.ErrorMessage == LogPhrases.ServiceResult.Error.NOT_FOUND)
+                {
+                    return NotFound();
+                }
+
+                return BadRequest(res.ErrorMessage);
+            }
+
+            return Ok(res.Data);
         }
 
         [HttpGet("{organizationId}/accounts")]
-        public async Task<ActionResult<OrganizationAccountsDto>> GetOrganizationInfoAsync(Guid organizationId)
+        public async Task<ActionResult<OrganizationAccountsDto>> GetOrganizationInfoAsync(Guid organizationId, CancellationToken cancellationToken)
         {
             if (!Guid.TryParse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value, out Guid accountId)
-                || !await _accountVerification.VerifyAccountInOrganization(accountId, organizationId))
+                || !await _accountVerification.VerifyAccountInOrganization(accountId, organizationId, cancellationToken))
                 return BadRequest();
 
-            var organization = await _organizationService.GetOrganizationProjectsAsync(organizationId);
+            var organization = await _organizationService.GetOrganizationProjectsAsync(organizationId, cancellationToken);
+            if (!organization.Success)
+            {
+                if (organization.ErrorMessage == LogPhrases.ServiceResult.Error.NOT_FOUND)
+                {
+                    return NotFound();
+                }
 
-            if (organization is null)
-                return NotFound();
+                return BadRequest(organization.ErrorMessage);
+            }
 
-            return Ok(organization);
+            return Ok(organization.Data);
         }
 
         [HttpPost("details/{organizationId}/new-member/{accountId}")]
-        public async Task<ActionResult<OrganizationProjectDto>> AddNewAccountToOrganization(Guid organizationId, Guid accountId)
+        public async Task<ActionResult<OrganizationProjectDto>> AddNewAccountToOrganization(Guid organizationId, Guid accountId, CancellationToken cancellationToken)
         {
             if (!Guid.TryParse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value, out Guid accountIdInitiator)
-                || !await _accountVerification.VerifyAccountInOrganization(accountIdInitiator, organizationId))
+                || !await _accountVerification.VerifyAccountInOrganization(accountIdInitiator, organizationId, cancellationToken))
                 return BadRequest();
 
-            var organization = await _organizationService.AddNewMemberToOrganization(organizationId, accountId);
+            var organization = await _organizationService.AddNewMemberToOrganization(organizationId, accountId, cancellationToken);
+            if (!organization.Success)
+            {
+                if (organization.ErrorMessage == LogPhrases.ServiceResult.Error.NOT_FOUND)
+                {
+                    return NotFound();
+                }
 
-            if (organization is null)
-                return BadRequest();
+                return BadRequest(organization.ErrorMessage);
+            }
 
-            return Ok(organization);
+            return Ok(organization.Data);
         }
     }
 }
