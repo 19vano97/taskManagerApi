@@ -25,7 +25,7 @@ export const Column = ({ status, tasks, accounts, onTaskClick }: ColumnProps) =>
 
   return (
     <Container>
-      <Flex direction="column" gap="md" style={{ minWidth: '300px' }}>
+      <Flex direction="column" gap="sm" miw={"300px"}>
         <Card shadow="sm" padding="lg" radius="md" withBorder style={{ background }}>
           <h2>{status.statusName}</h2>
           <Droppable droppableId={String(status.statusId)}>
@@ -41,7 +41,7 @@ export const Column = ({ status, tasks, accounts, onTaskClick }: ColumnProps) =>
                   padding: 4,
                 }}
               >
-                <Flex direction="column" gap="md" style={{
+                <Flex direction="column" gap="sm" style={{
                   minWidth: 300,
                   maxWidth: 300,
                   flex: '0 0 300px',

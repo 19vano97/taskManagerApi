@@ -83,6 +83,68 @@ public class TicketService : ITicketService
         return result;
     }
 
+    public async Task<ServiceResult<List<TicketDto>>> CreateListTasksAsync(List<TicketDto> newTasks, CancellationToken cancellationToken)
+    {
+        var tasksToAdd = new List<Ticket>();
+
+        foreach (var newTask in newTasks)
+        {
+            if (newTask.Title is null)
+                return null!;
+
+            tasksToAdd.Add(new Ticket
+            {
+                Id = Guid.NewGuid(),
+                Title = newTask.Title,
+                Description = newTask.Description,
+                StatusId = (int)TaskStatusEnum.ToDo,
+                TypeId = newTask.TypeId == null ? (int)TaskTypesEnum.Task : newTask.TypeId,
+                ReporterId = newTask.ReporterId,
+                ProjectId = (Guid)newTask.ProjectId,
+                ParentId = newTask.ParentId,
+                AssigneeId = newTask.AssigneeId,
+                isCreatedByAi = newTask.isCreatedByAi,
+                StartDate = newTask.StartDate,
+                DueDate = newTask.DueDate,
+                Estimate = newTask.Estimate,
+                SpentTime = newTask.SpentTime
+            });
+        }
+
+        _context.Tickets.AddRange(tasksToAdd);
+        await _context.SaveChangesAsync(cancellationToken);
+
+        var tickets = await _context.Tickets.Where(t => tasksToAdd.Select(tt => tt.Id)
+                                                                  .Contains(t.Id))
+                                            .ToListAsync();
+        if (tickets is null)
+            return new ServiceResult<List<TicketDto>>
+            {
+                Success = false,
+                ErrorMessage = LogPhrases.NegativeActions.TASK_CREATION_FAILED_LOG
+            };
+
+        foreach (var ticket in tickets)
+        {
+            _taskHistoryEvent?.Invoke(this, new TicketHistoryEventArgs(new TicketHistoryDto
+            {
+                TaskId = ticket.Id!,
+                Author = (Guid)ticket.ReporterId!,
+                EventName = TaskHistoryTypes.TaskCreate.TASK_CREATED
+            }));
+        }
+
+        _logger.LogInformation($"{LogPhrases.PositiveActions.TASK_CREATED_LOG} {tickets}");
+        var result = new List<TicketDto>();
+        result.AddRange(tickets.Select(t => ConvertTaskToDto(t)!));
+
+        return new ServiceResult<List<TicketDto>>
+        {
+            Success = true,
+            Data = result
+        };
+    }
+
     public async Task<ServiceResult<TicketDto>> DeleteTaskAsync(Guid taskId, CancellationToken cancellationToken)
     {
         var taskToDelete = await GetTaskById(taskId, cancellationToken);
@@ -104,7 +166,7 @@ public class TicketService : ITicketService
         };
     }
 
-    public async Task<ServiceResult<TicketDto>> EditTaskByIdAsync(Guid taskId, TicketDto newTask, CancellationToken cancellationToken)
+    public async Task<ServiceResult<TicketDto>> EditTaskByIdAsync(Guid taskId, TicketDto newTask, CancellationToken cancellationToken, bool saveToDb = true)
     {
         var taskToEdit = await GetTaskById(taskId, cancellationToken);
 
@@ -232,9 +294,19 @@ public class TicketService : ITicketService
             taskToEdit.Data!.ModifyDate = DateTime.UtcNow;
 
             _context.Tickets.Update(taskToEdit.Data!);
-            await _context.SaveChangesAsync(cancellationToken);
 
-            return await GetTaskByIdDto(taskToEdit.Data!.Id, cancellationToken);
+            if (saveToDb)
+            {
+                await _context.SaveChangesAsync(cancellationToken);
+
+                return await GetTaskByIdDto(taskToEdit.Data!.Id, cancellationToken);
+            }
+
+            return new ServiceResult<TicketDto>
+            {
+                Success = true,
+                Data = newTask
+            };
         }
         catch (System.Exception ex)
         {
@@ -288,7 +360,7 @@ public class TicketService : ITicketService
                                      .Include(t => t.TaskType)
                                      .Where(t => t.ProjectId == projectId)
                                      .Select(t => ConvertTaskToDto(t))
-                                     .ToListAsync(cancellationToken); 
+                                     .ToListAsync(cancellationToken);
         if (res is null)
             return new ServiceResult<List<TicketDto>>
             {
@@ -305,48 +377,47 @@ public class TicketService : ITicketService
 
     public async Task<ServiceResult<List<TicketDto>>> CreateTicketsForAiAsync(TicketForAiDto[] newTasks, CancellationToken cancellationToken)
     {
-        var createdTasks = new List<(TicketDto ticket, string parentName)>();
+        var tickets = await CreateListTasksAsync(newTasks.Select(tt => new TicketDto
+        {
+            Title = tt.Title,
+            Description = tt.Description,
+            TypeId = tt.Type,
+            isCreatedByAi = true,
+            AssigneeId = tt.AssigneeId,
+            ReporterId = tt.ReporterId,
+            ProjectId = tt.ProjectId
+        }).ToList(), cancellationToken);
+
+        if (!tickets.Success)
+            return new ServiceResult<List<TicketDto>>
+            {
+                Success = false,
+                ErrorMessage = tickets.ErrorMessage
+            };
+
+        var parentTickets = tickets.Data.Where(t => newTasks.Select(tt => tt.ParentName).Contains(t.Title)).ToList();
+
+        var edit = new List<ServiceResult<TicketDto>>();
 
         foreach (var task in newTasks)
         {
-            var newTask = await CreateTaskAsync(new TicketDto
+            if (!string.IsNullOrWhiteSpace(task.ParentName?.Trim()) && !string.IsNullOrWhiteSpace(task.Title.Trim()))
             {
-                Title = task.Title,
-                Description = task.Description,
-                TypeId = task.TypeId,
-                isCreatedByAi = true,
-                AssigneeId = task.AssigneeId,
-                ReporterId = task.ReporterId,
-                ProjectId = task.ProjectId
-            }, cancellationToken);
-            createdTasks.Add((newTask.Data, task.ParentName));
-        }
-
-        var edit = new List<TicketDto>();
-
-        foreach (var task in createdTasks)
-        {
-            if (!string.IsNullOrWhiteSpace(task.parentName))
-            {
-                var parentTask = createdTasks.FirstOrDefault(t =>
-                    !string.IsNullOrEmpty(t.ticket.Title) &&
-                    t.ticket.Title.Trim().Equals(task.parentName.Trim(), StringComparison.OrdinalIgnoreCase));
-                if (parentTask.ticket?.Id != null && task.ticket.Id != parentTask.ticket.Id)
-                {
-                    task.ticket.ParentId = parentTask.ticket.Id;
-                    var updated = await EditTaskByIdAsync((Guid)task.ticket.Id!, task.ticket, cancellationToken);
-
-                    if (updated.Success)
-                        edit.Add(updated.Data);
-                }
+                var childTicket = tickets.Data.First(t => t.Title == task.Title);
+                var parentTicket = parentTickets.First(t => t.Title == task.ParentName);
+                childTicket.ParentId = parentTicket.Id;
+                edit.Add(await EditTaskByIdAsync((Guid)childTicket.Id!, childTicket, cancellationToken, false));
             }
         }
 
+        await _context.SaveChangesAsync(cancellationToken);
+
         var finalTickets = new List<TicketDto>();
-        foreach (var item in createdTasks)
+
+        foreach (var ticket in tickets.Data)
         {
-            var res = await GetTaskByIdAsync((Guid)item.ticket.Id!, cancellationToken);
-            finalTickets.Add(res.Data);
+            var fresh = await GetTaskByIdAsync(ticket.Id!.Value, cancellationToken);
+            finalTickets.Add(fresh.Data);
         }
 
         return new ServiceResult<List<TicketDto>>
@@ -373,7 +444,7 @@ public class TicketService : ITicketService
         {
             Success = true,
             Data = res!
-        }; 
+        };
     }
 
     private async Task<ServiceResult<TicketDto>> GetTaskByIdDto(Guid taskId, CancellationToken cancellationToken)

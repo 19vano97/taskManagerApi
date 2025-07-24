@@ -1,22 +1,28 @@
-import { Button, Dialog, TextInput } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
+import { Button, Dialog, Flex, Modal, TextInput } from "@mantine/core";
 import { useState } from "react";
 import { useIdentityServerApi } from "../../api/IdentityServerApi";
 import { useOrganizationApi } from "../../api/taskManagerApi";
 
 type AddMemberToOrganizationProps = {
-  organizationId: string;
+    organizationId: string;
+    opened: boolean;
+    onClose: () => void;
+    onSuccess: () => void;
 };
 
-const AddMemberToOrganization = (props: AddMemberToOrganizationProps) => {
+const AddMemberToOrganization = ({ organizationId, opened, onClose, onSuccess }: AddMemberToOrganizationProps) => {
     const { postInviteAccount } = useIdentityServerApi();
     const { postAddAccountToOrganization: addAccountToOrganization } = useOrganizationApi();
-    const [opened, { toggle, close }] = useDisclosure(false);
     const [email, setEmail] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     const handlerAddMember = async () => {
+        if (!email || !firstName || !lastName || !organizationId) return;
+
+        setLoading(true);
         const data = {
             email: email,
             firstName: firstName,
@@ -28,20 +34,33 @@ const AddMemberToOrganization = (props: AddMemberToOrganizationProps) => {
         try {
             const addMemberToUm = await postInviteAccount(data);
             const AddMemberToOrganization = await addAccountToOrganization(
-                props.organizationId,
+                organizationId,
                 addMemberToUm.data.id!
             );
+
+            if (addMemberToUm.status === 200 && AddMemberToOrganization.status === 200) {
+                onSuccess()
+                onClose()
+            }
+            else {
+                setError("issue with adding member" + { data })
+            }
 
             console.log("Member added to organization:", AddMemberToOrganization);
         } catch (error) {
             console.error("Failed to add member:", error);
+        } finally {
+            setLoading(false)
         }
-
-        close();
     };
 
     return (
-        <Dialog opened={true} withCloseButton onClose={close} size="lg" title="Add Member to Organization">
+        <Modal opened={opened}
+            withCloseButton
+            onClose={onClose}
+            size="lg"
+            title="Add Member to Organization"
+        >
             <TextInput
                 label="Email"
                 placeholder="Enter the email of the member to add"
@@ -66,10 +85,15 @@ const AddMemberToOrganization = (props: AddMemberToOrganizationProps) => {
                 value={lastName}
                 onChange={(e) => setLastName(e.currentTarget.value)}
             />
-            <Button variant="filled" color="blue" onClick={handlerAddMember}>
-                Add Member
-            </Button>
-        </Dialog>
+            <Flex justify={"flex-end"} gap={"sm"}>
+                <Button variant="filled" color="blue" onClick={handlerAddMember} loading={loading}>
+                    Add Member
+                </Button>
+                <Button variant="outline" onClick={onClose} mr="md">
+                    Cancel
+                </Button>
+            </Flex>
+        </Modal>
     );
 };
 

@@ -19,7 +19,6 @@ const Backlog = () => {
     const [project, setProject] = useState<Project>();
     const [tasks, setTasks] = useState<Task[]>([])
     const [selectedTask, setSelectedTask] = useState<Task | null>(null);
-    const [accountsLoading, setAccountsLoading] = useState(false);
     const { getOrganizationAccounts } = useOrganizationApi();
     const { getAllAccountDetails } = useIdentityServerApi();
     const [accounts, setAccounts] = useState<AccountDetails[]>([]);
@@ -73,34 +72,12 @@ const Backlog = () => {
 
     useEffect(() => {
         if (project?.organizationId) {
-          localStorage.setItem('organizationId', project?.organizationId);
+            localStorage.setItem('organizationId', project?.organizationId);
         }
-      }, [project?.organizationId]);
-    
-      if (!id || loading || !project) return <LoaderMain />;
-      if (!id || id === 'undefined') return <NotFoundPage />
+    }, [project?.organizationId]);
 
-    // useEffect(() => {
-    //     const handleBacklogUpdate = (event: Event) => {
-    //         const customEvent = event as CustomEvent;
-    //         const { projectId } = customEvent.detail;
-    //         if (projectId) {
-    //             const fetchData = async () => {
-    //                 const data = await getProjectWithTasksById(projectId);
-    //                 setTasks(data.data.tasks || []);
-    //             };
-    //             fetchData();
-    //         }
-    //     };
-
-    //     window.addEventListener('updateBacklog', handleBacklogUpdate as EventListener);
-
-    //     return () => {
-    //         window.removeEventListener('updateBacklog', handleBacklogUpdate as EventListener);
-    //     };
-    // }, []);
-
-
+    if (!id || loading || !project) return <LoaderMain />;
+    if (!id || id === 'undefined') return <NotFoundPage />
 
     return (
         <Container fluid style={{ height: '100vh', padding: 0 }}>
@@ -112,9 +89,7 @@ const Backlog = () => {
                     </Button>
                 </Flex>
 
-                <Flex style={{ flex: 1, overflow: 'hidden' }}>
-                    <TableTickets tasks={tasks} accounts={accounts} onTaskClick={openTaskDialog} />
-                </Flex>
+                <TableTickets tasks={tasks} accounts={accounts} onTaskClick={openTaskDialog} />
 
                 {selectedTask && (
                     <TaskDialog
@@ -128,8 +103,9 @@ const Backlog = () => {
                     <CreateTicket
                         opened={createTicketDialogOpen}
                         onClose={closeCreateTicketDialog}
-                        organizationId={project!.organizationId}
-                    />
+                        organizationId={project!.organizationId} onSuccess={function (): void {
+                            throw new Error("Function not implemented.")
+                        } }                    />
                 )}
             </Flex>
         </Container>

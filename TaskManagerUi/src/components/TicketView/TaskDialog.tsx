@@ -30,12 +30,12 @@ type TaskDialogProps = {
     onClose: () => void;
 };
 
-export const TaskDialog = ({organizationId, task, opened, onClose }: TaskDialogProps) => {
+export const TaskDialog = ({ organizationId, task, opened, onClose }: TaskDialogProps) => {
     const { getTaskById, getAllTasksByOrganization } = useTaskApi();
     const { getOrganizationProjectsById } = useOrganizationApi();
     const { editTask } = useTaskApi();
     const { getAllAccountDetails } = useIdentityServerApi();
-    const [ organization, setOrganization] = useState<OrganizationDetails>();
+    const [organization, setOrganization] = useState<OrganizationDetails>();
     const [taskDetails, setTaskDetails] = useState<Task | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -123,31 +123,30 @@ export const TaskDialog = ({organizationId, task, opened, onClose }: TaskDialogP
         fetchProjects();
     }, [taskDetails]);
 
+    const fetchOrganizationAccounts = async () => {
+        if (!taskDetails) return;
+        if (!organization) return;
+        setAccountsLoading(true);
+        try {
+            const accountDetails = await getAllAccountDetails(organization?.accounts);
+            setAccounts(accountDetails.data);
+            console.log(accountDetails.data)
+
+            const reporter = accountDetails.data.find((a) => a.id !== undefined && a.id === taskDetails.reporterId) || null;
+            const assignee = accountDetails.data.find((a) => a.id !== undefined && a.id === taskDetails.assigneeId) || null;
+
+            setReporterId(reporter);
+            setAssigneeId(assignee);
+        } catch (error) {
+            console.error('Error fetching accounts:', error);
+        } finally {
+            setAccountsLoading(false);
+        }
+    };
 
     useEffect(() => {
-        if (!taskDetails) return;
-
-        const fetchOrganizationAccounts = async () => {
-            setAccountsLoading(true);
-            if (!organization) return null;
-            try {
-                const accountDetails = await getAllAccountDetails(organization?.accounts);
-                setAccounts(accountDetails.data);
-
-                const reporter = accountDetails.data.find((a) => a.id !== undefined && a.id === taskDetails.reporterId) || null;
-                const assignee = accountDetails.data.find((a) => a.id !== undefined && a.id === taskDetails.assigneeId) || null;
-
-                setReporterId(reporter);
-                setAssigneeId(assignee);
-            } catch (error) {
-                console.error('Error fetching accounts:', error);
-            } finally {
-                setAccountsLoading(false);
-            }
-        };
-
         fetchOrganizationAccounts();
-    }, [taskDetails]);
+    }, [taskDetails, organization]);
 
 
     useEffect(() => {
@@ -416,10 +415,10 @@ export const TaskDialog = ({organizationId, task, opened, onClose }: TaskDialogP
                                 <TableTickets tasks={taskDetails.childIssues ?? []} accounts={accounts} onTaskClick={openTaskDialog} />
                             ) : (null)}
                             {selectedTask && (
-                                <TaskDialog 
-                                    task={selectedTask} 
-                                    opened={dialogOpen} 
-                                    onClose={closeTaskDialog} 
+                                <TaskDialog
+                                    task={selectedTask}
+                                    opened={dialogOpen}
+                                    onClose={closeTaskDialog}
                                     organizationId={organizationId}
                                 />
                             )}

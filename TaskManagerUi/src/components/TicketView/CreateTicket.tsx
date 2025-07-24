@@ -21,9 +21,10 @@ type CreateTicketProps = {
     opened: boolean;
     onClose: () => void;
     organizationId: string;
+    onSuccess: () => void;
 }
 
-export const CreateTicket = ({ opened, onClose, organizationId }: CreateTicketProps) => {
+export const CreateTicket = ({ opened, onClose, organizationId, onSuccess }: CreateTicketProps) => {
     const editor = useEditor({
         extensions: [
             StarterKit,
@@ -40,7 +41,7 @@ export const CreateTicket = ({ opened, onClose, organizationId }: CreateTicketPr
     const { getOrganizationAccounts } = useOrganizationApi();
     const { getAllAccountDetails } = useIdentityServerApi();
     const [projects, setProjects] = useState<Project[] | null>(null);
-    const [tasks, setTasks] = useState<Task[] | null>(null);
+    const [tasks, setTasks] = useState<Task[]>([]);
     const [titleTask, setTitleTask] = useState<string>('');
     const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
     const [selectedParentTaskId, setSelectedParentTaskId] = useState<string | null>(null);
@@ -70,7 +71,8 @@ export const CreateTicket = ({ opened, onClose, organizationId }: CreateTicketPr
         const fetchTasks = async () => {
             try {
                 const data = await getAllTasksByOrganization(organizationId);
-                setTasks(data.data);
+                const rawTasks = data.data as Task[] | { tasks?: Task[] };
+                setTasks(Array.isArray(rawTasks) ? rawTasks : (rawTasks.tasks ?? []));
             } catch (error) {
                 console.error('Error fetching tasks:', error);
             }
@@ -217,12 +219,10 @@ export const CreateTicket = ({ opened, onClose, organizationId }: CreateTicketPr
                         <Fieldset legend="Parent Task" style={{ width: '100%' }}>
                             <Select
                                 placeholder="Select parent task"
-                                data={
-                                    tasks?.map((task) => ({
-                                        value: task.id,
-                                        label: task.title,
-                                    })) || []
-                                }
+                                data={tasks.map((task) => ({
+                                    value: task.id,
+                                    label: task.title,
+                                }))}
                                 value={selectedParentTaskId}
                                 onChange={handleTaskChange}
                                 searchable

@@ -74,8 +74,6 @@ const CreateProject = ({organizationId, opened, onClose, onSuccess}: CreateProje
         <Modal
             opened={opened}
             onClose={onClose}
-            title="Create New Ticket"
-            size="xxl"
             withCloseButton
             transitionProps={{ transition: 'fade', duration: 200 }}>
             <Container fluid size={"xxl"}>

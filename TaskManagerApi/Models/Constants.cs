@@ -30,16 +30,16 @@ public class Constants
         {
             public const int TO_DO = 1;
             public const int IN_PROGRESS = 2;
-            public const int DONE = 4;
+            public const int DONE = 3;
             public const string TO_DO_NAME = "To Do";
             public const string IN_PROGRESS_NAME = "In Progress";
             public const string DONE_NAME = "Done";
         }
         public static class DefaultStatusTypes
         {
-            public const int TO_DO = 2;
-            public const int IN_PROGRESS = 3;
-            public const int DONE = 4;
+            public const int TO_DO = 1;
+            public const int IN_PROGRESS = 2;
+            public const int DONE = 3;
             public const string TO_DO_NAME = "To Do";
             public const string IN_PROGRESS_NAME = "In Progress";
             public const string DONE_NAME = "Done";
@@ -138,7 +138,7 @@ public class Constants
             public const string PROJECT_MEMBER_ADDITION_FAILED_LOG = "Failed to add user to project: {object}";
             public const string PROJECT_MEMBER_REMOVAL_FAILED_LOG = "Failed to remove user from project: {object}";
 
-            public const string ORGANIZATION_CREATION_FAILED_LOG = "Organization creation failed: {object}";
+            public const string ORGANIZATION_CREATION_FAILED_LOG = "Organization creation failed: {0}";
             public const string ORGANIZATION_UPDATE_FAILED_LOG = "Organization update failed: {object}";
             public const string ORGANIZATION_DELETION_FAILED_LOG = "Organization deletion failed: {object}";
             public const string ORGANIZATION_MEMBER_ADDITION_FAILED_LOG = "Failed to add user to organization: {object}";

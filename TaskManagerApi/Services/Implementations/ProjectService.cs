@@ -112,21 +112,20 @@ public class ProjectService : IProjectService
                 ErrorMessage = LogPhrases.ServiceResult.Error.STATUSES_EMPTY
             };
 
-        var currentMappings = await _context.ProjectTaskStatusMapping
-            .Where(s => s.ProjectId == project.Id)
-            .Include(s => s.TicketStatus)
-            .ToListAsync(cancellationToken);
+        var currentMappings = await _context.ProjectTaskStatusMapping.Where(s => s.ProjectId == project.Id)
+                                                                     .Include(s => s.TicketStatus)
+                                                                     .ToListAsync(cancellationToken);
 
         var newStatuses = project.Statuses;
         var statusesInDb = await _context.TicketStatuses.ToListAsync(cancellationToken);
 
         foreach (var newStatus in newStatuses)
         {
-            if (!newStatus.StatusId.HasValue && !string.IsNullOrWhiteSpace(newStatus.StatusName))
+            if (!string.IsNullOrWhiteSpace(newStatus.StatusName))
             {
                 var existing = await _context.TicketStatuses.FirstOrDefaultAsync(s => s.Name == newStatus.StatusName
-                                                                                    && s.StatusTypeId == newStatus.TypeId
-                                                                                , cancellationToken);
+                                                                                    && s.StatusTypeId == newStatus.TypeId,
+                                                                                    cancellationToken);
                 if (existing != null)
                 {
                     newStatus.StatusId = existing.Id;
@@ -186,6 +185,13 @@ public class ProjectService : IProjectService
             {
                 exists.Order = newStatus.Order;
                 _context.ProjectTaskStatusMapping.Update(exists);
+            }
+
+            var checkOrder = currentMappings.Find(w => w.Order == newStatus.Order);
+
+            if (checkOrder != null)
+            {
+                _context.ProjectTaskStatusMapping.Remove(checkOrder);
             }
         }
 
@@ -306,7 +312,7 @@ public class ProjectService : IProjectService
         foreach (var project in projects)
         {
             var statuses = await GetStatuses(project.Id, cancellationToken);
-            if (!statuses.Success) result.Add(ConvertProjectToOutput(project, ConvertProjectStatusToDto(statuses.Data)));
+            result.Add(ConvertProjectToOutput(project, ConvertProjectStatusToDto(statuses.Data)));
         }
 
         return new ServiceResult<List<ProjectItemDto>>

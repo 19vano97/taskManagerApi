@@ -36,25 +36,18 @@ export function configureAxiosAuth(
       config.headers['organizationId'] = orgId;
     }
 
-
-
-    console.log('[Request]', config.method?.toUpperCase(), config.url);
     return config;
   }, (error) => {
-    console.error('[Request Error]', error);
     return Promise.reject(error);
   });
 
   axiosInstance.interceptors.response.use(
     (response) => {
-      console.log('[Response]', response.status, response.config.url);
       return response;
     },
     async (error) => {
       const originalRequest = error.config;
       const status = error.response?.status;
-
-      console.error('[Response Error]', status, originalRequest?.url);
 
       if ((status === 401 || status === 403) && !originalRequest._retry) {
         originalRequest._retry = true;
@@ -79,7 +72,6 @@ export function configureAxiosAuth(
             window.location.href = '/signin-oidc';
           }
         } catch (refreshError) {
-          console.error('Token refresh failed:', refreshError);
           if (onUnauthorized) {
             onUnauthorized();
           } else {
@@ -106,21 +98,17 @@ export function configureIdentityAxiosAuth(
       config.headers.Authorization = `Bearer ${token}`;
     }
 
-    console.log('[Identity Request]', config.method?.toUpperCase(), config.url);
     return config;
   }, (error) => {
-    console.error('[Identity Request Error]', error);
     return Promise.reject(error);
   });
 
   axiosInstance.interceptors.response.use(
     (response) => {
-      console.log('[Identity Response]', response.status, response.config.url);
       return response;
     },
     async (error) => {
       const status = error.response?.status;
-      console.error('[Identity Response Error]', status);
 
       if ((status === 401 || status === 403)) {
         if (onUnauthorized) {

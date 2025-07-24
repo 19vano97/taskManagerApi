@@ -376,6 +376,39 @@ namespace TaskManagerApi.Migrations
                     b.ToTable("TicketTypes");
                 });
 
+            modelBuilder.Entity("TaskManagerApi.Enitities.Tickets.TicketComment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AccountId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreateDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETUTCDATE()");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ModifyDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETUTCDATE()");
+
+                    b.Property<Guid>("TicketId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TicketId");
+
+                    b.ToTable("TicketComments");
+                });
+
             modelBuilder.Entity("TaskManagerApi.Enitities.Ai.AiThreads", b =>
                 {
                     b.HasOne("TaskManagerApi.Enitities.Organization.OrganizationAccount", "OrganizationAccount")
@@ -471,6 +504,17 @@ namespace TaskManagerApi.Migrations
                         .IsRequired();
 
                     b.Navigation("TicketStatusType");
+                });
+
+            modelBuilder.Entity("TaskManagerApi.Enitities.Tickets.TicketComment", b =>
+                {
+                    b.HasOne("TaskManagerApi.Enitities.Task.Ticket", "Ticket")
+                        .WithMany()
+                        .HasForeignKey("TicketId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Ticket");
                 });
 
             modelBuilder.Entity("TaskManagerApi.Enitities.Organization.OrganizationItem", b =>

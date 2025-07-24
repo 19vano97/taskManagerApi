@@ -31,13 +31,6 @@ public class OrganizationService : IOrganizationService
                                                    OrganizationDto newOgranization,
                                                    CancellationToken cancellationToken)
     {
-        if (await DoesOrganizationExistEntity(Id: newOgranization.Id.ToString()) is not null)
-            return new ServiceResult<OrganizationDto>
-            {
-                Success = false,
-                ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
-            };
-
         newOgranization.Id = Guid.NewGuid();
         newOgranization.Owner = Guid.Parse(user.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID).Value);
 
@@ -155,7 +148,7 @@ public class OrganizationService : IOrganizationService
     public async Task<ServiceResult<OrganizationProjectDto>> GetOrganizationProjectsAsync(Guid organizationId, CancellationToken cancellationToken)
     {
         var organization = await DoesOrganizationExist(organizationId, cancellationToken);
-        if (organization == null)
+        if (!organization.Success)
             return new ServiceResult<OrganizationProjectDto>
             {
                 Success = false,

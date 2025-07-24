@@ -36,7 +36,7 @@ namespace TaskHistoryService.Controllers
             var history = await _taskHistoryService.GetHistoryByTaskId(taskId);
 
             if (history == null)
-                return NotFound();
+                return NoContent();
 
             return Ok(history);
         }

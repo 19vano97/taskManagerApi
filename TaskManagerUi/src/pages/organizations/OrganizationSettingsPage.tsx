@@ -12,6 +12,7 @@ import {
   Avatar,
   Tabs,
   Flex,
+  Table,
 } from '@mantine/core';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useOrganizationApi } from '../../api/taskManagerApi';
@@ -23,6 +24,8 @@ import AddMemberToOrganization from '../../components/Account/AddMemberToOrganiz
 import NotFoundPage from '../NotFoundPage';
 import { LoaderMain } from '../../components/LoaderMain';
 import { useOrgLocalStorage } from '../../hooks/useOrgLocalStorage';
+import DeleteProject from '../../components/project/DeleteProject';
+import SuccessAlert from '../../components/alerts/SuccessAlert';
 
 const OrganizationSettingsPage = () => {
   const params = useParams<{ id?: string }>();
@@ -38,30 +41,48 @@ const OrganizationSettingsPage = () => {
   const [editMode, setEditMode] = useState(false);
   const [name, setName] = useState('');
   const [abbreviation, setAbbreviation] = useState('');
-  const [showAddMember, setShowAddMember] = useState(false);
+  const [projectToDelete, setProjectToDelete] = useState<string>();
+  const [deleteProjectModalOpen, setDeleteProjectModalOpen] = useState(false);
+  const [AddMemberModalOpen, setAddMemberModalOpen] = useState(false);
+  const [showSuccessMemeberAdding, setShowSuccessMemeberAdding] = useState(false);
+  const [showSuccessProjectDeletion, setShowSuccessProjectDeletion] = useState(false);
+  const openDeleteProjectDialog = (projectId: string) => {
+    setProjectToDelete(projectId);
+    setDeleteProjectModalOpen(true);
+  };
+  const closeDeleteProjectDialog = () => {
+    setProjectToDelete(null!);
+    setDeleteProjectModalOpen(false);
+  };
+  const openAddMemberDialog = () => {
+    setAddMemberModalOpen(true);
+  };
+  const closeAddMemberDialog = () => {
+    setAddMemberModalOpen(false);
+  };
 
   if (!id || id === 'undefined') {
     return <NotFoundPage />;
   }
 
+  const fetchOrganization = async () => {
+    try {
+      const data = await getOrganizationProjectsById(id!);
+      const uniqueAccountIds: string[] = Array.from(new Set(data.data.accounts));
+      const accountDetails = await getAllAccountDetails(uniqueAccountIds);
+
+      setOrganization(data.data);
+      setName(data.data.name);
+      setAbbreviation(data.data.abbreviation);
+      setAccounts(accountDetails.data);
+    } catch (error) {
+      console.error('Failed to fetch organization:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchOrganization = async () => {
-      try {
-        const data = await getOrganizationProjectsById(id!);
-        const uniqueAccountIds: string[] = Array.from(new Set(data.data.accounts));
-        const accountDetails = await getAllAccountDetails(uniqueAccountIds);
-
-        setOrganization(data.data);
-        setName(data.data.name);
-        setAbbreviation(data.data.abbreviation);
-        setAccounts(accountDetails.data);
-      } catch (error) {
-        console.error('Failed to fetch organization:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchOrganization();
   }, []);
 
@@ -91,6 +112,18 @@ const OrganizationSettingsPage = () => {
     }
   };
 
+  const handleProjectDeletionSuccess = async () => {
+    await fetchOrganization();
+    setShowSuccessProjectDeletion(true);
+    setTimeout(() => setShowSuccessProjectDeletion(false), 4000);
+  };
+
+  const handleAddingMemberSuccess = async () => {
+    await fetchOrganization();
+    setShowSuccessMemeberAdding(true);
+    setTimeout(() => setShowSuccessMemeberAdding(false), 4000);
+  };
+
   const owner = accounts.find((acc) => acc.id === organization?.owner);
 
   if (loading || !organization) {
@@ -104,9 +137,17 @@ const OrganizationSettingsPage = () => {
   if (!id) {
     return <NotFoundPage />;
   }
+  const getInitials = (firstName: string, lastName: string) =>
+    `${firstName?.[0] ?? ""}${lastName?.[0] ?? ""}`.toUpperCase();
 
   return (
     <Container fluid size="xl" py="xl">
+      {showSuccessProjectDeletion && (
+        <SuccessAlert title="Project successfully deleted!" />
+      )}
+      {showSuccessMemeberAdding && (
+        <SuccessAlert title="Membet has been successfully added" />
+      )}
       <Tabs defaultValue="info">
         <Tabs.List>
           <Tabs.Tab value="info">Organization Info</Tabs.Tab>
@@ -154,25 +195,47 @@ const OrganizationSettingsPage = () => {
             <Group justify="space-between">
               <Title order={3}>Organization Members</Title>
               {isOwner && (
-                <Button variant="light" onClick={() => setShowAddMember(!showAddMember)}>
-                  {showAddMember ? 'Close' : 'Add Member'}
+                <Button variant="outline" onClick={openAddMemberDialog}>
+                  Add Member
                 </Button>
               )}
             </Group>
             <Divider my="sm" />
-            {showAddMember && <AddMemberToOrganization organizationId={organization.id} />}
-            <Paper mt="md" withBorder p="md">
-              {accounts.map((acc) => (
-                <Group key={acc.id} py="xs" >
-                  <Avatar radius="xl" color="blue">
-                    {acc.firstName?.[0]}{acc.lastName?.[0]}
-                  </Avatar>
-                  <div>
-                    <Text fw={500}>{acc.firstName} {acc.lastName}</Text>
-                    <Text size="xs" c="dimmed">{acc.email}</Text>
-                  </div>
-                </Group>
-              ))}
+            <Paper withBorder shadow="xs" radius="md" p="md">
+              <Table
+                striped
+                highlightOnHover
+                withTableBorder
+                withColumnBorders
+                verticalSpacing="md"
+              >
+                <Table.Thead>
+                  <Table.Tr>
+                    <Table.Th>Avatar</Table.Th>
+                    <Table.Th>First Name</Table.Th>
+                    <Table.Th>Last Name</Table.Th>
+                    <Table.Th>Email</Table.Th>
+                    <Table.Th>Created</Table.Th>
+                  </Table.Tr>
+                </Table.Thead>
+                <Table.Tbody>
+                  {accounts.map((user) => (
+                    <Table.Tr key={user.id}>
+                      <Table.Td>
+                        <Avatar color="blue" radius="xl">
+                          {getInitials(user.firstName, user.lastName)}
+                        </Avatar>
+                      </Table.Td>
+                      <Table.Td>{user.firstName}</Table.Td>
+                      <Table.Td>{user.lastName}</Table.Td>
+                      <Table.Td>{user.email}</Table.Td>
+                      <Table.Td>
+                        {user.createDate ? new Date(user.createDate).toLocaleDateString() : "N/A"}
+                      </Table.Td>
+                    </Table.Tr>
+                  ))}
+                </Table.Tbody>
+              </Table>
             </Paper>
           </Card>
         </Tabs.Panel>
@@ -200,6 +263,16 @@ const OrganizationSettingsPage = () => {
                       >
                         Open Project
                       </Button>
+                      {isOwner ? (<Button
+                        color="red.6"
+                        onClick={() => openDeleteProjectDialog(String(project.id))}
+                        size="xs"
+                        mt="sm"
+                        variant="light"
+                        fullWidth
+                      >
+                        Delete project
+                      </Button>) : (<></>)}
                     </Card>
                   </Grid.Col>
                 );
@@ -208,6 +281,22 @@ const OrganizationSettingsPage = () => {
           </Card>
         </Tabs.Panel>
       </Tabs>
+      {deleteProjectModalOpen && (
+        <DeleteProject
+          projectId={projectToDelete!}
+          opened={deleteProjectModalOpen}
+          onClose={closeDeleteProjectDialog}
+          onSuccess={handleProjectDeletionSuccess}
+        />
+      )}
+      {AddMemberModalOpen && (
+        <AddMemberToOrganization
+          organizationId={organization.id}
+          opened={AddMemberModalOpen}
+          onClose={closeAddMemberDialog}
+          onSuccess={handleAddingMemberSuccess}
+        />
+      )}
     </Container>
   );
 };

@@ -29,7 +29,7 @@ public class AiService : IAiService
         _logger = logger;
     }
 
-    public async Task<ServiceResult<AiThreadDetailsDto>> CreateNewThread(AiThreadDetailsDto aiThread, CancellationToken cancellationToken)
+    public async Task<ServiceResult<AiThreadDetailsDto>> CreateNewThreadAsync(AiThreadDetailsDto aiThread, CancellationToken cancellationToken)
     {
         var organizationAccountMap = await _context.OrganizationAccount
             .FirstOrDefaultAsync(o => o.AccountId == aiThread.AccountId
@@ -87,7 +87,51 @@ public class AiService : IAiService
         };
     }
 
-    public async Task<ServiceResult<List<AiThreadDetailsDto>>> GetAllThreadsByOrganizationAccount(Guid organizationId,
+    public async Task<ServiceResult<bool>> DeleteThreadAsync(Guid threadId, Guid accountId, CancellationToken cancellationToken)
+    {
+        var threadInformation = await _context.AiThreads.AsNoTracking()
+                                                        .FirstOrDefaultAsync(t => t.Id == threadId, cancellationToken);
+        if (threadInformation is null)
+            return new ServiceResult<bool>
+            {
+                Success = false,
+                Data = false,
+                ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
+            };
+
+        var accountOrganization = await _context.OrganizationAccount.AsNoTracking().FirstOrDefaultAsync(oa => oa.AccountId == accountId && oa.Id == threadInformation.OrganizationAccountId);
+        if (threadInformation.OrganizationAccountId != accountOrganization?.Id)
+            return new ServiceResult<bool>
+            {
+                Success = false,
+                Data = false,
+                ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
+            };
+
+        try
+        {
+            _context.AiThreads.Remove(threadInformation);
+            await _context.SaveChangesAsync(cancellationToken);
+            return new ServiceResult<bool>
+            {
+                Success = true,
+                Data = true
+            };
+        }
+        catch (System.Exception err)
+        {
+            _logger.LogError(err.ToString());
+            return new ServiceResult<bool>
+            {
+                Success = false,
+                ErrorMessage = LogPhrases.ServiceResult.Error.FAILED_UNTRACE
+            };
+        }
+
+
+    }
+
+    public async Task<ServiceResult<List<AiThreadDetailsDto>>> GetAllThreadsByOrganizationAccountAsync(Guid organizationId,
                                                                                    Guid accountId,
                                                                                    CancellationToken cancellationToken)
     {
@@ -157,7 +201,7 @@ public class AiService : IAiService
         };
     }
 
-    public async Task<ServiceResult<AiThreadDetailsDto>> GetThreadInfo(Guid aiThread, CancellationToken cancellationToken)
+    public async Task<ServiceResult<AiThreadDetailsDto>> GetThreadInfoAsync(Guid aiThread, CancellationToken cancellationToken)
     {
         var thread = await _context.AiThreads.FirstOrDefaultAsync(t => t.Id == aiThread, cancellationToken);
         if (thread is null)

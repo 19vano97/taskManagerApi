@@ -1,6 +1,4 @@
 import { NavLink, useInRouterContext, useLocation, useParams } from 'react-router-dom';
-import { ActionIcon } from '@mantine/core';
-import { useMantineColorScheme } from '@mantine/core';
 import {
   House, Kanban, Scroll, UserRoundPen, Sun, Moon, Building2, BotMessageSquare, Settings, Users2, LayoutDashboard,
 } from 'lucide-react';
@@ -15,7 +13,6 @@ export function Sidebar() {
   const routeParams = useParams();
   const orgId = routeParams.orgId || routeParams.id;
   const projectId = routeParams.projectId || routeParams.id;;
-  const { colorScheme, setColorScheme } = useMantineColorScheme();
 
   const sidebarLinks = useMemo(() => {
     if (location.pathname.includes('/project/') && projectId) {
@@ -33,7 +30,6 @@ export function Sidebar() {
       return [
         { link: '/me', label: 'Home', icon: House },
         { link: `/org/${orgId}`, label: 'Dashboard', icon: LayoutDashboard },
-        { link: `/org/${orgId}/members`, label: 'Members', icon: Users2 },
         { link: `/org/${orgId}/settings`, label: 'Settings', icon: Settings },
       ];
     }
@@ -66,15 +62,6 @@ export function Sidebar() {
   return (
     <nav className={classes.navbar}>
       <div className={classes.navbarMain}>{links}</div>
-
-      <ActionIcon
-        variant="default"
-        onClick={() => setColorScheme(colorScheme === 'dark' ? 'light' : 'dark')}
-        size="lg"
-        aria-label="Toggle color scheme"
-      >
-        {colorScheme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
-      </ActionIcon>
     </nav>
   );
 }

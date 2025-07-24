@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using TaskManagerApi.Enitities;
 using TaskManagerApi.Enums;
 using TaskManagerApi.Models.Project;
@@ -8,8 +9,14 @@ namespace TaskManagerApi.Models.TicketItem;
 public class TicketDto
 {
     public Guid? Id { get; set; }
+
+    [Required]
+    [StringLength(200, MinimumLength = 2)]
     public string? Title { get; set; }
+
+    [StringLength(2000)]
     public string? Description { get; set; }
+
     public int? StatusId { get; set; }
     public string? StatusName { get; set; }
     public int? TypeId { get; set; }

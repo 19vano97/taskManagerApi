@@ -1,12 +1,14 @@
 import type { TimeOnly } from "../hooks/useTimeOnly";
 
 export interface Organization {
-  id: string;
+  id?: string;
   name: string;
-  projects: Project[];
-  accounts: string[];
-  createDate: string;
-  modifyDate: string;
+  description?: string;
+  abbreviation?: string;
+  projects?: Project[];
+  accounts?: string[];
+  createDate?: string;
+  modifyDate?: string;
   owner: string;
 }
 

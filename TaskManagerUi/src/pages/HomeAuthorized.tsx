@@ -17,6 +17,8 @@ import { useOrganizationApi } from '../api/taskManagerApi';
 import { useSafeAuth } from '../hooks/useSafeAuth';
 import { Plus } from 'lucide-react';
 import type { OrganizationDetails } from '../components/Types';
+import CreateOrganization from '../components/Organization/CreateOrgamization';
+import SuccessAlert from '../components/alerts/SuccessAlert';
 
 const HomeAuthorized = () => {
     const { getAllOrganizationProjects } = useOrganizationApi();
@@ -24,28 +26,36 @@ const HomeAuthorized = () => {
     const navigate = useNavigate();
     const [organizations, setOrganizations] = useState<OrganizationDetails[]>([]);
     const [ownedOrgs, setOwnedOrgs] = useState<OrganizationDetails[]>([]);
+    const [createOrganizationModalOpen, setCreateOrganizationModalOpen] = useState(false);
+    const [showSuccessOrganizationCreation, setShowSuccessOrganizationCreation] = useState(false);
+    const openCreateOrganizationDialog = () => {
+        setCreateOrganizationModalOpen(true);
+    };
+    const closeCreateOrganizationDialog = () => {
+        setCreateOrganizationModalOpen(false);
+    };
+
+    const fetchOrgs = async () => {
+        try {
+            const response = await getAllOrganizationProjects();
+            const data = response.data;
+            const userId = auth?.user?.profile?.sub;
+
+            const owned = data.filter((org) => org.owner === userId);
+            const others = data.filter((org) => org.owner !== userId);
+
+            console.log('Owned Organizations:', owned);
+            console.log('Other Organizations:', others);
+            console.log('userId:', userId);
+
+            setOwnedOrgs(owned);
+            setOrganizations(others);
+        } catch (error) {
+            console.error('Error fetching organizations:', error);
+        }
+    };
 
     useEffect(() => {
-        const fetchOrgs = async () => {
-            try {
-                const response = await getAllOrganizationProjects();
-                const data = response.data;
-                const userId = auth?.user?.profile?.sub;
-
-                const owned = data.filter((org) => org.owner === userId);
-                const others = data.filter((org) => org.owner !== userId);
-
-                console.log('Owned Organizations:', owned);
-                console.log('Other Organizations:', others);
-                console.log('userId:', userId);
-
-                setOwnedOrgs(owned);
-                setOrganizations(others);
-            } catch (error) {
-                console.error('Error fetching organizations:', error);
-            }
-        };
-
         fetchOrgs();
     }, [auth?.user?.profile?.sub]);
 
@@ -53,16 +63,21 @@ const HomeAuthorized = () => {
         navigate(`/org/${orgId}`);
     };
 
-    const handleCreateOrg = () => {
-        navigate('/organizations');
-    };
+    const handleOrganizationCreationSuccess = async () => {
+        await fetchOrgs();
+        setShowSuccessOrganizationCreation(true);
+        setTimeout(() => setShowSuccessOrganizationCreation(false), 4000);
+    }
 
     return (
         <Container size="xl" py="xl">
+            {showSuccessOrganizationCreation && (
+                <SuccessAlert title="Organization successfully created!" />
+            )}
             <Stack >
                 <Flex justify="space-between" align="center">
                     <Title order={2}>Welcome to TaskType</Title>
-                    <Button variant="outline" onClick={handleCreateOrg} leftSection={<Plus size={16} />}>
+                    <Button variant="outline" onClick={openCreateOrganizationDialog} leftSection={<Plus size={16} />}>
                         Create Organization
                     </Button>
                 </Flex>
@@ -120,6 +135,12 @@ const HomeAuthorized = () => {
                     </Text>
                 </Flex>
             )}
+            {createOrganizationModalOpen
+                && <CreateOrganization
+                    opened={createOrganizationModalOpen}
+                    onClose={closeCreateOrganizationDialog}
+                    onSuccess={handleOrganizationCreationSuccess}
+                />}
         </Container>
     );
 };

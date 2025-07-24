@@ -121,7 +121,9 @@ export const useAiChatApi = () => {
   return {
     getChatHistoryByThreadId: async (threadId: string) =>
       (await taskManagerAxios.get<ChatMessage[]>(`${path}/chat/${threadId}/history`)),
-    createNewThread: async (data: { name: AiThreadDetails }) =>
+    deleteThreadById: async (threadId: string) =>
+      (await taskManagerAxios.delete<void>(`${path}/thread/${threadId}/delete`)),
+    createNewThread: async (data: AiThreadDetails ) =>
       (await taskManagerAxios.post<AiThreadDetails>(`${path}/thread/create`, data)),
     postSendMessageToChat: async (data: ChatMessage, threadId: string) =>
       (await taskManagerAxios.post<ChatMessage>(`${path}/chat/${threadId}/message`, data)),

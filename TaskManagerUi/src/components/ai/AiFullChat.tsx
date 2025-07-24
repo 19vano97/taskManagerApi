@@ -11,6 +11,7 @@ import {
     Flex,
     useMantineColorScheme,
     Spoiler,
+    ScrollArea,
 } from "@mantine/core";
 import { useAiChatApi, useTaskApi } from "../../api/taskManagerApi";
 import { useEffect, useState } from "react";
@@ -36,12 +37,17 @@ export const AiFullChat = ({ threadId, projectId }: AiFullChatProps) => {
     const [loading, setLoading] = useState(true);
     const [newMessage, setNewMessage] = useState("");
     const [sending, setSending] = useState(false);
-    const chatEndRef = useRef<HTMLDivElement | null>(null);
+    const viewportRef = useRef<HTMLDivElement>(null);
     const { colorScheme } = useMantineColorScheme();
     const isDark = colorScheme === 'dark';
 
     useEffect(() => {
-        chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        if (viewportRef.current) {
+            viewportRef.current.scrollTo({
+                top: viewportRef.current.scrollHeight,
+                behavior: 'smooth',
+            });
+        }
     }, [chatHistory]);
 
     const fetchChatHistory = async () => {
@@ -143,7 +149,7 @@ export const AiFullChat = ({ threadId, projectId }: AiFullChatProps) => {
     };
 
     return (
-        <Container size="md" px="md" py="md">
+        <Container w="100%" px="md" py="md" h="80vh" style={{ display: 'flex', flexDirection: 'column' }}>
             <Title order={3} mb="md">
                 AI Conversation
             </Title>
@@ -155,7 +161,7 @@ export const AiFullChat = ({ threadId, projectId }: AiFullChatProps) => {
             ) : chatHistory.length === 0 ? (
                 <Text c="dimmed">No messages in this chat thread.</Text>
             ) : (
-                <Container fluid>
+                <ScrollArea style={{ flex: 1 }} viewportRef={viewportRef}>
                     <Stack>
                         {sortedHistory.map((message, index) => {
                             const isUser = message.role === "user";
@@ -220,7 +226,7 @@ export const AiFullChat = ({ threadId, projectId }: AiFullChatProps) => {
                                                             mt="sm"
                                                             size="xs"
                                                             onClick={() => handleCreateTasksFromMessage(parsedTickets!)}
-                                                        // color={isUser ? isDark ? "green.5" : "green.1" : isDark ? "gray.5" : "gray.1"}
+                                                            bg={isUser ? isDark ? "green.5" : "green.1" : isDark ? "gray.5" : "gray.1"}
                                                         >
                                                             Create tasks in the project
                                                         </Button>
@@ -243,13 +249,14 @@ export const AiFullChat = ({ threadId, projectId }: AiFullChatProps) => {
                                 </Group>
                             );
                         })}
+
                     </Stack>
-                    <div ref={chatEndRef} />
-                </Container>
+                </ScrollArea>
+
             )}
 
             <Box mt="md">
-                <Flex gap="sm" align="flex-end">
+                <Flex gap="sm" justify={"space-between"}>
                     <TextInput
                         placeholder="Type your message..."
                         value={newMessage}
@@ -258,14 +265,29 @@ export const AiFullChat = ({ threadId, projectId }: AiFullChatProps) => {
                         disabled={sending}
                         style={{ flex: 1 }}
                     />
-                    <Button onClick={handleSend} loading={sending} disabled={!newMessage.trim()}>
+                    <Button
+                        onClick={handleSend}
+                        loading={sending}
+                        bg={!newMessage.trim() ? "green.3" : "green.5"}
+                        c={"white"}
+                        disabled={!newMessage.trim()}
+                    >
                         Send
                     </Button>
-                    <Button onClick={handleCreateTasksRequest} loading={sending} disabled={!newMessage.trim()}>
+                    <Button
+                        onClick={handleCreateTasksRequest}
+                        loading={sending}
+                        bg={!newMessage.trim() ? "green.3" : "green.5"}
+                        c={"white"}
+                        disabled={!newMessage.trim()}
+                        data-disabled
+                    >
                         Create tasks
                     </Button>
                 </Flex>
             </Box>
+
+
         </Container>
     );
 };

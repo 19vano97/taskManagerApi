@@ -1,12 +1,39 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace TaskManagerApi.Models.TicketItemStatuses;
 
+/// <summary>
+/// Data Transfer Object for a ticket status.
+/// </summary>
 public class TicketStatusDto
 {
-    public required int TypeId { get; set; }
+    /// <summary>
+    /// The type identifier of the status.
+    /// </summary>
+    [Required]
+    public int TypeId { get; set; }
+
+    /// <summary>
+    /// The name of the status type.
+    /// </summary>
     public string? TypeName { get; set; }
+
+    /// <summary>
+    /// The unique identifier of the status.
+    /// </summary>
     public int? StatusId { get; set; }
-    public string StatusName { get; set; }
-    public required int Order { get; set; }
+
+    /// <summary>
+    /// The name of the status.
+    /// </summary>
+    [Required]
+    [StringLength(100)]
+    public string StatusName { get; set; } = string.Empty;
+
+    /// <summary>
+    /// The order of the status in the workflow.
+    /// </summary>
+    [Required]
+    public int Order { get; set; }
 }

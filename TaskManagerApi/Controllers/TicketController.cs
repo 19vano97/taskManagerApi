@@ -25,34 +25,37 @@ namespace TaskManagerApi.Controllers
         private ITicketHistoryService _ticketHistoryService;
         private IAccountVerification _accountVerification;
         private ILogger<TicketController> _logger;
-        private TicketManagerAPIDbContext _context;
 
         public TicketController(ITicketService ticketItemService,
                                   ITicketHistoryService taskHistoryService,
                                   IAccountVerification accountVerification,
-                                  ILogger<TicketController> logger,
-                                  TicketManagerAPIDbContext context)
+                                  ILogger<TicketController> logger)
 
         {
             _ticketItemService = ticketItemService;
             _ticketHistoryService = taskHistoryService;
             _accountVerification = accountVerification;
             _logger = logger;
-            _context = context;
-
         }
 
         [HttpGet("all/{organizationId}/organization")]
         public async Task<ActionResult<List<TicketDto>>> GetTasksInOrganizationAsync(Guid organizationId,
-                                                                                     CancellationToken cancellationToken)
+                                                                             CancellationToken cancellationToken)
         {
+            _logger.LogInformation("GetTasksInOrganizationAsync called with organizationId: {OrganizationId}", organizationId);
+
             if (!Guid.TryParse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value, out Guid accountId)
                 || !await _accountVerification.VerifyAccountInOrganization(accountId, organizationId, cancellationToken))
+            {
+                _logger.LogWarning("Account verification failed for organizationId: {OrganizationId}", organizationId);
                 return BadRequest();
+            }
 
             var result = await _ticketItemService.GetTasksByOrganizationAsync(organizationId, cancellationToken);
             if (!result.Success)
             {
+                _logger.LogWarning("Failed to get tasks for organizationId: {OrganizationId}. Error: {Error}", organizationId, result.ErrorMessage);
+
                 if (result.ErrorMessage == LogPhrases.ServiceResult.Error.NOT_FOUND)
                 {
                     return NotFound();
@@ -68,15 +71,22 @@ namespace TaskManagerApi.Controllers
 
         [HttpGet("all/{projectId}/project")]
         public async Task<ActionResult<List<TicketDto>>> GetTasksInOrganizationProjectAsync(Guid projectId,
-                                                                                            CancellationToken cancellationToken)
+                                                                                    CancellationToken cancellationToken)
         {
+            _logger.LogInformation("GetTasksInOrganizationProjectAsync called with projectId: {ProjectId}", projectId);
+
             var verification = await VerifyAccountInOrganization(cancellationToken);
             if (!verification.IsVerified)
+            {
+                _logger.LogWarning("Account verification failed for projectId: {ProjectId}", projectId);
                 return BadRequest();
+            }
 
             var res = await _ticketItemService.GetTasksByProjectAsync(projectId, cancellationToken);
             if (!res.Success)
             {
+                _logger.LogWarning("Failed to get tasks for projectId: {ProjectId}. Error: {Error}", projectId, res.ErrorMessage);
+
                 if (res.ErrorMessage == LogPhrases.ServiceResult.Error.NOT_FOUND)
                 {
                     return NotFound();
@@ -91,13 +101,20 @@ namespace TaskManagerApi.Controllers
         [HttpGet("{Id}/details")]
         public async Task<ActionResult<TicketDto>> GetTaskByIdAsync(Guid Id, CancellationToken cancellationToken)
         {
+            _logger.LogInformation("GetTaskByIdAsync called with Id: {TaskId}", Id);
+
             var verification = await VerifyAccountInOrganization(cancellationToken);
             if (!verification.IsVerified)
+            {
+                _logger.LogWarning("Account verification failed for taskId: {TaskId}", Id);
                 return BadRequest();
+            }
 
             var task = await _ticketItemService.GetTaskByIdAsync(Id, cancellationToken);
             if (!task.Success)
             {
+                _logger.LogWarning("Failed to get task by Id: {TaskId}. Error: {Error}", Id, task.ErrorMessage);
+
                 if (task.ErrorMessage == LogPhrases.ServiceResult.Error.NOT_FOUND)
                 {
                     return NotFound();
@@ -112,13 +129,20 @@ namespace TaskManagerApi.Controllers
         [HttpPost("create")]
         public async Task<ActionResult<TicketDto>> CreateTaskAsync(TicketDto newTask, CancellationToken cancellationToken)
         {
+            _logger.LogInformation("CreateTaskAsync called");
+
             var verification = await VerifyAccountInOrganization(cancellationToken);
             if (!verification.IsVerified)
+            {
+                _logger.LogWarning("Account verification failed for CreateTaskAsync");
                 return BadRequest();
+            }
 
             var createdTask = await _ticketItemService.CreateTaskAsync(newTask, cancellationToken);
             if (!createdTask.Success)
             {
+                _logger.LogWarning("Failed to create task. Error: {Error}", createdTask.ErrorMessage);
+
                 if (createdTask.ErrorMessage == LogPhrases.ServiceResult.Error.NOT_FOUND)
                 {
                     return NotFound();
@@ -132,15 +156,22 @@ namespace TaskManagerApi.Controllers
 
         [HttpPost("create/ai/list")]
         public async Task<ActionResult<List<TicketDto>>> CreateTaskForAiAsync(TicketForAiDto[] newTasks,
-                                                                              CancellationToken cancellationToken)
+                                                                      CancellationToken cancellationToken)
         {
+            _logger.LogInformation("CreateTaskForAiAsync called");
+
             var verification = await VerifyAccountInOrganization(cancellationToken);
             if (!verification.IsVerified)
+            {
+                _logger.LogWarning("Account verification failed for CreateTaskForAiAsync");
                 return BadRequest();
+            }
 
             var createdTask = await _ticketItemService.CreateTicketsForAiAsync(newTasks, cancellationToken);
             if (!createdTask.Success)
             {
+                _logger.LogWarning("Failed to create AI tasks. Error: {Error}", createdTask.ErrorMessage);
+
                 if (createdTask.ErrorMessage == LogPhrases.ServiceResult.Error.NOT_FOUND)
                 {
                     return NotFound();
@@ -154,16 +185,23 @@ namespace TaskManagerApi.Controllers
 
         [HttpPost("{taskId}/edit")]
         public async Task<ActionResult<TicketDto>> EditTaskByIdAsync(Guid taskId,
-                                                                     TicketDto editTask,
-                                                                     CancellationToken cancellationToken)
+                                                             TicketDto editTask,
+                                                             CancellationToken cancellationToken)
         {
+            _logger.LogInformation("EditTaskByIdAsync called with taskId: {TaskId}", taskId);
+
             var verification = await VerifyAccountInOrganization(cancellationToken);
             if (!verification.IsVerified)
+            {
+                _logger.LogWarning("Account verification failed for EditTaskByIdAsync, taskId: {TaskId}", taskId);
                 return BadRequest();
+            }
 
             var taskToEdit = await _ticketItemService.EditTaskByIdAsync(taskId, editTask, cancellationToken);
             if (!taskToEdit.Success)
             {
+                _logger.LogWarning("Failed to edit task. taskId: {TaskId}, Error: {Error}", taskId, taskToEdit.ErrorMessage);
+
                 if (taskToEdit.ErrorMessage == LogPhrases.ServiceResult.Error.NOT_FOUND)
                 {
                     return NotFound();
@@ -177,18 +215,25 @@ namespace TaskManagerApi.Controllers
 
         [HttpGet("{taskId}/history")]
         public async Task<ActionResult<List<TicketHistoryDto>>> GetHistoryByTaskId(Guid taskId,
-                                                                                   CancellationToken cancellationToken)
+                                                                           CancellationToken cancellationToken)
         {
+            _logger.LogInformation("GetHistoryByTaskId called with taskId: {TaskId}", taskId);
+
             var verification = await VerifyAccountInOrganization(cancellationToken);
             if (!verification.IsVerified)
+            {
+                _logger.LogWarning("Account verification failed for GetHistoryByTaskId, taskId: {TaskId}", taskId);
                 return BadRequest();
+            }
 
             var res = await _ticketHistoryService.GetHistoryByTaskId(taskId, cancellationToken);
             if (!res.Success)
             {
+                _logger.LogWarning("Failed to get history for taskId: {TaskId}. Error: {Error}", taskId, res.ErrorMessage);
+
                 if (res.ErrorMessage == LogPhrases.ServiceResult.Error.NOT_FOUND)
                 {
-                    return NotFound();
+                    return NoContent();
                 }
 
                 return BadRequest(res.ErrorMessage);
@@ -200,13 +245,20 @@ namespace TaskManagerApi.Controllers
         [HttpDelete("{Id}/delete")]
         public async Task<ActionResult> DeleteTaskByIdAsync(Guid Id, CancellationToken cancellationToken)
         {
+            _logger.LogInformation("DeleteTaskByIdAsync called with Id: {TaskId}", Id);
+
             var verification = await VerifyAccountInOrganization(cancellationToken);
             if (!verification.IsVerified)
+            {
+                _logger.LogWarning("Account verification failed for DeleteTaskByIdAsync, taskId: {TaskId}", Id);
                 return BadRequest();
+            }
 
             var taskToDelete = await _ticketItemService.DeleteTaskAsync(Id, cancellationToken);
             if (!taskToDelete.Success)
             {
+                _logger.LogWarning("Failed to delete task. taskId: {TaskId}, Error: {Error}", Id, taskToDelete.ErrorMessage);
+
                 if (taskToDelete.ErrorMessage == LogPhrases.ServiceResult.Error.NOT_FOUND)
                 {
                     return NotFound();
@@ -220,16 +272,21 @@ namespace TaskManagerApi.Controllers
 
         private async Task<VerificationOrganizationAccountDto> VerifyAccountInOrganization(CancellationToken cancellationToken)
         {
+            _logger.LogInformation("VerifyAccountInOrganization called");
+
             if (!this.Request.Headers.TryGetValue("organizationId", out var organizationIdString)
                || !Guid.TryParse(organizationIdString, out Guid organizationId)
                || !Guid.TryParse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value, out Guid accountId)
                || !await _accountVerification.VerifyAccountInOrganization(accountId, organizationId, cancellationToken))
+            {
+                _logger.LogWarning("Account verification failed in VerifyAccountInOrganization");
                 return new VerificationOrganizationAccountDto
                 {
                     IsVerified = false,
                     OrganizationId = Guid.Empty,
                     AccountId = Guid.Empty
                 };
+            }
 
             return new VerificationOrganizationAccountDto
             {

@@ -12,6 +12,7 @@ import { useIdentityServerApi } from '../../api/IdentityServerApi';
 import NotFoundPage from '../NotFoundPage';
 import { useOrgLocalStorage } from '../../hooks/useOrgLocalStorage';
 import { LoaderMain } from '../../components/LoaderMain';
+import SuccessAlert from '../../components/alerts/SuccessAlert';
 
 
 const Kanban = () => {
@@ -30,6 +31,8 @@ const Kanban = () => {
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [taskDialogOpen, setTaskDialogOpen] = useState(false); //
   const [createTicketDialogOpen, setCreateTicketDialogOpen] = useState(false);
+  const [showSuccessTicketCreation, setShowSuccessTicketCreation] = useState(false);
+  const [showSuccessTicketEdit, setShowSuccessTicketEdit] = useState(false);
   const [loading, setLoading] = useState(true);
   const openTaskDialog = (task: Task) => {
     setSelectedTask(task);
@@ -96,24 +99,6 @@ const Kanban = () => {
   if (!id || loading || !project) return <LoaderMain />;
   if (!id || id === 'undefined') return <NotFoundPage />
 
-  // useEffect(() => {
-  //   const fetchOrganizationAccounts = async () => {
-  //     if (!project) return;
-  //     setAccountsLoading(true);
-  //     try {
-  //       const data = await getOrganizationAccounts(project.organizationId);
-  //       console.log(data.data)
-  //       const dataAccountDetails = await getAllAccountDetails(data.data.accounts);
-  //       setAccounts(dataAccountDetails.data);
-  //     } catch (error) {
-  //       console.error('Error fetching accounts:', error);
-  //     } finally {
-  //       setAccountsLoading(false);
-  //     }
-  //   };
-  //   fetchOrganizationAccounts();
-  // }, [accounts]);
-
   const onDragEnd = (result: DropResult) => {
     const { source, destination, draggableId } = result;
     if (!destination) return;
@@ -136,14 +121,34 @@ const Kanban = () => {
 
     try {
       const response = await editTask(id, taskData);
-      fetchData();
+      if (response.status === 200){
+        handleTicketEditSuccess
+      }
     } catch (error) {
       console.error('Error creating task:', error);
     }
   }
 
+  const handleTicketCreationSuccess = async () => {
+    await fetchData();
+    setShowSuccessTicketCreation(true);
+    setTimeout(() => setShowSuccessTicketCreation(false), 4000);
+  }
+
+  const handleTicketEditSuccess = async () => {
+    await fetchData();
+    setShowSuccessTicketEdit(true);
+    setTimeout(() => setShowSuccessTicketEdit(false), 4000);
+  }
+
   return (
     <Container fluid>
+      {showSuccessTicketCreation && (
+        <SuccessAlert title="Ticket successfully created!" />
+      )}
+      {showSuccessTicketEdit && (
+        <SuccessAlert title="Ticket successfully edited!" />
+      )}
       <Container fluid p="md">
         <Flex justify="space-between" align="center" mb="md">
           <Title order={2}>Kanban Board</Title>
@@ -153,7 +158,7 @@ const Kanban = () => {
         </Flex>
 
         {loading ? (
-          <Loader size="xl" style={{ display: 'block', margin: 'auto', marginTop: '20px' }} />
+          <LoaderMain />
         ) : (
           <Flex gap="md" wrap="wrap" justify="space-between">
 
@@ -190,6 +195,7 @@ const Kanban = () => {
             opened={createTicketDialogOpen}
             onClose={closeCreateTicketDialog}
             organizationId={project!.organizationId}
+            onSuccess={handleTicketCreationSuccess}
           />
         )}
       </Container>

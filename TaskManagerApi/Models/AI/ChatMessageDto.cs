@@ -1,11 +1,20 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace TaskManagerApi.Models.AI;
 
 public class ChatMessageDto
 {
-    public required string Role { get; set; }
-    public required string Content { get; set; }
-    public required bool IsAutomatedTicketCreationFlag { get; set; }
+    [Required]
+    [StringLength(50)]
+    public string Role { get; set; } = string.Empty;
+
+    [Required]
+    [StringLength(2000)]
+    public string Content { get; set; } = string.Empty;
+
+    [Required]
+    public bool IsAutomatedTicketCreationFlag { get; set; }
+
     public DateTime? CreateDate { get; set; }
 }

@@ -22,9 +22,6 @@ import NotFoundPage from '../NotFoundPage';
 import { useSafeAuth } from '../../hooks/useSafeAuth';
 import CreateProject from '../../components/project/CreateProject';
 import SuccessAlert from '../../components/alerts/SuccessAlert';
-import { Trash } from 'lucide-react';
-import DeleteProject from '../../components/project/DeleteProject';
-import { useOrgLocalStorage as checkOrgLocalStorage } from '../../hooks/useOrgLocalStorage';
 
 export default function OrganizationDashboard() {
   const params = useParams<{ id?: string }>();
@@ -37,25 +34,15 @@ export default function OrganizationDashboard() {
   const [accounts, setAccounts] = useState<AccountDetails[]>([]);
   const [isOwner, setIsOwner] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [projectToDelete, setProjectToDelete] = useState<string>();
   const [createProjectModalOpen, setCreateProjectModalOpen] = useState(false);
-  const [deleteProjectModalOpen, setDeleteProjectModalOpen] = useState(false);
   const [showSuccessProjectCreation, setShowSuccessProjectCreation] = useState(false);
-  const [showSuccessProjectDeletion, setShowSuccessProjectDeletion] = useState(false);
   const openCreateProjectDialog = () => {
     setCreateProjectModalOpen(true);
   };
   const closeCreateProjectDialog = () => {
     setCreateProjectModalOpen(false);
   };
-  const openDeleteProjectDialog = (projectId: string) => {
-    setProjectToDelete(projectId);
-    setDeleteProjectModalOpen(true);
-  };
-  const closeDeleteProjectDialog = () => {
-    setProjectToDelete(null!);
-    setDeleteProjectModalOpen(false);
-  };
+  
 
   if (!id) return <NotFoundPage />;
 
@@ -98,12 +85,6 @@ export default function OrganizationDashboard() {
     setTimeout(() => setShowSuccessProjectCreation(false), 4000);
   };
 
-  const handleProjectDeletionSuccess = async () => {
-    await fetchOrganization();
-    setShowSuccessProjectDeletion(true);
-    setTimeout(() => setShowSuccessProjectDeletion(false), 4000);
-  };
-
   const getInitials = (first: string, last: string) => `${first?.[0] ?? ''}${last?.[0] ?? ''}`;
 
   if (loading || !organization) return <LoaderMain />;
@@ -112,9 +93,6 @@ export default function OrganizationDashboard() {
     <>
       {showSuccessProjectCreation && (
         <SuccessAlert title="Project successfully created!" />
-      )}
-      {showSuccessProjectDeletion && (
-        <SuccessAlert title="Project successfully deleted!" />
       )}
       <Container fluid size="xl" py="xl">
         <Title order={2} mb="lg">{organization.name} Overview</Title>
@@ -134,31 +112,20 @@ export default function OrganizationDashboard() {
                   </Button>
                 )}
               </Flex>
-              <Divider my="sm" />
+                <Divider my="sm" />
               <Grid>
                 {organization.projects.map((project) => (
                   <Grid.Col span={{ base: 12, sm: 6, md: 4 }} key={project.id}>
-                    <Card withBorder shadow="xs" radius="md" p="md">
-                      <Flex justify={"space-between"}>
+                    <Card 
+                      shadow="sm" 
+                      radius="md" 
+                      withBorder p="lg" 
+                      style={{ cursor: 'pointer' }} 
+                      onClick={() => navigate(`/project/${project.id}`)}
+                    >
+                      <Flex justify={"space-between"} align={"center"}>
                         <Text fw={600}>{project.title}</Text>
-                        <ActionIcon
-                          color="red"
-                          onClick={() => openDeleteProjectDialog(String(project.id))}
-                          mt={22}
-                        >
-                          <Trash size={16} />
-                        </ActionIcon>
                       </Flex>
-                      <Text size="sm" c="dimmed" lineClamp={2}>{project.description}</Text>
-                      <Button
-                        size="xs"
-                        mt="sm"
-                        variant="light"
-                        fullWidth
-                        onClick={() => navigate(`/project/${project.id}`)}
-                      >
-                        Open Project
-                      </Button>
                     </Card>
                   </Grid.Col>
                 ))}
@@ -206,14 +173,6 @@ export default function OrganizationDashboard() {
             onClose={closeCreateProjectDialog}
             opened={createProjectModalOpen}
             onSuccess={handleProjectCreationSuccess}
-          />
-        )}
-        {deleteProjectModalOpen && (
-          <DeleteProject
-            projectId={projectToDelete!}
-            opened={deleteProjectModalOpen}
-            onClose={closeDeleteProjectDialog}
-            onSuccess={handleProjectDeletionSuccess}
           />
         )}
       </Container>
