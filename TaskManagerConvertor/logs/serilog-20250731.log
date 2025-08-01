@@ -1,0 +1,1207 @@
+2025-07-31 10:20:10.381 +03:00 [INF] User profile is available. Using '/Users/ivanhontar/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-07-31 10:20:10.446 +03:00 [WRN] Overriding address(es) 'http://localhost:5271'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-07-31 10:20:10.458 +03:00 [INF] Now listening on: http://[::]:5271
+2025-07-31 10:20:10.459 +03:00 [INF] Now listening on: https://[::]:7188
+2025-07-31 10:20:10.459 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-07-31 10:20:10.459 +03:00 [INF] Hosting environment: Development
+2025-07-31 10:20:10.459 +03:00 [INF] Content root path: /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor
+2025-07-31 10:29:58.267 +03:00 [INF] User profile is available. Using '/Users/ivanhontar/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-07-31 10:29:58.338 +03:00 [WRN] Overriding address(es) 'http://localhost:5271'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-07-31 10:29:58.352 +03:00 [INF] Now listening on: http://[::]:5271
+2025-07-31 10:29:58.352 +03:00 [INF] Now listening on: https://[::]:7188
+2025-07-31 10:29:58.353 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-07-31 10:29:58.353 +03:00 [INF] Hosting environment: Development
+2025-07-31 10:29:58.353 +03:00 [INF] Content root path: /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor
+2025-07-31 10:31:40.378 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/ - null null
+2025-07-31 10:32:21.491 +03:00 [ERR] Unhandled exception occurred.
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Program.<>c__DisplayClass0_0.<<Main>$>b__1(JwtBearerOptions options) in /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor/Program.cs:line 21
+   at Microsoft.Extensions.Options.OptionsFactory`1.Create(String name)
+   at System.Lazy`1.ViaFactory(LazyThreadSafetyMode mode)
+   at System.Lazy`1.ExecutionAndPublication(LazyHelper executionAndPublication, Boolean useDefaultConstructor)
+   at System.Lazy`1.CreateValue()
+   at Microsoft.Extensions.Options.OptionsCache`1.GetOrAdd[TArg](String name, Func`3 createOptions, TArg factoryArgument)
+   at Microsoft.AspNetCore.Authentication.AuthenticationHandler`1.InitializeAsync(AuthenticationScheme scheme, HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationHandlerProvider.GetHandlerAsync(HttpContext context, String authenticationScheme)
+   at Microsoft.AspNetCore.Authentication.AuthenticationService.AuthenticateAsync(HttpContext context, String scheme)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at TaskManagerConvertor.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor/Middlewares/ExceptionHandlingMiddleware.cs:line 21
+2025-07-31 10:32:21.552 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/ - null null
+2025-07-31 10:32:21.586 +03:00 [ERR] Unhandled exception occurred.
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Program.<>c__DisplayClass0_0.<<Main>$>b__1(JwtBearerOptions options) in /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor/Program.cs:line 21
+   at Microsoft.Extensions.Options.OptionsFactory`1.Create(String name)
+   at System.Lazy`1.ViaFactory(LazyThreadSafetyMode mode)
+--- End of stack trace from previous location ---
+   at System.Lazy`1.CreateValue()
+   at Microsoft.Extensions.Options.OptionsCache`1.GetOrAdd[TArg](String name, Func`3 createOptions, TArg factoryArgument)
+   at Microsoft.AspNetCore.Authentication.AuthenticationHandler`1.InitializeAsync(AuthenticationScheme scheme, HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationHandlerProvider.GetHandlerAsync(HttpContext context, String authenticationScheme)
+   at Microsoft.AspNetCore.Authentication.AuthenticationService.AuthenticateAsync(HttpContext context, String scheme)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at TaskManagerConvertor.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor/Middlewares/ExceptionHandlingMiddleware.cs:line 21
+2025-07-31 10:32:21.626 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/ - 500 null application/json 41247.967ms
+2025-07-31 10:32:21.626 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/ - 500 null application/json 73.535ms
+2025-07-31 10:32:21.802 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/favicon.ico - null null
+2025-07-31 10:32:21.811 +03:00 [ERR] Unhandled exception occurred.
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Program.<>c__DisplayClass0_0.<<Main>$>b__1(JwtBearerOptions options) in /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor/Program.cs:line 21
+   at Microsoft.Extensions.Options.OptionsFactory`1.Create(String name)
+   at System.Lazy`1.ViaFactory(LazyThreadSafetyMode mode)
+--- End of stack trace from previous location ---
+   at System.Lazy`1.CreateValue()
+   at Microsoft.Extensions.Options.OptionsCache`1.GetOrAdd[TArg](String name, Func`3 createOptions, TArg factoryArgument)
+   at Microsoft.AspNetCore.Authentication.AuthenticationHandler`1.InitializeAsync(AuthenticationScheme scheme, HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationHandlerProvider.GetHandlerAsync(HttpContext context, String authenticationScheme)
+   at Microsoft.AspNetCore.Authentication.AuthenticationService.AuthenticateAsync(HttpContext context, String scheme)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at TaskManagerConvertor.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor/Middlewares/ExceptionHandlingMiddleware.cs:line 21
+2025-07-31 10:32:21.812 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/favicon.ico - 500 null application/json 9.7989ms
+2025-07-31 10:32:30.257 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/ - null null
+2025-07-31 10:32:30.280 +03:00 [ERR] Unhandled exception occurred.
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Program.<>c__DisplayClass0_0.<<Main>$>b__1(JwtBearerOptions options) in /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor/Program.cs:line 21
+   at Microsoft.Extensions.Options.OptionsFactory`1.Create(String name)
+   at System.Lazy`1.ViaFactory(LazyThreadSafetyMode mode)
+--- End of stack trace from previous location ---
+   at System.Lazy`1.CreateValue()
+   at Microsoft.Extensions.Options.OptionsCache`1.GetOrAdd[TArg](String name, Func`3 createOptions, TArg factoryArgument)
+   at Microsoft.AspNetCore.Authentication.AuthenticationHandler`1.InitializeAsync(AuthenticationScheme scheme, HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationHandlerProvider.GetHandlerAsync(HttpContext context, String authenticationScheme)
+   at Microsoft.AspNetCore.Authentication.AuthenticationService.AuthenticateAsync(HttpContext context, String scheme)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at TaskManagerConvertor.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor/Middlewares/ExceptionHandlingMiddleware.cs:line 21
+2025-07-31 10:32:30.282 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/ - 500 null application/json 25.6063ms
+2025-07-31 10:32:34.280 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/swagger.index - null null
+2025-07-31 10:32:34.295 +03:00 [ERR] Unhandled exception occurred.
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Program.<>c__DisplayClass0_0.<<Main>$>b__1(JwtBearerOptions options) in /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor/Program.cs:line 21
+   at Microsoft.Extensions.Options.OptionsFactory`1.Create(String name)
+   at System.Lazy`1.ViaFactory(LazyThreadSafetyMode mode)
+--- End of stack trace from previous location ---
+   at System.Lazy`1.CreateValue()
+   at Microsoft.Extensions.Options.OptionsCache`1.GetOrAdd[TArg](String name, Func`3 createOptions, TArg factoryArgument)
+   at Microsoft.AspNetCore.Authentication.AuthenticationHandler`1.InitializeAsync(AuthenticationScheme scheme, HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationHandlerProvider.GetHandlerAsync(HttpContext context, String authenticationScheme)
+   at Microsoft.AspNetCore.Authentication.AuthenticationService.AuthenticateAsync(HttpContext context, String scheme)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at TaskManagerConvertor.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor/Middlewares/ExceptionHandlingMiddleware.cs:line 21
+2025-07-31 10:32:34.296 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/swagger.index - 500 null application/json 15.6873ms
+2025-07-31 10:32:38.900 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/swagger/index - null null
+2025-07-31 10:32:38.920 +03:00 [ERR] Unhandled exception occurred.
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Program.<>c__DisplayClass0_0.<<Main>$>b__1(JwtBearerOptions options) in /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor/Program.cs:line 21
+   at Microsoft.Extensions.Options.OptionsFactory`1.Create(String name)
+   at System.Lazy`1.ViaFactory(LazyThreadSafetyMode mode)
+--- End of stack trace from previous location ---
+   at System.Lazy`1.CreateValue()
+   at Microsoft.Extensions.Options.OptionsCache`1.GetOrAdd[TArg](String name, Func`3 createOptions, TArg factoryArgument)
+   at Microsoft.AspNetCore.Authentication.AuthenticationHandler`1.InitializeAsync(AuthenticationScheme scheme, HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationHandlerProvider.GetHandlerAsync(HttpContext context, String authenticationScheme)
+   at Microsoft.AspNetCore.Authentication.AuthenticationService.AuthenticateAsync(HttpContext context, String scheme)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at TaskManagerConvertor.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor/Middlewares/ExceptionHandlingMiddleware.cs:line 21
+2025-07-31 10:32:38.921 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/swagger/index - 500 null application/json 21.4254ms
+2025-07-31 10:32:49.550 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/swagger/index.html - null null
+2025-07-31 10:32:49.602 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/swagger/index.html - 200 null text/html;charset=utf-8 52.4737ms
+2025-07-31 10:32:49.612 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/swagger/swagger-ui.css - null null
+2025-07-31 10:32:49.613 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/swagger/index.css - null null
+2025-07-31 10:32:49.615 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/swagger/swagger-ui-bundle.js - null null
+2025-07-31 10:32:49.668 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/swagger/swagger-ui-standalone-preset.js - null null
+2025-07-31 10:32:49.668 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/swagger/index.js - null null
+2025-07-31 10:32:49.668 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/swagger/index.js - 200 null application/javascript;charset=utf-8 0.6805ms
+2025-07-31 10:32:49.724 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/swagger/index.css - 200 202 text/css 111.2482ms
+2025-07-31 10:32:49.734 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/swagger/swagger-ui-standalone-preset.js - 200 229223 text/javascript 66.6587ms
+2025-07-31 10:32:49.734 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/swagger/swagger-ui.css - 200 155175 text/css 122.3727ms
+2025-07-31 10:32:49.739 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/swagger/swagger-ui-bundle.js - 200 1485750 text/javascript 124.3871ms
+2025-07-31 10:32:49.937 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/swagger/v1/swagger.json - null null
+2025-07-31 10:32:50.007 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 69.5608ms
+2025-07-31 10:32:50.036 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/swagger/favicon-32x32.png - null null
+2025-07-31 10:32:50.036 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/swagger/favicon-16x16.png - null null
+2025-07-31 10:32:50.036 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/swagger/favicon-32x32.png - 200 628 image/png 0.4176ms
+2025-07-31 10:32:50.036 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/swagger/favicon-16x16.png - 200 665 image/png 0.1095ms
+2025-07-31 10:34:36.998 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details - null null
+2025-07-31 10:34:37.050 +03:00 [ERR] Unhandled exception occurred.
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Program.<>c__DisplayClass0_0.<<Main>$>b__1(JwtBearerOptions options) in /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor/Program.cs:line 21
+   at Microsoft.Extensions.Options.OptionsFactory`1.Create(String name)
+   at System.Lazy`1.ViaFactory(LazyThreadSafetyMode mode)
+--- End of stack trace from previous location ---
+   at System.Lazy`1.CreateValue()
+   at Microsoft.Extensions.Options.OptionsCache`1.GetOrAdd[TArg](String name, Func`3 createOptions, TArg factoryArgument)
+   at Microsoft.AspNetCore.Authentication.AuthenticationHandler`1.InitializeAsync(AuthenticationScheme scheme, HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationHandlerProvider.GetHandlerAsync(HttpContext context, String authenticationScheme)
+   at Microsoft.AspNetCore.Authentication.AuthenticationService.AuthenticateAsync(HttpContext context, String scheme)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at TaskManagerConvertor.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor/Middlewares/ExceptionHandlingMiddleware.cs:line 21
+2025-07-31 10:34:37.063 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details - 500 null application/json 64.6057ms
+2025-07-31 10:34:48.673 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details - null null
+2025-07-31 10:34:48.703 +03:00 [ERR] Unhandled exception occurred.
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Program.<>c__DisplayClass0_0.<<Main>$>b__1(JwtBearerOptions options) in /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor/Program.cs:line 21
+   at Microsoft.Extensions.Options.OptionsFactory`1.Create(String name)
+   at System.Lazy`1.ViaFactory(LazyThreadSafetyMode mode)
+--- End of stack trace from previous location ---
+   at System.Lazy`1.CreateValue()
+   at Microsoft.Extensions.Options.OptionsCache`1.GetOrAdd[TArg](String name, Func`3 createOptions, TArg factoryArgument)
+   at Microsoft.AspNetCore.Authentication.AuthenticationHandler`1.InitializeAsync(AuthenticationScheme scheme, HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationHandlerProvider.GetHandlerAsync(HttpContext context, String authenticationScheme)
+   at Microsoft.AspNetCore.Authentication.AuthenticationService.AuthenticateAsync(HttpContext context, String scheme)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at TaskManagerConvertor.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor/Middlewares/ExceptionHandlingMiddleware.cs:line 21
+2025-07-31 10:34:48.705 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details - 500 null application/json 32.3943ms
+2025-07-31 10:36:05.663 +03:00 [INF] User profile is available. Using '/Users/ivanhontar/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-07-31 10:36:05.724 +03:00 [WRN] Overriding address(es) 'http://localhost:5271'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-07-31 10:36:05.735 +03:00 [ERR] Hosting failed to start
+System.IO.IOException: Failed to bind to address http://[::]:5271: address already in use.
+ ---> Microsoft.AspNetCore.Connections.AddressInUseException: Address already in use
+ ---> System.Net.Sockets.SocketException (48): Address already in use
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportOptions.CreateDefaultBoundListenSocket(EndPoint endpoint)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportFactory.BindAsync(EndPoint endpoint, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure.TransportManager.BindAsync(EndPoint endPoint, ConnectionDelegate connectionDelegate, EndpointConfig endpointConfig, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.<>c__DisplayClass28_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.ListenOptions.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.AnyIPListenOptions.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.EndpointsStrategy.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.BindAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__14_1(IHostedService service, CancellationToken token)
+   at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+2025-07-31 10:36:17.763 +03:00 [INF] User profile is available. Using '/Users/ivanhontar/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-07-31 10:36:17.816 +03:00 [WRN] Overriding address(es) 'http://localhost:5271'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-07-31 10:36:17.829 +03:00 [INF] Now listening on: http://[::]:5271
+2025-07-31 10:36:17.829 +03:00 [INF] Now listening on: https://[::]:7188
+2025-07-31 10:36:17.829 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-07-31 10:36:17.829 +03:00 [INF] Hosting environment: Development
+2025-07-31 10:36:17.829 +03:00 [INF] Content root path: /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor
+2025-07-31 10:36:27.324 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details - null null
+2025-07-31 10:36:27.385 +03:00 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2025-07-31 10:36:27.387 +03:00 [INF] AuthenticationScheme: Bearer was challenged.
+2025-07-31 10:36:27.395 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details - 401 0 null 72.2686ms
+2025-07-31 10:36:34.062 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details - null null
+2025-07-31 10:36:34.251 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor)'
+2025-07-31 10:36:34.260 +03:00 [INF] Route matched with {action = "GetTaskById", controller = "Ticket"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.String]] GetTaskByIdAsync(System.String, System.Guid, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.TicketController (TaskManagerConvertor).
+2025-07-31 10:36:34.263 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor) in 1.2033ms
+2025-07-31 10:36:34.263 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor)'
+2025-07-31 10:36:34.314 +03:00 [ERR] Unhandled exception occurred.
+System.InvalidOperationException: Unable to resolve service for type 'TaskManagerConvertor.Services.Interfaces.IRequestService' while attempting to activate 'TaskManagerConvertor.Controllers.TaskManager.TicketController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method10(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at TaskManagerConvertor.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor/Middlewares/ExceptionHandlingMiddleware.cs:line 21
+2025-07-31 10:36:34.363 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details - 500 null application/json 300.7924ms
+2025-07-31 10:36:58.896 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details - null null
+2025-07-31 10:36:58.904 +03:00 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2025-07-31 10:36:58.907 +03:00 [INF] AuthenticationScheme: Bearer was challenged.
+2025-07-31 10:36:58.908 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details - 401 0 null 12.8191ms
+2025-07-31 10:37:03.240 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details - null null
+2025-07-31 10:37:03.244 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor)'
+2025-07-31 10:37:03.245 +03:00 [INF] Route matched with {action = "GetTaskById", controller = "Ticket"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.String]] GetTaskByIdAsync(System.String, System.Guid, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.TicketController (TaskManagerConvertor).
+2025-07-31 10:37:03.245 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor) in 0.5378ms
+2025-07-31 10:37:03.245 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor)'
+2025-07-31 10:37:03.274 +03:00 [ERR] Unhandled exception occurred.
+System.InvalidOperationException: Unable to resolve service for type 'TaskManagerConvertor.Services.Interfaces.IRequestService' while attempting to activate 'TaskManagerConvertor.Controllers.TaskManager.TicketController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method10(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at TaskManagerConvertor.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor/Middlewares/ExceptionHandlingMiddleware.cs:line 21
+2025-07-31 10:37:03.276 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details - 500 null application/json 37.0517ms
+2025-07-31 10:37:13.750 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details - null null
+2025-07-31 10:37:13.759 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor)'
+2025-07-31 10:37:13.760 +03:00 [INF] Route matched with {action = "GetTaskById", controller = "Ticket"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.String]] GetTaskByIdAsync(System.String, System.Guid, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.TicketController (TaskManagerConvertor).
+2025-07-31 10:37:13.760 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor) in 0.4715ms
+2025-07-31 10:37:13.760 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor)'
+2025-07-31 10:37:13.773 +03:00 [ERR] Unhandled exception occurred.
+System.InvalidOperationException: Unable to resolve service for type 'TaskManagerConvertor.Services.Interfaces.IRequestService' while attempting to activate 'TaskManagerConvertor.Controllers.TaskManager.TicketController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method10(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at TaskManagerConvertor.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor/Middlewares/ExceptionHandlingMiddleware.cs:line 21
+2025-07-31 10:37:13.775 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details - 500 null application/json 25.1852ms
+2025-07-31 10:38:30.170 +03:00 [INF] User profile is available. Using '/Users/ivanhontar/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-07-31 10:38:30.229 +03:00 [WRN] Overriding address(es) 'http://localhost:5271'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-07-31 10:38:30.240 +03:00 [INF] Now listening on: http://[::]:5271
+2025-07-31 10:38:30.240 +03:00 [INF] Now listening on: https://[::]:7188
+2025-07-31 10:38:30.240 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-07-31 10:38:30.240 +03:00 [INF] Hosting environment: Development
+2025-07-31 10:38:30.240 +03:00 [INF] Content root path: /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor
+2025-07-31 10:38:36.657 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details - null null
+2025-07-31 10:38:36.858 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor)'
+2025-07-31 10:38:36.873 +03:00 [INF] Route matched with {action = "GetTaskById", controller = "Ticket"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.String]] GetTaskByIdAsync(System.String, System.Guid, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.TicketController (TaskManagerConvertor).
+2025-07-31 10:38:55.970 +03:00 [INF] Start processing HTTP request GET http://localhost:5220/3012d249-5ab3-48cc-adff-19ef5d9a985a/details
+2025-07-31 10:38:55.976 +03:00 [INF] Sending HTTP request GET http://localhost:5220/3012d249-5ab3-48cc-adff-19ef5d9a985a/details
+2025-07-31 10:38:56.039 +03:00 [INF] Received HTTP response headers after 60.8667ms - 404
+2025-07-31 10:38:56.046 +03:00 [INF] End processing HTTP request after 78.1899ms - 404
+2025-07-31 10:39:05.176 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Net.Http.HttpConnectionResponseContent'.
+2025-07-31 10:39:05.245 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor) in 28371.083ms
+2025-07-31 10:39:05.246 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor)'
+2025-07-31 10:39:22.750 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details - 200 52 application/json; charset=utf-8 46092.1188ms
+03:00 [WRN] Overriding address(es) 'http://localhost:5271'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-07-31 10:39:13.133 +03:00 [ERR] Hosting failed to start
+System.IO.IOException: Failed to bind to address http://[::]:5271: address already in use.
+ ---> Microsoft.AspNetCore.Connections.AddressInUseException: Address already in use
+ ---> System.Net.Sockets.SocketException (48): Address already in use
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportOptions.CreateDefaultBoundListenSocket(EndPoint endpoint)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportFactory.BindAsync(EndPoint endpoint, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure.TransportManager.BindAsync(EndPoint endPoint, ConnectionDelegate connectionDelegate, EndpointConfig endpointConfig, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.<>c__DisplayClass28_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.ListenOptions.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.AnyIPListenOptions.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.EndpointsStrategy.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.BindAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__14_1(IHostedService service, CancellationToken token)
+   at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+2025-07-31 10:40:36.665 +03:00 [INF] User profile is available. Using '/Users/ivanhontar/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-07-31 10:40:36.730 +03:00 [WRN] Overriding address(es) 'http://localhost:5271'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-07-31 10:40:36.742 +03:00 [INF] Now listening on: http://[::]:5271
+2025-07-31 10:40:36.742 +03:00 [INF] Now listening on: https://[::]:7188
+2025-07-31 10:40:36.743 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-07-31 10:40:36.743 +03:00 [INF] Hosting environment: Development
+2025-07-31 10:40:36.743 +03:00 [INF] Content root path: /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor
+2025-07-31 10:40:40.400 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details - null null
+2025-07-31 10:40:40.580 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor)'
+2025-07-31 10:40:40.589 +03:00 [INF] Route matched with {action = "GetTaskById", controller = "Ticket"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.String]] GetTaskByIdAsync(System.String, System.Guid, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.TicketController (TaskManagerConvertor).
+2025-07-31 10:40:40.604 +03:00 [INF] Start processing HTTP request GET http://localhost:5220/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details
+2025-07-31 10:40:40.604 +03:00 [INF] Sending HTTP request GET http://localhost:5220/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details
+2025-07-31 10:40:40.639 +03:00 [INF] Received HTTP response headers after 33.7374ms - 401
+2025-07-31 10:40:40.646 +03:00 [INF] End processing HTTP request after 42.719ms - 401
+2025-07-31 10:40:40.648 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Net.Http.HttpConnectionResponseContent'.
+2025-07-31 10:40:40.714 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor) in 122.7584ms
+2025-07-31 10:40:40.714 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor)'
+2025-07-31 10:40:40.716 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details - 200 52 application/json; charset=utf-8 317.3815ms
+2025-07-31 10:40:42.501 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details - null null
+2025-07-31 10:40:42.507 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor)'
+2025-07-31 10:40:42.507 +03:00 [INF] Route matched with {action = "GetTaskById", controller = "Ticket"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.String]] GetTaskByIdAsync(System.String, System.Guid, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.TicketController (TaskManagerConvertor).
+2025-07-31 10:40:42.509 +03:00 [INF] Start processing HTTP request GET http://localhost:5220/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details
+2025-07-31 10:40:42.509 +03:00 [INF] Sending HTTP request GET http://localhost:5220/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details
+2025-07-31 10:40:42.515 +03:00 [INF] Received HTTP response headers after 5.3745ms - 401
+2025-07-31 10:40:42.515 +03:00 [INF] End processing HTTP request after 6.0937ms - 401
+2025-07-31 10:40:42.516 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Net.Http.HttpConnectionResponseContent'.
+2025-07-31 10:40:42.516 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor) in 8.6005ms
+2025-07-31 10:40:42.516 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor)'
+2025-07-31 10:40:42.516 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details - 200 52 application/json; charset=utf-8 15.7765ms
+2025-07-31 10:41:23.041 +03:00 [INF] User profile is available. Using '/Users/ivanhontar/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-07-31 10:41:23.096 +03:00 [WRN] Overriding address(es) 'http://localhost:5271'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-07-31 10:41:23.107 +03:00 [INF] Now listening on: http://[::]:5271
+2025-07-31 10:41:23.107 +03:00 [INF] Now listening on: https://[::]:7188
+2025-07-31 10:41:23.107 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-07-31 10:41:23.107 +03:00 [INF] Hosting environment: Development
+2025-07-31 10:41:23.107 +03:00 [INF] Content root path: /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor
+2025-07-31 10:41:30.030 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details - null null
+2025-07-31 10:41:30.294 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor)'
+2025-07-31 10:41:30.306 +03:00 [INF] Route matched with {action = "GetTaskById", controller = "Ticket"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.String]] GetTaskByIdAsync(System.String, System.Guid, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.TicketController (TaskManagerConvertor).
+2025-07-31 10:41:30.320 +03:00 [INF] Start processing HTTP request GET http://localhost:5220/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details
+2025-07-31 10:41:30.320 +03:00 [INF] Sending HTTP request GET http://localhost:5220/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details
+2025-07-31 10:41:30.417 +03:00 [INF] Received HTTP response headers after 95.2545ms - 401
+2025-07-31 10:41:30.423 +03:00 [INF] End processing HTTP request after 104.3955ms - 401
+2025-07-31 10:41:30.424 +03:00 [INF] StatusCode: 401, ReasonPhrase: 'Unauthorized', Version: 1.1, Content: System.Net.Http.HttpConnectionResponseContent, Headers:
+{
+  Date: Thu, 31 Jul 2025 07:41:30 GMT
+  Server: Kestrel
+  WWW-Authenticate: Bearer
+  Content-Length: 0
+}
+2025-07-31 10:41:30.428 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Net.Http.HttpConnectionResponseContent'.
+2025-07-31 10:41:30.487 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor) in 179.5409ms
+2025-07-31 10:41:30.487 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor)'
+2025-07-31 10:41:30.490 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details - 200 52 application/json; charset=utf-8 461.0912ms
+2025-07-31 10:42:17.254 +03:00 [INF] User profile is available. Using '/Users/ivanhontar/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-07-31 10:42:17.316 +03:00 [WRN] Overriding address(es) 'http://localhost:5271'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-07-31 10:42:17.327 +03:00 [INF] Now listening on: http://[::]:5271
+2025-07-31 10:42:17.327 +03:00 [INF] Now listening on: https://[::]:7188
+2025-07-31 10:42:17.327 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-07-31 10:42:17.327 +03:00 [INF] Hosting environment: Development
+2025-07-31 10:42:17.327 +03:00 [INF] Content root path: /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor
+2025-07-31 10:42:20.996 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details - null null
+2025-07-31 10:42:21.239 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor)'
+2025-07-31 10:42:21.248 +03:00 [INF] Route matched with {action = "GetTaskById", controller = "Ticket"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.String]] GetTaskByIdAsync(System.String, System.Guid, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.TicketController (TaskManagerConvertor).
+2025-07-31 10:42:21.259 +03:00 [INF] Start processing HTTP request GET http://localhost:5220/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details
+2025-07-31 10:42:21.259 +03:00 [INF] Sending HTTP request GET http://localhost:5220/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details
+2025-07-31 10:42:21.299 +03:00 [INF] Received HTTP response headers after 38.8244ms - 401
+2025-07-31 10:42:21.305 +03:00 [INF] End processing HTTP request after 47.4703ms - 401
+2025-07-31 10:42:21.306 +03:00 [INF] StatusCode: 401, ReasonPhrase: 'Unauthorized', Version: 1.1, Content: System.Net.Http.HttpConnectionResponseContent, Headers:
+{
+  Date: Thu, 31 Jul 2025 07:42:21 GMT
+  Server: Kestrel
+  WWW-Authenticate: Bearer
+  Content-Length: 0
+}
+2025-07-31 10:42:21.309 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Net.Http.HttpConnectionResponseContent'.
+2025-07-31 10:42:21.363 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor) in 113.8479ms
+2025-07-31 10:42:21.364 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor)'
+2025-07-31 10:42:21.365 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details - 200 52 application/json; charset=utf-8 369.748ms
+2025-07-31 10:45:29.947 +03:00 [INF] User profile is available. Using '/Users/ivanhontar/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-07-31 10:45:30.004 +03:00 [WRN] Overriding address(es) 'http://localhost:5271'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-07-31 10:45:30.015 +03:00 [INF] Now listening on: http://[::]:5271
+2025-07-31 10:45:30.015 +03:00 [INF] Now listening on: https://[::]:7188
+2025-07-31 10:45:30.015 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-07-31 10:45:30.015 +03:00 [INF] Hosting environment: Development
+2025-07-31 10:45:30.015 +03:00 [INF] Content root path: /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor
+2025-07-31 10:45:34.196 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details - null null
+2025-07-31 10:45:34.376 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor)'
+2025-07-31 10:45:34.389 +03:00 [INF] Route matched with {action = "GetTaskById", controller = "Ticket"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.String]] GetTaskByIdAsync(System.String, System.Guid, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.TicketController (TaskManagerConvertor).
+2025-07-31 10:45:34.400 +03:00 [INF] Start processing HTTP request GET http://localhost:5220/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details
+2025-07-31 10:45:34.400 +03:00 [INF] Sending HTTP request GET http://localhost:5220/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details
+2025-07-31 10:45:34.430 +03:00 [INF] Received HTTP response headers after 27.9963ms - 401
+2025-07-31 10:45:34.436 +03:00 [INF] End processing HTTP request after 36.5546ms - 401
+2025-07-31 10:45:34.436 +03:00 [INF] 
+2025-07-31 10:45:34.438 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Net.Http.HttpConnectionResponseContent'.
+2025-07-31 10:45:34.491 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor) in 101.1425ms
+2025-07-31 10:45:34.491 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor)'
+2025-07-31 10:45:34.493 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details - 200 52 application/json; charset=utf-8 298.9842ms
+2025-07-31 10:45:58.084 +03:00 [INF] User profile is available. Using '/Users/ivanhontar/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-07-31 10:45:58.148 +03:00 [WRN] Overriding address(es) 'http://localhost:5271'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-07-31 10:45:58.160 +03:00 [INF] Now listening on: http://[::]:5271
+2025-07-31 10:45:58.160 +03:00 [INF] Now listening on: https://[::]:7188
+2025-07-31 10:45:58.160 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-07-31 10:45:58.161 +03:00 [INF] Hosting environment: Development
+2025-07-31 10:45:58.161 +03:00 [INF] Content root path: /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor
+2025-07-31 10:46:02.414 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details - null null
+2025-07-31 10:46:02.596 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor)'
+2025-07-31 10:46:02.604 +03:00 [INF] Route matched with {action = "GetTaskById", controller = "Ticket"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.String]] GetTaskByIdAsync(System.String, System.Guid, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.TicketController (TaskManagerConvertor).
+2025-07-31 10:46:02.615 +03:00 [INF] Start processing HTTP request GET http://localhost:5220/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details
+2025-07-31 10:46:02.615 +03:00 [INF] Sending HTTP request GET http://localhost:5220/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details
+2025-07-31 10:46:02.649 +03:00 [INF] Received HTTP response headers after 32.207ms - 401
+2025-07-31 10:46:02.655 +03:00 [INF] End processing HTTP request after 41.5095ms - 401
+2025-07-31 10:46:02.656 +03:00 [INF] StatusCode: 401, ReasonPhrase: 'Unauthorized', Version: 1.1, Content: System.Net.Http.HttpConnectionResponseContent, Headers:
+{
+  Date: Thu, 31 Jul 2025 07:46:02 GMT
+  Server: Kestrel
+  WWW-Authenticate: Bearer
+  Content-Length: 0
+}
+2025-07-31 10:46:02.659 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Net.Http.HttpConnectionResponseContent'.
+2025-07-31 10:46:02.710 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor) in 104.734ms
+2025-07-31 10:46:02.710 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor)'
+2025-07-31 10:46:02.712 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details - 200 52 application/json; charset=utf-8 299.4522ms
+2025-07-31 10:50:08.370 +03:00 [INF] User profile is available. Using '/Users/ivanhontar/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-07-31 10:50:08.426 +03:00 [WRN] Overriding address(es) 'http://localhost:5271'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-07-31 10:50:08.437 +03:00 [INF] Now listening on: http://[::]:5271
+2025-07-31 10:50:08.437 +03:00 [INF] Now listening on: https://[::]:7188
+2025-07-31 10:50:08.437 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-07-31 10:50:08.437 +03:00 [INF] Hosting environment: Development
+2025-07-31 10:50:08.437 +03:00 [INF] Content root path: /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor
+2025-07-31 10:50:33.874 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details - null null
+2025-07-31 10:50:34.202 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor)'
+2025-07-31 10:50:34.212 +03:00 [INF] Route matched with {action = "GetTaskById", controller = "Ticket"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.String]] GetTaskByIdAsync(System.String, System.Guid, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.TicketController (TaskManagerConvertor).
+2025-07-31 10:50:34.224 +03:00 [INF] Start processing HTTP request GET http://localhost:5220/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details
+2025-07-31 10:50:34.224 +03:00 [INF] Sending HTTP request GET http://localhost:5220/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details
+2025-07-31 10:50:34.474 +03:00 [INF] Received HTTP response headers after 248.688ms - 401
+2025-07-31 10:50:34.480 +03:00 [INF] End processing HTTP request after 257.4926ms - 401
+2025-07-31 10:50:34.481 +03:00 [INF] StatusCode: 401, ReasonPhrase: 'Unauthorized', Version: 1.1, Content: System.Net.Http.HttpConnectionResponseContent, Headers:
+{
+  Date: Thu, 31 Jul 2025 07:50:33 GMT
+  Server: Kestrel
+  WWW-Authenticate: Bearer
+  Content-Length: 0
+}
+2025-07-31 10:50:34.483 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Net.Http.HttpConnectionResponseContent'.
+2025-07-31 10:50:34.540 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor) in 326.977ms
+2025-07-31 10:50:34.540 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor)'
+2025-07-31 10:50:34.542 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details - 200 52 application/json; charset=utf-8 671.1348ms
+2025-07-31 10:51:22.199 +03:00 [INF] User profile is available. Using '/Users/ivanhontar/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-07-31 10:51:22.257 +03:00 [WRN] Overriding address(es) 'http://localhost:5271'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-07-31 10:51:22.267 +03:00 [INF] Now listening on: http://[::]:5271
+2025-07-31 10:51:22.268 +03:00 [INF] Now listening on: https://[::]:7188
+2025-07-31 10:51:22.268 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-07-31 10:51:22.268 +03:00 [INF] Hosting environment: Development
+2025-07-31 10:51:22.268 +03:00 [INF] Content root path: /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor
+2025-07-31 10:51:29.657 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details - null null
+2025-07-31 10:51:29.862 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor)'
+2025-07-31 10:51:29.874 +03:00 [INF] Route matched with {action = "GetTaskById", controller = "Ticket"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.String]] GetTaskByIdAsync(System.String, System.Guid, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.TicketController (TaskManagerConvertor).
+2025-07-31 10:51:29.885 +03:00 [INF] Start processing HTTP request GET https://localhost:7099/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details
+2025-07-31 10:51:29.886 +03:00 [INF] Sending HTTP request GET https://localhost:7099/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details
+2025-07-31 10:51:29.934 +03:00 [INF] Received HTTP response headers after 47.6319ms - 400
+2025-07-31 10:51:29.940 +03:00 [INF] End processing HTTP request after 55.8149ms - 400
+2025-07-31 10:51:29.941 +03:00 [INF] StatusCode: 400, ReasonPhrase: 'Bad Request', Version: 1.1, Content: System.Net.Http.HttpConnectionResponseContent, Headers:
+{
+  Date: Thu, 31 Jul 2025 07:51:29 GMT
+  Server: Kestrel
+  Content-Length: 164
+  Content-Type: application/problem+json; charset=utf-8
+}
+2025-07-31 10:51:29.943 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Net.Http.HttpConnectionResponseContent'.
+2025-07-31 10:51:29.990 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor) in 114.581ms
+2025-07-31 10:51:29.990 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor)'
+2025-07-31 10:51:29.992 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details - 200 129 application/json; charset=utf-8 337.2765ms
+2025-07-31 10:53:14.625 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details - null null
+2025-07-31 10:53:14.760 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor)'
+2025-07-31 10:53:14.782 +03:00 [INF] Route matched with {action = "GetTaskById", controller = "Ticket"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.String]] GetTaskByIdAsync(System.String, System.Guid, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.TicketController (TaskManagerConvertor).
+2025-07-31 10:53:14.786 +03:00 [INF] Start processing HTTP request GET https://localhost:7099/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details
+2025-07-31 10:53:14.786 +03:00 [INF] Sending HTTP request GET https://localhost:7099/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details
+2025-07-31 10:53:14.907 +03:00 [INF] Received HTTP response headers after 120.5252ms - 400
+2025-07-31 10:53:14.907 +03:00 [INF] End processing HTTP request after 120.8991ms - 400
+2025-07-31 10:53:14.907 +03:00 [INF] StatusCode: 400, ReasonPhrase: 'Bad Request', Version: 1.1, Content: System.Net.Http.HttpConnectionResponseContent, Headers:
+{
+  Date: Thu, 31 Jul 2025 07:53:14 GMT
+  Server: Kestrel
+  Content-Length: 164
+  Content-Type: application/problem+json; charset=utf-8
+}
+2025-07-31 10:53:14.908 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Net.Http.HttpConnectionResponseContent'.
+2025-07-31 10:53:14.915 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor) in 132.8199ms
+2025-07-31 10:53:14.915 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor)'
+2025-07-31 10:53:14.916 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details - 200 129 application/json; charset=utf-8 290.7257ms
+2025-07-31 11:24:13.712 +03:00 [INF] User profile is available. Using '/Users/ivanhontar/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-07-31 11:24:13.771 +03:00 [WRN] Overriding address(es) 'http://localhost:5271'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-07-31 11:24:13.784 +03:00 [INF] Now listening on: http://[::]:5271
+2025-07-31 11:24:13.784 +03:00 [INF] Now listening on: https://[::]:7188
+2025-07-31 11:24:13.784 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-07-31 11:24:13.784 +03:00 [INF] Hosting environment: Development
+2025-07-31 11:24:13.784 +03:00 [INF] Content root path: /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor
+2025-07-31 11:24:16.949 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details - null null
+2025-07-31 11:24:17.203 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor)'
+2025-07-31 11:24:17.212 +03:00 [INF] Route matched with {action = "GetTaskById", controller = "Ticket"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.String]] GetTaskByIdAsync(System.String, System.Guid, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.TicketController (TaskManagerConvertor).
+2025-07-31 11:24:17.225 +03:00 [INF] Start processing HTTP request GET https://localhost:7099/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details
+2025-07-31 11:24:17.225 +03:00 [INF] Sending HTTP request GET https://localhost:7099/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details
+2025-07-31 11:24:17.285 +03:00 [INF] Received HTTP response headers after 57.6636ms - 200
+2025-07-31 11:24:17.291 +03:00 [INF] End processing HTTP request after 67.4577ms - 200
+2025-07-31 11:24:17.292 +03:00 [INF] StatusCode: 200, ReasonPhrase: 'OK', Version: 1.1, Content: System.Net.Http.HttpConnectionResponseContent, Headers:
+{
+  Date: Thu, 31 Jul 2025 08:24:17 GMT
+  Server: Kestrel
+  Content-Length: 933
+  Content-Type: application/json; charset=utf-8
+}
+2025-07-31 11:24:17.296 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Net.Http.HttpConnectionResponseContent'.
+2025-07-31 11:24:17.358 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor) in 144.905ms
+2025-07-31 11:24:17.358 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor)'
+2025-07-31 11:24:17.360 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details - 200 121 application/json; charset=utf-8 412.1757ms
+2025-07-31 11:26:01.332 +03:00 [INF] User profile is available. Using '/Users/ivanhontar/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-07-31 11:26:01.426 +03:00 [WRN] Overriding address(es) 'http://localhost:5271'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-07-31 11:26:01.452 +03:00 [INF] Now listening on: http://[::]:5271
+2025-07-31 11:26:01.453 +03:00 [INF] Now listening on: https://[::]:7188
+2025-07-31 11:26:01.453 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-07-31 11:26:01.453 +03:00 [INF] Hosting environment: Development
+2025-07-31 11:26:01.453 +03:00 [INF] Content root path: /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor
+2025-07-31 11:26:02.122 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details - null null
+2025-07-31 11:26:02.298 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor)'
+2025-07-31 11:26:02.307 +03:00 [INF] Route matched with {action = "GetTaskById", controller = "Ticket"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.String]] GetTaskByIdAsync(System.String, System.Guid, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.TicketController (TaskManagerConvertor).
+2025-07-31 11:26:02.318 +03:00 [INF] Start processing HTTP request GET https://localhost:7099/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details
+2025-07-31 11:26:02.318 +03:00 [INF] Sending HTTP request GET https://localhost:7099/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details
+2025-07-31 11:26:02.364 +03:00 [INF] Received HTTP response headers after 43.795ms - 200
+2025-07-31 11:26:02.370 +03:00 [INF] End processing HTTP request after 53.2182ms - 200
+2025-07-31 11:26:02.371 +03:00 [INF] StatusCode: 200, ReasonPhrase: 'OK', Version: 1.1, Content: System.Net.Http.HttpConnectionResponseContent, Headers:
+{
+  Date: Thu, 31 Jul 2025 08:26:01 GMT
+  Server: Kestrel
+  Content-Length: 933
+  Content-Type: application/json; charset=utf-8
+}
+2025-07-31 11:26:02.371 +03:00 [INF] {"id":"3012d249-5ab3-48cc-adff-19ef5d9a985a","title":"Finalize and Test Responsive Design","description":"<p>Review the landing page to ensure that all sections are responsive and function well on various devices (mobile, tablet, desktop).</p><p>Success Criteria:</p><ul><li>Landing page displays correctly on popular browsers and screen sizes.</li><li>Interactive elements function properly across devices.</li></ul>","statusId":1,"statusName":"To Do","typeId":1,"typeName":"Task","isCreatedByAi":false,"reporterId":"c154a7c9-189f-415b-a50d-320be33bf798","assigneeId":"c154a7c9-189f-415b-a50d-320be33bf798","projectId":"0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8","parentId":"51ca3770-42fd-4aaa-bcc7-8bed6e5ccb9d","organizationId":"6c8a32bd-3067-4115-b112-9abe196ea379","startDate":null,"dueDate":null,"spentTime":null,"estimate":null,"childIssues":null,"createDate":"2025-07-11T05:57:30.831727","modifyDate":"2025-07-11T05:57:31.368595"}
+2025-07-31 11:26:02.374 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Net.Http.HttpConnectionResponseContent'.
+2025-07-31 11:26:02.427 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor) in 118.0532ms
+2025-07-31 11:26:02.427 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor)'
+2025-07-31 11:26:02.429 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details - 200 121 application/json; charset=utf-8 307.7965ms
+2025-07-31 11:26:24.850 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details - null null
+2025-07-31 11:26:24.927 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor)'
+2025-07-31 11:26:24.929 +03:00 [INF] Route matched with {action = "GetTaskById", controller = "Ticket"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.String]] GetTaskByIdAsync(System.String, System.Guid, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.TicketController (TaskManagerConvertor).
+2025-07-31 11:26:24.930 +03:00 [INF] Start processing HTTP request GET https://localhost:7099/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details
+2025-07-31 11:26:24.930 +03:00 [INF] Sending HTTP request GET https://localhost:7099/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details
+2025-07-31 11:26:24.965 +03:00 [INF] Received HTTP response headers after 34.7855ms - 200
+2025-07-31 11:26:24.966 +03:00 [INF] End processing HTTP request after 35.3678ms - 200
+2025-07-31 11:26:24.966 +03:00 [INF] StatusCode: 200, ReasonPhrase: 'OK', Version: 1.1, Content: System.Net.Http.HttpConnectionResponseContent, Headers:
+{
+  Date: Thu, 31 Jul 2025 08:26:24 GMT
+  Server: Kestrel
+  Content-Length: 933
+  Content-Type: application/json; charset=utf-8
+}
+2025-07-31 11:26:24.966 +03:00 [INF] {"id":"3012d249-5ab3-48cc-adff-19ef5d9a985a","title":"Finalize and Test Responsive Design","description":"<p>Review the landing page to ensure that all sections are responsive and function well on various devices (mobile, tablet, desktop).</p><p>Success Criteria:</p><ul><li>Landing page displays correctly on popular browsers and screen sizes.</li><li>Interactive elements function properly across devices.</li></ul>","statusId":1,"statusName":"To Do","typeId":1,"typeName":"Task","isCreatedByAi":false,"reporterId":"c154a7c9-189f-415b-a50d-320be33bf798","assigneeId":"c154a7c9-189f-415b-a50d-320be33bf798","projectId":"0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8","parentId":"51ca3770-42fd-4aaa-bcc7-8bed6e5ccb9d","organizationId":"6c8a32bd-3067-4115-b112-9abe196ea379","startDate":null,"dueDate":null,"spentTime":null,"estimate":null,"childIssues":null,"createDate":"2025-07-11T05:57:30.831727","modifyDate":"2025-07-11T05:57:31.368595"}
+2025-07-31 11:26:24.967 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Net.Http.HttpConnectionResponseContent'.
+2025-07-31 11:26:24.968 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor) in 39.4418ms
+2025-07-31 11:26:24.968 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor)'
+2025-07-31 11:26:24.969 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details - 200 121 application/json; charset=utf-8 118.4637ms
+2025-07-31 11:26:32.025 +03:00 [INF] User profile is available. Using '/Users/ivanhontar/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-07-31 11:26:32.086 +03:00 [WRN] Overriding address(es) 'http://localhost:5271'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-07-31 11:26:32.098 +03:00 [INF] Now listening on: http://[::]:5271
+2025-07-31 11:26:32.099 +03:00 [INF] Now listening on: https://[::]:7188
+2025-07-31 11:26:32.099 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-07-31 11:26:32.099 +03:00 [INF] Hosting environment: Development
+2025-07-31 11:26:32.099 +03:00 [INF] Content root path: /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor
+2025-07-31 11:26:37.920 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details - null null
+2025-07-31 11:26:38.158 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor)'
+2025-07-31 11:26:38.172 +03:00 [INF] Route matched with {action = "GetTaskById", controller = "Ticket"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.String]] GetTaskByIdAsync(System.String, System.Guid, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.TicketController (TaskManagerConvertor).
+2025-07-31 11:26:38.190 +03:00 [INF] Start processing HTTP request GET https://localhost:7099/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details
+2025-07-31 11:26:38.191 +03:00 [INF] Sending HTTP request GET https://localhost:7099/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details
+2025-07-31 11:26:38.271 +03:00 [INF] Received HTTP response headers after 78.519ms - 200
+2025-07-31 11:26:38.277 +03:00 [INF] End processing HTTP request after 87.7984ms - 200
+2025-07-31 11:26:38.278 +03:00 [INF] StatusCode: 200, ReasonPhrase: 'OK', Version: 1.1, Content: System.Net.Http.HttpConnectionResponseContent, Headers:
+{
+  Date: Thu, 31 Jul 2025 08:26:37 GMT
+  Server: Kestrel
+  Content-Length: 933
+  Content-Type: application/json; charset=utf-8
+}
+2025-07-31 11:26:38.278 +03:00 [INF] {"id":"3012d249-5ab3-48cc-adff-19ef5d9a985a","title":"Finalize and Test Responsive Design","description":"<p>Review the landing page to ensure that all sections are responsive and function well on various devices (mobile, tablet, desktop).</p><p>Success Criteria:</p><ul><li>Landing page displays correctly on popular browsers and screen sizes.</li><li>Interactive elements function properly across devices.</li></ul>","statusId":1,"statusName":"To Do","typeId":1,"typeName":"Task","isCreatedByAi":false,"reporterId":"c154a7c9-189f-415b-a50d-320be33bf798","assigneeId":"c154a7c9-189f-415b-a50d-320be33bf798","projectId":"0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8","parentId":"51ca3770-42fd-4aaa-bcc7-8bed6e5ccb9d","organizationId":"6c8a32bd-3067-4115-b112-9abe196ea379","startDate":null,"dueDate":null,"spentTime":null,"estimate":null,"childIssues":null,"createDate":"2025-07-11T05:57:30.831727","modifyDate":"2025-07-11T05:57:31.368595"}
+2025-07-31 11:26:38.281 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.String'.
+2025-07-31 11:26:38.283 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor) in 109.7109ms
+2025-07-31 11:26:38.283 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor)'
+2025-07-31 11:26:38.285 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details - 200 null text/plain; charset=utf-8 365.9537ms
+2025-07-31 11:28:55.069 +03:00 [INF] User profile is available. Using '/Users/ivanhontar/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-07-31 11:28:55.136 +03:00 [WRN] Overriding address(es) 'http://localhost:5271'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-07-31 11:28:55.147 +03:00 [INF] Now listening on: http://[::]:5271
+2025-07-31 11:28:55.147 +03:00 [INF] Now listening on: https://[::]:7188
+2025-07-31 11:28:55.147 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-07-31 11:28:55.147 +03:00 [INF] Hosting environment: Development
+2025-07-31 11:28:55.147 +03:00 [INF] Content root path: /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor
+2025-07-31 11:28:59.704 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details - null null
+2025-07-31 11:28:59.987 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor)'
+2025-07-31 11:28:59.999 +03:00 [INF] Route matched with {action = "GetTaskById", controller = "Ticket"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.String]] GetTaskByIdAsync(System.String, System.Guid, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.TicketController (TaskManagerConvertor).
+2025-07-31 11:29:00.041 +03:00 [INF] Start processing HTTP request GET https://localhost:7099/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details
+2025-07-31 11:29:00.044 +03:00 [INF] Sending HTTP request GET https://localhost:7099/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details
+2025-07-31 11:29:00.127 +03:00 [INF] Received HTTP response headers after 82.2057ms - 200
+2025-07-31 11:29:00.135 +03:00 [INF] End processing HTTP request after 95.7422ms - 200
+2025-07-31 11:29:00.136 +03:00 [INF] StatusCode: 200, ReasonPhrase: 'OK', Version: 1.1, Content: System.Net.Http.HttpConnectionResponseContent, Headers:
+{
+  Date: Thu, 31 Jul 2025 08:28:59 GMT
+  Server: Kestrel
+  Content-Length: 933
+  Content-Type: application/json; charset=utf-8
+}
+2025-07-31 11:29:00.137 +03:00 [INF] {"id":"3012d249-5ab3-48cc-adff-19ef5d9a985a","title":"Finalize and Test Responsive Design","description":"<p>Review the landing page to ensure that all sections are responsive and function well on various devices (mobile, tablet, desktop).</p><p>Success Criteria:</p><ul><li>Landing page displays correctly on popular browsers and screen sizes.</li><li>Interactive elements function properly across devices.</li></ul>","statusId":1,"statusName":"To Do","typeId":1,"typeName":"Task","isCreatedByAi":false,"reporterId":"c154a7c9-189f-415b-a50d-320be33bf798","assigneeId":"c154a7c9-189f-415b-a50d-320be33bf798","projectId":"0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8","parentId":"51ca3770-42fd-4aaa-bcc7-8bed6e5ccb9d","organizationId":"6c8a32bd-3067-4115-b112-9abe196ea379","startDate":null,"dueDate":null,"spentTime":null,"estimate":null,"childIssues":null,"createDate":"2025-07-11T05:57:30.831727","modifyDate":"2025-07-11T05:57:31.368595"}
+2025-07-31 11:29:00.156 +03:00 [INF] Executing OkObjectResult, writing value of type 'Newtonsoft.Json.Linq.JObject'.
+2025-07-31 11:29:00.212 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor) in 211.4423ms
+2025-07-31 11:29:00.213 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.TicketController.GetTaskByIdAsync (TaskManagerConvertor)'
+2025-07-31 11:29:00.217 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/task/3012d249-5ab3-48cc-adff-19ef5d9a985a/details - 200 933 application/json; charset=utf-8 514.1284ms
+2025-07-31 11:39:47.328 +03:00 [INF] Request starting HTTP/1.1 POST https://localhost:7188/api/task/create - application/json 390
+2025-07-31 11:39:47.363 +03:00 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '31.07.2025 8:30:10', Current time (UTC): '31.07.2025 8:39:47'.
+   at Microsoft.IdentityModel.Tokens.ValidatorUtilities.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2025-07-31 11:39:47.393 +03:00 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '31.07.2025 8:30:10', Current time (UTC): '31.07.2025 8:39:47'.
+2025-07-31 11:39:47.394 +03:00 [INF] Request finished HTTP/1.1 POST https://localhost:7188/api/task/create - 404 0 null 67.5752ms
+2025-07-31 11:39:47.395 +03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: POST https://localhost:7188/api/task/create, Response status code: 404
+2025-07-31 11:40:13.065 +03:00 [INF] User profile is available. Using '/Users/ivanhontar/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-07-31 11:40:13.126 +03:00 [WRN] Overriding address(es) 'http://localhost:5271'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-07-31 11:40:13.137 +03:00 [INF] Now listening on: http://[::]:5271
+2025-07-31 11:40:13.137 +03:00 [INF] Now listening on: https://[::]:7188
+2025-07-31 11:40:13.137 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-07-31 11:40:13.137 +03:00 [INF] Hosting environment: Development
+2025-07-31 11:40:13.137 +03:00 [INF] Content root path: /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor
+2025-07-31 11:40:16.650 +03:00 [INF] Request starting HTTP/1.1 POST https://localhost:7188/api/task/create - application/json 389
+2025-07-31 11:40:16.820 +03:00 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '31.07.2025 8:30:10', Current time (UTC): '31.07.2025 8:40:16'.
+   at Microsoft.IdentityModel.Tokens.ValidatorUtilities.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2025-07-31 11:40:16.832 +03:00 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '31.07.2025 8:30:10', Current time (UTC): '31.07.2025 8:40:16'.
+2025-07-31 11:40:16.834 +03:00 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '31.07.2025 8:30:10', Current time (UTC): '31.07.2025 8:40:16'.
+2025-07-31 11:40:16.839 +03:00 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2025-07-31 11:40:16.844 +03:00 [INF] AuthenticationScheme: Bearer was challenged.
+2025-07-31 11:40:16.857 +03:00 [INF] Request finished HTTP/1.1 POST https://localhost:7188/api/task/create - 401 0 null 208.7457ms
+2025-07-31 11:40:56.914 +03:00 [INF] Request starting HTTP/1.1 POST https://localhost:7188/api/task/create - application/json 389
+2025-07-31 11:40:57.058 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.TicketController.CreateTask (TaskManagerConvertor)'
+2025-07-31 11:40:57.083 +03:00 [INF] Route matched with {action = "CreateTask", controller = "Ticket"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.String]] CreateTask(System.String, System.Net.Http.Json.JsonContent, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.TicketController (TaskManagerConvertor).
+2025-07-31 11:40:57.160 +03:00 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2025-07-31 11:40:57.183 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.TicketController.CreateTask (TaskManagerConvertor) in 98.411ms
+2025-07-31 11:40:57.183 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.TicketController.CreateTask (TaskManagerConvertor)'
+2025-07-31 11:40:57.183 +03:00 [INF] Request finished HTTP/1.1 POST https://localhost:7188/api/task/create - 400 509 application/problem+json; charset=utf-8 269.9783ms
+2025-07-31 11:46:05.564 +03:00 [INF] User profile is available. Using '/Users/ivanhontar/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-07-31 11:46:05.623 +03:00 [WRN] Overriding address(es) 'http://localhost:5271'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-07-31 11:46:05.634 +03:00 [INF] Now listening on: http://[::]:5271
+2025-07-31 11:46:05.634 +03:00 [INF] Now listening on: https://[::]:7188
+2025-07-31 11:46:05.634 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-07-31 11:46:05.634 +03:00 [INF] Hosting environment: Development
+2025-07-31 11:46:05.634 +03:00 [INF] Content root path: /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor
+2025-07-31 11:46:09.015 +03:00 [INF] Request starting HTTP/1.1 POST https://localhost:7188/api/task/create - application/json 389
+2025-07-31 11:46:09.197 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.TicketController.CreateTask (TaskManagerConvertor)'
+2025-07-31 11:46:09.207 +03:00 [INF] Route matched with {action = "CreateTask", controller = "Ticket"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.String]] CreateTask(System.String, TaskManagerConvertor.Models.TicketItem.TicketDto, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.TicketController (TaskManagerConvertor).
+2025-07-31 11:46:09.301 +03:00 [INF] Start processing HTTP request POST https://localhost:7099/api/task/create
+2025-07-31 11:46:09.301 +03:00 [INF] Sending HTTP request POST https://localhost:7099/api/task/create
+2025-07-31 11:46:09.466 +03:00 [INF] Received HTTP response headers after 163.312ms - 200
+2025-07-31 11:46:09.472 +03:00 [INF] End processing HTTP request after 173.182ms - 200
+2025-07-31 11:46:09.472 +03:00 [INF] {"id":"24704b8f-7e08-45bb-8dac-621ee23eb614","title":"test","description":"<p>wqgwegwegwqgew</p>","statusId":1,"statusName":"To Do","typeId":1,"typeName":"Task","isCreatedByAi":false,"reporterId":"c154a7c9-189f-415b-a50d-320be33bf798","assigneeId":"754017e4-888a-4761-b311-97d20acd0a94","projectId":"0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8","parentId":null,"organizationId":"6c8a32bd-3067-4115-b112-9abe196ea379","startDate":null,"dueDate":null,"spentTime":null,"estimate":null,"childIssues":null,"createDate":"2025-07-31T08:46:09.390908Z","modifyDate":"2025-07-31T08:46:09.390908Z"}
+2025-07-31 11:46:09.478 +03:00 [INF] Executing OkObjectResult, writing value of type 'Newtonsoft.Json.Linq.JObject'.
+2025-07-31 11:46:09.485 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.TicketController.CreateTask (TaskManagerConvertor) in 277.0684ms
+2025-07-31 11:46:09.485 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.TicketController.CreateTask (TaskManagerConvertor)'
+2025-07-31 11:46:09.486 +03:00 [INF] Request finished HTTP/1.1 POST https://localhost:7188/api/task/create - 200 580 application/json; charset=utf-8 472.3808ms
+2025-07-31 14:05:03.272 +03:00 [INF] User profile is available. Using '/Users/ivanhontar/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-07-31 14:05:03.336 +03:00 [WRN] Overriding address(es) 'http://localhost:5271'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-07-31 14:05:03.350 +03:00 [INF] Now listening on: http://[::]:5271
+2025-07-31 14:05:03.351 +03:00 [INF] Now listening on: https://[::]:7188
+2025-07-31 14:05:03.351 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-07-31 14:05:03.351 +03:00 [INF] Hosting environment: Development
+2025-07-31 14:05:03.351 +03:00 [INF] Content root path: /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor
+2025-07-31 14:06:59.045 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/auth/details - null null
+2025-07-31 14:06:59.299 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 14:06:59.336 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.String, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-07-31 14:06:59.353 +03:00 [WRN] Issue with organzation or token
+2025-07-31 14:06:59.356 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-07-31 14:06:59.436 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 98.0772ms
+2025-07-31 14:06:59.446 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 14:06:59.448 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/auth/details - 400 164 application/problem+json; charset=utf-8 404.9603ms
+2025-07-31 14:07:25.385 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/auth/details - null null
+2025-07-31 14:07:25.459 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 14:07:25.462 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.String, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-07-31 14:07:46.627 +03:00 [WRN] Issue with organzation or token
+2025-07-31 14:07:47.395 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-07-31 14:07:47.398 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 21935.2539ms
+2025-07-31 14:07:47.398 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 14:07:50.217 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/auth/details - 400 164 application/problem+json; charset=utf-8 24826.6796ms
+2025-07-31 14:09:02.319 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/auth/details - null null
+2025-07-31 14:09:02.331 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 14:09:02.333 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.String, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-07-31 14:09:19.041 +03:00 [WRN] Issue with organzation or token
+2025-07-31 14:09:19.045 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-07-31 14:09:19.048 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 16715.3224ms
+2025-07-31 14:09:19.049 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 14:09:19.049 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/auth/details - 400 164 application/problem+json; charset=utf-8 16729.5807ms
+2025-07-31 14:09:55.700 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/auth/details - null null
+2025-07-31 14:09:55.707 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 14:09:55.707 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.String, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-07-31 14:10:21.191 +03:00 [WRN] Issue with organzation or token
+2025-07-31 14:10:21.192 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-07-31 14:10:21.197 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 25489.0849ms
+2025-07-31 14:10:21.199 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 14:10:21.199 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/auth/details - 400 164 application/problem+json; charset=utf-8 25499.6403ms
+cket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportOptions.CreateDefaultBoundListenSocket(EndPoint endpoint)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportFactory.BindAsync(EndPoint endpoint, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure.TransportManager.BindAsync(EndPoint endPoint, ConnectionDelegate connectionDelegate, EndpointConfig endpointConfig, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.<>c__DisplayClass28_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.ListenOptions.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.AnyIPListenOptions.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.EndpointsStrategy.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.BindAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__14_1(IHostedService service, CancellationToken token)
+   at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+2025-07-31 14:10:33.858 +03:00 [INF] User profile is available. Using '/Users/ivanhontar/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-07-31 14:10:33.914 +03:00 [WRN] Overriding address(es) 'http://localhost:5271'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-07-31 14:10:33.925 +03:00 [INF] Now listening on: http://[::]:5271
+2025-07-31 14:10:33.925 +03:00 [INF] Now listening on: https://[::]:7188
+2025-07-31 14:10:33.925 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-07-31 14:10:33.925 +03:00 [INF] Hosting environment: Development
+2025-07-31 14:10:33.925 +03:00 [INF] Content root path: /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor
+2025-07-31 14:10:44.051 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/auth/details - null null
+2025-07-31 14:10:44.286 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 14:10:44.307 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.String, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-07-31 14:10:48.669 +03:00 [INF] Start processing HTTP request GET https://localhost:7099/api/auth/details
+2025-07-31 14:10:48.670 +03:00 [INF] Sending HTTP request GET https://localhost:7099/api/auth/details
+2025-07-31 14:10:48.818 +03:00 [INF] Received HTTP response headers after 146.3401ms - 404
+2025-07-31 14:10:48.825 +03:00 [INF] End processing HTTP request after 157.0599ms - 404
+2025-07-31 14:10:48.825 +03:00 [WRN] "NotFound" Not Found
+2025-07-31 14:10:55.592 +03:00 [WRN] NotFound Not Found
+2025-07-31 14:10:57.888 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-07-31 14:10:57.959 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 13650.1822ms
+2025-07-31 14:10:57.959 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 14:10:57.962 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/auth/details - 400 164 application/problem+json; charset=utf-8 13910.9172ms
+2025-07-31 14:11:59.980 +03:00 [INF] User profile is available. Using '/Users/ivanhontar/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-07-31 14:12:00.046 +03:00 [WRN] Overriding address(es) 'http://localhost:5271'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-07-31 14:12:00.058 +03:00 [INF] Now listening on: http://[::]:5271
+2025-07-31 14:12:00.058 +03:00 [INF] Now listening on: https://[::]:7188
+2025-07-31 14:12:00.058 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-07-31 14:12:00.058 +03:00 [INF] Hosting environment: Development
+2025-07-31 14:12:00.058 +03:00 [INF] Content root path: /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor
+2025-07-31 14:20:26.480 +03:00 [INF] User profile is available. Using '/Users/ivanhontar/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-07-31 14:20:26.536 +03:00 [WRN] Overriding address(es) 'http://localhost:5271'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-07-31 14:20:26.547 +03:00 [INF] Now listening on: http://[::]:5271
+2025-07-31 14:20:26.547 +03:00 [INF] Now listening on: https://[::]:7188
+2025-07-31 14:20:26.547 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-07-31 14:20:26.547 +03:00 [INF] Hosting environment: Development
+2025-07-31 14:20:26.547 +03:00 [INF] Content root path: /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor
+2025-07-31 14:20:42.076 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/auth/details - null null
+2025-07-31 14:20:42.465 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 14:20:42.493 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.String, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-07-31 14:20:42.510 +03:00 [INF] Start processing HTTP request GET https://localhost:7099/api/auth/details
+2025-07-31 14:20:42.510 +03:00 [INF] Sending HTTP request GET https://localhost:7099/api/auth/details
+2025-07-31 14:20:42.587 +03:00 [INF] Received HTTP response headers after 75.201ms - 404
+2025-07-31 14:20:42.595 +03:00 [INF] End processing HTTP request after 85.7799ms - 404
+2025-07-31 14:20:42.595 +03:00 [WRN] "NotFound" Not Found
+2025-07-31 14:20:42.596 +03:00 [WRN] NotFound Not Found
+2025-07-31 14:20:42.599 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-07-31 14:20:42.660 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 164.1439ms
+2025-07-31 14:20:42.660 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 14:20:42.662 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/auth/details - 400 164 application/problem+json; charset=utf-8 590.5162ms
+2025-07-31 14:21:08.687 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/auth/details - null null
+2025-07-31 14:21:08.703 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 14:21:08.704 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.String, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-07-31 14:21:32.702 +03:00 [INF] Start processing HTTP request GET https://localhost:7099/api/auth/details
+2025-07-31 14:21:32.703 +03:00 [INF] Sending HTTP request GET https://localhost:7099/api/auth/details
+2025-07-31 14:21:32.771 +03:00 [INF] Received HTTP response headers after 67.4777ms - 404
+2025-07-31 14:21:32.771 +03:00 [INF] End processing HTTP request after 68.9127ms - 404
+2025-07-31 14:21:52.423 +03:00 [WRN] "NotFound" Not Found
+2025-07-31 14:21:55.394 +03:00 [WRN] NotFound Not Found
+2025-07-31 14:21:55.406 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-07-31 14:21:55.409 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 46704.7416ms
+2025-07-31 14:21:55.409 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 14:21:55.410 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/auth/details - 400 164 application/problem+json; charset=utf-8 46722.7033ms
+2025-07-31 14:22:40.017 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/auth/details - null null
+2025-07-31 14:22:40.033 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 14:22:40.033 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.String, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-07-31 14:22:46.446 +03:00 [INF] Start processing HTTP request GET https://localhost:7099/api/auth/details
+2025-07-31 14:22:46.447 +03:00 [INF] Sending HTTP request GET https://localhost:7099/api/auth/details
+2025-07-31 14:22:46.497 +03:00 [INF] Received HTTP response headers after 49.4193ms - 404
+2025-07-31 14:22:46.497 +03:00 [INF] End processing HTTP request after 52.6252ms - 404
+2025-07-31 14:22:46.499 +03:00 [WRN] "NotFound" Not Found
+2025-07-31 14:22:46.500 +03:00 [WRN] NotFound Not Found
+2025-07-31 14:22:46.501 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-07-31 14:22:46.502 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 6468.6846ms
+2025-07-31 14:22:46.502 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 14:22:46.502 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/auth/details - 400 164 application/problem+json; charset=utf-8 6485.2522ms
+2025-07-31 14:23:35.666 +03:00 [INF] User profile is available. Using '/Users/ivanhontar/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-07-31 14:23:35.730 +03:00 [WRN] Overriding address(es) 'http://localhost:5271'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-07-31 14:23:35.743 +03:00 [INF] Now listening on: http://[::]:5271
+2025-07-31 14:23:35.744 +03:00 [INF] Now listening on: https://[::]:7188
+2025-07-31 14:23:35.744 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-07-31 14:23:35.744 +03:00 [INF] Hosting environment: Development
+2025-07-31 14:23:35.744 +03:00 [INF] Content root path: /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor
+2025-07-31 14:23:49.074 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/auth/details - null null
+2025-07-31 14:23:49.455 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 14:23:49.463 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.String, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-07-31 14:23:49.485 +03:00 [INF] Start processing HTTP request GET http://localhost:5168/api/auth/details
+2025-07-31 14:23:49.486 +03:00 [INF] Sending HTTP request GET http://localhost:5168/api/auth/details
+2025-07-31 14:23:49.572 +03:00 [INF] Received HTTP response headers after 84.6196ms - 401
+2025-07-31 14:23:49.579 +03:00 [INF] End processing HTTP request after 95.0965ms - 401
+2025-07-31 14:23:49.579 +03:00 [WRN] "Unauthorized" Unauthorized
+2025-07-31 14:23:49.580 +03:00 [WRN] Unauthorized Unauthorized
+2025-07-31 14:23:49.583 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-07-31 14:23:49.633 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 168.4769ms
+2025-07-31 14:23:49.633 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 14:23:49.635 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/auth/details - 400 164 application/problem+json; charset=utf-8 563.3624ms
+2025-07-31 14:25:19.718 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/auth/details - null null
+2025-07-31 14:25:19.745 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 14:25:19.749 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.String, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-07-31 14:25:19.755 +03:00 [INF] Start processing HTTP request GET http://localhost:5168/api/auth/details
+2025-07-31 14:25:19.755 +03:00 [INF] Sending HTTP request GET http://localhost:5168/api/auth/details
+2025-07-31 14:25:19.863 +03:00 [INF] Received HTTP response headers after 107.731ms - 401
+2025-07-31 14:25:19.863 +03:00 [INF] End processing HTTP request after 109.2878ms - 401
+2025-07-31 14:25:19.864 +03:00 [WRN] "Unauthorized" Unauthorized
+2025-07-31 14:25:19.864 +03:00 [WRN] Unauthorized Unauthorized
+2025-07-31 14:25:19.864 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-07-31 14:25:19.866 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 116.6995ms
+2025-07-31 14:25:19.866 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 14:25:19.866 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/auth/details - 400 164 application/problem+json; charset=utf-8 149.9513ms
+2025-07-31 14:26:58.255 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/auth/details - null null
+2025-07-31 14:26:58.283 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 14:26:58.284 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.String, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-07-31 14:26:58.288 +03:00 [INF] Start processing HTTP request GET http://localhost:5168/api/auth/details
+2025-07-31 14:26:58.288 +03:00 [INF] Sending HTTP request GET http://localhost:5168/api/auth/details
+2025-07-31 14:26:58.406 +03:00 [INF] Received HTTP response headers after 118.0095ms - 401
+2025-07-31 14:26:58.407 +03:00 [INF] End processing HTTP request after 119.2899ms - 401
+2025-07-31 14:26:58.407 +03:00 [WRN] "Unauthorized" Unauthorized
+2025-07-31 14:26:58.407 +03:00 [WRN] Unauthorized Unauthorized
+2025-07-31 14:26:58.408 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-07-31 14:26:58.409 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 124.3938ms
+2025-07-31 14:26:58.409 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 14:26:58.409 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/auth/details - 400 164 application/problem+json; charset=utf-8 154.0307ms
+2025-07-31 14:27:54.698 +03:00 [INF] User profile is available. Using '/Users/ivanhontar/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-07-31 14:27:54.760 +03:00 [WRN] Overriding address(es) 'http://localhost:5271'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-07-31 14:27:54.771 +03:00 [INF] Now listening on: http://[::]:5271
+2025-07-31 14:27:54.772 +03:00 [INF] Now listening on: https://[::]:7188
+2025-07-31 14:27:54.772 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-07-31 14:27:54.772 +03:00 [INF] Hosting environment: Development
+2025-07-31 14:27:54.772 +03:00 [INF] Content root path: /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor
+2025-07-31 14:27:59.598 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/auth/details - null null
+2025-07-31 14:27:59.897 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 14:27:59.907 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.String, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-07-31 14:27:59.926 +03:00 [INF] Start processing HTTP request GET http://localhost:5168/api/auth/details
+2025-07-31 14:27:59.926 +03:00 [INF] Sending HTTP request GET http://localhost:5168/api/auth/details
+2025-07-31 14:27:59.959 +03:00 [INF] Received HTTP response headers after 31.2009ms - 401
+2025-07-31 14:27:59.965 +03:00 [INF] End processing HTTP request after 40.1764ms - 401
+2025-07-31 14:27:59.965 +03:00 [WRN] "Unauthorized" Unauthorized
+2025-07-31 14:27:59.966 +03:00 [WRN] Unauthorized Unauthorized
+2025-07-31 14:27:59.969 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-07-31 14:28:00.037 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 129.3284ms
+2025-07-31 14:28:00.038 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 14:28:00.040 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/auth/details - 400 164 application/problem+json; charset=utf-8 443.0422ms
+2025-07-31 14:29:21.280 +03:00 [INF] User profile is available. Using '/Users/ivanhontar/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-07-31 14:29:21.342 +03:00 [WRN] Overriding address(es) 'http://localhost:5271'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-07-31 14:29:21.353 +03:00 [INF] Now listening on: http://[::]:5271
+2025-07-31 14:29:21.353 +03:00 [INF] Now listening on: https://[::]:7188
+2025-07-31 14:29:21.353 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-07-31 14:29:21.353 +03:00 [INF] Hosting environment: Development
+2025-07-31 14:29:21.353 +03:00 [INF] Content root path: /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor
+2025-07-31 14:29:26.764 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/auth/details - null null
+2025-07-31 14:29:26.968 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 14:29:26.976 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.String, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-07-31 14:29:26.990 +03:00 [INF] Start processing HTTP request GET http://localhost:5168/api/auth/details
+2025-07-31 14:29:26.991 +03:00 [INF] Sending HTTP request GET http://localhost:5168/api/auth/details
+2025-07-31 14:29:27.057 +03:00 [INF] Received HTTP response headers after 65.4367ms - 401
+2025-07-31 14:29:27.064 +03:00 [INF] End processing HTTP request after 75.9801ms - 401
+2025-07-31 14:29:27.064 +03:00 [WRN] "Unauthorized" Unauthorized
+2025-07-31 14:29:27.065 +03:00 [WRN] Unauthorized Unauthorized
+2025-07-31 14:29:27.068 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-07-31 14:29:27.246 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 267.2847ms
+2025-07-31 14:29:27.246 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 14:29:27.249 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/auth/details - 400 164 application/problem+json; charset=utf-8 487.5533ms
+2025-07-31 14:30:22.919 +03:00 [INF] User profile is available. Using '/Users/ivanhontar/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-07-31 14:30:22.977 +03:00 [WRN] Overriding address(es) 'http://localhost:5271'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-07-31 14:30:22.987 +03:00 [INF] Now listening on: http://[::]:5271
+2025-07-31 14:30:22.987 +03:00 [INF] Now listening on: https://[::]:7188
+2025-07-31 14:30:22.988 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-07-31 14:30:22.988 +03:00 [INF] Hosting environment: Development
+2025-07-31 14:30:22.988 +03:00 [INF] Content root path: /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor
+2025-07-31 14:30:26.071 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/auth/details - null null
+2025-07-31 14:30:26.322 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 14:30:26.340 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.String, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-07-31 14:30:26.356 +03:00 [INF] auth header: Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjBFOTQyMDI0QTA5QkMzNEJCRDgxN0E2RUQ0ODE2MjM2IiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE3NTM5NTk5MjcsImV4cCI6MTc1Mzk2MzUyNywiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzI3MCIsImF1ZCI6WyJ0YXNrTWFuYWdlckFwaSIsImh0dHBzOi8vZ3JhcGgubWljcm9zb2Z0LmNvbS_LmiJdLCJjbGllbnRfaWQiOiJyZWFjdC1jbGllbnQiLCJzdWIiOiJjMTU0YTdjOS0xODlmLTQxNWItYTUwZC0zMjBiZTMzYmY3OTgiLCJhdXRoX3RpbWUiOjE3NTM5NTEwMzMsImlkcCI6ImxvY2FsIiwianRpIjoiMUE4NDA4RTdFOTY2Q0I5QTZFOEUwN0JGRTY0RkE5NjEiLCJzaWQiOiIzQjhGRjIxODBFNzA4QkI1MTRDMDNDM0EyMDc0NzEzNiIsImlhdCI6MTc1Mzk1OTkyNywic2NvcGUiOlsib3BlbmlkIiwicHJvZmlsZSIsImFwaS5yZWFkIiwib2ZmbGluZV9hY2Nlc3MiXSwiYW1yIjpbInB3ZCJdfQ.3mRx6Nm5uJnxBjxWXtpCrsypomUsb0AxPwUY4JQ-I1ScgbNmKJVPf7UFEsITcrna64-V4pAhlGki3q-MDzIQeAg3fuXjnf7F7WQt1jVrGNUXKallTYJFvXCeimJxtfBNndqQdLrmjWTgQWJFGULOEZZlEltSYEHCLfBXwtBJy9W7SYUKx_um6B8P03UJNS65o1sGTnrre8jHr9Y3EEekS83Ar8MBXVvO9BsYxsc-r20-koy0NXbMKrlLDlOABfSM_S80clz5Fvkedyt9KBnJw5k96JGMEoc_ZLmRPyg_vCPnVQAxnSziqPOpa8UNX3rD7NtyBc1rGtmnmyG-oZjnoA
+2025-07-31 14:30:26.358 +03:00 [INF] Start processing HTTP request GET http://localhost:5168/api/auth/details
+2025-07-31 14:30:26.358 +03:00 [INF] Sending HTTP request GET http://localhost:5168/api/auth/details
+2025-07-31 14:30:26.436 +03:00 [INF] Received HTTP response headers after 76.5825ms - 401
+2025-07-31 14:30:26.446 +03:00 [INF] End processing HTTP request after 89.021ms - 401
+2025-07-31 14:30:26.446 +03:00 [WRN] "Unauthorized" Unauthorized
+2025-07-31 14:30:26.447 +03:00 [WRN] Unauthorized Unauthorized
+2025-07-31 14:30:26.450 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-07-31 14:30:26.510 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 167.9122ms
+2025-07-31 14:30:26.510 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 14:30:26.512 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/auth/details - 400 164 application/problem+json; charset=utf-8 444.3485ms
+2025-07-31 14:33:50.742 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/auth/details - null null
+2025-07-31 14:33:50.894 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 14:33:50.900 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.String, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-07-31 14:33:50.905 +03:00 [INF] auth header: Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjBFOTQyMDI0QTA5QkMzNEJCRDgxN0E2RUQ0ODE2MjM2IiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE3NTM5NTk5MjcsImV4cCI6MTc1Mzk2MzUyNywiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzI3MCIsImF1ZCI6WyJ0YXNrTWFuYWdlckFwaSIsImh0dHBzOi8vZ3JhcGgubWljcm9zb2Z0LmNvbS_LmiJdLCJjbGllbnRfaWQiOiJyZWFjdC1jbGllbnQiLCJzdWIiOiJjMTU0YTdjOS0xODlmLTQxNWItYTUwZC0zMjBiZTMzYmY3OTgiLCJhdXRoX3RpbWUiOjE3NTM5NTEwMzMsImlkcCI6ImxvY2FsIiwianRpIjoiMUE4NDA4RTdFOTY2Q0I5QTZFOEUwN0JGRTY0RkE5NjEiLCJzaWQiOiIzQjhGRjIxODBFNzA4QkI1MTRDMDNDM0EyMDc0NzEzNiIsImlhdCI6MTc1Mzk1OTkyNywic2NvcGUiOlsib3BlbmlkIiwicHJvZmlsZSIsImFwaS5yZWFkIiwib2ZmbGluZV9hY2Nlc3MiXSwiYW1yIjpbInB3ZCJdfQ.3mRx6Nm5uJnxBjxWXtpCrsypomUsb0AxPwUY4JQ-I1ScgbNmKJVPf7UFEsITcrna64-V4pAhlGki3q-MDzIQeAg3fuXjnf7F7WQt1jVrGNUXKallTYJFvXCeimJxtfBNndqQdLrmjWTgQWJFGULOEZZlEltSYEHCLfBXwtBJy9W7SYUKx_um6B8P03UJNS65o1sGTnrre8jHr9Y3EEekS83Ar8MBXVvO9BsYxsc-r20-koy0NXbMKrlLDlOABfSM_S80clz5Fvkedyt9KBnJw5k96JGMEoc_ZLmRPyg_vCPnVQAxnSziqPOpa8UNX3rD7NtyBc1rGtmnmyG-oZjnoA
+2025-07-31 14:33:50.906 +03:00 [INF] Start processing HTTP request GET http://localhost:5168/api/auth/details
+2025-07-31 14:33:50.906 +03:00 [INF] Sending HTTP request GET http://localhost:5168/api/auth/details
+2025-07-31 14:33:51.093 +03:00 [INF] Received HTTP response headers after 186.9228ms - 401
+2025-07-31 14:33:51.093 +03:00 [INF] End processing HTTP request after 187.5773ms - 401
+2025-07-31 14:33:51.093 +03:00 [WRN] "Unauthorized" Unauthorized
+2025-07-31 14:33:51.094 +03:00 [WRN] Unauthorized Unauthorized
+2025-07-31 14:33:51.094 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-07-31 14:33:51.095 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 195.0217ms
+2025-07-31 14:33:51.095 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 14:33:51.095 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/auth/details - 400 164 application/problem+json; charset=utf-8 353.7053ms
+2025-07-31 14:34:00.676 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/auth/details - null null
+2025-07-31 14:34:00.691 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 14:34:00.692 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.String, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-07-31 14:34:00.696 +03:00 [INF] auth header: Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjBFOTQyMDI0QTA5QkMzNEJCRDgxN0E2RUQ0ODE2MjM2IiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE3NTM5NTk5MjcsImV4cCI6MTc1Mzk2MzUyNywiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzI3MCIsImF1ZCI6WyJ0YXNrTWFuYWdlckFwaSIsImh0dHBzOi8vZ3JhcGgubWljcm9zb2Z0LmNvbS_LmiJdLCJjbGllbnRfaWQiOiJyZWFjdC1jbGllbnQiLCJzdWIiOiJjMTU0YTdjOS0xODlmLTQxNWItYTUwZC0zMjBiZTMzYmY3OTgiLCJhdXRoX3RpbWUiOjE3NTM5NTEwMzMsImlkcCI6ImxvY2FsIiwianRpIjoiMUE4NDA4RTdFOTY2Q0I5QTZFOEUwN0JGRTY0RkE5NjEiLCJzaWQiOiIzQjhGRjIxODBFNzA4QkI1MTRDMDNDM0EyMDc0NzEzNiIsImlhdCI6MTc1Mzk1OTkyNywic2NvcGUiOlsib3BlbmlkIiwicHJvZmlsZSIsImFwaS5yZWFkIiwib2ZmbGluZV9hY2Nlc3MiXSwiYW1yIjpbInB3ZCJdfQ.3mRx6Nm5uJnxBjxWXtpCrsypomUsb0AxPwUY4JQ-I1ScgbNmKJVPf7UFEsITcrna64-V4pAhlGki3q-MDzIQeAg3fuXjnf7F7WQt1jVrGNUXKallTYJFvXCeimJxtfBNndqQdLrmjWTgQWJFGULOEZZlEltSYEHCLfBXwtBJy9W7SYUKx_um6B8P03UJNS65o1sGTnrre8jHr9Y3EEekS83Ar8MBXVvO9BsYxsc-r20-koy0NXbMKrlLDlOABfSM_S80clz5Fvkedyt9KBnJw5k96JGMEoc_ZLmRPyg_vCPnVQAxnSziqPOpa8UNX3rD7NtyBc1rGtmnmyG-oZjnoA
+2025-07-31 14:34:00.696 +03:00 [INF] Start processing HTTP request GET http://localhost:5168/api/auth/details
+2025-07-31 14:34:00.696 +03:00 [INF] Sending HTTP request GET http://localhost:5168/api/auth/details
+2025-07-31 14:34:00.711 +03:00 [INF] Received HTTP response headers after 14.8451ms - 401
+2025-07-31 14:34:00.712 +03:00 [INF] End processing HTTP request after 15.3524ms - 401
+2025-07-31 14:34:00.712 +03:00 [WRN] "Unauthorized" Unauthorized
+2025-07-31 14:34:00.712 +03:00 [WRN] Unauthorized Unauthorized
+2025-07-31 14:34:00.712 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-07-31 14:34:00.713 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 20.3464ms
+2025-07-31 14:34:00.713 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 14:34:00.713 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/auth/details - 400 164 application/problem+json; charset=utf-8 37.7292ms
+2025-07-31 14:45:58.606 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/auth/details - null null
+2025-07-31 14:45:58.638 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 14:45:58.641 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.String, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-07-31 14:45:58.649 +03:00 [INF] auth header: Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjBFOTQyMDI0QTA5QkMzNEJCRDgxN0E2RUQ0ODE2MjM2IiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE3NTM5NTk5MjcsImV4cCI6MTc1Mzk2MzUyNywiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzI3MCIsImF1ZCI6WyJ0YXNrTWFuYWdlckFwaSIsImh0dHBzOi8vZ3JhcGgubWljcm9zb2Z0LmNvbS_LmiJdLCJjbGllbnRfaWQiOiJyZWFjdC1jbGllbnQiLCJzdWIiOiJjMTU0YTdjOS0xODlmLTQxNWItYTUwZC0zMjBiZTMzYmY3OTgiLCJhdXRoX3RpbWUiOjE3NTM5NTEwMzMsImlkcCI6ImxvY2FsIiwianRpIjoiMUE4NDA4RTdFOTY2Q0I5QTZFOEUwN0JGRTY0RkE5NjEiLCJzaWQiOiIzQjhGRjIxODBFNzA4QkI1MTRDMDNDM0EyMDc0NzEzNiIsImlhdCI6MTc1Mzk1OTkyNywic2NvcGUiOlsib3BlbmlkIiwicHJvZmlsZSIsImFwaS5yZWFkIiwib2ZmbGluZV9hY2Nlc3MiXSwiYW1yIjpbInB3ZCJdfQ.3mRx6Nm5uJnxBjxWXtpCrsypomUsb0AxPwUY4JQ-I1ScgbNmKJVPf7UFEsITcrna64-V4pAhlGki3q-MDzIQeAg3fuXjnf7F7WQt1jVrGNUXKallTYJFvXCeimJxtfBNndqQdLrmjWTgQWJFGULOEZZlEltSYEHCLfBXwtBJy9W7SYUKx_um6B8P03UJNS65o1sGTnrre8jHr9Y3EEekS83Ar8MBXVvO9BsYxsc-r20-koy0NXbMKrlLDlOABfSM_S80clz5Fvkedyt9KBnJw5k96JGMEoc_ZLmRPyg_vCPnVQAxnSziqPOpa8UNX3rD7NtyBc1rGtmnmyG-oZjnoA
+2025-07-31 14:45:58.649 +03:00 [INF] Start processing HTTP request GET http://localhost:5168/api/auth/details
+2025-07-31 14:45:58.650 +03:00 [INF] Sending HTTP request GET http://localhost:5168/api/auth/details
+2025-07-31 14:45:58.933 +03:00 [INF] Received HTTP response headers after 283.2206ms - 401
+2025-07-31 14:45:58.934 +03:00 [INF] End processing HTTP request after 284.1992ms - 401
+2025-07-31 14:45:58.934 +03:00 [WRN] "Unauthorized" Unauthorized
+2025-07-31 14:45:58.934 +03:00 [WRN] Unauthorized Unauthorized
+2025-07-31 14:45:58.935 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-07-31 14:45:58.938 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 296.7396ms
+2025-07-31 14:45:58.938 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 14:45:58.939 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/auth/details - 400 164 application/problem+json; charset=utf-8 333.8529ms
+2025-07-31 15:04:26.031 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/auth/details - null null
+2025-07-31 15:04:26.065 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 15:04:26.068 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.String, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-07-31 15:04:26.077 +03:00 [INF] auth header: Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjBFOTQyMDI0QTA5QkMzNEJCRDgxN0E2RUQ0ODE2MjM2IiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE3NTM5NTk5MjcsImV4cCI6MTc1Mzk2MzUyNywiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzI3MCIsImF1ZCI6WyJ0YXNrTWFuYWdlckFwaSIsImh0dHBzOi8vZ3JhcGgubWljcm9zb2Z0LmNvbS_LmiJdLCJjbGllbnRfaWQiOiJyZWFjdC1jbGllbnQiLCJzdWIiOiJjMTU0YTdjOS0xODlmLTQxNWItYTUwZC0zMjBiZTMzYmY3OTgiLCJhdXRoX3RpbWUiOjE3NTM5NTEwMzMsImlkcCI6ImxvY2FsIiwianRpIjoiMUE4NDA4RTdFOTY2Q0I5QTZFOEUwN0JGRTY0RkE5NjEiLCJzaWQiOiIzQjhGRjIxODBFNzA4QkI1MTRDMDNDM0EyMDc0NzEzNiIsImlhdCI6MTc1Mzk1OTkyNywic2NvcGUiOlsib3BlbmlkIiwicHJvZmlsZSIsImFwaS5yZWFkIiwib2ZmbGluZV9hY2Nlc3MiXSwiYW1yIjpbInB3ZCJdfQ.3mRx6Nm5uJnxBjxWXtpCrsypomUsb0AxPwUY4JQ-I1ScgbNmKJVPf7UFEsITcrna64-V4pAhlGki3q-MDzIQeAg3fuXjnf7F7WQt1jVrGNUXKallTYJFvXCeimJxtfBNndqQdLrmjWTgQWJFGULOEZZlEltSYEHCLfBXwtBJy9W7SYUKx_um6B8P03UJNS65o1sGTnrre8jHr9Y3EEekS83Ar8MBXVvO9BsYxsc-r20-koy0NXbMKrlLDlOABfSM_S80clz5Fvkedyt9KBnJw5k96JGMEoc_ZLmRPyg_vCPnVQAxnSziqPOpa8UNX3rD7NtyBc1rGtmnmyG-oZjnoA
+2025-07-31 15:04:26.077 +03:00 [INF] Start processing HTTP request GET http://localhost:5168/api/auth/details
+2025-07-31 15:04:26.077 +03:00 [INF] Sending HTTP request GET http://localhost:5168/api/auth/details
+2025-07-31 15:04:26.545 +03:00 [INF] Received HTTP response headers after 468.0994ms - 401
+2025-07-31 15:04:26.548 +03:00 [INF] End processing HTTP request after 470.897ms - 401
+2025-07-31 15:04:26.548 +03:00 [WRN] "Unauthorized" Unauthorized
+2025-07-31 15:04:26.549 +03:00 [WRN] Unauthorized Unauthorized
+2025-07-31 15:04:26.554 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-07-31 15:04:26.562 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 492.853ms
+2025-07-31 15:04:26.562 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 15:04:26.562 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/auth/details - 400 164 application/problem+json; charset=utf-8 532.7419ms
+2025-07-31 22:19:07.100 +03:00 [INF] User profile is available. Using '/Users/ivanhontar/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-07-31 22:19:07.164 +03:00 [WRN] Overriding address(es) 'http://localhost:5271'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-07-31 22:19:07.176 +03:00 [INF] Now listening on: http://[::]:5271
+2025-07-31 22:19:07.176 +03:00 [INF] Now listening on: https://[::]:7188
+2025-07-31 22:19:07.176 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-07-31 22:19:07.177 +03:00 [INF] Hosting environment: Development
+2025-07-31 22:19:07.177 +03:00 [INF] Content root path: /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor
+2025-07-31 22:19:58.373 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/swagger/v1/swagger.json - null null
+2025-07-31 22:19:58.462 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 90.3678ms
+2025-07-31 22:21:05.382 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/auth/details - null null
+2025-07-31 22:21:05.633 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 22:21:05.661 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.String, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-07-31 22:21:05.683 +03:00 [INF] Start processing HTTP request GET http://localhost:5168/api/auth/details
+2025-07-31 22:21:05.684 +03:00 [INF] Sending HTTP request GET http://localhost:5168/api/auth/details
+2025-07-31 22:21:05.743 +03:00 [INF] Received HTTP response headers after 57.4388ms - 401
+2025-07-31 22:21:05.744 +03:00 [INF] End processing HTTP request after 60.8385ms - 401
+2025-07-31 22:21:05.744 +03:00 [WRN] "Unauthorized" Unauthorized
+2025-07-31 22:21:05.745 +03:00 [WRN] Unauthorized Unauthorized
+2025-07-31 22:21:05.750 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-07-31 22:21:05.819 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 156.3462ms
+2025-07-31 22:21:05.819 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 22:21:05.820 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/auth/details - 400 164 application/problem+json; charset=utf-8 438.4501ms
+2025-07-31 22:24:09.666 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/auth/details - null null
+2025-07-31 22:24:09.735 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 22:24:09.738 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.String, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-07-31 22:24:09.743 +03:00 [INF] Start processing HTTP request GET http://localhost:5168/api/auth/details
+2025-07-31 22:24:09.744 +03:00 [INF] Sending HTTP request GET http://localhost:5168/api/auth/details
+2025-07-31 22:24:09.869 +03:00 [INF] Received HTTP response headers after 125.3841ms - 401
+2025-07-31 22:24:09.870 +03:00 [INF] End processing HTTP request after 126.7569ms - 401
+2025-07-31 22:24:09.870 +03:00 [WRN] "Unauthorized" Unauthorized
+2025-07-31 22:24:09.870 +03:00 [WRN] Unauthorized Unauthorized
+2025-07-31 22:24:09.870 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-07-31 22:24:09.872 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 133.7687ms
+2025-07-31 22:24:09.872 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 22:24:09.873 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/auth/details - 400 164 application/problem+json; charset=utf-8 206.9131ms
+2025-07-31 22:24:22.732 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/auth/details - null null
+2025-07-31 22:24:22.745 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 22:24:22.745 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.String, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-07-31 22:24:22.747 +03:00 [INF] Start processing HTTP request GET http://localhost:5168/api/auth/details
+2025-07-31 22:24:22.747 +03:00 [INF] Sending HTTP request GET http://localhost:5168/api/auth/details
+2025-07-31 22:24:22.759 +03:00 [INF] Received HTTP response headers after 11.6397ms - 401
+2025-07-31 22:24:22.759 +03:00 [INF] End processing HTTP request after 12.0236ms - 401
+2025-07-31 22:24:22.759 +03:00 [WRN] "Unauthorized" Unauthorized
+2025-07-31 22:24:22.759 +03:00 [WRN] Unauthorized Unauthorized
+2025-07-31 22:24:22.760 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-07-31 22:24:22.760 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 14.8607ms
+2025-07-31 22:24:22.760 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 22:24:22.760 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/auth/details - 400 164 application/problem+json; charset=utf-8 28.791ms
+2025-07-31 22:26:30.882 +03:00 [INF] User profile is available. Using '/Users/ivanhontar/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-07-31 22:26:30.941 +03:00 [WRN] Overriding address(es) 'http://localhost:5271'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-07-31 22:26:30.952 +03:00 [INF] Now listening on: http://[::]:5271
+2025-07-31 22:26:30.952 +03:00 [INF] Now listening on: https://[::]:7188
+2025-07-31 22:26:30.953 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-07-31 22:26:30.953 +03:00 [INF] Hosting environment: Development
+2025-07-31 22:26:30.953 +03:00 [INF] Content root path: /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor
+2025-07-31 22:26:46.416 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/auth/details - null null
+2025-07-31 22:26:46.700 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 22:26:46.713 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.String, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-07-31 22:26:46.729 +03:00 [INF] Start processing HTTP request GET http://localhost:5168/api/auth/details
+2025-07-31 22:26:46.730 +03:00 [INF] Sending HTTP request GET http://localhost:5168/api/auth/details
+2025-07-31 22:26:46.810 +03:00 [INF] Received HTTP response headers after 78.5037ms - 401
+2025-07-31 22:26:46.816 +03:00 [INF] End processing HTTP request after 87.982ms - 401
+2025-07-31 22:26:46.816 +03:00 [WRN] "Unauthorized" Unauthorized
+2025-07-31 22:26:46.817 +03:00 [WRN] Unauthorized Unauthorized
+2025-07-31 22:26:46.821 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-07-31 22:26:46.879 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 164.0861ms
+2025-07-31 22:26:46.879 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 22:26:46.881 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/auth/details - 400 164 application/problem+json; charset=utf-8 466.0579ms
+2025-07-31 22:30:39.118 +03:00 [INF] User profile is available. Using '/Users/ivanhontar/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-07-31 22:30:39.182 +03:00 [WRN] Overriding address(es) 'http://localhost:5271'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-07-31 22:30:39.195 +03:00 [INF] Now listening on: http://[::]:5271
+2025-07-31 22:30:39.195 +03:00 [INF] Now listening on: https://[::]:7188
+2025-07-31 22:30:39.195 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-07-31 22:30:39.195 +03:00 [INF] Hosting environment: Development
+2025-07-31 22:30:39.195 +03:00 [INF] Content root path: /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor
+2025-07-31 22:31:09.062 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/auth/details - null null
+2025-07-31 22:31:09.331 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 22:31:09.340 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.String, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-07-31 22:31:09.370 +03:00 [INF] Start processing HTTP request GET http://localhost:5168/api/auth/details
+2025-07-31 22:31:09.370 +03:00 [INF] Sending HTTP request GET http://localhost:5168/api/auth/details
+2025-07-31 22:31:09.423 +03:00 [INF] Received HTTP response headers after 51.0615ms - 401
+2025-07-31 22:31:09.431 +03:00 [INF] End processing HTTP request after 62.7059ms - 401
+2025-07-31 22:31:09.432 +03:00 [WRN] "Unauthorized" Unauthorized
+2025-07-31 22:31:09.433 +03:00 [WRN] Unauthorized Unauthorized
+2025-07-31 22:31:09.436 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-07-31 22:31:09.487 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 145.1887ms
+2025-07-31 22:31:09.488 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 22:31:09.489 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/auth/details - 400 164 application/problem+json; charset=utf-8 428.7165ms
+2025-07-31 22:32:20.533 +03:00 [INF] User profile is available. Using '/Users/ivanhontar/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-07-31 22:32:20.593 +03:00 [WRN] Overriding address(es) 'http://localhost:5271'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-07-31 22:32:20.605 +03:00 [INF] Now listening on: http://[::]:5271
+2025-07-31 22:32:20.605 +03:00 [INF] Now listening on: https://[::]:7188
+2025-07-31 22:32:20.605 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-07-31 22:32:20.605 +03:00 [INF] Hosting environment: Development
+2025-07-31 22:32:20.605 +03:00 [INF] Content root path: /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor
+2025-07-31 22:32:37.405 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/auth/details - null null
+2025-07-31 22:32:37.590 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 22:32:37.599 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.String, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-07-31 22:32:37.627 +03:00 [INF] headers: BearereyJhbGciOiJSUzI1NiIsImtpZCI6IjBFOTQyMDI0QTA5QkMzNEJCRDgxN0E2RUQ0ODE2MjM2IiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE3NTM5ODk1ODIsImV4cCI6MTc1Mzk5MzE4MiwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzI3MCIsImF1ZCI6WyJ0YXNrTWFuYWdlckFwaSIsImh0dHBzOi8vZ3JhcGgubWljcm9zb2Z0LmNvbS_LmiJdLCJjbGllbnRfaWQiOiJyZWFjdC1jbGllbnQiLCJzdWIiOiJjMTU0YTdjOS0xODlmLTQxNWItYTUwZC0zMjBiZTMzYmY3OTgiLCJhdXRoX3RpbWUiOjE3NTM5NTEwMzMsImlkcCI6ImxvY2FsIiwianRpIjoiODQzQzAwODRENUY5MEZCQzk5RjdGRTU3NjVBMDNEQzkiLCJzaWQiOiIzQjhGRjIxODBFNzA4QkI1MTRDMDNDM0EyMDc0NzEzNiIsImlhdCI6MTc1Mzk4OTU4Miwic2NvcGUiOlsib3BlbmlkIiwicHJvZmlsZSIsImFwaS5yZWFkIiwib2ZmbGluZV9hY2Nlc3MiXSwiYW1yIjpbInB3ZCJdfQ.rjof4utPw3BH0VzaMemoTMr1X4qluaIhyp7hfQ17kLdquJf3DPHkvq7CWU2p6FuhpTd5J5AlnrdD0k2gbVsTjUkgK2TdprQoD9DPuysjwFO6TpnSKFkazHU4fY83KwUc5CDJnhvRtIiyOPN1wA_HyHE3O-rCUQKu8DzSY8iQ4TbBVcE2TKAC5qnRafejMXSdt1BGAdEoZXo6OcZ5-CiPS4lOh41yt2kJBkWp5krIh-PgUbRigYm1wY7_jimGI10OslCs3Bn88b5EL2HLxmddU-LXsiMP7S34gILDhiZGmf8Bg9v6uVw6jUKRHihT9jM3q0hNotBV0EvpIGrtywvrdg
+2025-07-31 22:32:37.631 +03:00 [INF] Start processing HTTP request GET http://localhost:5168/api/auth/details
+2025-07-31 22:32:37.632 +03:00 [INF] Sending HTTP request GET http://localhost:5168/api/auth/details
+2025-07-31 22:32:37.677 +03:00 [INF] Received HTTP response headers after 43.9744ms - 401
+2025-07-31 22:32:37.685 +03:00 [INF] End processing HTTP request after 56.7424ms - 401
+2025-07-31 22:32:37.685 +03:00 [WRN] "Unauthorized" Unauthorized
+2025-07-31 22:32:37.688 +03:00 [WRN] Unauthorized Unauthorized
+2025-07-31 22:32:37.693 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-07-31 22:32:37.746 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 145.8237ms
+2025-07-31 22:32:37.747 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 22:32:37.749 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/auth/details - 400 164 application/problem+json; charset=utf-8 344.467ms
+2025-07-31 22:33:14.057 +03:00 [INF] User profile is available. Using '/Users/ivanhontar/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-07-31 22:33:14.115 +03:00 [WRN] Overriding address(es) 'http://localhost:5271'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-07-31 22:33:14.126 +03:00 [INF] Now listening on: http://[::]:5271
+2025-07-31 22:33:14.126 +03:00 [INF] Now listening on: https://[::]:7188
+2025-07-31 22:33:14.126 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-07-31 22:33:14.126 +03:00 [INF] Hosting environment: Development
+2025-07-31 22:33:14.126 +03:00 [INF] Content root path: /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor
+2025-07-31 22:33:19.869 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/auth/details - null null
+2025-07-31 22:33:20.017 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 22:33:20.026 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.String, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-07-31 22:33:33.669 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 13639.3359ms
+2025-07-31 22:33:33.680 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 22:33:33.708 +03:00 [ERR] Unhandled exception occurred.
+System.FormatException: The format of value 'Bearer ' is invalid.
+   at System.Net.Http.Headers.HeaderUtilities.CheckValidToken(String value, String parameterName)
+   at System.Net.Http.Headers.AuthenticationHeaderValue..ctor(String scheme, String parameter)
+   at TaskManagerConvertor.Services.Implementation.AccountService.GetOwnAccountDetails(IHeaderDictionary headers, CancellationToken cancellationToken) in /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor/Services/Implementation/AccountService.cs:line 82
+   at TaskManagerConvertor.Controllers.AuthController.GetAccountDetails(String authorization, CancellationToken cancellationToken) in /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor/Controllers/AuthController.cs:line 33
+   at lambda_method6(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at TaskManagerConvertor.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor/Middlewares/ExceptionHandlingMiddleware.cs:line 21
+2025-07-31 22:33:33.786 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/auth/details - 500 null application/json 13918.4117ms
+2025-07-31 22:33:48.874 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/auth/details - null null
+2025-07-31 22:33:48.918 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 22:33:48.919 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.String, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-07-31 22:33:51.184 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 2262.8735ms
+2025-07-31 22:33:51.185 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 22:33:51.200 +03:00 [ERR] Unhandled exception occurred.
+System.FormatException: The format of value 'Bearer ' is invalid.
+   at System.Net.Http.Headers.HeaderUtilities.CheckValidToken(String value, String parameterName)
+   at System.Net.Http.Headers.AuthenticationHeaderValue..ctor(String scheme, String parameter)
+   at TaskManagerConvertor.Services.Implementation.AccountService.GetOwnAccountDetails(IHeaderDictionary headers, CancellationToken cancellationToken) in /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor/Services/Implementation/AccountService.cs:line 82
+   at TaskManagerConvertor.Controllers.AuthController.GetAccountDetails(String authorization, CancellationToken cancellationToken) in /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor/Controllers/AuthController.cs:line 33
+   at lambda_method6(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at TaskManagerConvertor.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor/Middlewares/ExceptionHandlingMiddleware.cs:line 21
+2025-07-31 22:33:51.205 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/auth/details - 500 null application/json 2331.9024ms
+2025-07-31 22:35:43.100 +03:00 [INF] User profile is available. Using '/Users/ivanhontar/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-07-31 22:35:43.164 +03:00 [WRN] Overriding address(es) 'http://localhost:5271'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-07-31 22:35:43.175 +03:00 [INF] Now listening on: http://[::]:5271
+2025-07-31 22:35:43.175 +03:00 [INF] Now listening on: https://[::]:7188
+2025-07-31 22:35:43.175 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-07-31 22:35:43.175 +03:00 [INF] Hosting environment: Development
+2025-07-31 22:35:43.175 +03:00 [INF] Content root path: /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor
+2025-07-31 22:35:46.911 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/auth/details - null null
+2025-07-31 22:35:47.226 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 22:35:47.236 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.String, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-07-31 22:35:47.255 +03:00 [INF] Start processing HTTP request GET http://localhost:5168/api/auth/details
+2025-07-31 22:35:47.256 +03:00 [INF] Sending HTTP request GET http://localhost:5168/api/auth/details
+2025-07-31 22:35:47.309 +03:00 [INF] Received HTTP response headers after 51.3357ms - 401
+2025-07-31 22:35:47.315 +03:00 [INF] End processing HTTP request after 61.0099ms - 401
+2025-07-31 22:35:47.316 +03:00 [WRN] "Unauthorized" Unauthorized
+2025-07-31 22:35:47.317 +03:00 [WRN] Unauthorized Unauthorized
+2025-07-31 22:35:47.320 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-07-31 22:35:47.381 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 143.3845ms
+2025-07-31 22:35:47.381 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 22:35:47.383 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/auth/details - 400 164 application/problem+json; charset=utf-8 472.9518ms
+2025-07-31 23:02:53.184 +03:00 [INF] User profile is available. Using '/Users/ivanhontar/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-07-31 23:02:53.240 +03:00 [WRN] Overriding address(es) 'http://localhost:5271'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-07-31 23:02:53.251 +03:00 [INF] Now listening on: http://[::]:5271
+2025-07-31 23:02:53.251 +03:00 [INF] Now listening on: https://[::]:7188
+2025-07-31 23:02:53.251 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-07-31 23:02:53.251 +03:00 [INF] Hosting environment: Development
+2025-07-31 23:02:53.251 +03:00 [INF] Content root path: /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor
+2025-07-31 23:03:20.732 +03:00 [INF] User profile is available. Using '/Users/ivanhontar/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-07-31 23:03:20.786 +03:00 [WRN] Overriding address(es) 'http://localhost:5271'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-07-31 23:03:20.798 +03:00 [INF] Now listening on: http://[::]:5271
+2025-07-31 23:03:20.798 +03:00 [INF] Now listening on: https://[::]:7188
+2025-07-31 23:03:20.798 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-07-31 23:03:20.798 +03:00 [INF] Hosting environment: Development
+2025-07-31 23:03:20.798 +03:00 [INF] Content root path: /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor
+2025-07-31 23:03:24.113 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/auth/details - null null
+2025-07-31 23:03:24.594 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 23:03:24.605 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.String, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-07-31 23:03:24.626 +03:00 [INF] headers: BearereyJhbGciOiJSUzI1NiIsImtpZCI6IjBFOTQyMDI0QTA5QkMzNEJCRDgxN0E2RUQ0ODE2MjM2IiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE3NTM5ODk1ODIsImV4cCI6MTc1Mzk5MzE4MiwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzI3MCIsImF1ZCI6WyJ0YXNrTWFuYWdlckFwaSIsImh0dHBzOi8vZ3JhcGgubWljcm9zb2Z0LmNvbS_LmiJdLCJjbGllbnRfaWQiOiJyZWFjdC1jbGllbnQiLCJzdWIiOiJjMTU0YTdjOS0xODlmLTQxNWItYTUwZC0zMjBiZTMzYmY3OTgiLCJhdXRoX3RpbWUiOjE3NTM5NTEwMzMsImlkcCI6ImxvY2FsIiwianRpIjoiODQzQzAwODRENUY5MEZCQzk5RjdGRTU3NjVBMDNEQzkiLCJzaWQiOiIzQjhGRjIxODBFNzA4QkI1MTRDMDNDM0EyMDc0NzEzNiIsImlhdCI6MTc1Mzk4OTU4Miwic2NvcGUiOlsib3BlbmlkIiwicHJvZmlsZSIsImFwaS5yZWFkIiwib2ZmbGluZV9hY2Nlc3MiXSwiYW1yIjpbInB3ZCJdfQ.rjof4utPw3BH0VzaMemoTMr1X4qluaIhyp7hfQ17kLdquJf3DPHkvq7CWU2p6FuhpTd5J5AlnrdD0k2gbVsTjUkgK2TdprQoD9DPuysjwFO6TpnSKFkazHU4fY83KwUc5CDJnhvRtIiyOPN1wA_HyHE3O-rCUQKu8DzSY8iQ4TbBVcE2TKAC5qnRafejMXSdt1BGAdEoZXo6OcZ5-CiPS4lOh41yt2kJBkWp5krIh-PgUbRigYm1wY7_jimGI10OslCs3Bn88b5EL2HLxmddU-LXsiMP7S34gILDhiZGmf8Bg9v6uVw6jUKRHihT9jM3q0hNotBV0EvpIGrtywvrdg
+2025-07-31 23:03:24.627 +03:00 [INF] Start processing HTTP request GET http://localhost:5168/api/auth/details
+2025-07-31 23:03:24.628 +03:00 [INF] Sending HTTP request GET http://localhost:5168/api/auth/details
+2025-07-31 23:03:24.684 +03:00 [INF] Received HTTP response headers after 53.7537ms - 401
+2025-07-31 23:03:24.692 +03:00 [INF] End processing HTTP request after 65.9988ms - 401
+2025-07-31 23:03:24.693 +03:00 [WRN] "Unauthorized" Unauthorized
+2025-07-31 23:03:24.694 +03:00 [WRN] Unauthorized Unauthorized
+2025-07-31 23:03:24.697 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-07-31 23:03:24.750 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 143.4304ms
+2025-07-31 23:03:24.750 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 23:03:24.757 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/auth/details - 400 164 application/problem+json; charset=utf-8 644.7667ms
+2025-07-31 23:04:22.304 +03:00 [INF] User profile is available. Using '/Users/ivanhontar/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-07-31 23:04:22.358 +03:00 [WRN] Overriding address(es) 'http://localhost:5271'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-07-31 23:04:22.369 +03:00 [INF] Now listening on: http://[::]:5271
+2025-07-31 23:04:22.369 +03:00 [INF] Now listening on: https://[::]:7188
+2025-07-31 23:04:22.369 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-07-31 23:04:22.369 +03:00 [INF] Hosting environment: Development
+2025-07-31 23:04:22.369 +03:00 [INF] Content root path: /Users/ivanhontar/Work/cSharpAndNet/taskManagerApi/TaskManagerConvertor
+2025-07-31 23:04:27.494 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/auth/details - null null
+2025-07-31 23:04:27.828 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 23:04:27.837 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.String, System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-07-31 23:04:27.849 +03:00 [INF] headers: BearereyJhbGciOiJSUzI1NiIsImtpZCI6IjBFOTQyMDI0QTA5QkMzNEJCRDgxN0E2RUQ0ODE2MjM2IiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE3NTM5ODk1ODIsImV4cCI6MTc1Mzk5MzE4MiwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzI3MCIsImF1ZCI6WyJ0YXNrTWFuYWdlckFwaSIsImh0dHBzOi8vZ3JhcGgubWljcm9zb2Z0LmNvbS_LmiJdLCJjbGllbnRfaWQiOiJyZWFjdC1jbGllbnQiLCJzdWIiOiJjMTU0YTdjOS0xODlmLTQxNWItYTUwZC0zMjBiZTMzYmY3OTgiLCJhdXRoX3RpbWUiOjE3NTM5NTEwMzMsImlkcCI6ImxvY2FsIiwianRpIjoiODQzQzAwODRENUY5MEZCQzk5RjdGRTU3NjVBMDNEQzkiLCJzaWQiOiIzQjhGRjIxODBFNzA4QkI1MTRDMDNDM0EyMDc0NzEzNiIsImlhdCI6MTc1Mzk4OTU4Miwic2NvcGUiOlsib3BlbmlkIiwicHJvZmlsZSIsImFwaS5yZWFkIiwib2ZmbGluZV9hY2Nlc3MiXSwiYW1yIjpbInB3ZCJdfQ.rjof4utPw3BH0VzaMemoTMr1X4qluaIhyp7hfQ17kLdquJf3DPHkvq7CWU2p6FuhpTd5J5AlnrdD0k2gbVsTjUkgK2TdprQoD9DPuysjwFO6TpnSKFkazHU4fY83KwUc5CDJnhvRtIiyOPN1wA_HyHE3O-rCUQKu8DzSY8iQ4TbBVcE2TKAC5qnRafejMXSdt1BGAdEoZXo6OcZ5-CiPS4lOh41yt2kJBkWp5krIh-PgUbRigYm1wY7_jimGI10OslCs3Bn88b5EL2HLxmddU-LXsiMP7S34gILDhiZGmf8Bg9v6uVw6jUKRHihT9jM3q0hNotBV0EvpIGrtywvrdg
+2025-07-31 23:04:27.851 +03:00 [INF] Start processing HTTP request GET https://localhost:7270/api/auth/details
+2025-07-31 23:04:27.852 +03:00 [INF] Sending HTTP request GET https://localhost:7270/api/auth/details
+2025-07-31 23:04:32.887 +03:00 [INF] Received HTTP response headers after 5030.0876ms - 200
+2025-07-31 23:04:32.896 +03:00 [INF] End processing HTTP request after 5045.4844ms - 200
+2025-07-31 23:04:32.896 +03:00 [INF] {"id":"c154a7c9-189f-415b-a50d-320be33bf798","email":"test@yopmail.com","firstName":"ivan","lastName":"cool1","isConfirmed":false,"isValid":true,"createDate":"2025-07-08T10:34:15.4366667","modifyDate":"2025-07-08T10:34:15.4366667"}
+2025-07-31 23:04:32.949 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-07-31 23:04:32.952 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerConvertor.Models.AccountDto'.
+2025-07-31 23:04:32.969 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 5130.3303ms
+2025-07-31 23:04:32.969 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-07-31 23:04:32.972 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/auth/details - 200 231 application/json; charset=utf-8 5479.2824ms

@@ -65,16 +65,16 @@ public class TicketService : ITicketService
         await _context.SaveChangesAsync(cancellationToken);
 
         var result = await GetTaskByIdDto(taskToAdd.Id, cancellationToken);
-        if (!result.Success)
+        if (!result.IsSuccess)
             return new ServiceResult<TicketDto>
             {
-                Success = false,
+                IsSuccess = false,
                 ErrorMessage = LogPhrases.NegativeActions.TASK_CREATION_FAILED_LOG
             };
         _taskHistoryEvent?.Invoke(this, new TicketHistoryEventArgs(new TicketHistoryDto
         {
             TaskId = (Guid)result.Data!.Id!,
-            Author = (Guid)result.Data!.ReporterId!,
+            AuthorId = (Guid)result.Data!.ReporterId!,
             EventName = TaskHistoryTypes.TaskCreate.TASK_CREATED
         }));
 
@@ -120,7 +120,7 @@ public class TicketService : ITicketService
         if (tickets is null)
             return new ServiceResult<List<TicketDto>>
             {
-                Success = false,
+                IsSuccess = false,
                 ErrorMessage = LogPhrases.NegativeActions.TASK_CREATION_FAILED_LOG
             };
 
@@ -129,7 +129,7 @@ public class TicketService : ITicketService
             _taskHistoryEvent?.Invoke(this, new TicketHistoryEventArgs(new TicketHistoryDto
             {
                 TaskId = ticket.Id!,
-                Author = (Guid)ticket.ReporterId!,
+                AuthorId = (Guid)ticket.ReporterId!,
                 EventName = TaskHistoryTypes.TaskCreate.TASK_CREATED
             }));
         }
@@ -140,7 +140,7 @@ public class TicketService : ITicketService
 
         return new ServiceResult<List<TicketDto>>
         {
-            Success = true,
+            IsSuccess = true,
             Data = result
         };
     }
@@ -149,10 +149,10 @@ public class TicketService : ITicketService
     {
         var taskToDelete = await GetTaskById(taskId, cancellationToken);
 
-        if (!taskToDelete.Success)
+        if (!taskToDelete.IsSuccess)
             return new ServiceResult<TicketDto>
             {
-                Success = taskToDelete.Success,
+                IsSuccess = taskToDelete.IsSuccess,
                 ErrorMessage = taskToDelete.ErrorMessage
             };
 
@@ -161,7 +161,7 @@ public class TicketService : ITicketService
 
         return new ServiceResult<TicketDto>
         {
-            Success = true,
+            IsSuccess = true,
             Data = ConvertTaskToDto(taskToDelete.Data)
         };
     }
@@ -170,10 +170,10 @@ public class TicketService : ITicketService
     {
         var taskToEdit = await GetTaskById(taskId, cancellationToken);
 
-        if (!taskToEdit.Success)
+        if (!taskToEdit.IsSuccess)
             return new ServiceResult<TicketDto>
             {
-                Success = taskToEdit.Success,
+                IsSuccess = taskToEdit.IsSuccess,
                 ErrorMessage = taskToEdit.ErrorMessage
             };
 
@@ -186,7 +186,7 @@ public class TicketService : ITicketService
                 _taskHistoryEvent?.Invoke(this, new TicketHistoryEventArgs(new TicketHistoryDto
                 {
                     TaskId = taskToEdit.Data!.Id,
-                    Author = (Guid)taskToEdit.Data!.ReporterId,
+                    AuthorId = (Guid)taskToEdit.Data!.ReporterId,
                     EventName = TaskHistoryTypes.TaskEdit.TASK_EDITED_TITLE,
                     PreviousState = oldTitle,
                     NewState = taskToEdit.Data!.Title
@@ -200,7 +200,7 @@ public class TicketService : ITicketService
                 _taskHistoryEvent?.Invoke(this, new TicketHistoryEventArgs(new TicketHistoryDto
                 {
                     TaskId = taskToEdit.Data!.Id,
-                    Author = (Guid)taskToEdit.Data!.ReporterId,
+                    AuthorId = (Guid)taskToEdit.Data!.ReporterId,
                     EventName = TaskHistoryTypes.TaskEdit.TASK_EDITED_DESCRIPTION,
                     PreviousState = oldDescription,
                     NewState = taskToEdit.Data!.Description
@@ -214,7 +214,7 @@ public class TicketService : ITicketService
                 _taskHistoryEvent?.Invoke(this, new TicketHistoryEventArgs(new TicketHistoryDto
                 {
                     TaskId = taskToEdit.Data!.Id,
-                    Author = (Guid)taskToEdit.Data!.ReporterId,
+                    AuthorId = (Guid)taskToEdit.Data!.ReporterId,
                     EventName = TaskHistoryTypes.TaskEdit.TASK_EDITED_REPORTEDID,
                     PreviousState = oldReporter.ToString(),
                     NewState = taskToEdit.Data!.ReporterId.ToString()
@@ -228,7 +228,7 @@ public class TicketService : ITicketService
                 _taskHistoryEvent?.Invoke(this, new TicketHistoryEventArgs(new TicketHistoryDto
                 {
                     TaskId = taskToEdit.Data!.Id,
-                    Author = (Guid)taskToEdit.Data!.ReporterId,
+                    AuthorId = (Guid)taskToEdit.Data!.ReporterId,
                     EventName = TaskHistoryTypes.TaskEdit.TASK_EDITED_ASSIGNEEID,
                     PreviousState = oldAssignee.ToString(),
                     NewState = taskToEdit.Data!.AssigneeId.ToString()
@@ -242,7 +242,7 @@ public class TicketService : ITicketService
                 _taskHistoryEvent?.Invoke(this, new TicketHistoryEventArgs(new TicketHistoryDto
                 {
                     TaskId = taskToEdit.Data!.Id,
-                    Author = (Guid)taskToEdit.Data!.ReporterId,
+                    AuthorId = (Guid)taskToEdit.Data!.ReporterId,
                     EventName = TaskHistoryTypes.TaskEdit.TASK_EDITED_PROJECT,
                     PreviousState = oldProject.ToString(),
                     NewState = taskToEdit.Data!.ProjectId.ToString()
@@ -256,7 +256,7 @@ public class TicketService : ITicketService
                 _taskHistoryEvent?.Invoke(this, new TicketHistoryEventArgs(new TicketHistoryDto
                 {
                     TaskId = taskToEdit.Data!.Id,
-                    Author = (Guid)taskToEdit.Data!.ReporterId,
+                    AuthorId = (Guid)taskToEdit.Data!.ReporterId,
                     EventName = TaskHistoryTypes.TaskEdit.TASK_EDITED_PARENTTASK,
                     PreviousState = oldParent.ToString(),
                     NewState = taskToEdit.Data!.ParentId.ToString()
@@ -270,7 +270,7 @@ public class TicketService : ITicketService
                 _taskHistoryEvent?.Invoke(this, new TicketHistoryEventArgs(new TicketHistoryDto
                 {
                     TaskId = taskToEdit.Data!.Id,
-                    Author = (Guid)taskToEdit.Data!.ReporterId,
+                    AuthorId = (Guid)taskToEdit.Data!.ReporterId,
                     EventName = TaskHistoryTypes.TaskEdit.TASK_EDITED_STATUS,
                     PreviousState = oldstatus.ToString(),
                     NewState = taskToEdit.Data!.StatusId.ToString()
@@ -284,7 +284,7 @@ public class TicketService : ITicketService
                 _taskHistoryEvent?.Invoke(this, new TicketHistoryEventArgs(new TicketHistoryDto
                 {
                     TaskId = taskToEdit.Data!.Id,
-                    Author = (Guid)taskToEdit.Data!.ReporterId,
+                    AuthorId = (Guid)taskToEdit.Data!.ReporterId,
                     EventName = TaskHistoryTypes.TaskEdit.TASK_EDITED_TASKTYPE,
                     PreviousState = oldType.ToString(),
                     NewState = taskToEdit.Data!.TypeId.ToString()
@@ -304,7 +304,7 @@ public class TicketService : ITicketService
 
             return new ServiceResult<TicketDto>
             {
-                Success = true,
+                IsSuccess = true,
                 Data = newTask
             };
         }
@@ -313,7 +313,7 @@ public class TicketService : ITicketService
             _logger.LogCritical($"Edit task => {ex}");
             return new ServiceResult<TicketDto>
             {
-                Success = false,
+                IsSuccess = false,
                 ErrorMessage = ex.ToString()
             };
         }
@@ -323,10 +323,10 @@ public class TicketService : ITicketService
     {
         var findTask = await GetTaskByIdDto(taskId, cancellationToken);
 
-        if (!findTask.Success)
+        if (!findTask.IsSuccess)
             return new ServiceResult<TicketDto>
             {
-                Success = findTask.Success,
+                IsSuccess = findTask.IsSuccess,
                 ErrorMessage = findTask.ErrorMessage
             };
 
@@ -343,13 +343,13 @@ public class TicketService : ITicketService
         if (res is null)
             return new ServiceResult<List<TicketDto>>
             {
-                Success = false,
+                IsSuccess = false,
                 ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
             };
 
         return new ServiceResult<List<TicketDto>>
         {
-            Success = true,
+            IsSuccess = true,
             Data = res!
         };
     }
@@ -364,13 +364,13 @@ public class TicketService : ITicketService
         if (res is null)
             return new ServiceResult<List<TicketDto>>
             {
-                Success = false,
+                IsSuccess = false,
                 ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
             };
 
         return new ServiceResult<List<TicketDto>>
         {
-            Success = true,
+            IsSuccess = true,
             Data = res!
         };
     }
@@ -388,10 +388,10 @@ public class TicketService : ITicketService
             ProjectId = tt.ProjectId
         }).ToList(), cancellationToken);
 
-        if (!tickets.Success)
+        if (!tickets.IsSuccess)
             return new ServiceResult<List<TicketDto>>
             {
-                Success = false,
+                IsSuccess = false,
                 ErrorMessage = tickets.ErrorMessage
             };
 
@@ -422,7 +422,7 @@ public class TicketService : ITicketService
 
         return new ServiceResult<List<TicketDto>>
         {
-            Success = true,
+            IsSuccess = true,
             Data = finalTickets
         };
     }
@@ -436,13 +436,13 @@ public class TicketService : ITicketService
         if (res is null)
             return new ServiceResult<Ticket>
             {
-                Success = false,
+                IsSuccess = false,
                 ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
             };
 
         return new ServiceResult<Ticket>
         {
-            Success = true,
+            IsSuccess = true,
             Data = res!
         };
     }
@@ -455,7 +455,7 @@ public class TicketService : ITicketService
         if (res == null)
             return new ServiceResult<TicketDto>
             {
-                Success = false,
+                IsSuccess = false,
                 ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
             };
 
@@ -466,7 +466,7 @@ public class TicketService : ITicketService
 
         return new ServiceResult<TicketDto>
         {
-            Success = true,
+            IsSuccess = true,
             Data = res
         };
     }
@@ -481,13 +481,13 @@ public class TicketService : ITicketService
         if (res is null)
             return new ServiceResult<List<TicketDto>>
             {
-                Success = false,
+                IsSuccess = false,
                 ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
             };
 
         return new ServiceResult<List<TicketDto>>
         {
-            Success = true,
+            IsSuccess = true,
             Data = res!
         };
     }

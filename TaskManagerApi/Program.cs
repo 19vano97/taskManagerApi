@@ -67,6 +67,12 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials());
+    options.AddPolicy("AllowConvertor",
+        builder => builder
+            .WithOrigins("https://localhost:7188")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials());
 });
 builder.Host.UseSerilog((ctx, cfg) =>
 {
@@ -85,6 +91,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("AllowReactClient");
+app.UseCors("AllowConvertor");
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();

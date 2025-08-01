@@ -39,7 +39,7 @@ public class AiService : IAiService
         if (organizationAccountMap is null)
             return new ServiceResult<AiThreadDetailsDto>
             {
-                Success = false,
+                IsSuccess = false,
                 ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
             };
 
@@ -66,7 +66,7 @@ public class AiService : IAiService
         if (thread is null)
             return new ServiceResult<AiThreadDetailsDto>
             {
-                Success = false,
+                IsSuccess = false,
                 ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
             };
 
@@ -75,7 +75,7 @@ public class AiService : IAiService
 
         return new ServiceResult<AiThreadDetailsDto>
         {
-            Success = true,
+            IsSuccess = true,
             Data = new AiThreadDetailsDto
             {
                 Id = thread.Id,
@@ -94,7 +94,7 @@ public class AiService : IAiService
         if (threadInformation is null)
             return new ServiceResult<bool>
             {
-                Success = false,
+                IsSuccess = false,
                 Data = false,
                 ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
             };
@@ -103,7 +103,7 @@ public class AiService : IAiService
         if (threadInformation.OrganizationAccountId != accountOrganization?.Id)
             return new ServiceResult<bool>
             {
-                Success = false,
+                IsSuccess = false,
                 Data = false,
                 ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
             };
@@ -114,7 +114,7 @@ public class AiService : IAiService
             await _context.SaveChangesAsync(cancellationToken);
             return new ServiceResult<bool>
             {
-                Success = true,
+                IsSuccess = true,
                 Data = true
             };
         }
@@ -123,7 +123,7 @@ public class AiService : IAiService
             _logger.LogError(err.ToString());
             return new ServiceResult<bool>
             {
-                Success = false,
+                IsSuccess = false,
                 ErrorMessage = LogPhrases.ServiceResult.Error.FAILED_UNTRACE
             };
         }
@@ -144,7 +144,7 @@ public class AiService : IAiService
         {
             return new ServiceResult<List<AiThreadDetailsDto>>
             {
-                Success = false,
+                IsSuccess = false,
                 ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
             };
         }
@@ -162,13 +162,13 @@ public class AiService : IAiService
         if (threads is null)
             return new ServiceResult<List<AiThreadDetailsDto>>
             {
-                Success = false,
+                IsSuccess = false,
                 ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
             };
 
         return new ServiceResult<List<AiThreadDetailsDto>>
         {
-            Success = true,
+            IsSuccess = true,
             Data = threads
         };
     }
@@ -179,7 +179,7 @@ public class AiService : IAiService
         if (threadInformation is null)
             return new ServiceResult<List<ChatMessageDto>>
             {
-                Success = false,
+                IsSuccess = false,
                 ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
             };
 
@@ -196,7 +196,7 @@ public class AiService : IAiService
 
         return new ServiceResult<List<ChatMessageDto>>
         {
-            Success = true,
+            IsSuccess = true,
             Data = ParseMessages(messages)
         };
     }
@@ -207,7 +207,7 @@ public class AiService : IAiService
         if (thread is null)
             return new ServiceResult<AiThreadDetailsDto>
             {
-                Success = false,
+                IsSuccess = false,
                 ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
             };
 
@@ -218,7 +218,7 @@ public class AiService : IAiService
 
         return new ServiceResult<AiThreadDetailsDto>
         {
-            Success = true,
+            IsSuccess = true,
             Data = new AiThreadDetailsDto
             {
                 Id = thread.Id,
@@ -238,7 +238,7 @@ public class AiService : IAiService
         if (thread is null)
             return new ServiceResult<ChatMessageDto>
             {
-                Success = false,
+                IsSuccess = false,
                 ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
             };
 
@@ -283,7 +283,7 @@ public class AiService : IAiService
         if (messages is null)
             return new ServiceResult<ChatMessageDto>
             {
-                Success = false,
+                IsSuccess = false,
                 ErrorMessage = LogPhrases.ServiceResult.Error.FAILED_PARSED_JSON
             };
 
@@ -292,7 +292,7 @@ public class AiService : IAiService
 
         return new ServiceResult<ChatMessageDto>
         {
-            Success = true,
+            IsSuccess = true,
             Data = new ChatMessageDto
             {
                 Role = "assistant",

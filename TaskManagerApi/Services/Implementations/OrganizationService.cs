@@ -51,13 +51,13 @@ public class OrganizationService : IOrganizationService
         if (addedNewOrganization is not null)
             return new ServiceResult<OrganizationDto>
             {
-                Success = true,
+                IsSuccess = true,
                 Data = ConvertToDto(addedNewOrganization)
             };
 
         return new ServiceResult<OrganizationDto>
         {
-            Success = false,
+            IsSuccess = false,
             ErrorMessage = LogPhrases.ServiceResult.Error.FAILED_UNTRACE
         };
     }
@@ -69,14 +69,14 @@ public class OrganizationService : IOrganizationService
         if (organizationToDelete.Id == Guid.Empty && organizationToDelete.Name == null && organizationToDelete.Abbreviation == null)
             return new ServiceResult<OrganizationDto>
             {
-                Success = false,
+                IsSuccess = false,
                 ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
             };
 
-        if (!toDelete.Success)
+        if (!toDelete.IsSuccess)
             return new ServiceResult<OrganizationDto>
             {
-                Success = toDelete.Success,
+                IsSuccess = toDelete.IsSuccess,
                 ErrorMessage = toDelete.ErrorMessage
             };
 
@@ -87,7 +87,7 @@ public class OrganizationService : IOrganizationService
 
             return new ServiceResult<OrganizationDto>
             {
-                Success = true,
+                IsSuccess = true,
             };
         }
         catch (System.Exception ex)
@@ -96,7 +96,7 @@ public class OrganizationService : IOrganizationService
             _logger.LogError(ex.ToString());
             return new ServiceResult<OrganizationDto>
             {
-                Success = false,
+                IsSuccess = false,
                 ErrorMessage = ex.ToString()
             };
         }
@@ -112,11 +112,11 @@ public class OrganizationService : IOrganizationService
         if ((organizationToEdit.Id == Guid.Empty
                 && organizationToEdit.Name == null
                 && organizationToEdit.Abbreviation == null)
-            || !initialOrganization.Success
+            || !initialOrganization.IsSuccess
             || accountId != initialOrganization.Data?.Owner)
             return new ServiceResult<OrganizationDto>
             {
-                Success = false,
+                IsSuccess = false,
                 ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
             };
 
@@ -131,16 +131,16 @@ public class OrganizationService : IOrganizationService
 
         var res = await DoesOrganizationExistEntity(Id: organizationToEdit.Id.ToString());
 
-        if (!res.Success)
+        if (!res.IsSuccess)
             return new ServiceResult<OrganizationDto>
             {
-                Success = res.Success,
+                IsSuccess = res.IsSuccess,
                 ErrorMessage = res.ErrorMessage
             };
 
         return new ServiceResult<OrganizationDto>
         {
-            Success = true,
+            IsSuccess = true,
             Data = ConvertToDto(res.Data)
         };
     }
@@ -148,10 +148,10 @@ public class OrganizationService : IOrganizationService
     public async Task<ServiceResult<OrganizationProjectDto>> GetOrganizationProjectsAsync(Guid organizationId, CancellationToken cancellationToken)
     {
         var organization = await DoesOrganizationExist(organizationId, cancellationToken);
-        if (!organization.Success)
+        if (!organization.IsSuccess)
             return new ServiceResult<OrganizationProjectDto>
             {
-                Success = false,
+                IsSuccess = false,
                 ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
             };
 
@@ -164,7 +164,7 @@ public class OrganizationService : IOrganizationService
 
         return new ServiceResult<OrganizationProjectDto>
         {
-            Success = true,
+            IsSuccess = true,
             Data = new OrganizationProjectDto
             {
                 Id = organization.Data!.Id,
@@ -191,14 +191,14 @@ public class OrganizationService : IOrganizationService
         foreach (var organizationId in organizations)
         {
             var org = await GetOrganizationProjectsAsync(organizationId, cancellationToken);
-            if (!org.Success) continue;
+            if (!org.IsSuccess) continue;
 
             result.Add(org.Data!);
         }
 
         return new ServiceResult<List<OrganizationProjectDto>>
         {
-            Success = true,
+            IsSuccess = true,
             Data = result
         };
     }
@@ -206,16 +206,16 @@ public class OrganizationService : IOrganizationService
     public async Task<ServiceResult<OrganizationDto>> GetOrganizationAsync(Guid organizationId, CancellationToken cancellationToken)
     {
         var org = await DoesOrganizationExistEntity(Id: organizationId.ToString());
-        if (!org.Success)
+        if (!org.IsSuccess)
             return new ServiceResult<OrganizationDto>
             {
-                Success = org.Success,
+                IsSuccess = org.IsSuccess,
                 ErrorMessage = org.ErrorMessage
             };
 
         return new ServiceResult<OrganizationDto>
         {
-            Success = true,
+            IsSuccess = true,
             Data = ConvertToDto(org.Data!)
         };
     }
@@ -223,10 +223,10 @@ public class OrganizationService : IOrganizationService
     public async Task<ServiceResult<OrganizationAccountsDto>> GetOrganizationAccountAsync(string organizationId, CancellationToken cancellationToken)
     {
         var organization = await DoesOrganizationExistEntity(Id: organizationId);
-        if (!organization.Success)
+        if (!organization.IsSuccess)
             return new ServiceResult<OrganizationAccountsDto>
             {
-                Success = organization.Success,
+                IsSuccess = organization.IsSuccess,
                 ErrorMessage = organization.ErrorMessage
             };
 
@@ -237,7 +237,7 @@ public class OrganizationService : IOrganizationService
 
         return new ServiceResult<OrganizationAccountsDto>
         {
-            Success = true,
+            IsSuccess = true,
             Data = new OrganizationAccountsDto
             {
                 Id = organization.Data!.Id,
@@ -264,7 +264,7 @@ public class OrganizationService : IOrganizationService
         if (res is null)
             return new ServiceResult<OrganizationProjectDto>
             {
-                Success = false,
+                IsSuccess = false,
                 ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
             };
 
@@ -278,13 +278,13 @@ public class OrganizationService : IOrganizationService
         if (res is null)
             return new ServiceResult<OrganizationItem>
             {
-                Success = false,
+                IsSuccess = false,
                 ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
             };
 
         return new ServiceResult<OrganizationItem>
         {
-            Success = true,
+            IsSuccess = true,
             Data = res
         };
     }
@@ -294,14 +294,14 @@ public class OrganizationService : IOrganizationService
         if (Id != null)
             return new ServiceResult<OrganizationItem>
             {
-                Success = true,
+                IsSuccess = true,
                 Data = await _context.OrganizationItem.FirstOrDefaultAsync(o => o.Id == Guid.Parse(Id))
             };
 
         if (entity.Id != null)
             return new ServiceResult<OrganizationItem>
             {
-                Success = true,
+                IsSuccess = true,
                 Data = await _context.OrganizationItem.FirstOrDefaultAsync(o => o.Id == entity.Id)
             };
 
@@ -309,14 +309,14 @@ public class OrganizationService : IOrganizationService
         if (entity.Abbreviation != null)
             return new ServiceResult<OrganizationItem>
             {
-                Success = true,
+                IsSuccess = true,
                 Data = await _context.OrganizationItem.FirstOrDefaultAsync(o => o.Abbreviation == entity.Abbreviation)
             };
 
 
         return new ServiceResult<OrganizationItem>
         {
-            Success = false,
+            IsSuccess = false,
             ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
         };
     }

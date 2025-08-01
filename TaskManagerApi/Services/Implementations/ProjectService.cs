@@ -55,7 +55,7 @@ public class ProjectService : IProjectService
         if (projectToDelete is null)
             return new ServiceResult<ProjectItemDto>
             {
-                Success = false,
+                IsSuccess = false,
                 ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
             };
 
@@ -66,15 +66,15 @@ public class ProjectService : IProjectService
         await _context.SaveChangesAsync(cancellationToken);
 
         var check = await GetProjectByIdAsync(projectToDelete.Id, cancellationToken);
-        if (!check.Success)
+        if (!check.IsSuccess)
             return new ServiceResult<ProjectItemDto>
             {
-                Success = true
+                IsSuccess = true
             };
 
         return new ServiceResult<ProjectItemDto>
         {
-            Success = false,
+            IsSuccess = false,
             ErrorMessage = string.Format(LogPhrases.ServiceResult.Error.DELETETION_ISSUE, projectId)
         };
     }
@@ -85,7 +85,7 @@ public class ProjectService : IProjectService
         if (projectToEdit is null)
             return new ServiceResult<ProjectItemDto>
             {
-                Success = false,
+                IsSuccess = false,
                 ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
             };
 
@@ -108,7 +108,7 @@ public class ProjectService : IProjectService
         if (project.Statuses is null)
             return new ServiceResult<ProjectItemDto>
             {
-                Success = false,
+                IsSuccess = false,
                 ErrorMessage = LogPhrases.ServiceResult.Error.STATUSES_EMPTY
             };
 
@@ -205,7 +205,7 @@ public class ProjectService : IProjectService
         if (currentStatuses.Data!.Count > DefaultParametersForUsers.ProjectLimitations.MAX_STATUSES_VALUE)
             return new ServiceResult<ProjectSingleStatusDto>
             {
-                Success = false,
+                IsSuccess = false,
                 ErrorMessage = LogPhrases.ServiceResult.Error.MAX_STATUSES_VALUE
             };
 
@@ -232,7 +232,7 @@ public class ProjectService : IProjectService
 
         return new ServiceResult<ProjectSingleStatusDto>
         {
-            Success = true,
+            IsSuccess = true,
             Data = CovertFromProjectStatusesMapping(result!)
         };
     }
@@ -240,10 +240,10 @@ public class ProjectService : IProjectService
     public async Task<ServiceResult<ProjectSingleStatusDto>> DeleteStatusAsync(ProjectSingleStatusDto status, CancellationToken cancellationToken)
     {
         var currentStatuses = await GetAllStatusesFromProject(status.ProjectId, cancellationToken);
-        if (!currentStatuses.Success)
+        if (!currentStatuses.IsSuccess)
             return new ServiceResult<ProjectSingleStatusDto>
             {
-                Success = false,
+                IsSuccess = false,
                 ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
             };
 
@@ -251,7 +251,7 @@ public class ProjectService : IProjectService
         if (target == null)
             return new ServiceResult<ProjectSingleStatusDto>
             {
-                Success = false,
+                IsSuccess = false,
                 ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
             };
 
@@ -259,7 +259,7 @@ public class ProjectService : IProjectService
         if (isUsed)
             return new ServiceResult<ProjectSingleStatusDto>
             {
-                Success = false,
+                IsSuccess = false,
                 ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
             };
 
@@ -273,7 +273,7 @@ public class ProjectService : IProjectService
         await _context.SaveChangesAsync(cancellationToken);
         return new ServiceResult<ProjectSingleStatusDto>
         {
-            Success = true,
+            IsSuccess = true,
             Data = status
         };
     }
@@ -284,7 +284,7 @@ public class ProjectService : IProjectService
         if (statuses is null)
             return new ServiceResult<ProjectItemDto>
             {
-                Success = false,
+                IsSuccess = false,
                 ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
             };
 
@@ -292,14 +292,14 @@ public class ProjectService : IProjectService
         if (project is null)
             return new ServiceResult<ProjectItemDto>
             {
-                Success = false,
+                IsSuccess = false,
                 ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
             };
 
 
         return new ServiceResult<ProjectItemDto>
         {
-            Success = true,
+            IsSuccess = true,
             Data = ConvertProjectToOutput(project, ConvertProjectStatusToDto(statuses.Data))
         };
     }
@@ -317,7 +317,7 @@ public class ProjectService : IProjectService
 
         return new ServiceResult<List<ProjectItemDto>>
         {
-            Success = true,
+            IsSuccess = true,
             Data = result
         };
     }
@@ -328,13 +328,13 @@ public class ProjectService : IProjectService
         if (project == null)
             return new ServiceResult<ProjectAccountsDto>
             {
-                Success = false,
+                IsSuccess = false,
                 ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
             };
 
         return new ServiceResult<ProjectAccountsDto>
         {
-            Success = true,
+            IsSuccess = true,
             Data = new ProjectAccountsDto
             {
                 Project = project.Data,
@@ -350,13 +350,13 @@ public class ProjectService : IProjectService
         if (res is null)
             return new ServiceResult<TicketStatus>
             {
-                Success = false,
+                IsSuccess = false,
                 ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
             };
 
         return new ServiceResult<TicketStatus>
         {
-            Success = true,
+            IsSuccess = true,
             Data = res
         };
     }
@@ -367,13 +367,13 @@ public class ProjectService : IProjectService
         if (res is null)
             return new ServiceResult<List<ProjectTaskStatusMapping>>
             {
-                Success = false,
+                IsSuccess = false,
                 ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
             };
 
         return new ServiceResult<List<ProjectTaskStatusMapping>>
         {
-            Success = true,
+            IsSuccess = true,
             Data = res
         };
     }
@@ -387,13 +387,13 @@ public class ProjectService : IProjectService
         if (res is null)
             return new ServiceResult<TicketStatus>
             {
-                Success = false,
+                IsSuccess = false,
                 ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
             };
 
         return new ServiceResult<TicketStatus>
         {
-            Success = true,
+            IsSuccess = true,
             Data = res
         };
     }
@@ -437,13 +437,13 @@ public class ProjectService : IProjectService
         if (res is null)
             return new ServiceResult<List<ProjectTaskStatusMapping>>
             {
-                Success = false,
+                IsSuccess = false,
                 ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
             };
 
         return new ServiceResult<List<ProjectTaskStatusMapping>>
         {
-            Success = true,
+            IsSuccess = true,
             Data = res
         };
     }

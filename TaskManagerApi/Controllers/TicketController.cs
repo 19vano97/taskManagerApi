@@ -52,7 +52,7 @@ namespace TaskManagerApi.Controllers
             }
 
             var result = await _ticketItemService.GetTasksByOrganizationAsync(organizationId, cancellationToken);
-            if (!result.Success)
+            if (!result.IsSuccess)
             {
                 _logger.LogWarning("Failed to get tasks for organizationId: {OrganizationId}. Error: {Error}", organizationId, result.ErrorMessage);
 
@@ -83,7 +83,7 @@ namespace TaskManagerApi.Controllers
             }
 
             var res = await _ticketItemService.GetTasksByProjectAsync(projectId, cancellationToken);
-            if (!res.Success)
+            if (!res.IsSuccess)
             {
                 _logger.LogWarning("Failed to get tasks for projectId: {ProjectId}. Error: {Error}", projectId, res.ErrorMessage);
 
@@ -111,7 +111,7 @@ namespace TaskManagerApi.Controllers
             }
 
             var task = await _ticketItemService.GetTaskByIdAsync(Id, cancellationToken);
-            if (!task.Success)
+            if (!task.IsSuccess)
             {
                 _logger.LogWarning("Failed to get task by Id: {TaskId}. Error: {Error}", Id, task.ErrorMessage);
 
@@ -139,7 +139,7 @@ namespace TaskManagerApi.Controllers
             }
 
             var createdTask = await _ticketItemService.CreateTaskAsync(newTask, cancellationToken);
-            if (!createdTask.Success)
+            if (!createdTask.IsSuccess)
             {
                 _logger.LogWarning("Failed to create task. Error: {Error}", createdTask.ErrorMessage);
 
@@ -168,7 +168,7 @@ namespace TaskManagerApi.Controllers
             }
 
             var createdTask = await _ticketItemService.CreateTicketsForAiAsync(newTasks, cancellationToken);
-            if (!createdTask.Success)
+            if (!createdTask.IsSuccess)
             {
                 _logger.LogWarning("Failed to create AI tasks. Error: {Error}", createdTask.ErrorMessage);
 
@@ -184,7 +184,7 @@ namespace TaskManagerApi.Controllers
         }
 
         [HttpPost("{taskId}/edit")]
-        public async Task<ActionResult<TicketDto>> EditTaskByIdAsync(Guid taskId,
+        public async Task<ActionResult<TicketDto>> EditTaskAsync(Guid taskId,
                                                              TicketDto editTask,
                                                              CancellationToken cancellationToken)
         {
@@ -198,7 +198,7 @@ namespace TaskManagerApi.Controllers
             }
 
             var taskToEdit = await _ticketItemService.EditTaskByIdAsync(taskId, editTask, cancellationToken);
-            if (!taskToEdit.Success)
+            if (!taskToEdit.IsSuccess)
             {
                 _logger.LogWarning("Failed to edit task. taskId: {TaskId}, Error: {Error}", taskId, taskToEdit.ErrorMessage);
 
@@ -227,7 +227,7 @@ namespace TaskManagerApi.Controllers
             }
 
             var res = await _ticketHistoryService.GetHistoryByTaskId(taskId, cancellationToken);
-            if (!res.Success)
+            if (!res.IsSuccess)
             {
                 _logger.LogWarning("Failed to get history for taskId: {TaskId}. Error: {Error}", taskId, res.ErrorMessage);
 
@@ -255,7 +255,7 @@ namespace TaskManagerApi.Controllers
             }
 
             var taskToDelete = await _ticketItemService.DeleteTaskAsync(Id, cancellationToken);
-            if (!taskToDelete.Success)
+            if (!taskToDelete.IsSuccess)
             {
                 _logger.LogWarning("Failed to delete task. taskId: {TaskId}, Error: {Error}", Id, taskToDelete.ErrorMessage);
 

@@ -34,7 +34,6 @@ export const MainLayout = () => {
 
         },
         main: {
-          
           width: '100%',
           overflowX: 'auto',
         },

@@ -47,14 +47,14 @@ public class TicketHistoryService : ITicketHistoryService
                 _logger.LogWarning("no reponce");
                 return new ServiceResult<List<TicketHistoryDto>>
                 {
-                    Success = false,
+                    IsSuccess = false,
                     ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
                 };
             }
 
             return new ServiceResult<List<TicketHistoryDto>>
             {
-                Success = true,
+                IsSuccess = true,
                 Data = response
             };
         }
@@ -63,7 +63,7 @@ public class TicketHistoryService : ITicketHistoryService
             _logger.LogError(er.ToString());
             return new ServiceResult<List<TicketHistoryDto>>
             {
-                Success = false,
+                IsSuccess = false,
                 ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
             };
         }

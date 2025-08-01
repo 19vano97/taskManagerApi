@@ -45,7 +45,7 @@ namespace TaskManagerApi.Controllers
                 OrganizationId = verification.OrganizationId
             }, cancellationToken);
 
-            if (!res.Success)
+            if (!res.IsSuccess)
             {
                 _logger.LogWarning("Failed to post chat message. threadId: {ThreadId}. Error: {Error}", threadId, res.ErrorMessage);
                 if (res.ErrorMessage == LogPhrases.ServiceResult.Error.NOT_FOUND)
@@ -72,7 +72,7 @@ namespace TaskManagerApi.Controllers
             }
 
             var res = await _aiService.GetChatHistoryByThread(aiThread, cancellationToken);
-            if (!res.Success)
+            if (!res.IsSuccess)
             {
                 _logger.LogWarning("Failed to get chat history. aiThread: {ThreadId}. Error: {Error}", aiThread, res.ErrorMessage);
                 if (res.ErrorMessage == LogPhrases.ServiceResult.Error.NOT_FOUND)
@@ -102,7 +102,7 @@ namespace TaskManagerApi.Controllers
             aiThread.OrganizationId = verification.OrganizationId;
 
             var res = await _aiService.CreateNewThreadAsync(aiThread, cancellationToken);
-            if (!res.Success)
+            if (!res.IsSuccess)
             {
                 _logger.LogWarning("Failed to create new thread. Error: {Error}", res.ErrorMessage);
                 if (res.ErrorMessage == LogPhrases.ServiceResult.Error.NOT_FOUND)
@@ -129,7 +129,7 @@ namespace TaskManagerApi.Controllers
             }
 
             var res = await _aiService.DeleteThreadAsync(threadId, verification.AccountId, cancellationToken);
-            if (!res.Success)
+            if (!res.IsSuccess)
             {
                 _logger.LogWarning("Failed to delete thread. threadId: {ThreadId}. Error: {Error}", threadId, res.ErrorMessage);
                 if (res.ErrorMessage == LogPhrases.ServiceResult.Error.NOT_FOUND)
@@ -158,7 +158,7 @@ namespace TaskManagerApi.Controllers
             var res = await _aiService.GetAllThreadsByOrganizationAccountAsync(verification.OrganizationId,
                                                                           verification.AccountId,
                                                                           cancellationToken);
-            if (!res.Success)
+            if (!res.IsSuccess)
             {
                 _logger.LogWarning("Failed to get all threads. Error: {Error}", res.ErrorMessage);
                 if (res.ErrorMessage == LogPhrases.ServiceResult.Error.NOT_FOUND)
@@ -185,7 +185,7 @@ namespace TaskManagerApi.Controllers
             }
 
             var res = await _aiService.GetThreadInfoAsync(aiThread, cancellationToken);
-            if (!res.Success)
+            if (!res.IsSuccess)
             {
                 _logger.LogWarning("Failed to get thread info. aiThread: {ThreadId}. Error: {Error}", aiThread, res.ErrorMessage);
                 if (res.ErrorMessage == LogPhrases.ServiceResult.Error.NOT_FOUND)

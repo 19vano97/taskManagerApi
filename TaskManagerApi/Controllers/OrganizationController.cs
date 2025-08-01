@@ -34,7 +34,7 @@ namespace TaskManagerApi.Controllers
             _logger.LogInformation("CreateOrganizationAsync called");
             var newOrgToAdd = await _organizationService.CreateAsync(User, newOrganization, cancellationToken);
 
-            if (!newOrgToAdd.Success)
+            if (!newOrgToAdd.IsSuccess)
             {
                 _logger.LogWarning("Failed to create organization. Error: {Error}", newOrgToAdd.ErrorMessage);
                 return BadRequest(newOrgToAdd.ErrorMessage);
@@ -60,7 +60,7 @@ namespace TaskManagerApi.Controllers
 
             var editOrgToAdd = await _organizationService.EditAsync(User, editOrganization, cancellationToken);
 
-            if (!editOrgToAdd.Success)
+            if (!editOrgToAdd.IsSuccess)
             {
                 _logger.LogWarning("Failed to edit organization. Error: {Error}", editOrgToAdd.ErrorMessage);
                 return BadRequest(editOrgToAdd.ErrorMessage);
@@ -82,7 +82,7 @@ namespace TaskManagerApi.Controllers
 
             var res = await _organizationService.GetOrganizationsByAccountAsync(accountId, cancellationToken);
 
-            if (!res.Success)
+            if (!res.IsSuccess)
             {
                 _logger.LogWarning("Failed to get organizations for accountId: {AccountId}. Error: {Error}", accountId, res.ErrorMessage);
                 if (res.ErrorMessage == LogPhrases.ServiceResult.Error.NOT_FOUND)
@@ -109,7 +109,7 @@ namespace TaskManagerApi.Controllers
             }
 
             var res = await _organizationService.GetOrganizationProjectsAsync(organizationId, cancellationToken);
-            if (!res.Success)
+            if (!res.IsSuccess)
             {
                 _logger.LogWarning("Failed to get organization by id: {OrgId}. Error: {Error}", organizationId, res.ErrorMessage);
                 if (res.ErrorMessage == LogPhrases.ServiceResult.Error.NOT_FOUND)
@@ -136,7 +136,7 @@ namespace TaskManagerApi.Controllers
             }
 
             var organization = await _organizationService.GetOrganizationProjectsAsync(organizationId, cancellationToken);
-            if (!organization.Success)
+            if (!organization.IsSuccess)
             {
                 _logger.LogWarning("Failed to get organization info. organizationId: {OrgId}. Error: {Error}", organizationId, organization.ErrorMessage);
                 if (organization.ErrorMessage == LogPhrases.ServiceResult.Error.NOT_FOUND)
@@ -163,7 +163,7 @@ namespace TaskManagerApi.Controllers
             }
 
             var organization = await _organizationService.AddNewMemberToOrganization(organizationId, accountId, cancellationToken);
-            if (!organization.Success)
+            if (!organization.IsSuccess)
             {
                 _logger.LogWarning("Failed to add new member to organization. organizationId: {OrgId}, accountId: {AccountId}. Error: {Error}", organizationId, accountId, organization.ErrorMessage);
                 if (organization.ErrorMessage == LogPhrases.ServiceResult.Error.NOT_FOUND)

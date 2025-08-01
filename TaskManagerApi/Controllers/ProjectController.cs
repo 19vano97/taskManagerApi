@@ -58,7 +58,7 @@ namespace TaskManagerApi.Controllers
             foreach (var item in projects.Data)
             {
                 var res = await _ticketItemService.GetTasksByProjectAsync(item.Id, cancellationToken);
-                if (!res.Success) continue;
+                if (!res.IsSuccess) continue;
 
                 projectList.Add(new ProjectItemWithTasksDto 
                 { 
@@ -96,7 +96,7 @@ namespace TaskManagerApi.Controllers
 
             var project = await _projectService.GetProjectByIdAsync(projectId, cancellationToken);
 
-            if (!project.Success)
+            if (!project.IsSuccess)
             {
                 _logger.LogWarning("Failed to get project by id: {ProjectId}. Error: {Error}", projectId, project.ErrorMessage);
                 if (project.ErrorMessage == LogPhrases.ServiceResult.Error.NOT_FOUND)
@@ -130,7 +130,7 @@ namespace TaskManagerApi.Controllers
 
             var project = await _projectService.GetProjectByIdAsync(projectId, cancellationToken);
 
-            if (!project.Success)
+            if (!project.IsSuccess)
             {
                 _logger.LogWarning("Failed to get project by id: {ProjectId}. Error: {Error}", projectId, project.ErrorMessage);
                 if (project.ErrorMessage == LogPhrases.ServiceResult.Error.NOT_FOUND)
@@ -142,7 +142,7 @@ namespace TaskManagerApi.Controllers
             }
 
             var tasks = await _ticketItemService.GetTasksByProjectAsync(project.Data.Id, cancellationToken);
-            if (!tasks.Success)
+            if (!tasks.IsSuccess)
             {
                 _logger.LogWarning("Failed to get tasks for projectId: {ProjectId}", projectId);
                 return Ok(new ProjectItemWithTasksDto { Project = project.Data });
@@ -179,7 +179,7 @@ namespace TaskManagerApi.Controllers
 
             var project = await _projectService.CreateProjectAsync(newProject, cancellationToken);
 
-            if (!project.Success)
+            if (!project.IsSuccess)
             {
                 _logger.LogWarning("Failed to create project. Error: {Error}", project.ErrorMessage);
                 if (project.ErrorMessage == LogPhrases.ServiceResult.Error.NOT_FOUND)
@@ -217,7 +217,7 @@ namespace TaskManagerApi.Controllers
 
             var project = await _projectService.EditProjectAsync(editProject, cancellationToken);
 
-            if (!project.Success)
+            if (!project.IsSuccess)
             {
                 _logger.LogWarning("Failed to edit project. projectId: {ProjectId}. Error: {Error}", projectId, project.ErrorMessage);
                 if (project.ErrorMessage == LogPhrases.ServiceResult.Error.NOT_FOUND)
@@ -251,7 +251,7 @@ namespace TaskManagerApi.Controllers
 
             var project = await _projectService.DeleteProjectAsync(projectId, cancellationToken);
 
-            if (!project.Success)
+            if (!project.IsSuccess)
             {
                 _logger.LogWarning("Failed to delete project. projectId: {ProjectId}. Error: {Error}", projectId, project.ErrorMessage);
                 if (project.ErrorMessage == LogPhrases.ServiceResult.Error.NOT_FOUND)
