@@ -15,6 +15,7 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<ITicketService, TicketService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IHelperService, HelperService>();
+builder.Services.AddScoped<IAIService, AIService>();
 builder.Services.AddControllers()
        .AddNewtonsoftJson(opts =>
            opts.SerializerSettings.ReferenceLoopHandling 

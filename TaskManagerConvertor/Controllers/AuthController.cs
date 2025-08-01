@@ -38,5 +38,41 @@ namespace TaskManagerConvertor.Controllers
 
             return BadRequest();
         }
+
+        [HttpPost("details")]
+        public async Task<ActionResult<AccountDto>> PostAccountDetails(AccountDto account, CancellationToken cancellationToken)
+        {
+            if (Request.Headers is null)
+                return BadRequest();
+
+            var response = await _accountService.PostAccountDetails(Request.Headers, account, cancellationToken);
+            if (response.IsSuccess)
+            {
+                _logger.LogInformation(response.Data!.ToString());
+                return Ok(response.Data!);
+            }
+
+            _logger.LogWarning(response.ErrorMessage);
+
+            return BadRequest();
+        }
+
+        [HttpPost("invite")]
+        public async Task<ActionResult<AccountDto>> PrecreateInvitedAccount(AccountDto account, CancellationToken cancellationToken)
+        { 
+            if (Request.Headers is null)
+                return BadRequest();
+
+            var response = await _accountService.PrecreateInvitedAccount(Request.Headers, account, cancellationToken);
+            if (response.IsSuccess)
+            {
+                _logger.LogInformation(response.Data!.ToString());
+                return Ok(response.Data!);
+            }
+
+            _logger.LogWarning(response.ErrorMessage);
+
+            return BadRequest();
+        }
     }
 }

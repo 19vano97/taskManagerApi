@@ -16,8 +16,7 @@ public class TicketService : ITicketService
     private readonly IHelperService _helperService;
     private readonly ILogger<TicketService> _logger;
 
-    public TicketService(IAccountService accountService,
-                         IHttpClientFactory httpClientFactory,
+    public TicketService(IHttpClientFactory httpClientFactory,
                          IHelperService helperService,
                          ILogger<TicketService> logger)
     {

@@ -39,7 +39,7 @@ public class AccountService : IAccountService
 
         var response = await httpClient.PostAsync(Constants.IdentityServer.Api.GET_MULTIPLE_DETAILS,
                                                   new StringContent(JsonConvert.SerializeObject(accountIds.Distinct()),
-                                                  Encoding.UTF8, "application/json"));
+                                                  Encoding.UTF8, "application/json"), cancellationToken);
         if (response.IsSuccessStatusCode)
         {
             _logger.LogInformation(await response.Content.ReadAsStringAsync());
@@ -98,6 +98,94 @@ public class AccountService : IAccountService
             {
                 IsSuccess = true,
                 Data = account
+            };
+        }
+
+        return new RequestResult<AccountDto>
+        {
+            IsSuccess = false,
+            ErrorMessage = string.Format("{0} {1}", response.StatusCode, response.ReasonPhrase)
+        };
+    }
+
+    public async Task<RequestResult<AccountDto>> PostAccountDetails(IHeaderDictionary headers, AccountDto account, CancellationToken cancellationToken)
+    {
+        var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.AUTH_CLIENT);
+        var httpClientCheck = _helperService.SetupHttpClientForIdentityServer(headers, ref httpClient);
+        if (!httpClientCheck.IsSuccess)
+        {
+            return new RequestResult<AccountDto>
+            {
+                IsSuccess = false,
+                ErrorMessage = httpClientCheck.ErrorMessage
+            };
+        }
+
+        var response = await httpClient.PostAsync(Constants.IdentityServer.Api.POST_OWN_DETAILS,
+                                                  new StringContent(JsonConvert.SerializeObject(account),
+                                                    Encoding.UTF8, "application/json"),
+                                                  cancellationToken);
+        if (response.IsSuccessStatusCode)
+        {
+            _logger.LogInformation(await response.Content.ReadAsStringAsync());
+            var data = await response.Content.ReadAsStringAsync(cancellationToken);
+            if (!_helperService.TryParseJsonToDto(data, out AccountDto? accountResponse))
+            {
+                return new RequestResult<AccountDto>
+                {
+                    IsSuccess = false,
+                    ErrorMessage = "Issue with parcing"
+                };
+            }
+
+            return new RequestResult<AccountDto>
+            {
+                IsSuccess = true,
+                Data = accountResponse
+            };
+        }
+
+        return new RequestResult<AccountDto>
+        {
+            IsSuccess = false,
+            ErrorMessage = string.Format("{0} {1}", response.StatusCode, response.ReasonPhrase)
+        };
+    }
+
+    public async Task<RequestResult<AccountDto>> PrecreateInvitedAccount(IHeaderDictionary headers, AccountDto account, CancellationToken cancellationToken)
+    {
+        var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.AUTH_CLIENT);
+        var httpClientCheck = _helperService.SetupHttpClientForIdentityServer(headers, ref httpClient);
+        if (!httpClientCheck.IsSuccess)
+        {
+            return new RequestResult<AccountDto>
+            {
+                IsSuccess = false,
+                ErrorMessage = httpClientCheck.ErrorMessage
+            };
+        }
+
+        var response = await httpClient.PostAsync(Constants.IdentityServer.Api.POST_INVITE_MEMBER,
+                                                  new StringContent(JsonConvert.SerializeObject(account),
+                                                    Encoding.UTF8, "application/json"),
+                                                  cancellationToken);
+        if (response.IsSuccessStatusCode)
+        {
+            _logger.LogInformation(await response.Content.ReadAsStringAsync());
+            var data = await response.Content.ReadAsStringAsync(cancellationToken);
+            if (!_helperService.TryParseJsonToDto(data, out AccountDto? accountResponse))
+            {
+                return new RequestResult<AccountDto>
+                {
+                    IsSuccess = false,
+                    ErrorMessage = "Issue with parcing"
+                };
+            }
+
+            return new RequestResult<AccountDto>
+            {
+                IsSuccess = true,
+                Data = accountResponse
             };
         }
 
