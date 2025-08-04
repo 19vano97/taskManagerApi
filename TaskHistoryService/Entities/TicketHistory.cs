@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TaskHistoryService.Enitities;
 
-public class TaskHistory
+public class TicketHistory
 {
     [Key]
     public Guid Id { get; set; }

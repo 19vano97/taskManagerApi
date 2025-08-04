@@ -22,7 +22,7 @@ public class HistoryService : IHistoryService
     {
         try
         {
-            _context.TaskHistories.AddRange(ConvertFromDtoToEntityNoId(history));
+            _context.TicketHistories.AddRange(ConvertFromDtoToEntityNoId(history));
             await _context.SaveChangesAsync();
         }
         catch (System.Exception ex)
@@ -34,7 +34,7 @@ public class HistoryService : IHistoryService
     public async Task<List<TaskHistoryDto>> GetHistoryByTaskId(Guid taskId)
     {
         var historyList = new List<TaskHistoryDto>();
-        var history = await _context.TaskHistories.Where(t => t.TaskId == taskId)
+        var history = await _context.TicketHistories.Where(t => t.TaskId == taskId)
                                            .ToListAsync();
 
         foreach (var item in history)
@@ -45,9 +45,9 @@ public class HistoryService : IHistoryService
         return historyList;
     }
 
-    private static TaskHistory ConvertFromDtoToEntityNoId(TaskHistoryDto historyDto)
+    private static TicketHistory ConvertFromDtoToEntityNoId(TaskHistoryDto historyDto)
     {
-        return new TaskHistory
+        return new TicketHistory
         {
             TaskId = historyDto.TaskId,
             Author = historyDto.Author,
@@ -57,7 +57,7 @@ public class HistoryService : IHistoryService
         };
     }
 
-    private static TaskHistoryDto ConvertFromEntityToDto(TaskHistory taskHistory)
+    private static TaskHistoryDto ConvertFromEntityToDto(TicketHistory taskHistory)
     {
         return new TaskHistoryDto
         {
@@ -76,7 +76,7 @@ public class HistoryService : IHistoryService
     {
         try
         {
-            _context.TaskHistories.AddRange(ConvertFromDtoToEntityNoId(history));
+            _context.TicketHistories.AddRange(ConvertFromDtoToEntityNoId(history));
         }
         catch (System.Exception ex)
         {

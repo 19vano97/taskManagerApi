@@ -41,8 +41,8 @@ const HomeAuthorized = () => {
             const data = response.data;
             const userId = auth?.user?.profile?.sub;
 
-            const owned = data.filter((org) => org.owner === userId);
-            const others = data.filter((org) => org.owner !== userId);
+            const owned = data.filter((org) => org.ownerId === userId);
+            const others = data.filter((org) => org.ownerId !== userId);
 
             console.log('Owned Organizations:', owned);
             console.log('Other Organizations:', others);

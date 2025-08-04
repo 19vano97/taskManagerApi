@@ -23,7 +23,6 @@ const Kanban = () => {
   const { getOrganizationAccounts } = useOrganizationApi();
   const { selectedProjectId } = useProject();
   const [project, setProject] = useState<Project | null>(null);
-  const [accountsLoading, setAccountsLoading] = useState(false);
   const [accounts, setAccounts] = useState<AccountDetails[]>([]);
   const [statuses, setStatuses] = useState<Status[]>([]);
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -60,25 +59,28 @@ const Kanban = () => {
     fetchData();
   }, [selectedProjectId]);
 
+  const fetchProjectTasks = async () => {
+    setLoading(true);
+    try {
+      const data = await getProjectWithTasksById(id!);
+      const orgAccounts = await getOrganizationAccounts(data.data.organizationId);
+      setAccounts(orgAccounts.data.accounts || []);
+      setStatuses(data.data.statuses || []);
+      setProject(data.data);
+      setTasks(data.data.tickets || []);
+    } catch (error) {
+      console.error('Error fetching projects:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
+    if (createTicketDialogOpen || taskDialogOpen) return;
+
     let intervalId: NodeJS.Timeout;
 
     if (id) {
-      const fetchProjectTasks = async () => {
-        setLoading(true);
-        try {
-          const data = await getProjectWithTasksById(id);
-          const orgAccounts = await getOrganizationAccounts(data.data.organizationId);
-          setAccounts(orgAccounts.data.accounts || []);
-          setStatuses(data.data.statuses || []);
-          setProject(data.data);
-          setTasks(data.data.tickets || []);
-        } catch (error) {
-          console.error('Error fetching projects:', error);
-        } finally {
-          setLoading(false);
-        }
-      };
       fetchProjectTasks();
       intervalId = setInterval(fetchProjectTasks, 60 * 1000);
     }
@@ -119,7 +121,7 @@ const Kanban = () => {
 
     try {
       const response = await editTask(id, taskData);
-      if (response.status === 200){
+      if (response.status === 200) {
         handleTicketEditSuccess
       }
     } catch (error) {

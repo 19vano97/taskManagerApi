@@ -141,17 +141,19 @@ public class TicketService : ITicketService
         }
 
         var response = new HttpResponseMessage();
+        var org = httpClient.DefaultRequestHeaders
+                                                                        .First(o => o.Key == Constants.Settings.Header.ORGANIZATION).Value.First();
 
         if (projectId == Guid.Empty)
         {
-            response = await httpClient.GetAsync(string.Format($"/api/task/{0}/organization",
-                                                                     httpClient.DefaultRequestHeaders
-                                                                        .First(o => o.Key == Constants.Settings.Header.ORGANIZATION).Value)
+            response = await httpClient.GetAsync($"/api/task/all/{httpClient.DefaultRequestHeaders
+                                                                        .First(o => o.Key == Constants.Settings.Header.ORGANIZATION).Value.First()}/organization"
+
                                                         , cancellationToken);
         }
         else
         {
-            response = await httpClient.GetAsync(string.Format($"/api/task/{0}/project",
+            response = await httpClient.GetAsync(string.Format($"/api/task/all/{0}/project",
                                                                      httpClient.DefaultRequestHeaders
                                                                         .First(o => o.Key == Constants.Settings.Header.ORGANIZATION).Value)
                                                         , cancellationToken);
@@ -252,7 +254,7 @@ public class TicketService : ITicketService
             };
         }
 
-        var response = await httpClient.PostAsync($"/api/ticket/{ticketDto.Id}/edit",
+        var response = await httpClient.PostAsync($"/api/task/{ticketDto.Id}/edit",
                                                   new StringContent(JsonConvert.SerializeObject(ticketDto),
                                                   Encoding.UTF8,
                                                   "application/json"));

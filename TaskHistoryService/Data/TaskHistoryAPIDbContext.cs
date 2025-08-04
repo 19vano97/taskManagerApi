@@ -10,12 +10,12 @@ public class TaskHistoryAPIDbContext : DbContext
     {
         
     }
-    public DbSet<TaskHistory> TaskHistories { get; set; }
+    public DbSet<TicketHistory> TicketHistories { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<TaskHistory>().Property(d => d.CreateDate).HasDefaultValueSql("GETUTCDATE()");
-        modelBuilder.Entity<TaskHistory>().Property(d => d.ModifyDate).HasDefaultValueSql("GETUTCDATE()");
+        modelBuilder.Entity<TicketHistory>().Property(d => d.CreateDate).HasDefaultValueSql("GETUTCDATE()");
+        modelBuilder.Entity<TicketHistory>().Property(d => d.ModifyDate).HasDefaultValueSql("GETUTCDATE()");
     }
     
     

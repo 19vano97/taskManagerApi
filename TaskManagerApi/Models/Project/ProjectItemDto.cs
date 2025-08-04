@@ -38,12 +38,12 @@ public class ProjectItemDto
     /// The unique identifier of the organization to which the project belongs.
     /// </summary>
     [Required]
-    public Guid OrganizationId { get; set; } = Guid.Empty;
+    public Guid OrganizationId { get; set; }
 
     /// <summary>
     /// The list of statuses associated with the project.
     /// </summary>
-    public List<TicketStatusDto> Statuses { get; set; } = new List<TicketStatusDto>();
+    public List<TicketStatusDto>? Statuses { get; set; }
 
     public List<TicketDto>? Tickets { get; set; }
 

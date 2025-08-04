@@ -58,6 +58,7 @@ const Backlog = () => {
     }
 
     useEffect(() => {
+        if (dialogOpen || createTicketDialogOpen) return;
         let intervalId: NodeJS.Timeout
 
         if (!id) return;

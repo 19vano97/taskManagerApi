@@ -52,7 +52,9 @@ export default function OrganizationDashboard() {
     setOrganization(data.data);
     setAccounts(data.data.accounts || []);
 
-    if (auth?.user?.profile.sub === data.data.owner) {
+    console.log(auth?.user?.profile.sub, data.data.owner)
+
+    if (auth?.user?.profile.sub === data.data.ownerId) {
       setIsOwner(true);
     }
   };

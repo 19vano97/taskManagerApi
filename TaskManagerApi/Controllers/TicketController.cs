@@ -66,7 +66,7 @@ namespace TaskManagerApi.Controllers
 
             _logger.LogInformation($"{LogPhrases.PositiveActions.TASKS_SHOWN_LOG}", result.Data.Select(s => s.Id));
 
-            return Ok(result);
+            return Ok(result.Data);
         }
 
         [HttpGet("all/{projectId}/project")]

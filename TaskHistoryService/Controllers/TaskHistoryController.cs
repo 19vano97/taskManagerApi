@@ -7,13 +7,13 @@ namespace TaskHistoryService.Controllers
 {
     [Route("api/thistory")]
     [ApiController]
-    public class TaskHistoryController : ControllerBase
+    public class TicketHistoryController : ControllerBase
     {
-        private IHistoryService _taskHistoryService;
+        private IHistoryService _ticketHistoryService;
 
-        public TaskHistoryController(IHistoryService taskHistoryService)
+        public TicketHistoryController(IHistoryService ticketHistoryService)
         {
-            _taskHistoryService = taskHistoryService;
+            _ticketHistoryService = ticketHistoryService;
         }
 
         [HttpPost("add")]
@@ -22,7 +22,7 @@ namespace TaskHistoryService.Controllers
             if (!IsValidHistory(history))
                 return BadRequest("Invalid request");
 
-            await _taskHistoryService.Write(history);
+            await _ticketHistoryService.Write(history);
 
             return Ok();
         }
@@ -33,7 +33,7 @@ namespace TaskHistoryService.Controllers
             if (taskId == Guid.Empty)
                 return BadRequest("Invalid taskId");
 
-            var history = await _taskHistoryService.GetHistoryByTaskId(taskId);
+            var history = await _ticketHistoryService.GetHistoryByTaskId(taskId);
 
             if (history == null)
                 return NoContent();
