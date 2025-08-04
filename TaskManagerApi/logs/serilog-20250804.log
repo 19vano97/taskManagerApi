@@ -2389,3 +2389,50 @@ WHERE [o].[OrganizationId] = @__organizationId_0
 2025-08-04 18:12:16.930 +03:00 [INF] Executed action TaskManagerApi.Controllers.OrganizationController.GetSelfOrganizationsAsync (TaskManagerApi) in 1397.1373ms
 2025-08-04 18:12:16.933 +03:00 [INF] Executed endpoint 'TaskManagerApi.Controllers.OrganizationController.GetSelfOrganizationsAsync (TaskManagerApi)'
 2025-08-04 18:12:16.939 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7099/api/organization/details/me - 200 774 application/json; charset=utf-8 1676.336ms
+2025-08-04 18:48:49.325 +03:00 [INF] User profile is available. Using 'C:\Users\vanil\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-08-04 18:48:49.594 +03:00 [WRN] Overriding address(es) 'https://localhost:7099, http://localhost:5220'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-08-04 18:48:49.660 +03:00 [INF] Now listening on: http://[::]:5220
+2025-08-04 18:48:49.662 +03:00 [INF] Now listening on: https://[::]:7099
+2025-08-04 18:48:49.720 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-08-04 18:48:49.722 +03:00 [INF] Hosting environment: Development
+2025-08-04 18:48:49.724 +03:00 [INF] Content root path: C:\Users\vanil\Source\Repos\19vano97\taskManagerApi\TaskManagerApi
+2025-08-04 18:48:50.417 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7099/ - null null
+2025-08-04 18:48:50.762 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7099/ - 404 0 null 351.5872ms
+2025-08-04 18:48:50.775 +03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7099/, Response status code: 404
+2025-08-04 18:50:55.676 +03:00 [INF] User profile is available. Using 'C:\Users\vanil\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-08-04 18:50:55.900 +03:00 [WRN] Overriding address(es) 'https://localhost:7099, http://localhost:5220'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-08-04 18:50:55.949 +03:00 [INF] Now listening on: http://[::]:5220
+2025-08-04 18:50:55.952 +03:00 [INF] Now listening on: https://[::]:7099
+2025-08-04 18:50:56.006 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-08-04 18:50:56.007 +03:00 [INF] Hosting environment: Development
+2025-08-04 18:50:56.008 +03:00 [INF] Content root path: C:\Users\vanil\Source\Repos\19vano97\taskManagerApi\TaskManagerApi
+2025-08-04 18:50:56.557 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7099/ - null null
+2025-08-04 18:50:56.886 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7099/ - 404 0 null 330.9823ms
+2025-08-04 18:50:56.916 +03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7099/, Response status code: 404
+2025-08-04 19:29:24.881 +03:00 [INF] User profile is available. Using 'C:\Users\vanil\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-08-04 19:29:25.096 +03:00 [WRN] Overriding address(es) 'https://localhost:7099, http://localhost:5220'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-08-04 19:29:25.142 +03:00 [INF] Now listening on: http://[::]:5220
+2025-08-04 19:29:25.144 +03:00 [INF] Now listening on: https://[::]:7099
+2025-08-04 19:29:25.236 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-08-04 19:29:25.238 +03:00 [INF] Hosting environment: Development
+2025-08-04 19:29:25.240 +03:00 [INF] Content root path: C:\Users\vanil\Source\Repos\19vano97\taskManagerApi\TaskManagerApi
+2025-08-04 19:29:25.508 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7099/ - null null
+2025-08-04 19:29:25.771 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7099/ - 404 0 null 265.158ms
+2025-08-04 19:29:25.800 +03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7099/, Response status code: 404
+2025-08-04 19:29:48.228 +03:00 [INF] User profile is available. Using 'C:\Users\vanil\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-08-04 19:29:48.462 +03:00 [WRN] Overriding address(es) 'https://localhost:7099, http://localhost:5220'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-08-04 19:29:48.529 +03:00 [INF] Now listening on: http://[::]:5220
+2025-08-04 19:29:48.531 +03:00 [INF] Now listening on: https://[::]:7099
+2025-08-04 19:29:48.590 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-08-04 19:29:48.592 +03:00 [INF] Hosting environment: Development
+2025-08-04 19:29:48.593 +03:00 [INF] Content root path: C:\Users\vanil\Source\Repos\19vano97\taskManagerApi\TaskManagerApi
+2025-08-04 19:29:49.064 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7099/ - null null
+2025-08-04 19:29:49.326 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7099/ - 404 0 null 269.2226ms
+2025-08-04 19:29:49.339 +03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7099/, Response status code: 404
+2025-08-04 21:05:07.756 +03:00 [INF] User profile is available. Using 'C:\Users\vanil\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-08-04 21:05:07.978 +03:00 [WRN] Overriding address(es) 'http://localhost:5220'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-08-04 21:05:08.027 +03:00 [INF] Now listening on: http://[::]:5220
+2025-08-04 21:05:08.028 +03:00 [INF] Now listening on: https://[::]:7099
+2025-08-04 21:05:08.029 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-08-04 21:05:08.029 +03:00 [INF] Hosting environment: Development
+2025-08-04 21:05:08.029 +03:00 [INF] Content root path: C:\Users\vanil\source\repos\19vano97\taskManagerApi\TaskManagerApi

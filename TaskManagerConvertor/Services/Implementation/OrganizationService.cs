@@ -281,41 +281,52 @@ public class OrganizationService : IOrganizationService
             };
         }
 
-        var response = await httpClient.GetAsync(Constants.TaskManagerApi.Organization.GET_MY_ORGANIZATION, cancellationToken);
-        if (response.IsSuccessStatusCode)
+        try
         {
-            _logger.LogInformation(await response.Content.ReadAsStringAsync());
-
-            var data = await response.Content.ReadAsStringAsync(cancellationToken);
-            if (!_helperService.TryParseJsonToDto(data, out List<OrganizationDto>? ticket))
+            var response = await httpClient.GetAsync(Constants.TaskManagerApi.Organization.GET_MY_ORGANIZATION, cancellationToken);
+            if (response.IsSuccessStatusCode)
             {
+                _logger.LogInformation(await response.Content.ReadAsStringAsync());
+
+                var data = await response.Content.ReadAsStringAsync(cancellationToken);
+                if (!_helperService.TryParseJsonToDto(data, out List<OrganizationDto>? ticket))
+                {
+                    return new RequestResult<List<OrganizationDto>>
+                    {
+                        IsSuccess = false,
+                        ErrorMessage = "Issue with parcing"
+                    };
+                }
+
+                ticket = await _accountHelperService.AddAccountDetails(headers, ticket!, cancellationToken);
+
+                foreach (var item in ticket)
+                {
+                    item.AccountIds = null;
+                }
+
                 return new RequestResult<List<OrganizationDto>>
                 {
-                    IsSuccess = false,
-                    ErrorMessage = "Issue with parcing"
+                    IsSuccess = true,
+                    Data = ticket
                 };
             }
-
-            ticket = await _accountHelperService.AddAccountDetails(headers, ticket!, cancellationToken);
-            
-            foreach (var item in ticket)
-            {
-                item.AccountIds = null;
-            }
+        }
+        catch (System.Exception ex)
+        {
+            _logger.LogWarning(ex.ToString());
 
             return new RequestResult<List<OrganizationDto>>
             {
-                IsSuccess = true,
-                Data = ticket
+                IsSuccess = false,
+                ErrorMessage = ex.ToString()
             };
         }
         
-        _logger.LogWarning("{0} {1}", response.StatusCode, response.ReasonPhrase);
-
-        return new RequestResult<List<OrganizationDto>>
+         return new RequestResult<List<OrganizationDto>>
         {
             IsSuccess = false,
-            ErrorMessage = string.Format("{0} {1}", response.StatusCode, response.ReasonPhrase)
+            ErrorMessage = "issue"
         };
     }
 }

@@ -3236,3 +3236,1181 @@ Path 'id', line 1, position 6.
 2025-08-04 18:13:15.554 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 328.2584ms
 2025-08-04 18:13:15.554 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
 2025-08-04 18:13:15.554 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/auth/details - 200 231 application/json; charset=utf-8 364.3885ms
+2025-08-04 18:49:07.100 +03:00 [INF] User profile is available. Using 'C:\Users\vanil\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-08-04 18:49:07.327 +03:00 [WRN] Overriding address(es) 'https://localhost:7188, http://localhost:5271'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-08-04 18:49:07.393 +03:00 [INF] Now listening on: http://[::]:5271
+2025-08-04 18:49:07.396 +03:00 [INF] Now listening on: https://[::]:7188
+2025-08-04 18:49:07.459 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-08-04 18:49:07.460 +03:00 [INF] Hosting environment: Development
+2025-08-04 18:49:07.462 +03:00 [INF] Content root path: C:\Users\vanil\Source\Repos\19vano97\taskManagerApi\TaskManagerConvertor
+2025-08-04 18:51:23.257 +03:00 [INF] User profile is available. Using 'C:\Users\vanil\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-08-04 18:51:23.546 +03:00 [WRN] Overriding address(es) 'https://localhost:7188, http://localhost:5271'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-08-04 18:51:23.611 +03:00 [INF] Now listening on: http://[::]:5271
+2025-08-04 18:51:23.614 +03:00 [INF] Now listening on: https://[::]:7188
+2025-08-04 18:51:23.677 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-08-04 18:51:23.679 +03:00 [INF] Hosting environment: Development
+2025-08-04 18:51:23.681 +03:00 [INF] Content root path: C:\Users\vanil\Source\Repos\19vano97\taskManagerApi\TaskManagerConvertor
+2025-08-04 19:28:41.415 +03:00 [INF] Request starting HTTP/1.1 OPTIONS https://localhost:7188/api/auth/details - null null
+2025-08-04 19:28:41.415 +03:00 [INF] Request starting HTTP/1.1 OPTIONS https://localhost:7188/api/auth/details - null null
+2025-08-04 19:28:41.551 +03:00 [INF] CORS policy execution successful.
+2025-08-04 19:28:41.551 +03:00 [INF] CORS policy execution successful.
+2025-08-04 19:28:41.586 +03:00 [INF] Request finished HTTP/1.1 OPTIONS https://localhost:7188/api/auth/details - 204 null null 180.7216ms
+2025-08-04 19:28:41.586 +03:00 [INF] Request finished HTTP/1.1 OPTIONS https://localhost:7188/api/auth/details - 204 null null 180.712ms
+2025-08-04 19:28:41.600 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/auth/details - null null
+2025-08-04 19:28:41.603 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/auth/details - null null
+2025-08-04 19:28:41.625 +03:00 [INF] CORS policy execution successful.
+2025-08-04 19:28:41.625 +03:00 [INF] CORS policy execution successful.
+2025-08-04 19:28:42.139 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 19:28:42.139 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 19:28:42.188 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-08-04 19:28:42.188 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-08-04 19:28:42.224 +03:00 [INF] Start processing HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 19:28:42.224 +03:00 [INF] Start processing HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 19:28:42.228 +03:00 [INF] Sending HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 19:28:42.229 +03:00 [INF] Sending HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 19:28:42.562 +03:00 [INF] Received HTTP response headers after 325.0142ms - 200
+2025-08-04 19:28:42.563 +03:00 [INF] Request starting HTTP/1.1 OPTIONS https://localhost:7188/api/auth/details - null null
+2025-08-04 19:28:42.563 +03:00 [INF] Request starting HTTP/1.1 OPTIONS https://localhost:7188/api/auth/details - null null
+2025-08-04 19:28:42.567 +03:00 [INF] End processing HTTP request after 346.2521ms - 200
+2025-08-04 19:28:42.567 +03:00 [INF] Received HTTP response headers after 334.3815ms - 200
+2025-08-04 19:28:42.570 +03:00 [INF] CORS policy execution successful.
+2025-08-04 19:28:42.573 +03:00 [INF] CORS policy execution successful.
+2025-08-04 19:28:42.580 +03:00 [INF] Request finished HTTP/1.1 OPTIONS https://localhost:7188/api/auth/details - 204 null null 17.2109ms
+2025-08-04 19:28:42.577 +03:00 [INF] End processing HTTP request after 356.7756ms - 200
+2025-08-04 19:28:42.579 +03:00 [INF] Request finished HTTP/1.1 OPTIONS https://localhost:7188/api/auth/details - 204 null null 15.6041ms
+2025-08-04 19:28:42.576 +03:00 [INF] {"id":"c154a7c9-189f-415b-a50d-320be33bf798","email":"test@yopmail.com","firstName":"ivan","lastName":"cool1","isConfirmed":false,"isValid":true,"createDate":"2025-07-08T10:34:15.4366667","modifyDate":"2025-07-08T10:34:15.4366667"}
+2025-08-04 19:28:42.588 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/auth/details - null null
+2025-08-04 19:28:42.589 +03:00 [INF] {"id":"c154a7c9-189f-415b-a50d-320be33bf798","email":"test@yopmail.com","firstName":"ivan","lastName":"cool1","isConfirmed":false,"isValid":true,"createDate":"2025-07-08T10:34:15.4366667","modifyDate":"2025-07-08T10:34:15.4366667"}
+2025-08-04 19:28:42.594 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/auth/details - null null
+2025-08-04 19:28:42.596 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 19:28:42.600 +03:00 [INF] CORS policy execution successful.
+2025-08-04 19:28:42.600 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 19:28:42.604 +03:00 [INF] CORS policy execution successful.
+2025-08-04 19:28:42.611 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 19:28:42.611 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 19:28:42.643 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-08-04 19:28:42.685 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-08-04 19:28:42.693 +03:00 [INF] Start processing HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 19:28:42.693 +03:00 [INF] Start processing HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 19:28:42.696 +03:00 [INF] Sending HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 19:28:42.698 +03:00 [INF] Sending HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 19:28:42.757 +03:00 [INF] Received HTTP response headers after 57.4045ms - 200
+2025-08-04 19:28:42.759 +03:00 [INF] Received HTTP response headers after 57.1886ms - 200
+2025-08-04 19:28:42.760 +03:00 [INF] End processing HTTP request after 66.6365ms - 200
+2025-08-04 19:28:42.762 +03:00 [INF] End processing HTTP request after 68.544ms - 200
+2025-08-04 19:28:42.763 +03:00 [INF] {"id":"c154a7c9-189f-415b-a50d-320be33bf798","email":"test@yopmail.com","firstName":"ivan","lastName":"cool1","isConfirmed":false,"isValid":true,"createDate":"2025-07-08T10:34:15.4366667","modifyDate":"2025-07-08T10:34:15.4366667"}
+2025-08-04 19:28:42.765 +03:00 [INF] {"id":"c154a7c9-189f-415b-a50d-320be33bf798","email":"test@yopmail.com","firstName":"ivan","lastName":"cool1","isConfirmed":false,"isValid":true,"createDate":"2025-07-08T10:34:15.4366667","modifyDate":"2025-07-08T10:34:15.4366667"}
+2025-08-04 19:28:42.766 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 19:28:42.767 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 19:28:42.858 +03:00 [INF] Request starting HTTP/1.1 OPTIONS https://localhost:7188/api/organization/details/me - null null
+2025-08-04 19:28:42.863 +03:00 [INF] Request starting HTTP/1.1 OPTIONS https://localhost:7188/api/organization/details/me - null null
+2025-08-04 19:28:42.864 +03:00 [INF] CORS policy execution successful.
+2025-08-04 19:28:42.902 +03:00 [INF] Request finished HTTP/1.1 OPTIONS https://localhost:7188/api/organization/details/me - 204 null null 43.6686ms
+2025-08-04 19:28:42.903 +03:00 [INF] CORS policy execution successful.
+2025-08-04 19:28:42.908 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/organization/details/me - null null
+2025-08-04 19:28:42.908 +03:00 [INF] Request finished HTTP/1.1 OPTIONS https://localhost:7188/api/organization/details/me - 204 null null 45.7ms
+2025-08-04 19:28:42.914 +03:00 [INF] CORS policy execution successful.
+2025-08-04 19:28:42.916 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 19:28:42.916 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 19:28:42.916 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 19:28:42.916 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 19:28:42.919 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/organization/details/me - null null
+2025-08-04 19:28:42.921 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 19:28:42.930 +03:00 [INF] CORS policy execution successful.
+2025-08-04 19:28:42.933 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerConvertor.Models.AccountDto'.
+2025-08-04 19:28:42.933 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerConvertor.Models.AccountDto'.
+2025-08-04 19:28:42.933 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerConvertor.Models.AccountDto'.
+2025-08-04 19:28:42.933 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerConvertor.Models.AccountDto'.
+2025-08-04 19:28:42.934 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 19:28:42.938 +03:00 [INF] Route matched with {action = "GetSelfOrganizations", controller = "Organization"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[TaskManagerConvertor.Models.Organization.OrganizationDto]]] GetSelfOrganizationsAsync(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.OrganizationController (TaskManagerConvertor).
+2025-08-04 19:28:42.941 +03:00 [INF] Route matched with {action = "GetSelfOrganizations", controller = "Organization"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[TaskManagerConvertor.Models.Organization.OrganizationDto]]] GetSelfOrganizationsAsync(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.OrganizationController (TaskManagerConvertor).
+2025-08-04 19:28:42.947 +03:00 [INF] GetSelfOrganizationsAsync called
+2025-08-04 19:28:42.947 +03:00 [INF] GetSelfOrganizationsAsync called
+2025-08-04 19:28:42.953 +03:00 [WRN] Issue with organzation or token
+2025-08-04 19:28:42.953 +03:00 [WRN] Issue with organzation or token
+2025-08-04 19:28:42.958 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-08-04 19:28:42.958 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-08-04 19:28:43.015 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor) in 67.4106ms
+2025-08-04 19:28:43.015 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 320.6643ms
+2025-08-04 19:28:43.015 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 816.5745ms
+2025-08-04 19:28:43.015 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 818.902ms
+2025-08-04 19:28:43.015 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 323.151ms
+2025-08-04 19:28:43.015 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor) in 65.5631ms
+2025-08-04 19:28:43.018 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 19:28:43.022 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 19:28:43.022 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 19:28:43.024 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 19:28:43.025 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 19:28:43.028 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 19:28:43.029 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/organization/details/me - 400 164 application/problem+json; charset=utf-8 121.6959ms
+2025-08-04 19:28:43.034 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/auth/details - 200 231 application/json; charset=utf-8 445.6901ms
+2025-08-04 19:28:43.034 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/auth/details - 200 231 application/json; charset=utf-8 1433.6447ms
+2025-08-04 19:28:43.034 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/auth/details - 200 231 application/json; charset=utf-8 1431.437ms
+2025-08-04 19:28:43.036 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/auth/details - 200 231 application/json; charset=utf-8 441.7931ms
+2025-08-04 19:28:43.037 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/organization/details/me - 400 164 application/problem+json; charset=utf-8 118.1043ms
+2025-08-04 19:30:00.304 +03:00 [INF] User profile is available. Using 'C:\Users\vanil\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-08-04 19:30:00.531 +03:00 [WRN] Overriding address(es) 'https://localhost:7188, http://localhost:5271'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-08-04 19:30:00.579 +03:00 [INF] Now listening on: http://[::]:5271
+2025-08-04 19:30:00.582 +03:00 [INF] Now listening on: https://[::]:7188
+2025-08-04 19:30:00.638 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-08-04 19:30:00.640 +03:00 [INF] Hosting environment: Development
+2025-08-04 19:30:00.641 +03:00 [INF] Content root path: C:\Users\vanil\Source\Repos\19vano97\taskManagerApi\TaskManagerConvertor
+2025-08-04 19:30:08.254 +03:00 [INF] Request starting HTTP/1.1 OPTIONS https://localhost:7188/api/auth/details - null null
+2025-08-04 19:30:08.254 +03:00 [INF] Request starting HTTP/1.1 OPTIONS https://localhost:7188/api/auth/details - null null
+2025-08-04 19:30:08.341 +03:00 [INF] CORS policy execution successful.
+2025-08-04 19:30:08.341 +03:00 [INF] CORS policy execution successful.
+2025-08-04 19:30:08.362 +03:00 [INF] Request finished HTTP/1.1 OPTIONS https://localhost:7188/api/auth/details - 204 null null 109.1651ms
+2025-08-04 19:30:08.362 +03:00 [INF] Request finished HTTP/1.1 OPTIONS https://localhost:7188/api/auth/details - 204 null null 109.1638ms
+2025-08-04 19:30:08.379 +03:00 [INF] Request starting HTTP/1.1 OPTIONS https://localhost:7188/api/organization/details/me - null null
+2025-08-04 19:30:08.379 +03:00 [INF] Request starting HTTP/1.1 OPTIONS https://localhost:7188/api/organization/details/me - null null
+2025-08-04 19:30:08.400 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/auth/details - null null
+2025-08-04 19:30:08.400 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/auth/details - null null
+2025-08-04 19:30:08.407 +03:00 [INF] CORS policy execution successful.
+2025-08-04 19:30:08.410 +03:00 [INF] CORS policy execution successful.
+2025-08-04 19:30:08.418 +03:00 [INF] Request finished HTTP/1.1 OPTIONS https://localhost:7188/api/organization/details/me - 204 null null 39.5901ms
+2025-08-04 19:30:08.420 +03:00 [INF] Request finished HTTP/1.1 OPTIONS https://localhost:7188/api/organization/details/me - 204 null null 40.7144ms
+2025-08-04 19:30:08.422 +03:00 [INF] CORS policy execution successful.
+2025-08-04 19:30:08.422 +03:00 [INF] CORS policy execution successful.
+2025-08-04 19:30:08.424 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/organization/details/me - null null
+2025-08-04 19:30:08.429 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7188/api/organization/details/me - null null
+2025-08-04 19:30:08.560 +03:00 [INF] CORS policy execution successful.
+2025-08-04 19:30:08.591 +03:00 [INF] CORS policy execution successful.
+2025-08-04 19:30:08.891 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 19:30:08.891 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 19:30:08.891 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 19:30:08.891 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 19:30:08.935 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-08-04 19:30:08.935 +03:00 [INF] Route matched with {action = "GetSelfOrganizations", controller = "Organization"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[TaskManagerConvertor.Models.Organization.OrganizationDto]]] GetSelfOrganizationsAsync(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.OrganizationController (TaskManagerConvertor).
+2025-08-04 19:30:08.935 +03:00 [INF] Route matched with {action = "GetSelfOrganizations", controller = "Organization"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[TaskManagerConvertor.Models.Organization.OrganizationDto]]] GetSelfOrganizationsAsync(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.OrganizationController (TaskManagerConvertor).
+2025-08-04 19:30:08.935 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-08-04 19:30:08.954 +03:00 [INF] GetSelfOrganizationsAsync called
+2025-08-04 19:30:08.954 +03:00 [INF] GetSelfOrganizationsAsync called
+2025-08-04 19:30:08.961 +03:00 [WRN] Issue with organzation or token
+2025-08-04 19:30:08.961 +03:00 [WRN] Issue with organzation or token
+2025-08-04 19:30:08.966 +03:00 [INF] Start processing HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 19:30:08.966 +03:00 [INF] Start processing HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 19:30:08.969 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-08-04 19:30:08.969 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-08-04 19:30:08.969 +03:00 [INF] Sending HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 19:30:08.969 +03:00 [INF] Sending HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 19:30:09.099 +03:00 [INF] Received HTTP response headers after 109.9521ms - 200
+2025-08-04 19:30:09.099 +03:00 [INF] Received HTTP response headers after 107.0325ms - 200
+2025-08-04 19:30:09.102 +03:00 [INF] End processing HTTP request after 139.6221ms - 200
+2025-08-04 19:30:09.102 +03:00 [INF] End processing HTTP request after 140.4505ms - 200
+2025-08-04 19:30:09.104 +03:00 [INF] {"id":"c154a7c9-189f-415b-a50d-320be33bf798","email":"test@yopmail.com","firstName":"ivan","lastName":"cool1","isConfirmed":false,"isValid":true,"createDate":"2025-07-08T10:34:15.4366667","modifyDate":"2025-07-08T10:34:15.4366667"}
+2025-08-04 19:30:09.105 +03:00 [INF] {"id":"c154a7c9-189f-415b-a50d-320be33bf798","email":"test@yopmail.com","firstName":"ivan","lastName":"cool1","isConfirmed":false,"isValid":true,"createDate":"2025-07-08T10:34:15.4366667","modifyDate":"2025-07-08T10:34:15.4366667"}
+2025-08-04 19:30:09.107 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 19:30:09.107 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 19:30:09.158 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 19:30:09.158 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 19:30:09.160 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor) in 216.6081ms
+2025-08-04 19:30:09.160 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor) in 213.5348ms
+2025-08-04 19:30:09.163 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerConvertor.Models.AccountDto'.
+2025-08-04 19:30:09.163 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerConvertor.Models.AccountDto'.
+2025-08-04 19:30:09.164 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 19:30:09.165 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 19:30:09.172 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/organization/details/me - 400 164 application/problem+json; charset=utf-8 747.1684ms
+2025-08-04 19:30:09.172 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/organization/details/me - 400 164 application/problem+json; charset=utf-8 742.7981ms
+2025-08-04 19:30:09.174 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 237.0658ms
+2025-08-04 19:30:09.174 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 229.9442ms
+2025-08-04 19:30:09.184 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 19:30:09.186 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 19:30:09.188 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/auth/details - 200 231 application/json; charset=utf-8 787.4147ms
+2025-08-04 19:30:09.189 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7188/api/auth/details - 200 231 application/json; charset=utf-8 788.2682ms
+2025-08-04 21:04:43.782 +03:00 [INF] User profile is available. Using 'C:\Users\vanil\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-08-04 21:04:43.975 +03:00 [WRN] Overriding address(es) 'http://localhost:5271'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-08-04 21:04:44.021 +03:00 [INF] Now listening on: http://[::]:5271
+2025-08-04 21:04:44.021 +03:00 [INF] Now listening on: https://[::]:7188
+2025-08-04 21:04:44.022 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-08-04 21:04:44.022 +03:00 [INF] Hosting environment: Development
+2025-08-04 21:04:44.022 +03:00 [INF] Content root path: C:\Users\vanil\source\repos\19vano97\taskManagerApi\TaskManagerConvertor
+2025-08-04 21:06:00.729 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/auth/details - null null
+2025-08-04 21:06:00.796 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:06:00.806 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/auth/details - null null
+2025-08-04 21:06:00.801 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/auth/details - 204 null null 74.3222ms
+2025-08-04 21:06:00.814 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:06:01.136 +03:00 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '8/4/2025 5:28:40 PM', Current time (UTC): '8/4/2025 6:06:01 PM'.
+   at Microsoft.IdentityModel.Tokens.ValidatorUtilities.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2025-08-04 21:06:01.154 +03:00 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '8/4/2025 5:28:40 PM', Current time (UTC): '8/4/2025 6:06:01 PM'.
+2025-08-04 21:06:01.159 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:06:01.188 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-08-04 21:06:01.220 +03:00 [INF] Start processing HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:06:01.222 +03:00 [INF] Sending HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:06:01.260 +03:00 [INF] Received HTTP response headers after 35.6002ms - 401
+2025-08-04 21:06:01.261 +03:00 [INF] End processing HTTP request after 41.3064ms - 401
+2025-08-04 21:06:01.263 +03:00 [WRN] Unauthorized Unauthorized
+2025-08-04 21:06:01.271 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-08-04 21:06:01.397 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 205.7603ms
+2025-08-04 21:06:01.398 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:06:01.400 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/auth/details - 400 164 application/problem+json; charset=utf-8 593.3268ms
+2025-08-04 21:06:17.990 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/auth/details - null null
+2025-08-04 21:06:17.992 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:06:17.992 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/auth/details - 204 null null 2.2273ms
+2025-08-04 21:06:17.995 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/auth/details - null null
+2025-08-04 21:06:17.996 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:06:17.998 +03:00 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '8/4/2025 5:28:40 PM', Current time (UTC): '8/4/2025 6:06:17 PM'.
+   at Microsoft.IdentityModel.Tokens.ValidatorUtilities.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2025-08-04 21:06:18.000 +03:00 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '8/4/2025 5:28:40 PM', Current time (UTC): '8/4/2025 6:06:17 PM'.
+2025-08-04 21:06:18.000 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:06:18.001 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-08-04 21:06:18.002 +03:00 [INF] Start processing HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:06:18.002 +03:00 [INF] Sending HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:06:18.018 +03:00 [INF] Received HTTP response headers after 15.6529ms - 401
+2025-08-04 21:06:18.018 +03:00 [INF] End processing HTTP request after 16.4224ms - 401
+2025-08-04 21:06:18.019 +03:00 [WRN] Unauthorized Unauthorized
+2025-08-04 21:06:18.019 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-08-04 21:06:18.020 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 19.4723ms
+2025-08-04 21:06:18.021 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:06:18.021 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/auth/details - 400 164 application/problem+json; charset=utf-8 25.64ms
+2025-08-04 21:11:58.651 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/auth/details - null null
+2025-08-04 21:11:58.651 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/auth/details - null null
+2025-08-04 21:11:58.652 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:11:58.652 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:11:58.652 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/auth/details - 204 null null 1.2185ms
+2025-08-04 21:11:58.652 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/auth/details - 204 null null 1.0457ms
+2025-08-04 21:11:58.662 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/auth/details - null null
+2025-08-04 21:11:58.662 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:11:58.679 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:11:58.679 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-08-04 21:11:58.682 +03:00 [INF] Start processing HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:11:58.682 +03:00 [INF] Sending HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:11:58.914 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:11:58.914 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:11:58.914 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:11:58.914 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:11:58.914 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - 204 null null 0.5181ms
+2025-08-04 21:11:58.915 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - 204 null null 0.9097ms
+2025-08-04 21:11:58.946 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:11:58.947 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:11:58.949 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:11:58.954 +03:00 [INF] Route matched with {action = "GetSelfOrganizations", controller = "Organization"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[TaskManagerConvertor.Models.Organization.OrganizationDto]]] GetSelfOrganizationsAsync(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.OrganizationController (TaskManagerConvertor).
+2025-08-04 21:11:58.958 +03:00 [INF] GetSelfOrganizationsAsync called
+2025-08-04 21:11:58.961 +03:00 [WRN] Issue with organzation or token
+2025-08-04 21:11:58.962 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-08-04 21:11:58.962 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor) in 7.8542ms
+2025-08-04 21:11:58.962 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:11:58.962 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/organization/details/me - 400 164 application/problem+json; charset=utf-8 16.5432ms
+2025-08-04 21:11:58.964 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:11:58.964 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:11:58.965 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:11:58.965 +03:00 [INF] Route matched with {action = "GetSelfOrganizations", controller = "Organization"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[TaskManagerConvertor.Models.Organization.OrganizationDto]]] GetSelfOrganizationsAsync(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.OrganizationController (TaskManagerConvertor).
+2025-08-04 21:11:58.966 +03:00 [INF] GetSelfOrganizationsAsync called
+2025-08-04 21:11:58.966 +03:00 [WRN] Issue with organzation or token
+2025-08-04 21:11:58.966 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-08-04 21:11:58.967 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor) in 1.0129ms
+2025-08-04 21:11:58.967 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:11:58.967 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/organization/details/me - 400 164 application/problem+json; charset=utf-8 2.6651ms
+2025-08-04 21:12:21.612 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 22932.3616ms
+2025-08-04 21:12:21.655 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:12:21.838 +03:00 [ERR] Unhandled exception occurred.
+System.Threading.Tasks.TaskCanceledException: The operation was canceled.
+ ---> System.Threading.Tasks.TaskCanceledException: The operation was canceled.
+ ---> System.IO.IOException: Unable to read data from the transport connection: The I/O operation has been aborted because of either a thread exit or an application request..
+ ---> System.Net.Sockets.SocketException (995): The I/O operation has been aborted because of either a thread exit or an application request.
+   --- End of inner exception stack trace ---
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource<System.Int32>.GetResult(Int16 token)
+   at System.Net.Security.SslStream.EnsureFullTlsFrameAsync[TIOAdapter](CancellationToken cancellationToken, Int32 estimatedSize)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at System.Net.Security.SslStream.ReadAsyncInternal[TIOAdapter](Memory`1 buffer, CancellationToken cancellationToken)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at System.Net.Http.HttpConnection.InitialFillAsync(Boolean async)
+   at System.Net.Http.HttpConnection.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnection.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.DiagnosticsHandler.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.<SendCoreAsync>g__Core|4_0(HttpRequestMessage request, Boolean useAsync, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.<SendCoreAsync>g__Core|4_0(HttpRequestMessage request, Boolean useAsync, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpClient.HandleFailure(Exception e, Boolean telemetryStarted, HttpResponseMessage response, CancellationTokenSource cts, CancellationToken cancellationToken, CancellationTokenSource pendingRequestsCts)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at TaskManagerConvertor.Services.Implementation.AccountService.GetOwnAccountDetails(IHeaderDictionary headers, CancellationToken cancellationToken) in C:\Users\vanil\source\repos\19vano97\taskManagerApi\TaskManagerConvertor\Services\Implementation\AccountService.cs:line 83
+   at TaskManagerConvertor.Controllers.AuthController.GetAccountDetails(CancellationToken cancellationToken) in C:\Users\vanil\source\repos\19vano97\taskManagerApi\TaskManagerConvertor\Controllers\AuthController.cs:line 30
+   at lambda_method6(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at TaskManagerConvertor.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in C:\Users\vanil\source\repos\19vano97\taskManagerApi\TaskManagerConvertor\Middlewares\ExceptionHandlingMiddleware.cs:line 21
+2025-08-04 21:12:21.854 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/auth/details - 500 null application/json 23192.3445ms
+2025-08-04 21:13:14.530 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/auth/details - null null
+2025-08-04 21:13:14.531 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:13:14.559 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/auth/details - 204 null null 0.9806ms
+2025-08-04 21:13:14.598 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/auth/details - null null
+2025-08-04 21:13:14.598 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:13:14.599 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/auth/details - 204 null null 37.6029ms
+2025-08-04 21:13:14.601 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/auth/details - null null
+2025-08-04 21:13:14.601 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/auth/details - null null
+2025-08-04 21:13:14.601 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:13:14.601 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:13:14.602 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:13:14.603 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-08-04 21:13:14.603 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:13:14.603 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-08-04 21:13:14.603 +03:00 [INF] Start processing HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:13:14.603 +03:00 [INF] Sending HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:13:14.603 +03:00 [INF] Start processing HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:13:14.603 +03:00 [INF] Sending HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:13:14.719 +03:00 [INF] Received HTTP response headers after 115.855ms - 200
+2025-08-04 21:13:14.719 +03:00 [INF] End processing HTTP request after 116.2193ms - 200
+2025-08-04 21:13:14.726 +03:00 [INF] Received HTTP response headers after 122.65ms - 200
+2025-08-04 21:13:14.726 +03:00 [INF] End processing HTTP request after 123.0175ms - 200
+2025-08-04 21:13:14.729 +03:00 [INF] {"id":"c154a7c9-189f-415b-a50d-320be33bf798","email":"test@yopmail.com","firstName":"ivan","lastName":"cool1","isConfirmed":false,"isValid":true,"createDate":"2025-07-08T10:34:15.4366667","modifyDate":"2025-07-08T10:34:15.4366667"}
+2025-08-04 21:13:14.730 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:13:14.737 +03:00 [INF] {"id":"c154a7c9-189f-415b-a50d-320be33bf798","email":"test@yopmail.com","firstName":"ivan","lastName":"cool1","isConfirmed":false,"isValid":true,"createDate":"2025-07-08T10:34:15.4366667","modifyDate":"2025-07-08T10:34:15.4366667"}
+2025-08-04 21:13:14.738 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:13:14.777 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:13:14.777 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:13:14.778 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:13:14.815 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:13:14.815 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - 204 null null 0.857ms
+2025-08-04 21:13:14.847 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - 204 null null 69.4495ms
+2025-08-04 21:13:14.851 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:13:14.852 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:13:14.852 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:13:14.852 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:13:14.892 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:13:14.892 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:13:14.893 +03:00 [INF] Route matched with {action = "GetSelfOrganizations", controller = "Organization"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[TaskManagerConvertor.Models.Organization.OrganizationDto]]] GetSelfOrganizationsAsync(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.OrganizationController (TaskManagerConvertor).
+2025-08-04 21:13:14.899 +03:00 [INF] Route matched with {action = "GetSelfOrganizations", controller = "Organization"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[TaskManagerConvertor.Models.Organization.OrganizationDto]]] GetSelfOrganizationsAsync(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.OrganizationController (TaskManagerConvertor).
+2025-08-04 21:13:14.900 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:13:14.900 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:13:14.900 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerConvertor.Models.AccountDto'.
+2025-08-04 21:13:14.900 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerConvertor.Models.AccountDto'.
+2025-08-04 21:13:14.902 +03:00 [INF] GetSelfOrganizationsAsync called
+2025-08-04 21:13:14.902 +03:00 [INF] GetSelfOrganizationsAsync called
+2025-08-04 21:13:14.902 +03:00 [WRN] Issue with organzation or token
+2025-08-04 21:13:14.902 +03:00 [WRN] Issue with organzation or token
+2025-08-04 21:13:14.902 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-08-04 21:13:14.902 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-08-04 21:13:14.903 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor) in 3.4126ms
+2025-08-04 21:13:14.903 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor) in 3.281ms
+2025-08-04 21:13:14.903 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:13:14.903 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/organization/details/me - 400 164 application/problem+json; charset=utf-8 51.1188ms
+2025-08-04 21:13:14.903 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:13:14.903 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/organization/details/me - 400 164 application/problem+json; charset=utf-8 51.7511ms
+2025-08-04 21:13:14.908 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 305.7645ms
+2025-08-04 21:13:14.909 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:13:14.909 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/auth/details - 200 231 application/json; charset=utf-8 307.7441ms
+2025-08-04 21:13:14.909 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 306.3928ms
+2025-08-04 21:13:14.910 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:13:14.910 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/auth/details - 200 231 application/json; charset=utf-8 308.5434ms
+2025-08-04 21:14:14.524 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/auth/details - null null
+2025-08-04 21:14:14.524 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:14:14.525 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/auth/details - 204 null null 0.4913ms
+2025-08-04 21:14:14.527 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/auth/details - null null
+2025-08-04 21:14:14.527 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:14:14.527 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:14:14.528 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-08-04 21:14:14.528 +03:00 [INF] Start processing HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:14:14.528 +03:00 [INF] Sending HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:14:14.569 +03:00 [INF] Received HTTP response headers after 40.3922ms - 200
+2025-08-04 21:14:14.569 +03:00 [INF] End processing HTTP request after 40.7004ms - 200
+2025-08-04 21:14:14.572 +03:00 [INF] {"id":"c154a7c9-189f-415b-a50d-320be33bf798","email":"test@yopmail.com","firstName":"ivan","lastName":"cool1","isConfirmed":false,"isValid":true,"createDate":"2025-07-08T10:34:15.4366667","modifyDate":"2025-07-08T10:34:15.4366667"}
+2025-08-04 21:14:14.572 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:14:14.572 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:14:14.572 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerConvertor.Models.AccountDto'.
+2025-08-04 21:14:14.572 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 44.6523ms
+2025-08-04 21:14:14.573 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:14:14.573 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/auth/details - 200 231 application/json; charset=utf-8 45.9763ms
+2025-08-04 21:14:30.096 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/auth/details - null null
+2025-08-04 21:14:30.097 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:14:30.097 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/auth/details - 204 null null 0.4485ms
+2025-08-04 21:14:30.098 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/auth/details - null null
+2025-08-04 21:14:30.098 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:14:30.098 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/auth/details - 204 null null 0.4578ms
+2025-08-04 21:14:30.104 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/auth/details - null null
+2025-08-04 21:14:30.104 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:14:30.106 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:14:30.106 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-08-04 21:14:30.107 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/auth/details - null null
+2025-08-04 21:14:30.107 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:14:30.107 +03:00 [INF] Start processing HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:14:30.107 +03:00 [INF] Sending HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:14:30.107 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:14:30.107 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-08-04 21:14:30.108 +03:00 [INF] Start processing HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:14:30.108 +03:00 [INF] Sending HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:14:30.179 +03:00 [INF] Received HTTP response headers after 71.5142ms - 200
+2025-08-04 21:14:30.179 +03:00 [INF] End processing HTTP request after 71.9538ms - 200
+2025-08-04 21:14:30.180 +03:00 [INF] Received HTTP response headers after 72.0802ms - 200
+2025-08-04 21:14:30.180 +03:00 [INF] End processing HTTP request after 72.3408ms - 200
+2025-08-04 21:14:30.185 +03:00 [INF] {"id":"c154a7c9-189f-415b-a50d-320be33bf798","email":"test@yopmail.com","firstName":"ivan","lastName":"cool1","isConfirmed":false,"isValid":true,"createDate":"2025-07-08T10:34:15.4366667","modifyDate":"2025-07-08T10:34:15.4366667"}
+2025-08-04 21:14:30.186 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:14:30.186 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:14:30.186 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerConvertor.Models.AccountDto'.
+2025-08-04 21:14:30.186 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 79.8352ms
+2025-08-04 21:14:30.186 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:14:30.186 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/auth/details - 200 231 application/json; charset=utf-8 82.2766ms
+2025-08-04 21:14:30.187 +03:00 [INF] {"id":"c154a7c9-189f-415b-a50d-320be33bf798","email":"test@yopmail.com","firstName":"ivan","lastName":"cool1","isConfirmed":false,"isValid":true,"createDate":"2025-07-08T10:34:15.4366667","modifyDate":"2025-07-08T10:34:15.4366667"}
+2025-08-04 21:14:30.187 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:14:30.187 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:14:30.187 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerConvertor.Models.AccountDto'.
+2025-08-04 21:14:30.188 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 80.0199ms
+2025-08-04 21:14:30.188 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:14:30.188 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/auth/details - 200 231 application/json; charset=utf-8 81.2968ms
+2025-08-04 21:14:30.370 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:14:30.370 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:14:30.370 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:14:30.370 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:14:30.370 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - 204 null null 0.5522ms
+2025-08-04 21:14:30.370 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - 204 null null 0.5522ms
+2025-08-04 21:14:30.378 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:14:30.378 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:14:30.378 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:14:30.378 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:14:30.379 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:14:30.379 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:14:30.379 +03:00 [INF] Route matched with {action = "GetSelfOrganizations", controller = "Organization"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[TaskManagerConvertor.Models.Organization.OrganizationDto]]] GetSelfOrganizationsAsync(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.OrganizationController (TaskManagerConvertor).
+2025-08-04 21:14:30.379 +03:00 [INF] Route matched with {action = "GetSelfOrganizations", controller = "Organization"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[TaskManagerConvertor.Models.Organization.OrganizationDto]]] GetSelfOrganizationsAsync(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.OrganizationController (TaskManagerConvertor).
+2025-08-04 21:14:30.379 +03:00 [INF] GetSelfOrganizationsAsync called
+2025-08-04 21:14:30.379 +03:00 [INF] GetSelfOrganizationsAsync called
+2025-08-04 21:14:30.379 +03:00 [WRN] Issue with organzation or token
+2025-08-04 21:14:30.379 +03:00 [WRN] Issue with organzation or token
+2025-08-04 21:14:30.380 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-08-04 21:14:30.380 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-08-04 21:14:30.380 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor) in 1.0467ms
+2025-08-04 21:14:30.380 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor) in 1.0366ms
+2025-08-04 21:14:30.380 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:14:30.380 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/organization/details/me - 400 164 application/problem+json; charset=utf-8 2.3571ms
+2025-08-04 21:14:30.380 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:14:30.381 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/organization/details/me - 400 164 application/problem+json; charset=utf-8 2.5837ms
+2025-08-04 21:15:30.125 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/auth/details - null null
+2025-08-04 21:15:30.129 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:15:30.162 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/auth/details - 204 null null 36.8094ms
+2025-08-04 21:15:30.164 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/auth/details - null null
+2025-08-04 21:15:30.164 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:15:30.165 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:15:30.165 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-08-04 21:15:30.165 +03:00 [INF] Start processing HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:15:30.165 +03:00 [INF] Sending HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:15:30.198 +03:00 [INF] Received HTTP response headers after 32.7091ms - 200
+2025-08-04 21:15:30.198 +03:00 [INF] End processing HTTP request after 32.9304ms - 200
+2025-08-04 21:15:30.201 +03:00 [INF] {"id":"c154a7c9-189f-415b-a50d-320be33bf798","email":"test@yopmail.com","firstName":"ivan","lastName":"cool1","isConfirmed":false,"isValid":true,"createDate":"2025-07-08T10:34:15.4366667","modifyDate":"2025-07-08T10:34:15.4366667"}
+2025-08-04 21:15:30.201 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:15:30.202 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:15:30.202 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerConvertor.Models.AccountDto'.
+2025-08-04 21:15:30.202 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 37.0322ms
+2025-08-04 21:15:30.202 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:15:30.202 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/auth/details - 200 231 application/json; charset=utf-8 38.1184ms
+2025-08-04 21:15:43.309 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/auth/details - null null
+2025-08-04 21:15:43.310 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/auth/details - null null
+2025-08-04 21:15:43.310 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:15:43.310 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:15:43.310 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/auth/details - 204 null null 0.7739ms
+2025-08-04 21:15:43.310 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/auth/details - 204 null null 0.8044ms
+2025-08-04 21:15:43.352 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/auth/details - null null
+2025-08-04 21:15:43.352 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/auth/details - null null
+2025-08-04 21:15:43.352 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:15:43.352 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:15:43.353 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:15:43.353 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-08-04 21:15:43.353 +03:00 [INF] Start processing HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:15:43.354 +03:00 [INF] Sending HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:15:43.353 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:15:43.354 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-08-04 21:15:43.355 +03:00 [INF] Start processing HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:15:43.355 +03:00 [INF] Sending HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:15:43.408 +03:00 [INF] Received HTTP response headers after 54.1755ms - 200
+2025-08-04 21:15:43.408 +03:00 [INF] End processing HTTP request after 54.7537ms - 200
+2025-08-04 21:15:43.417 +03:00 [INF] Received HTTP response headers after 62.2611ms - 200
+2025-08-04 21:15:43.417 +03:00 [INF] End processing HTTP request after 62.6796ms - 200
+2025-08-04 21:15:43.418 +03:00 [INF] {"id":"c154a7c9-189f-415b-a50d-320be33bf798","email":"test@yopmail.com","firstName":"ivan","lastName":"cool1","isConfirmed":false,"isValid":true,"createDate":"2025-07-08T10:34:15.4366667","modifyDate":"2025-07-08T10:34:15.4366667"}
+2025-08-04 21:15:43.419 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:15:43.419 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:15:43.419 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerConvertor.Models.AccountDto'.
+2025-08-04 21:15:43.419 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 66.4441ms
+2025-08-04 21:15:43.420 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:15:43.420 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/auth/details - 200 231 application/json; charset=utf-8 68.0393ms
+2025-08-04 21:15:43.428 +03:00 [INF] {"id":"c154a7c9-189f-415b-a50d-320be33bf798","email":"test@yopmail.com","firstName":"ivan","lastName":"cool1","isConfirmed":false,"isValid":true,"createDate":"2025-07-08T10:34:15.4366667","modifyDate":"2025-07-08T10:34:15.4366667"}
+2025-08-04 21:15:43.428 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:15:43.428 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:15:43.428 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerConvertor.Models.AccountDto'.
+2025-08-04 21:15:43.429 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 74.6655ms
+2025-08-04 21:15:43.429 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:15:43.429 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/auth/details - 200 231 application/json; charset=utf-8 77.3406ms
+2025-08-04 21:15:43.586 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:15:43.586 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:15:43.587 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:15:43.587 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:15:43.587 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - 204 null null 0.3372ms
+2025-08-04 21:15:43.587 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - 204 null null 0.3556ms
+2025-08-04 21:15:43.590 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:15:43.590 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:15:43.590 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:15:43.590 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:15:43.591 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:15:43.591 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:15:43.591 +03:00 [INF] Route matched with {action = "GetSelfOrganizations", controller = "Organization"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[TaskManagerConvertor.Models.Organization.OrganizationDto]]] GetSelfOrganizationsAsync(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.OrganizationController (TaskManagerConvertor).
+2025-08-04 21:15:43.591 +03:00 [INF] Route matched with {action = "GetSelfOrganizations", controller = "Organization"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[TaskManagerConvertor.Models.Organization.OrganizationDto]]] GetSelfOrganizationsAsync(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.OrganizationController (TaskManagerConvertor).
+2025-08-04 21:15:43.591 +03:00 [INF] GetSelfOrganizationsAsync called
+2025-08-04 21:15:43.591 +03:00 [INF] GetSelfOrganizationsAsync called
+2025-08-04 21:15:43.591 +03:00 [WRN] Issue with organzation or token
+2025-08-04 21:15:43.591 +03:00 [WRN] Issue with organzation or token
+2025-08-04 21:15:43.591 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-08-04 21:15:43.591 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-08-04 21:15:43.592 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor) in 0.6476ms
+2025-08-04 21:15:43.592 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor) in 0.6852ms
+2025-08-04 21:15:43.592 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:15:43.592 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:15:43.592 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/organization/details/me - 400 164 application/problem+json; charset=utf-8 1.7702ms
+2025-08-04 21:15:43.592 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/organization/details/me - 400 164 application/problem+json; charset=utf-8 1.8478ms
+2025-08-04 21:15:49.316 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/auth/details - null null
+2025-08-04 21:15:49.316 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:15:49.317 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/auth/details - 204 null null 0.5577ms
+2025-08-04 21:15:49.318 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/auth/details - null null
+2025-08-04 21:15:49.318 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:15:49.318 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/auth/details - 204 null null 0.2852ms
+2025-08-04 21:15:49.320 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/auth/details - null null
+2025-08-04 21:15:49.320 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/auth/details - null null
+2025-08-04 21:15:49.320 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:15:49.320 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:15:49.321 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:15:49.321 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:15:49.321 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-08-04 21:15:49.321 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-08-04 21:15:49.322 +03:00 [INF] Start processing HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:15:49.322 +03:00 [INF] Start processing HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:15:49.322 +03:00 [INF] Sending HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:15:49.323 +03:00 [INF] Sending HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:15:49.356 +03:00 [INF] Received HTTP response headers after 33.5304ms - 200
+2025-08-04 21:15:49.356 +03:00 [INF] End processing HTTP request after 33.9314ms - 200
+2025-08-04 21:15:49.358 +03:00 [INF] Received HTTP response headers after 35.1175ms - 200
+2025-08-04 21:15:49.358 +03:00 [INF] End processing HTTP request after 35.5393ms - 200
+2025-08-04 21:15:49.363 +03:00 [INF] {"id":"c154a7c9-189f-415b-a50d-320be33bf798","email":"test@yopmail.com","firstName":"ivan","lastName":"cool1","isConfirmed":false,"isValid":true,"createDate":"2025-07-08T10:34:15.4366667","modifyDate":"2025-07-08T10:34:15.4366667"}
+2025-08-04 21:15:49.363 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:15:49.363 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:15:49.364 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerConvertor.Models.AccountDto'.
+2025-08-04 21:15:49.365 +03:00 [INF] {"id":"c154a7c9-189f-415b-a50d-320be33bf798","email":"test@yopmail.com","firstName":"ivan","lastName":"cool1","isConfirmed":false,"isValid":true,"createDate":"2025-07-08T10:34:15.4366667","modifyDate":"2025-07-08T10:34:15.4366667"}
+2025-08-04 21:15:49.365 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 43.2245ms
+2025-08-04 21:15:49.365 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:15:49.365 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:15:49.365 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:15:49.365 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/auth/details - 200 231 application/json; charset=utf-8 44.7037ms
+2025-08-04 21:15:49.365 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerConvertor.Models.AccountDto'.
+2025-08-04 21:15:49.366 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 44.0226ms
+2025-08-04 21:15:49.366 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:15:49.366 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/auth/details - 200 231 application/json; charset=utf-8 45.5285ms
+2025-08-04 21:15:49.608 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:15:49.608 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:15:49.608 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:15:49.608 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:15:49.608 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - 204 null null 0.284ms
+2025-08-04 21:15:49.608 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - 204 null null 0.2876ms
+2025-08-04 21:15:49.612 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:15:49.612 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:15:49.613 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:15:49.613 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:15:49.614 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:15:49.614 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:15:49.614 +03:00 [INF] Route matched with {action = "GetSelfOrganizations", controller = "Organization"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[TaskManagerConvertor.Models.Organization.OrganizationDto]]] GetSelfOrganizationsAsync(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.OrganizationController (TaskManagerConvertor).
+2025-08-04 21:15:49.614 +03:00 [INF] Route matched with {action = "GetSelfOrganizations", controller = "Organization"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[TaskManagerConvertor.Models.Organization.OrganizationDto]]] GetSelfOrganizationsAsync(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.OrganizationController (TaskManagerConvertor).
+2025-08-04 21:15:49.614 +03:00 [INF] GetSelfOrganizationsAsync called
+2025-08-04 21:15:49.614 +03:00 [INF] GetSelfOrganizationsAsync called
+2025-08-04 21:15:49.614 +03:00 [WRN] Issue with organzation or token
+2025-08-04 21:15:49.614 +03:00 [WRN] Issue with organzation or token
+2025-08-04 21:15:49.614 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-08-04 21:15:49.614 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-08-04 21:15:49.615 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor) in 0.6411ms
+2025-08-04 21:15:49.615 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor) in 0.6658ms
+2025-08-04 21:15:49.615 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:15:49.615 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:15:49.615 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/organization/details/me - 400 164 application/problem+json; charset=utf-8 2.3395ms
+2025-08-04 21:15:49.615 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/organization/details/me - 400 164 application/problem+json; charset=utf-8 2.4602ms
+2025-08-04 21:16:09.751 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/auth/details - null null
+2025-08-04 21:16:09.752 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:16:09.752 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/auth/details - 204 null null 0.5813ms
+2025-08-04 21:16:09.758 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/auth/details - null null
+2025-08-04 21:16:09.759 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:16:09.759 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/auth/details - 204 null null 0.2951ms
+2025-08-04 21:16:09.760 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/auth/details - null null
+2025-08-04 21:16:09.761 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:16:09.761 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:16:09.762 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-08-04 21:16:09.762 +03:00 [INF] Start processing HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:16:09.762 +03:00 [INF] Sending HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:16:09.773 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/auth/details - null null
+2025-08-04 21:16:09.773 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:16:09.774 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:16:09.774 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-08-04 21:16:09.775 +03:00 [INF] Start processing HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:16:09.775 +03:00 [INF] Sending HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:16:09.821 +03:00 [INF] Received HTTP response headers after 59.4786ms - 200
+2025-08-04 21:16:09.822 +03:00 [INF] End processing HTTP request after 59.7763ms - 200
+2025-08-04 21:16:09.823 +03:00 [INF] Received HTTP response headers after 48.5161ms - 200
+2025-08-04 21:16:09.824 +03:00 [INF] End processing HTTP request after 48.8576ms - 200
+2025-08-04 21:16:09.829 +03:00 [INF] {"id":"c154a7c9-189f-415b-a50d-320be33bf798","email":"test@yopmail.com","firstName":"ivan","lastName":"cool1","isConfirmed":false,"isValid":true,"createDate":"2025-07-08T10:34:15.4366667","modifyDate":"2025-07-08T10:34:15.4366667"}
+2025-08-04 21:16:09.829 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:16:09.829 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:16:09.830 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerConvertor.Models.AccountDto'.
+2025-08-04 21:16:09.830 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 68.5095ms
+2025-08-04 21:16:09.830 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:16:09.831 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/auth/details - 200 231 application/json; charset=utf-8 70.7944ms
+2025-08-04 21:16:09.867 +03:00 [INF] {"id":"c154a7c9-189f-415b-a50d-320be33bf798","email":"test@yopmail.com","firstName":"ivan","lastName":"cool1","isConfirmed":false,"isValid":true,"createDate":"2025-07-08T10:34:15.4366667","modifyDate":"2025-07-08T10:34:15.4366667"}
+2025-08-04 21:16:09.894 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:16:09.894 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:16:09.895 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerConvertor.Models.AccountDto'.
+2025-08-04 21:16:09.895 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 120.5864ms
+2025-08-04 21:16:09.895 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:16:09.895 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/auth/details - 200 231 application/json; charset=utf-8 122.4697ms
+2025-08-04 21:16:10.024 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:16:10.024 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:16:10.025 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - 204 null null 0.3648ms
+2025-08-04 21:16:10.025 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:16:10.025 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:16:10.025 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - 204 null null 0.2569ms
+2025-08-04 21:16:10.028 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:16:10.028 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:16:10.028 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:16:10.028 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:16:10.029 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:16:10.029 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:16:10.029 +03:00 [INF] Route matched with {action = "GetSelfOrganizations", controller = "Organization"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[TaskManagerConvertor.Models.Organization.OrganizationDto]]] GetSelfOrganizationsAsync(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.OrganizationController (TaskManagerConvertor).
+2025-08-04 21:16:10.029 +03:00 [INF] Route matched with {action = "GetSelfOrganizations", controller = "Organization"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[TaskManagerConvertor.Models.Organization.OrganizationDto]]] GetSelfOrganizationsAsync(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.OrganizationController (TaskManagerConvertor).
+2025-08-04 21:16:10.029 +03:00 [INF] GetSelfOrganizationsAsync called
+2025-08-04 21:16:10.029 +03:00 [INF] GetSelfOrganizationsAsync called
+2025-08-04 21:16:10.029 +03:00 [WRN] Issue with organzation or token
+2025-08-04 21:16:10.029 +03:00 [WRN] Issue with organzation or token
+2025-08-04 21:16:10.029 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-08-04 21:16:10.029 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-08-04 21:16:10.030 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor) in 0.6333ms
+2025-08-04 21:16:10.030 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor) in 0.5962ms
+2025-08-04 21:16:10.030 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:16:10.030 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:16:10.030 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/organization/details/me - 400 164 application/problem+json; charset=utf-8 1.7205ms
+2025-08-04 21:16:10.030 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/organization/details/me - 400 164 application/problem+json; charset=utf-8 1.7335ms
+2025-08-04 21:16:53.247 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/auth/details - null null
+2025-08-04 21:16:53.247 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/auth/details - null null
+2025-08-04 21:16:53.247 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:16:53.247 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:16:53.247 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/auth/details - 204 null null 0.4832ms
+2025-08-04 21:16:53.247 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/auth/details - 204 null null 0.3862ms
+2025-08-04 21:16:53.278 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/auth/details - null null
+2025-08-04 21:16:53.278 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/auth/details - null null
+2025-08-04 21:16:53.278 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:16:53.278 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:16:53.279 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:16:53.279 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:16:53.279 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-08-04 21:16:53.279 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-08-04 21:16:53.279 +03:00 [INF] Start processing HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:16:53.279 +03:00 [INF] Start processing HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:16:53.279 +03:00 [INF] Sending HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:16:53.279 +03:00 [INF] Sending HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:16:53.329 +03:00 [INF] Received HTTP response headers after 49.2854ms - 200
+2025-08-04 21:16:53.329 +03:00 [INF] End processing HTTP request after 49.6101ms - 200
+2025-08-04 21:16:53.331 +03:00 [INF] Received HTTP response headers after 51.3017ms - 200
+2025-08-04 21:16:53.331 +03:00 [INF] End processing HTTP request after 51.7068ms - 200
+2025-08-04 21:16:53.336 +03:00 [INF] {"id":"c154a7c9-189f-415b-a50d-320be33bf798","email":"test@yopmail.com","firstName":"ivan","lastName":"cool1","isConfirmed":false,"isValid":true,"createDate":"2025-07-08T10:34:15.4366667","modifyDate":"2025-07-08T10:34:15.4366667"}
+2025-08-04 21:16:53.336 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:16:53.336 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:16:53.336 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerConvertor.Models.AccountDto'.
+2025-08-04 21:16:53.337 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 57.7266ms
+2025-08-04 21:16:53.337 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:16:53.337 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/auth/details - 200 231 application/json; charset=utf-8 58.6946ms
+2025-08-04 21:16:53.337 +03:00 [INF] {"id":"c154a7c9-189f-415b-a50d-320be33bf798","email":"test@yopmail.com","firstName":"ivan","lastName":"cool1","isConfirmed":false,"isValid":true,"createDate":"2025-07-08T10:34:15.4366667","modifyDate":"2025-07-08T10:34:15.4366667"}
+2025-08-04 21:16:53.337 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:16:53.337 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:16:53.338 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerConvertor.Models.AccountDto'.
+2025-08-04 21:16:53.338 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 59.1812ms
+2025-08-04 21:16:53.338 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:16:53.338 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/auth/details - 200 231 application/json; charset=utf-8 60.1985ms
+2025-08-04 21:17:08.494 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:17:08.494 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:17:08.494 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:17:08.494 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:17:08.494 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - 204 null null 0.3323ms
+2025-08-04 21:17:08.494 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - 204 null null 0.3201ms
+2025-08-04 21:17:08.497 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:17:08.497 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:17:08.497 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:17:08.497 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:17:08.498 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:17:08.497 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:17:08.498 +03:00 [INF] Route matched with {action = "GetSelfOrganizations", controller = "Organization"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[TaskManagerConvertor.Models.Organization.OrganizationDto]]] GetSelfOrganizationsAsync(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.OrganizationController (TaskManagerConvertor).
+2025-08-04 21:17:08.498 +03:00 [INF] Route matched with {action = "GetSelfOrganizations", controller = "Organization"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[TaskManagerConvertor.Models.Organization.OrganizationDto]]] GetSelfOrganizationsAsync(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.OrganizationController (TaskManagerConvertor).
+2025-08-04 21:17:08.498 +03:00 [INF] GetSelfOrganizationsAsync called
+2025-08-04 21:17:08.498 +03:00 [INF] GetSelfOrganizationsAsync called
+2025-08-04 21:17:08.498 +03:00 [WRN] Issue with organzation or token
+2025-08-04 21:17:08.498 +03:00 [WRN] Issue with organzation or token
+2025-08-04 21:17:08.498 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-08-04 21:17:08.498 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-08-04 21:17:08.499 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor) in 0.5607ms
+2025-08-04 21:17:08.499 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor) in 0.5844ms
+2025-08-04 21:17:08.499 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:17:08.499 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:17:08.499 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/organization/details/me - 400 164 application/problem+json; charset=utf-8 1.869ms
+2025-08-04 21:17:08.499 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/organization/details/me - 400 164 application/problem+json; charset=utf-8 1.8919ms
+2025-08-04 21:17:09.741 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/auth/details - null null
+2025-08-04 21:17:09.741 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:17:09.741 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/auth/details - 204 null null 0.227ms
+2025-08-04 21:17:09.743 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/auth/details - null null
+2025-08-04 21:17:09.743 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:17:09.744 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:17:09.744 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-08-04 21:17:09.745 +03:00 [INF] Start processing HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:17:09.745 +03:00 [INF] Sending HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:17:09.765 +03:00 [INF] Received HTTP response headers after 19.9174ms - 200
+2025-08-04 21:17:09.765 +03:00 [INF] End processing HTTP request after 20.2285ms - 200
+2025-08-04 21:17:09.768 +03:00 [INF] {"id":"c154a7c9-189f-415b-a50d-320be33bf798","email":"test@yopmail.com","firstName":"ivan","lastName":"cool1","isConfirmed":false,"isValid":true,"createDate":"2025-07-08T10:34:15.4366667","modifyDate":"2025-07-08T10:34:15.4366667"}
+2025-08-04 21:17:09.768 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:17:09.768 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:17:09.768 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerConvertor.Models.AccountDto'.
+2025-08-04 21:17:09.769 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 24.4209ms
+2025-08-04 21:17:09.769 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:17:09.769 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/auth/details - 200 231 application/json; charset=utf-8 25.7495ms
+2025-08-04 21:17:44.771 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/auth/details - null null
+2025-08-04 21:17:44.777 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:17:44.803 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/auth/details - 204 null null 31.5439ms
+2025-08-04 21:17:44.803 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/auth/details - null null
+2025-08-04 21:17:44.803 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:17:44.803 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/auth/details - 204 null null 0.4848ms
+2025-08-04 21:17:44.817 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/auth/details - null null
+2025-08-04 21:17:44.817 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/auth/details - null null
+2025-08-04 21:17:44.817 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:17:44.817 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:17:44.818 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:17:44.818 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:17:44.818 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-08-04 21:17:44.818 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-08-04 21:17:44.818 +03:00 [INF] Start processing HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:17:44.818 +03:00 [INF] Start processing HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:17:44.819 +03:00 [INF] Sending HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:17:44.819 +03:00 [INF] Sending HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:17:44.866 +03:00 [INF] Received HTTP response headers after 47.155ms - 200
+2025-08-04 21:17:44.866 +03:00 [INF] End processing HTTP request after 47.4533ms - 200
+2025-08-04 21:17:44.867 +03:00 [INF] Received HTTP response headers after 48.0351ms - 200
+2025-08-04 21:17:44.867 +03:00 [INF] End processing HTTP request after 48.3395ms - 200
+2025-08-04 21:17:44.873 +03:00 [INF] {"id":"c154a7c9-189f-415b-a50d-320be33bf798","email":"test@yopmail.com","firstName":"ivan","lastName":"cool1","isConfirmed":false,"isValid":true,"createDate":"2025-07-08T10:34:15.4366667","modifyDate":"2025-07-08T10:34:15.4366667"}
+2025-08-04 21:17:44.873 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:17:44.873 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:17:44.873 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerConvertor.Models.AccountDto'.
+2025-08-04 21:17:44.874 +03:00 [INF] {"id":"c154a7c9-189f-415b-a50d-320be33bf798","email":"test@yopmail.com","firstName":"ivan","lastName":"cool1","isConfirmed":false,"isValid":true,"createDate":"2025-07-08T10:34:15.4366667","modifyDate":"2025-07-08T10:34:15.4366667"}
+2025-08-04 21:17:44.874 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:17:44.874 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 55.7138ms
+2025-08-04 21:17:44.874 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:17:44.874 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/auth/details - 200 231 application/json; charset=utf-8 57.4677ms
+2025-08-04 21:17:44.874 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:17:44.874 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerConvertor.Models.AccountDto'.
+2025-08-04 21:17:44.875 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 56.7769ms
+2025-08-04 21:17:44.875 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:17:44.875 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/auth/details - 200 231 application/json; charset=utf-8 58.3857ms
+2025-08-04 21:17:47.599 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/auth/details - null null
+2025-08-04 21:17:47.599 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/auth/details - null null
+2025-08-04 21:17:47.599 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:17:47.599 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:17:47.599 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/auth/details - 204 null null 0.3104ms
+2025-08-04 21:17:47.599 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/auth/details - 204 null null 0.3097ms
+2025-08-04 21:17:47.602 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/auth/details - null null
+2025-08-04 21:17:47.602 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:17:47.602 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/auth/details - null null
+2025-08-04 21:17:47.602 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:17:47.602 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:17:47.602 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:17:47.603 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-08-04 21:17:47.603 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-08-04 21:17:47.603 +03:00 [INF] Start processing HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:17:47.603 +03:00 [INF] Start processing HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:17:47.603 +03:00 [INF] Sending HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:17:47.603 +03:00 [INF] Sending HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:17:47.636 +03:00 [INF] Received HTTP response headers after 33.2758ms - 200
+2025-08-04 21:17:47.637 +03:00 [INF] End processing HTTP request after 33.593ms - 200
+2025-08-04 21:17:47.638 +03:00 [INF] Received HTTP response headers after 35.0623ms - 200
+2025-08-04 21:17:47.638 +03:00 [INF] End processing HTTP request after 35.3373ms - 200
+2025-08-04 21:17:47.644 +03:00 [INF] {"id":"c154a7c9-189f-415b-a50d-320be33bf798","email":"test@yopmail.com","firstName":"ivan","lastName":"cool1","isConfirmed":false,"isValid":true,"createDate":"2025-07-08T10:34:15.4366667","modifyDate":"2025-07-08T10:34:15.4366667"}
+2025-08-04 21:17:47.644 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:17:47.644 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:17:47.645 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerConvertor.Models.AccountDto'.
+2025-08-04 21:17:47.645 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 42.5916ms
+2025-08-04 21:17:47.645 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:17:47.646 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/auth/details - 200 231 application/json; charset=utf-8 43.9305ms
+2025-08-04 21:17:47.646 +03:00 [INF] {"id":"c154a7c9-189f-415b-a50d-320be33bf798","email":"test@yopmail.com","firstName":"ivan","lastName":"cool1","isConfirmed":false,"isValid":true,"createDate":"2025-07-08T10:34:15.4366667","modifyDate":"2025-07-08T10:34:15.4366667"}
+2025-08-04 21:17:47.646 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:17:47.646 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:17:47.646 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerConvertor.Models.AccountDto'.
+2025-08-04 21:17:47.646 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 43.6145ms
+2025-08-04 21:17:47.646 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:17:47.646 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/auth/details - 200 231 application/json; charset=utf-8 44.5243ms
+2025-08-04 21:17:47.899 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:17:47.899 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:17:47.899 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:17:47.899 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:17:47.899 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - 204 null null 0.2473ms
+2025-08-04 21:17:47.899 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - 204 null null 0.2841ms
+2025-08-04 21:17:47.901 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:17:47.901 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:17:47.902 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:17:47.902 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:17:47.902 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:17:47.902 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:17:47.902 +03:00 [INF] Route matched with {action = "GetSelfOrganizations", controller = "Organization"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[TaskManagerConvertor.Models.Organization.OrganizationDto]]] GetSelfOrganizationsAsync(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.OrganizationController (TaskManagerConvertor).
+2025-08-04 21:17:47.902 +03:00 [INF] Route matched with {action = "GetSelfOrganizations", controller = "Organization"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[TaskManagerConvertor.Models.Organization.OrganizationDto]]] GetSelfOrganizationsAsync(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.OrganizationController (TaskManagerConvertor).
+2025-08-04 21:17:47.903 +03:00 [INF] GetSelfOrganizationsAsync called
+2025-08-04 21:17:47.903 +03:00 [INF] GetSelfOrganizationsAsync called
+2025-08-04 21:17:47.903 +03:00 [WRN] Issue with organzation or token
+2025-08-04 21:17:47.903 +03:00 [WRN] Issue with organzation or token
+2025-08-04 21:17:47.903 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-08-04 21:17:47.903 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-08-04 21:17:47.903 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor) in 0.6897ms
+2025-08-04 21:17:47.903 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor) in 0.7311ms
+2025-08-04 21:17:47.903 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:17:47.903 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:17:47.903 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/organization/details/me - 400 164 application/problem+json; charset=utf-8 1.7125ms
+2025-08-04 21:17:47.903 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/organization/details/me - 400 164 application/problem+json; charset=utf-8 1.6414ms
+2025-08-04 21:18:47.618 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/auth/details - null null
+2025-08-04 21:18:47.621 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:18:47.624 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/auth/details - 204 null null 6.1192ms
+2025-08-04 21:18:47.630 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/auth/details - null null
+2025-08-04 21:18:47.630 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:18:47.631 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:18:47.631 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-08-04 21:18:47.631 +03:00 [INF] Start processing HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:18:47.631 +03:00 [INF] Sending HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:18:47.648 +03:00 [INF] Received HTTP response headers after 17.2986ms - 200
+2025-08-04 21:18:47.649 +03:00 [INF] End processing HTTP request after 17.4829ms - 200
+2025-08-04 21:18:47.651 +03:00 [INF] {"id":"c154a7c9-189f-415b-a50d-320be33bf798","email":"test@yopmail.com","firstName":"ivan","lastName":"cool1","isConfirmed":false,"isValid":true,"createDate":"2025-07-08T10:34:15.4366667","modifyDate":"2025-07-08T10:34:15.4366667"}
+2025-08-04 21:18:47.651 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:18:47.651 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:18:47.651 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerConvertor.Models.AccountDto'.
+2025-08-04 21:18:47.652 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 20.7599ms
+2025-08-04 21:18:47.652 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:18:47.652 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/auth/details - 200 231 application/json; charset=utf-8 21.6669ms
+2025-08-04 21:19:03.128 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/auth/details - null null
+2025-08-04 21:19:03.128 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:19:03.128 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/auth/details - 204 null null 0.2469ms
+2025-08-04 21:19:03.131 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/auth/details - null null
+2025-08-04 21:19:03.131 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:19:03.131 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/auth/details - 204 null null 0.188ms
+2025-08-04 21:19:03.138 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/auth/details - null null
+2025-08-04 21:19:03.138 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:19:03.138 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/auth/details - null null
+2025-08-04 21:19:03.139 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:19:03.139 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:19:03.139 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-08-04 21:19:03.139 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:19:03.139 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-08-04 21:19:30.867 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:19:30.867 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:19:31.923 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:19:31.924 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - 204 null null 2256.0735ms
+2025-08-04 21:19:31.961 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:19:35.210 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - 204 null null 3287.2834ms
+2025-08-04 21:19:35.211 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:19:37.350 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:19:37.351 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:19:39.946 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:19:41.227 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:19:41.228 +03:00 [INF] Route matched with {action = "GetSelfOrganizations", controller = "Organization"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[TaskManagerConvertor.Models.Organization.OrganizationDto]]] GetSelfOrganizationsAsync(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.OrganizationController (TaskManagerConvertor).
+2025-08-04 21:19:41.277 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:19:41.277 +03:00 [INF] GetSelfOrganizationsAsync called
+2025-08-04 21:19:41.277 +03:00 [INF] Route matched with {action = "GetSelfOrganizations", controller = "Organization"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[TaskManagerConvertor.Models.Organization.OrganizationDto]]] GetSelfOrganizationsAsync(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.OrganizationController (TaskManagerConvertor).
+2025-08-04 21:19:41.279 +03:00 [WRN] Issue with organzation or token
+2025-08-04 21:19:41.279 +03:00 [INF] GetSelfOrganizationsAsync called
+2025-08-04 21:19:41.868 +03:00 [WRN] Issue with organzation or token
+2025-08-04 21:19:41.869 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-08-04 21:19:41.869 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-08-04 21:19:42.996 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor) in 1718.3527ms
+2025-08-04 21:19:45.497 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:19:45.498 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor) in 4218.7938ms
+2025-08-04 21:19:45.499 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:19:45.498 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/organization/details/me - 400 164 application/problem+json; charset=utf-8 10286.6609ms
+2025-08-04 21:19:46.766 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/organization/details/me - 400 164 application/problem+json; charset=utf-8 9413.4903ms
+2025-08-04 21:19:58.103 +03:00 [INF] Start processing HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:19:58.103 +03:00 [INF] Sending HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:19:58.104 +03:00 [INF] Start processing HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:19:58.104 +03:00 [INF] Sending HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:19:58.221 +03:00 [INF] Received HTTP response headers after 116.2126ms - 200
+2025-08-04 21:19:58.221 +03:00 [INF] End processing HTTP request after 116.5647ms - 200
+2025-08-04 21:19:58.222 +03:00 [INF] Received HTTP response headers after 118.3679ms - 200
+2025-08-04 21:19:58.222 +03:00 [INF] End processing HTTP request after 120.2658ms - 200
+2025-08-04 21:20:04.614 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/auth/details - null null
+2025-08-04 21:20:04.615 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:20:04.615 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/auth/details - 204 null null 1.5417ms
+2025-08-04 21:20:07.468 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/auth/details - null null
+2025-08-04 21:20:07.471 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:20:07.474 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:20:07.475 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-08-04 21:20:09.856 +03:00 [INF] {"id":"c154a7c9-189f-415b-a50d-320be33bf798","email":"test@yopmail.com","firstName":"ivan","lastName":"cool1","isConfirmed":false,"isValid":true,"createDate":"2025-07-08T10:34:15.4366667","modifyDate":"2025-07-08T10:34:15.4366667"}
+2025-08-04 21:20:10.582 +03:00 [INF] {"id":"c154a7c9-189f-415b-a50d-320be33bf798","email":"test@yopmail.com","firstName":"ivan","lastName":"cool1","isConfirmed":false,"isValid":true,"createDate":"2025-07-08T10:34:15.4366667","modifyDate":"2025-07-08T10:34:15.4366667"}
+2025-08-04 21:20:11.015 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:20:11.016 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:20:12.246 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerConvertor.Models.AccountDto'.
+2025-08-04 21:20:12.249 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 69109.5882ms
+2025-08-04 21:20:12.290 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:20:12.291 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/auth/details - 200 231 application/json; charset=utf-8 69151.8737ms
+2025-08-04 21:20:16.214 +03:00 [INF] Start processing HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:20:16.214 +03:00 [INF] Sending HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:20:17.172 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:20:17.172 +03:00 [INF] Received HTTP response headers after 957.6335ms - 200
+2025-08-04 21:20:17.172 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:20:17.173 +03:00 [INF] End processing HTTP request after 959.0098ms - 200
+2025-08-04 21:20:17.173 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerConvertor.Models.AccountDto'.
+2025-08-04 21:20:17.173 +03:00 [INF] {"id":"c154a7c9-189f-415b-a50d-320be33bf798","email":"test@yopmail.com","firstName":"ivan","lastName":"cool1","isConfirmed":false,"isValid":true,"createDate":"2025-07-08T10:34:15.4366667","modifyDate":"2025-07-08T10:34:15.4366667"}
+2025-08-04 21:20:17.173 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:20:17.173 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:20:17.173 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 74034.115ms
+2025-08-04 21:20:17.173 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:20:17.173 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerConvertor.Models.AccountDto'.
+2025-08-04 21:20:17.173 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/auth/details - 200 231 application/json; charset=utf-8 74034.9412ms
+2025-08-04 21:20:17.173 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 9697.5097ms
+2025-08-04 21:20:17.173 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:20:17.173 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/auth/details - 200 231 application/json; charset=utf-8 9705.341ms
+2025-08-04 21:21:03.114 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/auth/details - null null
+2025-08-04 21:21:03.114 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:21:03.114 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/auth/details - 204 null null 0.3148ms
+2025-08-04 21:21:03.121 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/auth/details - null null
+2025-08-04 21:21:03.121 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:21:03.121 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:21:03.121 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-08-04 21:21:15.683 +03:00 [INF] Start processing HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:21:15.683 +03:00 [INF] Sending HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:21:15.740 +03:00 [INF] Received HTTP response headers after 56.8062ms - 200
+2025-08-04 21:21:15.740 +03:00 [INF] End processing HTTP request after 57.3296ms - 200
+2025-08-04 21:21:15.744 +03:00 [INF] {"id":"c154a7c9-189f-415b-a50d-320be33bf798","email":"test@yopmail.com","firstName":"ivan","lastName":"cool1","isConfirmed":false,"isValid":true,"createDate":"2025-07-08T10:34:15.4366667","modifyDate":"2025-07-08T10:34:15.4366667"}
+2025-08-04 21:21:15.745 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:21:15.745 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:21:15.745 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerConvertor.Models.AccountDto'.
+2025-08-04 21:21:15.745 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 12623.7635ms
+2025-08-04 21:21:15.745 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:21:15.745 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/auth/details - 200 231 application/json; charset=utf-8 12624.603ms
+2025-08-04 21:21:58.540 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/auth/details - null null
+2025-08-04 21:21:58.542 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:21:58.546 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/auth/details - null null
+2025-08-04 21:21:58.554 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/auth/details - 204 null null 5.9773ms
+2025-08-04 21:21:58.554 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:21:58.554 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/auth/details - 204 null null 8.1725ms
+2025-08-04 21:21:58.566 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/auth/details - null null
+2025-08-04 21:21:58.566 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:21:58.566 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/auth/details - null null
+2025-08-04 21:21:58.566 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:21:58.566 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:21:58.566 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-08-04 21:21:58.566 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:21:58.566 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-08-04 21:21:58.567 +03:00 [INF] Start processing HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:21:58.567 +03:00 [INF] Sending HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:21:58.568 +03:00 [INF] Start processing HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:21:58.571 +03:00 [INF] Sending HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:21:58.672 +03:00 [INF] Received HTTP response headers after 105.2744ms - 200
+2025-08-04 21:21:58.672 +03:00 [INF] End processing HTTP request after 105.5211ms - 200
+2025-08-04 21:21:58.675 +03:00 [INF] Received HTTP response headers after 102.9855ms - 200
+2025-08-04 21:21:58.675 +03:00 [INF] End processing HTTP request after 108.0912ms - 200
+2025-08-04 21:21:58.680 +03:00 [INF] {"id":"c154a7c9-189f-415b-a50d-320be33bf798","email":"test@yopmail.com","firstName":"ivan","lastName":"cool1","isConfirmed":false,"isValid":true,"createDate":"2025-07-08T10:34:15.4366667","modifyDate":"2025-07-08T10:34:15.4366667"}
+2025-08-04 21:21:58.681 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:21:58.681 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:21:58.681 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerConvertor.Models.AccountDto'.
+2025-08-04 21:21:58.681 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 114.7352ms
+2025-08-04 21:21:58.681 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:21:58.681 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/auth/details - 200 231 application/json; charset=utf-8 115.6517ms
+2025-08-04 21:21:58.682 +03:00 [INF] {"id":"c154a7c9-189f-415b-a50d-320be33bf798","email":"test@yopmail.com","firstName":"ivan","lastName":"cool1","isConfirmed":false,"isValid":true,"createDate":"2025-07-08T10:34:15.4366667","modifyDate":"2025-07-08T10:34:15.4366667"}
+2025-08-04 21:21:58.682 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:21:58.683 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:21:58.683 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerConvertor.Models.AccountDto'.
+2025-08-04 21:21:58.683 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 116.6092ms
+2025-08-04 21:21:58.683 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:21:58.683 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/auth/details - 200 231 application/json; charset=utf-8 117.7821ms
+2025-08-04 21:21:58.837 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:21:58.837 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:21:58.837 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:21:58.837 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:21:58.837 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - 204 null null 0.2788ms
+2025-08-04 21:21:58.837 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - 204 null null 0.2903ms
+2025-08-04 21:21:58.840 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:21:58.840 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:21:58.840 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:21:58.840 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:21:58.841 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:21:58.841 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:21:58.841 +03:00 [INF] Route matched with {action = "GetSelfOrganizations", controller = "Organization"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[TaskManagerConvertor.Models.Organization.OrganizationDto]]] GetSelfOrganizationsAsync(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.OrganizationController (TaskManagerConvertor).
+2025-08-04 21:21:58.841 +03:00 [INF] Route matched with {action = "GetSelfOrganizations", controller = "Organization"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[TaskManagerConvertor.Models.Organization.OrganizationDto]]] GetSelfOrganizationsAsync(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.OrganizationController (TaskManagerConvertor).
+2025-08-04 21:21:58.841 +03:00 [INF] GetSelfOrganizationsAsync called
+2025-08-04 21:21:58.841 +03:00 [INF] GetSelfOrganizationsAsync called
+2025-08-04 21:22:13.897 +03:00 [WRN] Issue with organzation or token
+2025-08-04 21:22:13.897 +03:00 [WRN] Issue with organzation or token
+2025-08-04 21:22:13.898 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-08-04 21:22:13.898 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-08-04 21:22:13.898 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor) in 15057.2142ms
+2025-08-04 21:22:13.898 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor) in 15057.2001ms
+2025-08-04 21:22:13.898 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:22:13.902 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/organization/details/me - 400 164 application/problem+json; charset=utf-8 15061.7612ms
+2025-08-04 21:22:13.899 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:22:13.905 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/organization/details/me - 400 164 application/problem+json; charset=utf-8 15065.1593ms
+2025-08-04 21:22:18.314 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/auth/details - null null
+2025-08-04 21:22:18.314 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:22:18.314 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/auth/details - 204 null null 0.221ms
+2025-08-04 21:22:18.317 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/auth/details - null null
+2025-08-04 21:22:18.317 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:22:18.317 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:22:18.318 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-08-04 21:22:18.318 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/auth/details - null null
+2025-08-04 21:22:18.318 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:22:18.318 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/auth/details - 204 null null 0.1813ms
+2025-08-04 21:22:18.318 +03:00 [INF] Start processing HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:22:18.319 +03:00 [INF] Sending HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:22:18.320 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/auth/details - null null
+2025-08-04 21:22:18.321 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:22:18.321 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:22:18.321 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-08-04 21:22:18.321 +03:00 [INF] Start processing HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:22:18.322 +03:00 [INF] Sending HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:22:18.392 +03:00 [INF] Received HTTP response headers after 72.8579ms - 200
+2025-08-04 21:22:18.392 +03:00 [INF] End processing HTTP request after 73.5726ms - 200
+2025-08-04 21:22:18.398 +03:00 [INF] {"id":"c154a7c9-189f-415b-a50d-320be33bf798","email":"test@yopmail.com","firstName":"ivan","lastName":"cool1","isConfirmed":false,"isValid":true,"createDate":"2025-07-08T10:34:15.4366667","modifyDate":"2025-07-08T10:34:15.4366667"}
+2025-08-04 21:22:18.398 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:22:18.398 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:22:18.399 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerConvertor.Models.AccountDto'.
+2025-08-04 21:22:18.399 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 80.8809ms
+2025-08-04 21:22:18.399 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:22:18.399 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/auth/details - 200 231 application/json; charset=utf-8 82.0706ms
+2025-08-04 21:22:18.408 +03:00 [INF] Received HTTP response headers after 86.5485ms - 200
+2025-08-04 21:22:18.408 +03:00 [INF] End processing HTTP request after 86.84ms - 200
+2025-08-04 21:22:18.413 +03:00 [INF] {"id":"c154a7c9-189f-415b-a50d-320be33bf798","email":"test@yopmail.com","firstName":"ivan","lastName":"cool1","isConfirmed":false,"isValid":true,"createDate":"2025-07-08T10:34:15.4366667","modifyDate":"2025-07-08T10:34:15.4366667"}
+2025-08-04 21:22:18.413 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:22:18.413 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:22:18.413 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerConvertor.Models.AccountDto'.
+2025-08-04 21:22:18.414 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 92.4255ms
+2025-08-04 21:22:18.414 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:22:18.414 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/auth/details - 200 231 application/json; charset=utf-8 93.5464ms
+2025-08-04 21:22:18.607 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:22:18.607 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:22:18.607 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:22:18.607 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:22:18.607 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - 204 null null 0.2322ms
+2025-08-04 21:22:18.607 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - 204 null null 0.2534ms
+2025-08-04 21:22:18.611 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:22:18.611 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:22:18.611 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:22:18.611 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:22:18.611 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:22:18.611 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:22:18.612 +03:00 [INF] Route matched with {action = "GetSelfOrganizations", controller = "Organization"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[TaskManagerConvertor.Models.Organization.OrganizationDto]]] GetSelfOrganizationsAsync(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.OrganizationController (TaskManagerConvertor).
+2025-08-04 21:22:18.612 +03:00 [INF] Route matched with {action = "GetSelfOrganizations", controller = "Organization"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[TaskManagerConvertor.Models.Organization.OrganizationDto]]] GetSelfOrganizationsAsync(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.OrganizationController (TaskManagerConvertor).
+2025-08-04 21:22:18.612 +03:00 [INF] GetSelfOrganizationsAsync called
+2025-08-04 21:22:18.612 +03:00 [INF] GetSelfOrganizationsAsync called
+2025-08-04 21:23:03.518 +03:00 [WRN] Issue with organzation or token
+2025-08-04 21:23:04.284 +03:00 [WRN] Issue with organzation or token
+2025-08-04 21:23:04.284 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-08-04 21:23:04.284 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-08-04 21:23:04.285 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor) in 45672.8369ms
+2025-08-04 21:23:04.285 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor) in 45672.8161ms
+2025-08-04 21:23:04.285 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:23:04.285 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:23:04.285 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/organization/details/me - 400 164 application/problem+json; charset=utf-8 45673.9868ms
+2025-08-04 21:23:04.285 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/organization/details/me - 400 164 application/problem+json; charset=utf-8 45674.0883ms
+2025-08-04 21:23:18.317 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/auth/details - null null
+2025-08-04 21:23:18.318 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:23:18.318 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/auth/details - 204 null null 0.4224ms
+2025-08-04 21:23:18.320 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/auth/details - null null
+2025-08-04 21:23:18.320 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:23:18.320 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:23:18.320 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-08-04 21:23:18.320 +03:00 [INF] Start processing HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:23:18.320 +03:00 [INF] Sending HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:23:18.338 +03:00 [INF] Received HTTP response headers after 17.9146ms - 200
+2025-08-04 21:23:18.339 +03:00 [INF] End processing HTTP request after 18.1139ms - 200
+2025-08-04 21:23:18.341 +03:00 [INF] {"id":"c154a7c9-189f-415b-a50d-320be33bf798","email":"test@yopmail.com","firstName":"ivan","lastName":"cool1","isConfirmed":false,"isValid":true,"createDate":"2025-07-08T10:34:15.4366667","modifyDate":"2025-07-08T10:34:15.4366667"}
+2025-08-04 21:23:18.341 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:23:18.342 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:23:18.342 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerConvertor.Models.AccountDto'.
+2025-08-04 21:23:18.342 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 21.6139ms
+2025-08-04 21:23:18.342 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:23:18.342 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/auth/details - 200 231 application/json; charset=utf-8 22.3866ms
+2025-08-04 21:23:44.362 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/auth/details - null null
+2025-08-04 21:23:44.362 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:23:44.363 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/auth/details - null null
+2025-08-04 21:23:44.363 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/auth/details - 204 null null 0.7926ms
+2025-08-04 21:23:44.398 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:23:44.423 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/auth/details - 204 null null 59.2293ms
+2025-08-04 21:23:44.424 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/auth/details - null null
+2025-08-04 21:23:44.425 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:23:44.425 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:23:44.425 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-08-04 21:23:44.426 +03:00 [INF] Start processing HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:23:44.426 +03:00 [INF] Sending HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:23:44.429 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/auth/details - null null
+2025-08-04 21:23:44.429 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:23:44.430 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:23:44.430 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-08-04 21:23:44.430 +03:00 [INF] Start processing HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:23:44.430 +03:00 [INF] Sending HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:23:44.531 +03:00 [INF] Received HTTP response headers after 105.0852ms - 200
+2025-08-04 21:23:44.531 +03:00 [INF] End processing HTTP request after 105.3851ms - 200
+2025-08-04 21:23:44.533 +03:00 [INF] Received HTTP response headers after 102.7813ms - 200
+2025-08-04 21:23:44.533 +03:00 [INF] End processing HTTP request after 103.0738ms - 200
+2025-08-04 21:23:44.537 +03:00 [INF] {"id":"c154a7c9-189f-415b-a50d-320be33bf798","email":"test@yopmail.com","firstName":"ivan","lastName":"cool1","isConfirmed":false,"isValid":true,"createDate":"2025-07-08T10:34:15.4366667","modifyDate":"2025-07-08T10:34:15.4366667"}
+2025-08-04 21:23:44.537 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:23:44.537 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:23:44.537 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerConvertor.Models.AccountDto'.
+2025-08-04 21:23:44.538 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 112.0898ms
+2025-08-04 21:23:44.538 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:23:44.538 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/auth/details - 200 231 application/json; charset=utf-8 113.2424ms
+2025-08-04 21:23:44.539 +03:00 [INF] {"id":"c154a7c9-189f-415b-a50d-320be33bf798","email":"test@yopmail.com","firstName":"ivan","lastName":"cool1","isConfirmed":false,"isValid":true,"createDate":"2025-07-08T10:34:15.4366667","modifyDate":"2025-07-08T10:34:15.4366667"}
+2025-08-04 21:23:44.539 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:23:44.539 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:23:44.539 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerConvertor.Models.AccountDto'.
+2025-08-04 21:23:44.539 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 109.5334ms
+2025-08-04 21:23:44.539 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:23:44.539 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/auth/details - 200 231 application/json; charset=utf-8 110.7144ms
+2025-08-04 21:23:44.637 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:23:44.637 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:23:44.637 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:23:44.637 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:23:44.637 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - 204 null null 0.2681ms
+2025-08-04 21:23:44.637 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/organization/details/me - 204 null null 0.2872ms
+2025-08-04 21:23:44.698 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:23:44.698 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/organization/details/me - null null
+2025-08-04 21:23:44.699 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:23:44.699 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:23:44.699 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:23:44.699 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:23:44.699 +03:00 [INF] Route matched with {action = "GetSelfOrganizations", controller = "Organization"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[TaskManagerConvertor.Models.Organization.OrganizationDto]]] GetSelfOrganizationsAsync(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.OrganizationController (TaskManagerConvertor).
+2025-08-04 21:23:44.699 +03:00 [INF] Route matched with {action = "GetSelfOrganizations", controller = "Organization"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[TaskManagerConvertor.Models.Organization.OrganizationDto]]] GetSelfOrganizationsAsync(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.TaskManager.OrganizationController (TaskManagerConvertor).
+2025-08-04 21:23:44.699 +03:00 [INF] GetSelfOrganizationsAsync called
+2025-08-04 21:23:44.699 +03:00 [INF] GetSelfOrganizationsAsync called
+2025-08-04 21:24:45.055 +03:00 [WRN] Issue with organzation or token
+2025-08-04 21:24:45.056 +03:00 [WRN] Issue with organzation or token
+2025-08-04 21:24:45.059 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-08-04 21:24:45.059 +03:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-08-04 21:24:45.059 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor) in 60359.9121ms
+2025-08-04 21:24:45.059 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor) in 60359.896ms
+2025-08-04 21:24:45.059 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:24:45.059 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.TaskManager.OrganizationController.GetSelfOrganizationsAsync (TaskManagerConvertor)'
+2025-08-04 21:24:45.059 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/organization/details/me - 400 164 application/problem+json; charset=utf-8 60360.971ms
+2025-08-04 21:24:45.059 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/organization/details/me - 400 164 application/problem+json; charset=utf-8 60360.9876ms
+2025-08-04 21:24:45.085 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7188/api/auth/details - null null
+2025-08-04 21:24:45.085 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:24:45.086 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7188/api/auth/details - 204 null null 0.8813ms
+2025-08-04 21:24:45.113 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7188/api/auth/details - null null
+2025-08-04 21:24:45.114 +03:00 [INF] CORS policy execution successful.
+2025-08-04 21:24:45.114 +03:00 [INF] Executing endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:24:45.114 +03:00 [INF] Route matched with {action = "GetAccountDetails", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerConvertor.Models.AccountDto]] GetAccountDetails(System.Threading.CancellationToken) on controller TaskManagerConvertor.Controllers.AuthController (TaskManagerConvertor).
+2025-08-04 21:24:45.115 +03:00 [INF] Start processing HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:24:45.115 +03:00 [INF] Sending HTTP request GET https://localhost:7270/api/auth/details
+2025-08-04 21:24:45.172 +03:00 [INF] Received HTTP response headers after 56.4848ms - 200
+2025-08-04 21:24:45.172 +03:00 [INF] End processing HTTP request after 56.8426ms - 200
+2025-08-04 21:24:45.176 +03:00 [INF] {"id":"c154a7c9-189f-415b-a50d-320be33bf798","email":"test@yopmail.com","firstName":"ivan","lastName":"cool1","isConfirmed":false,"isValid":true,"createDate":"2025-07-08T10:34:15.4366667","modifyDate":"2025-07-08T10:34:15.4366667"}
+2025-08-04 21:24:45.176 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:24:45.176 +03:00 [INF] TaskManagerConvertor.Models.AccountDto
+2025-08-04 21:24:45.177 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerConvertor.Models.AccountDto'.
+2025-08-04 21:24:45.177 +03:00 [INF] Executed action TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor) in 62.2667ms
+2025-08-04 21:24:45.177 +03:00 [INF] Executed endpoint 'TaskManagerConvertor.Controllers.AuthController.GetAccountDetails (TaskManagerConvertor)'
+2025-08-04 21:24:45.177 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7188/api/auth/details - 200 231 application/json; charset=utf-8 63.6096ms

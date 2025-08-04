@@ -52,8 +52,7 @@ public class HelperService : IHelperService
 
     public RequestResult<HttpClient> SetupHttpClientForTaskManager(IHeaderDictionary headers, ref HttpClient httpClient)
     {
-        if (headers.TryGetValue(Constants.Settings.Header.AUTHORIZATION, out var authHeader)
-            && headers.TryGetValue(Constants.Settings.Header.ORGANIZATION, out var organizationIdString))
+        if (headers.TryGetValue(Constants.Settings.Header.AUTHORIZATION, out var authHeader))
         {
             var authHeaderValue = authHeader.ToString();
             var parts = authHeaderValue.Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
@@ -70,7 +69,10 @@ public class HelperService : IHelperService
                 };
             }
 
-            httpClient.DefaultRequestHeaders.Add(Constants.Settings.Header.ORGANIZATION, organizationIdString.ToString());
+            if (headers.TryGetValue(Constants.Settings.Header.ORGANIZATION, out var organizationIdString))
+            {
+                httpClient.DefaultRequestHeaders.Add(Constants.Settings.Header.ORGANIZATION, organizationIdString.ToString());
+            }
         }
         else
         {
