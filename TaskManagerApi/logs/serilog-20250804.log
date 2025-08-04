@@ -2436,3 +2436,824 @@ WHERE [o].[OrganizationId] = @__organizationId_0
 2025-08-04 21:05:08.029 +03:00 [INF] Application started. Press Ctrl+C to shut down.
 2025-08-04 21:05:08.029 +03:00 [INF] Hosting environment: Development
 2025-08-04 21:05:08.029 +03:00 [INF] Content root path: C:\Users\vanil\source\repos\19vano97\taskManagerApi\TaskManagerApi
+2025-08-04 21:25:22.606 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7099/api/organization/details/me - null null
+2025-08-04 21:25:22.606 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7099/api/organization/details/me - null null
+2025-08-04 21:25:23.155 +03:00 [INF] Executing endpoint 'TaskManagerApi.Controllers.OrganizationController.GetSelfOrganizationsAsync (TaskManagerApi)'
+2025-08-04 21:25:23.155 +03:00 [INF] Executing endpoint 'TaskManagerApi.Controllers.OrganizationController.GetSelfOrganizationsAsync (TaskManagerApi)'
+2025-08-04 21:25:23.191 +03:00 [INF] Route matched with {action = "GetSelfOrganizations", controller = "Organization"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[TaskManagerApi.Models.OrganizationModel.OrganizationDto]]] GetSelfOrganizationsAsync(System.Threading.CancellationToken) on controller TaskManagerApi.Controllers.OrganizationController (TaskManagerApi).
+2025-08-04 21:25:23.191 +03:00 [INF] Route matched with {action = "GetSelfOrganizations", controller = "Organization"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[TaskManagerApi.Models.OrganizationModel.OrganizationDto]]] GetSelfOrganizationsAsync(System.Threading.CancellationToken) on controller TaskManagerApi.Controllers.OrganizationController (TaskManagerApi).
+2025-08-04 21:25:23.501 +03:00 [INF] GetSelfOrganizationsAsync called
+2025-08-04 21:25:23.501 +03:00 [INF] GetSelfOrganizationsAsync called
+2025-08-04 21:25:25.253 +03:00 [ERR] An error occurred using the connection to database 'TaskManagerDb' on server '192.168.1.143,1433'.
+2025-08-04 21:25:25.253 +03:00 [ERR] An error occurred using the connection to database 'TaskManagerDb' on server '192.168.1.143,1433'.
+2025-08-04 21:35:18.966 +03:00 [INF] Executed action TaskManagerApi.Controllers.OrganizationController.GetSelfOrganizationsAsync (TaskManagerApi) in 595701.5534ms
+2025-08-04 21:35:18.966 +03:00 [INF] Executed action TaskManagerApi.Controllers.OrganizationController.GetSelfOrganizationsAsync (TaskManagerApi) in 595701.5507ms
+2025-08-04 21:35:18.970 +03:00 [INF] Executed endpoint 'TaskManagerApi.Controllers.OrganizationController.GetSelfOrganizationsAsync (TaskManagerApi)'
+2025-08-04 21:35:18.970 +03:00 [INF] Executed endpoint 'TaskManagerApi.Controllers.OrganizationController.GetSelfOrganizationsAsync (TaskManagerApi)'
+2025-08-04 21:35:19.348 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7099/api/organization/details/me - null null
+2025-08-04 21:35:19.348 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7099/api/organization/details/me - null null
+2025-08-04 21:35:19.330 +03:00 [ERR] Unhandled exception occurred.
+System.Threading.Tasks.TaskCanceledException: A task was canceled.
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at TaskManagerApi.Services.Implementations.OrganizationService.GetOrganizationsByAccountAsync(Guid accountId, CancellationToken cancellationToken) in C:\Users\vanil\source\repos\19vano97\taskManagerApi\TaskManagerApi\Services\Implementations\OrganizationService.cs:line 186
+   at TaskManagerApi.Controllers.OrganizationController.GetSelfOrganizationsAsync(CancellationToken cancellationToken) in C:\Users\vanil\source\repos\19vano97\taskManagerApi\TaskManagerApi\Controllers\OrganizationController.cs:line 83
+   at lambda_method11(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at TaskManagerApi.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in C:\Users\vanil\source\repos\19vano97\taskManagerApi\TaskManagerApi\Middlewares\ExceptionHandlingMiddleware.cs:line 21
+2025-08-04 21:35:19.330 +03:00 [ERR] Unhandled exception occurred.
+System.Threading.Tasks.TaskCanceledException: A task was canceled.
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at TaskManagerApi.Services.Implementations.OrganizationService.GetOrganizationsByAccountAsync(Guid accountId, CancellationToken cancellationToken) in C:\Users\vanil\source\repos\19vano97\taskManagerApi\TaskManagerApi\Services\Implementations\OrganizationService.cs:line 186
+   at TaskManagerApi.Controllers.OrganizationController.GetSelfOrganizationsAsync(CancellationToken cancellationToken) in C:\Users\vanil\source\repos\19vano97\taskManagerApi\TaskManagerApi\Controllers\OrganizationController.cs:line 83
+   at lambda_method10(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at TaskManagerApi.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in C:\Users\vanil\source\repos\19vano97\taskManagerApi\TaskManagerApi\Middlewares\ExceptionHandlingMiddleware.cs:line 21
+2025-08-04 21:35:19.357 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7099/swagger/index.html - null null
+2025-08-04 21:35:19.399 +03:00 [INF] Executing endpoint 'TaskManagerApi.Controllers.OrganizationController.GetSelfOrganizationsAsync (TaskManagerApi)'
+2025-08-04 21:35:19.399 +03:00 [INF] Executing endpoint 'TaskManagerApi.Controllers.OrganizationController.GetSelfOrganizationsAsync (TaskManagerApi)'
+2025-08-04 21:35:19.400 +03:00 [INF] Route matched with {action = "GetSelfOrganizations", controller = "Organization"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[TaskManagerApi.Models.OrganizationModel.OrganizationDto]]] GetSelfOrganizationsAsync(System.Threading.CancellationToken) on controller TaskManagerApi.Controllers.OrganizationController (TaskManagerApi).
+2025-08-04 21:35:19.400 +03:00 [INF] Route matched with {action = "GetSelfOrganizations", controller = "Organization"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[TaskManagerApi.Models.OrganizationModel.OrganizationDto]]] GetSelfOrganizationsAsync(System.Threading.CancellationToken) on controller TaskManagerApi.Controllers.OrganizationController (TaskManagerApi).
+2025-08-04 21:35:19.406 +03:00 [INF] GetSelfOrganizationsAsync called
+2025-08-04 21:35:19.406 +03:00 [INF] GetSelfOrganizationsAsync called
+2025-08-04 21:35:19.507 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7099/swagger/index.html - 200 null text/html;charset=utf-8 149.0276ms
+2025-08-04 21:35:19.559 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7099/api/organization/details/me - 500 null application/json 596957.0025ms
+2025-08-04 21:35:19.559 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7099/api/organization/details/me - 500 null application/json 596957.0021ms
+2025-08-04 21:35:19.577 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7099/swagger/swagger-ui.css - null null
+2025-08-04 21:35:19.601 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7099/swagger/index.css - null null
+2025-08-04 21:35:19.605 +03:00 [INF] Sending file. Request path: '/index.css'. Physical path: 'N/A'
+2025-08-04 21:35:19.605 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7099/swagger/index.css - 200 202 text/css 3.7339ms
+2025-08-04 21:35:19.607 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7099/swagger/swagger-ui-bundle.js - null null
+2025-08-04 21:35:19.607 +03:00 [INF] Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+2025-08-04 21:35:19.607 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7099/swagger/swagger-ui.css - 200 154948 text/css 30.0361ms
+2025-08-04 21:35:19.608 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7099/swagger/swagger-ui-standalone-preset.js - null null
+2025-08-04 21:35:19.608 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7099/swagger/index.js - null null
+2025-08-04 21:35:19.609 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7099/swagger/index.js - 200 null application/javascript;charset=utf-8 1.0021ms
+2025-08-04 21:35:19.621 +03:00 [INF] Sending file. Request path: '/swagger-ui-standalone-preset.js'. Physical path: 'N/A'
+2025-08-04 21:35:19.621 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7099/swagger/swagger-ui-standalone-preset.js - 200 229223 text/javascript 12.963ms
+2025-08-04 21:35:19.643 +03:00 [INF] Sending file. Request path: '/swagger-ui-bundle.js'. Physical path: 'N/A'
+2025-08-04 21:35:19.644 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7099/swagger/swagger-ui-bundle.js - 200 1466324 text/javascript 36.7467ms
+2025-08-04 21:35:19.755 +03:00 [INF] Executed DbCommand (87ms) [Parameters=[@__accountId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [o].[OrganizationId]
+FROM [OrganizationAccount] AS [o]
+WHERE [o].[AccountId] = @__accountId_0
+2025-08-04 21:35:19.755 +03:00 [INF] Executed DbCommand (87ms) [Parameters=[@__accountId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [o].[OrganizationId]
+FROM [OrganizationAccount] AS [o]
+WHERE [o].[AccountId] = @__accountId_0
+2025-08-04 21:35:19.888 +03:00 [INF] Executed DbCommand (13ms) [Parameters=[@__Id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [o].[Id], [o].[Abbreviation], [o].[CreateDate], [o].[Description], [o].[ModifyDate], [o].[Name], [o].[Owner]
+FROM [OrganizationItem] AS [o]
+WHERE [o].[Id] = @__Id_0
+2025-08-04 21:35:19.888 +03:00 [INF] Executed DbCommand (21ms) [Parameters=[@__Id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [o].[Id], [o].[Abbreviation], [o].[CreateDate], [o].[Description], [o].[ModifyDate], [o].[Name], [o].[Owner]
+FROM [OrganizationItem] AS [o]
+WHERE [o].[Id] = @__Id_0
+2025-08-04 21:35:19.930 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7099/swagger/v1/swagger.json - null null
+2025-08-04 21:35:19.960 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7099/swagger/favicon-32x32.png - null null
+2025-08-04 21:35:19.961 +03:00 [INF] Sending file. Request path: '/favicon-32x32.png'. Physical path: 'N/A'
+2025-08-04 21:35:19.961 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7099/swagger/favicon-32x32.png - 200 628 image/png 0.7509ms
+2025-08-04 21:35:20.003 +03:00 [INF] Executed DbCommand (5ms) [Parameters=[@__organizationId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [p].[Id], [p].[CreateDate], [p].[Description], [p].[ModifyDate], [p].[OrganizationId], [p].[OwnerId], [p].[Title]
+FROM [ProjectItems] AS [p]
+WHERE [p].[OrganizationId] = @__organizationId_0
+2025-08-04 21:35:20.003 +03:00 [INF] Executed DbCommand (5ms) [Parameters=[@__organizationId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [p].[Id], [p].[CreateDate], [p].[Description], [p].[ModifyDate], [p].[OrganizationId], [p].[OwnerId], [p].[Title]
+FROM [ProjectItems] AS [p]
+WHERE [p].[OrganizationId] = @__organizationId_0
+2025-08-04 21:35:20.092 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7099/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 161.7292ms
+2025-08-04 21:35:20.149 +03:00 [INF] Executed DbCommand (12ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [p].[Id], [p].[CreateDate], [p].[ModifyDate], [p].[Order], [p].[ProjectId], [p].[StatusId], [t].[Id], [t].[CreateDate], [t].[ModifyDate], [t].[Name], [t].[StatusTypeId], [t0].[Id], [t0].[CreateDate], [t0].[ModifyDate], [t0].[Name]
+FROM [ProjectTaskStatusMapping] AS [p]
+INNER JOIN [TicketStatuses] AS [t] ON [p].[StatusId] = [t].[Id]
+INNER JOIN [TicketStatusType] AS [t0] ON [t].[StatusTypeId] = [t0].[Id]
+WHERE [p].[ProjectId] = @__projectId_0
+2025-08-04 21:35:20.160 +03:00 [INF] Executed DbCommand (4ms) [Parameters=[@__organizationId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [o].[AccountId]
+FROM [OrganizationAccount] AS [o]
+WHERE [o].[OrganizationId] = @__organizationId_0
+2025-08-04 21:35:20.161 +03:00 [INF] Executed DbCommand (24ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [p].[Id], [p].[CreateDate], [p].[ModifyDate], [p].[Order], [p].[ProjectId], [p].[StatusId], [t].[Id], [t].[CreateDate], [t].[ModifyDate], [t].[Name], [t].[StatusTypeId], [t0].[Id], [t0].[CreateDate], [t0].[ModifyDate], [t0].[Name]
+FROM [ProjectTaskStatusMapping] AS [p]
+INNER JOIN [TicketStatuses] AS [t] ON [p].[StatusId] = [t].[Id]
+INNER JOIN [TicketStatusType] AS [t0] ON [t].[StatusTypeId] = [t0].[Id]
+WHERE [p].[ProjectId] = @__projectId_0
+2025-08-04 21:35:20.162 +03:00 [INF] Organizations fetched for accountId: "c154a7c9-189f-415b-a50d-320be33bf798"
+2025-08-04 21:35:20.163 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__organizationId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [o].[AccountId]
+FROM [OrganizationAccount] AS [o]
+WHERE [o].[OrganizationId] = @__organizationId_0
+2025-08-04 21:35:20.163 +03:00 [INF] Organizations fetched for accountId: "c154a7c9-189f-415b-a50d-320be33bf798"
+2025-08-04 21:35:20.168 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[TaskManagerApi.Models.OrganizationModel.OrganizationDto, TaskManagerApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-08-04 21:35:20.168 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[TaskManagerApi.Models.OrganizationModel.OrganizationDto, TaskManagerApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-08-04 21:35:20.216 +03:00 [INF] Executed action TaskManagerApi.Controllers.OrganizationController.GetSelfOrganizationsAsync (TaskManagerApi) in 815.5324ms
+2025-08-04 21:35:20.216 +03:00 [INF] Executed endpoint 'TaskManagerApi.Controllers.OrganizationController.GetSelfOrganizationsAsync (TaskManagerApi)'
+2025-08-04 21:35:20.216 +03:00 [INF] Executed action TaskManagerApi.Controllers.OrganizationController.GetSelfOrganizationsAsync (TaskManagerApi) in 815.5075ms
+2025-08-04 21:35:20.216 +03:00 [INF] Executed endpoint 'TaskManagerApi.Controllers.OrganizationController.GetSelfOrganizationsAsync (TaskManagerApi)'
+2025-08-04 21:35:20.216 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7099/api/organization/details/me - 200 774 application/json; charset=utf-8 868.4624ms
+2025-08-04 21:35:20.216 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7099/api/organization/details/me - 200 775 application/json; charset=utf-8 868.483ms
+2025-08-04 21:35:24.137 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7099/api/organization/6c8a32bd-3067-4115-b112-9abe196ea379/details - null null
+2025-08-04 21:35:24.137 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7099/api/organization/6c8a32bd-3067-4115-b112-9abe196ea379/details - null null
+2025-08-04 21:35:24.140 +03:00 [INF] Executing endpoint 'TaskManagerApi.Controllers.OrganizationController.GetOrganizationByIdAsync (TaskManagerApi)'
+2025-08-04 21:35:24.140 +03:00 [INF] Executing endpoint 'TaskManagerApi.Controllers.OrganizationController.GetOrganizationByIdAsync (TaskManagerApi)'
+2025-08-04 21:35:24.147 +03:00 [INF] Route matched with {action = "GetOrganizationById", controller = "Organization"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerApi.Models.OrganizationModel.OrganizationDto]] GetOrganizationByIdAsync(System.Guid, System.Threading.CancellationToken) on controller TaskManagerApi.Controllers.OrganizationController (TaskManagerApi).
+2025-08-04 21:35:24.147 +03:00 [INF] Route matched with {action = "GetOrganizationById", controller = "Organization"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerApi.Models.OrganizationModel.OrganizationDto]] GetOrganizationByIdAsync(System.Guid, System.Threading.CancellationToken) on controller TaskManagerApi.Controllers.OrganizationController (TaskManagerApi).
+2025-08-04 21:35:24.153 +03:00 [INF] GetOrganizationByIdAsync called for organizationId: "6c8a32bd-3067-4115-b112-9abe196ea379"
+2025-08-04 21:35:24.153 +03:00 [INF] GetOrganizationByIdAsync called for organizationId: "6c8a32bd-3067-4115-b112-9abe196ea379"
+2025-08-04 21:35:24.172 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[@__accountId_0='?' (DbType = Guid), @__organizationId_1='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [o].[Id], [o].[AccountId], [o].[CreateDate], [o].[ModifyDate], [o].[OrganizationId]
+FROM [OrganizationAccount] AS [o]
+WHERE [o].[AccountId] = @__accountId_0 AND [o].[OrganizationId] = @__organizationId_1
+2025-08-04 21:35:24.184 +03:00 [INF] Executed DbCommand (15ms) [Parameters=[@__accountId_0='?' (DbType = Guid), @__organizationId_1='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [o].[Id], [o].[AccountId], [o].[CreateDate], [o].[ModifyDate], [o].[OrganizationId]
+FROM [OrganizationAccount] AS [o]
+WHERE [o].[AccountId] = @__accountId_0 AND [o].[OrganizationId] = @__organizationId_1
+2025-08-04 21:35:24.209 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[@__Id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [o].[Id], [o].[Abbreviation], [o].[CreateDate], [o].[Description], [o].[ModifyDate], [o].[Name], [o].[Owner]
+FROM [OrganizationItem] AS [o]
+WHERE [o].[Id] = @__Id_0
+2025-08-04 21:35:24.209 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[@__Id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [o].[Id], [o].[Abbreviation], [o].[CreateDate], [o].[Description], [o].[ModifyDate], [o].[Name], [o].[Owner]
+FROM [OrganizationItem] AS [o]
+WHERE [o].[Id] = @__Id_0
+2025-08-04 21:35:24.225 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__organizationId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [p].[Id], [p].[CreateDate], [p].[Description], [p].[ModifyDate], [p].[OrganizationId], [p].[OwnerId], [p].[Title]
+FROM [ProjectItems] AS [p]
+WHERE [p].[OrganizationId] = @__organizationId_0
+2025-08-04 21:35:24.225 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__organizationId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [p].[Id], [p].[CreateDate], [p].[Description], [p].[ModifyDate], [p].[OrganizationId], [p].[OwnerId], [p].[Title]
+FROM [ProjectItems] AS [p]
+WHERE [p].[OrganizationId] = @__organizationId_0
+2025-08-04 21:35:24.227 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [p].[Id], [p].[CreateDate], [p].[ModifyDate], [p].[Order], [p].[ProjectId], [p].[StatusId], [t].[Id], [t].[CreateDate], [t].[ModifyDate], [t].[Name], [t].[StatusTypeId], [t0].[Id], [t0].[CreateDate], [t0].[ModifyDate], [t0].[Name]
+FROM [ProjectTaskStatusMapping] AS [p]
+INNER JOIN [TicketStatuses] AS [t] ON [p].[StatusId] = [t].[Id]
+INNER JOIN [TicketStatusType] AS [t0] ON [t].[StatusTypeId] = [t0].[Id]
+WHERE [p].[ProjectId] = @__projectId_0
+2025-08-04 21:35:24.227 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [p].[Id], [p].[CreateDate], [p].[ModifyDate], [p].[Order], [p].[ProjectId], [p].[StatusId], [t].[Id], [t].[CreateDate], [t].[ModifyDate], [t].[Name], [t].[StatusTypeId], [t0].[Id], [t0].[CreateDate], [t0].[ModifyDate], [t0].[Name]
+FROM [ProjectTaskStatusMapping] AS [p]
+INNER JOIN [TicketStatuses] AS [t] ON [p].[StatusId] = [t].[Id]
+INNER JOIN [TicketStatusType] AS [t0] ON [t].[StatusTypeId] = [t0].[Id]
+WHERE [p].[ProjectId] = @__projectId_0
+2025-08-04 21:35:24.229 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__organizationId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [o].[AccountId]
+FROM [OrganizationAccount] AS [o]
+WHERE [o].[OrganizationId] = @__organizationId_0
+2025-08-04 21:35:24.229 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__organizationId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [o].[AccountId]
+FROM [OrganizationAccount] AS [o]
+WHERE [o].[OrganizationId] = @__organizationId_0
+2025-08-04 21:35:24.230 +03:00 [INF] Organization fetched successfully. Id: "6c8a32bd-3067-4115-b112-9abe196ea379"
+2025-08-04 21:35:24.230 +03:00 [INF] Organization fetched successfully. Id: "6c8a32bd-3067-4115-b112-9abe196ea379"
+2025-08-04 21:35:24.230 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerApi.Models.OrganizationModel.OrganizationDto'.
+2025-08-04 21:35:24.230 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerApi.Models.OrganizationModel.OrganizationDto'.
+2025-08-04 21:35:24.231 +03:00 [INF] Executed action TaskManagerApi.Controllers.OrganizationController.GetOrganizationByIdAsync (TaskManagerApi) in 83.4751ms
+2025-08-04 21:35:24.231 +03:00 [INF] Executed action TaskManagerApi.Controllers.OrganizationController.GetOrganizationByIdAsync (TaskManagerApi) in 83.6167ms
+2025-08-04 21:35:24.231 +03:00 [INF] Executed endpoint 'TaskManagerApi.Controllers.OrganizationController.GetOrganizationByIdAsync (TaskManagerApi)'
+2025-08-04 21:35:24.231 +03:00 [INF] Executed endpoint 'TaskManagerApi.Controllers.OrganizationController.GetOrganizationByIdAsync (TaskManagerApi)'
+2025-08-04 21:35:24.232 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7099/api/organization/6c8a32bd-3067-4115-b112-9abe196ea379/details - 200 773 application/json; charset=utf-8 94.2443ms
+2025-08-04 21:35:24.232 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7099/api/organization/6c8a32bd-3067-4115-b112-9abe196ea379/details - 200 773 application/json; charset=utf-8 94.2443ms
+2025-08-04 21:35:26.271 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7099/api/project/0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8/tasks - null null
+2025-08-04 21:35:26.271 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7099/api/project/0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8/tasks - null null
+2025-08-04 21:35:26.273 +03:00 [INF] Executing endpoint 'TaskManagerApi.Controllers.ProjectController.GetProjectWithTasksByIdAsync (TaskManagerApi)'
+2025-08-04 21:35:26.273 +03:00 [INF] Executing endpoint 'TaskManagerApi.Controllers.ProjectController.GetProjectWithTasksByIdAsync (TaskManagerApi)'
+2025-08-04 21:35:26.278 +03:00 [INF] Route matched with {action = "GetProjectWithTasksById", controller = "Project"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerApi.Models.Project.ProjectItemDto]] GetProjectWithTasksByIdAsync(System.Guid, System.Threading.CancellationToken) on controller TaskManagerApi.Controllers.ProjectController (TaskManagerApi).
+2025-08-04 21:35:26.278 +03:00 [INF] Route matched with {action = "GetProjectWithTasksById", controller = "Project"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerApi.Models.Project.ProjectItemDto]] GetProjectWithTasksByIdAsync(System.Guid, System.Threading.CancellationToken) on controller TaskManagerApi.Controllers.ProjectController (TaskManagerApi).
+2025-08-04 21:35:26.288 +03:00 [INF] GetProjectWithTasksByIdAsync called for projectId: "0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8"
+2025-08-04 21:35:26.288 +03:00 [INF] GetProjectWithTasksByIdAsync called for projectId: "0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8"
+2025-08-04 21:35:26.300 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [p].[Id], [p].[CreateDate], [p].[Description], [p].[ModifyDate], [p].[OrganizationId], [p].[OwnerId], [p].[Title]
+FROM [ProjectItems] AS [p]
+WHERE [p].[Id] = @__projectId_0
+2025-08-04 21:35:26.300 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [p].[Id], [p].[CreateDate], [p].[Description], [p].[ModifyDate], [p].[OrganizationId], [p].[OwnerId], [p].[Title]
+FROM [ProjectItems] AS [p]
+WHERE [p].[Id] = @__projectId_0
+2025-08-04 21:35:26.313 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[@__accountId_0='?' (DbType = Guid), @__project_OrganizationId_1='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [o].[Id], [o].[AccountId], [o].[CreateDate], [o].[ModifyDate], [o].[OrganizationId]
+FROM [OrganizationAccount] AS [o]
+WHERE [o].[AccountId] = @__accountId_0 AND [o].[OrganizationId] = @__project_OrganizationId_1
+2025-08-04 21:35:26.313 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[@__accountId_0='?' (DbType = Guid), @__project_OrganizationId_1='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [o].[Id], [o].[AccountId], [o].[CreateDate], [o].[ModifyDate], [o].[OrganizationId]
+FROM [OrganizationAccount] AS [o]
+WHERE [o].[AccountId] = @__accountId_0 AND [o].[OrganizationId] = @__project_OrganizationId_1
+2025-08-04 21:35:26.316 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [p].[Id], [p].[CreateDate], [p].[ModifyDate], [p].[Order], [p].[ProjectId], [p].[StatusId], [t].[Id], [t].[CreateDate], [t].[ModifyDate], [t].[Name], [t].[StatusTypeId], [t0].[Id], [t0].[CreateDate], [t0].[ModifyDate], [t0].[Name]
+FROM [ProjectTaskStatusMapping] AS [p]
+INNER JOIN [TicketStatuses] AS [t] ON [p].[StatusId] = [t].[Id]
+INNER JOIN [TicketStatusType] AS [t0] ON [t].[StatusTypeId] = [t0].[Id]
+WHERE [p].[ProjectId] = @__projectId_0
+2025-08-04 21:35:26.316 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [p].[Id], [p].[CreateDate], [p].[ModifyDate], [p].[Order], [p].[ProjectId], [p].[StatusId], [t].[Id], [t].[CreateDate], [t].[ModifyDate], [t].[Name], [t].[StatusTypeId], [t0].[Id], [t0].[CreateDate], [t0].[ModifyDate], [t0].[Name]
+FROM [ProjectTaskStatusMapping] AS [p]
+INNER JOIN [TicketStatuses] AS [t] ON [p].[StatusId] = [t].[Id]
+INNER JOIN [TicketStatusType] AS [t0] ON [t].[StatusTypeId] = [t0].[Id]
+WHERE [p].[ProjectId] = @__projectId_0
+2025-08-04 21:35:26.317 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [p].[Id], [p].[CreateDate], [p].[Description], [p].[ModifyDate], [p].[OrganizationId], [p].[OwnerId], [p].[Title]
+FROM [ProjectItems] AS [p]
+WHERE [p].[Id] = @__projectId_0
+2025-08-04 21:35:26.317 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [p].[Id], [p].[CreateDate], [p].[Description], [p].[ModifyDate], [p].[OrganizationId], [p].[OwnerId], [p].[Title]
+FROM [ProjectItems] AS [p]
+WHERE [p].[Id] = @__projectId_0
+2025-08-04 21:35:26.368 +03:00 [INF] Executed DbCommand (11ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [t].[Id], [t].[AssigneeId], [t].[CreateDate], [t].[Description], [t].[DueDate], [t].[Estimate], [t].[ModifyDate], [t].[ParentId], [t].[ProjectId], [t].[ReporterId], [t].[SpentTime], [t].[StartDate], [t].[StatusId], [t].[Title], [t].[TypeId], [t].[isCreatedByAi], [t0].[Id], [t0].[CreateDate], [t0].[ModifyDate], [t0].[Name], [t0].[StatusTypeId], [t1].[Id], [t1].[CreateDate], [t1].[ModifyDate], [t1].[Name]
+FROM [Tickets] AS [t]
+LEFT JOIN [TicketStatuses] AS [t0] ON [t].[StatusId] = [t0].[Id]
+LEFT JOIN [TicketTypes] AS [t1] ON [t].[TypeId] = [t1].[Id]
+WHERE [t].[ProjectId] = @__projectId_0
+2025-08-04 21:35:26.368 +03:00 [INF] Executed DbCommand (11ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [t].[Id], [t].[AssigneeId], [t].[CreateDate], [t].[Description], [t].[DueDate], [t].[Estimate], [t].[ModifyDate], [t].[ParentId], [t].[ProjectId], [t].[ReporterId], [t].[SpentTime], [t].[StartDate], [t].[StatusId], [t].[Title], [t].[TypeId], [t].[isCreatedByAi], [t0].[Id], [t0].[CreateDate], [t0].[ModifyDate], [t0].[Name], [t0].[StatusTypeId], [t1].[Id], [t1].[CreateDate], [t1].[ModifyDate], [t1].[Name]
+FROM [Tickets] AS [t]
+LEFT JOIN [TicketStatuses] AS [t0] ON [t].[StatusId] = [t0].[Id]
+LEFT JOIN [TicketTypes] AS [t1] ON [t].[TypeId] = [t1].[Id]
+WHERE [t].[ProjectId] = @__projectId_0
+2025-08-04 21:35:26.547 +03:00 [INF] Project with tasks fetched successfully. Id: "0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8"
+2025-08-04 21:35:26.547 +03:00 [INF] Project with tasks fetched successfully. Id: "0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8"
+2025-08-04 21:35:26.547 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerApi.Models.Project.ProjectItemDto'.
+2025-08-04 21:35:26.547 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerApi.Models.Project.ProjectItemDto'.
+2025-08-04 21:35:26.563 +03:00 [INF] Executed action TaskManagerApi.Controllers.ProjectController.GetProjectWithTasksByIdAsync (TaskManagerApi) in 284.8076ms
+2025-08-04 21:35:26.563 +03:00 [INF] Executed action TaskManagerApi.Controllers.ProjectController.GetProjectWithTasksByIdAsync (TaskManagerApi) in 284.8327ms
+2025-08-04 21:35:26.563 +03:00 [INF] Executed endpoint 'TaskManagerApi.Controllers.ProjectController.GetProjectWithTasksByIdAsync (TaskManagerApi)'
+2025-08-04 21:35:26.563 +03:00 [INF] Executed endpoint 'TaskManagerApi.Controllers.ProjectController.GetProjectWithTasksByIdAsync (TaskManagerApi)'
+2025-08-04 21:35:26.563 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7099/api/project/0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8/tasks - 200 10361 application/json; charset=utf-8 292.1183ms
+2025-08-04 21:35:26.563 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7099/api/project/0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8/tasks - 200 10361 application/json; charset=utf-8 292.1329ms
+2025-08-04 21:35:30.356 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7099/api/project/0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8/tasks - null null
+2025-08-04 21:35:30.356 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7099/api/project/0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8/tasks - null null
+2025-08-04 21:35:30.358 +03:00 [INF] Executing endpoint 'TaskManagerApi.Controllers.ProjectController.GetProjectWithTasksByIdAsync (TaskManagerApi)'
+2025-08-04 21:35:30.358 +03:00 [INF] Executing endpoint 'TaskManagerApi.Controllers.ProjectController.GetProjectWithTasksByIdAsync (TaskManagerApi)'
+2025-08-04 21:35:30.358 +03:00 [INF] Route matched with {action = "GetProjectWithTasksById", controller = "Project"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerApi.Models.Project.ProjectItemDto]] GetProjectWithTasksByIdAsync(System.Guid, System.Threading.CancellationToken) on controller TaskManagerApi.Controllers.ProjectController (TaskManagerApi).
+2025-08-04 21:35:30.358 +03:00 [INF] Route matched with {action = "GetProjectWithTasksById", controller = "Project"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerApi.Models.Project.ProjectItemDto]] GetProjectWithTasksByIdAsync(System.Guid, System.Threading.CancellationToken) on controller TaskManagerApi.Controllers.ProjectController (TaskManagerApi).
+2025-08-04 21:35:30.361 +03:00 [INF] GetProjectWithTasksByIdAsync called for projectId: "0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8"
+2025-08-04 21:35:30.361 +03:00 [INF] GetProjectWithTasksByIdAsync called for projectId: "0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8"
+2025-08-04 21:35:30.365 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [p].[Id], [p].[CreateDate], [p].[Description], [p].[ModifyDate], [p].[OrganizationId], [p].[OwnerId], [p].[Title]
+FROM [ProjectItems] AS [p]
+WHERE [p].[Id] = @__projectId_0
+2025-08-04 21:35:30.365 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [p].[Id], [p].[CreateDate], [p].[Description], [p].[ModifyDate], [p].[OrganizationId], [p].[OwnerId], [p].[Title]
+FROM [ProjectItems] AS [p]
+WHERE [p].[Id] = @__projectId_0
+2025-08-04 21:35:30.368 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__accountId_0='?' (DbType = Guid), @__project_OrganizationId_1='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [o].[Id], [o].[AccountId], [o].[CreateDate], [o].[ModifyDate], [o].[OrganizationId]
+FROM [OrganizationAccount] AS [o]
+WHERE [o].[AccountId] = @__accountId_0 AND [o].[OrganizationId] = @__project_OrganizationId_1
+2025-08-04 21:35:30.368 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__accountId_0='?' (DbType = Guid), @__project_OrganizationId_1='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [o].[Id], [o].[AccountId], [o].[CreateDate], [o].[ModifyDate], [o].[OrganizationId]
+FROM [OrganizationAccount] AS [o]
+WHERE [o].[AccountId] = @__accountId_0 AND [o].[OrganizationId] = @__project_OrganizationId_1
+2025-08-04 21:35:30.372 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [p].[Id], [p].[CreateDate], [p].[ModifyDate], [p].[Order], [p].[ProjectId], [p].[StatusId], [t].[Id], [t].[CreateDate], [t].[ModifyDate], [t].[Name], [t].[StatusTypeId], [t0].[Id], [t0].[CreateDate], [t0].[ModifyDate], [t0].[Name]
+FROM [ProjectTaskStatusMapping] AS [p]
+INNER JOIN [TicketStatuses] AS [t] ON [p].[StatusId] = [t].[Id]
+INNER JOIN [TicketStatusType] AS [t0] ON [t].[StatusTypeId] = [t0].[Id]
+WHERE [p].[ProjectId] = @__projectId_0
+2025-08-04 21:35:30.375 +03:00 [INF] Executed DbCommand (6ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [p].[Id], [p].[CreateDate], [p].[ModifyDate], [p].[Order], [p].[ProjectId], [p].[StatusId], [t].[Id], [t].[CreateDate], [t].[ModifyDate], [t].[Name], [t].[StatusTypeId], [t0].[Id], [t0].[CreateDate], [t0].[ModifyDate], [t0].[Name]
+FROM [ProjectTaskStatusMapping] AS [p]
+INNER JOIN [TicketStatuses] AS [t] ON [p].[StatusId] = [t].[Id]
+INNER JOIN [TicketStatusType] AS [t0] ON [t].[StatusTypeId] = [t0].[Id]
+WHERE [p].[ProjectId] = @__projectId_0
+2025-08-04 21:35:30.377 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [p].[Id], [p].[CreateDate], [p].[Description], [p].[ModifyDate], [p].[OrganizationId], [p].[OwnerId], [p].[Title]
+FROM [ProjectItems] AS [p]
+WHERE [p].[Id] = @__projectId_0
+2025-08-04 21:35:30.380 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [t].[Id], [t].[AssigneeId], [t].[CreateDate], [t].[Description], [t].[DueDate], [t].[Estimate], [t].[ModifyDate], [t].[ParentId], [t].[ProjectId], [t].[ReporterId], [t].[SpentTime], [t].[StartDate], [t].[StatusId], [t].[Title], [t].[TypeId], [t].[isCreatedByAi], [t0].[Id], [t0].[CreateDate], [t0].[ModifyDate], [t0].[Name], [t0].[StatusTypeId], [t1].[Id], [t1].[CreateDate], [t1].[ModifyDate], [t1].[Name]
+FROM [Tickets] AS [t]
+LEFT JOIN [TicketStatuses] AS [t0] ON [t].[StatusId] = [t0].[Id]
+LEFT JOIN [TicketTypes] AS [t1] ON [t].[TypeId] = [t1].[Id]
+WHERE [t].[ProjectId] = @__projectId_0
+2025-08-04 21:35:30.384 +03:00 [INF] Project with tasks fetched successfully. Id: "0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8"
+2025-08-04 21:35:30.384 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerApi.Models.Project.ProjectItemDto'.
+2025-08-04 21:35:30.385 +03:00 [INF] Executed action TaskManagerApi.Controllers.ProjectController.GetProjectWithTasksByIdAsync (TaskManagerApi) in 27.2362ms
+2025-08-04 21:35:30.385 +03:00 [INF] Executed endpoint 'TaskManagerApi.Controllers.ProjectController.GetProjectWithTasksByIdAsync (TaskManagerApi)'
+2025-08-04 21:35:30.386 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7099/api/project/0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8/tasks - 200 10361 application/json; charset=utf-8 30.0486ms
+2025-08-04 21:35:30.386 +03:00 [INF] Executed DbCommand (12ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [p].[Id], [p].[CreateDate], [p].[Description], [p].[ModifyDate], [p].[OrganizationId], [p].[OwnerId], [p].[Title]
+FROM [ProjectItems] AS [p]
+WHERE [p].[Id] = @__projectId_0
+2025-08-04 21:35:30.388 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [t].[Id], [t].[AssigneeId], [t].[CreateDate], [t].[Description], [t].[DueDate], [t].[Estimate], [t].[ModifyDate], [t].[ParentId], [t].[ProjectId], [t].[ReporterId], [t].[SpentTime], [t].[StartDate], [t].[StatusId], [t].[Title], [t].[TypeId], [t].[isCreatedByAi], [t0].[Id], [t0].[CreateDate], [t0].[ModifyDate], [t0].[Name], [t0].[StatusTypeId], [t1].[Id], [t1].[CreateDate], [t1].[ModifyDate], [t1].[Name]
+FROM [Tickets] AS [t]
+LEFT JOIN [TicketStatuses] AS [t0] ON [t].[StatusId] = [t0].[Id]
+LEFT JOIN [TicketTypes] AS [t1] ON [t].[TypeId] = [t1].[Id]
+WHERE [t].[ProjectId] = @__projectId_0
+2025-08-04 21:35:30.400 +03:00 [INF] Project with tasks fetched successfully. Id: "0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8"
+2025-08-04 21:35:30.400 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerApi.Models.Project.ProjectItemDto'.
+2025-08-04 21:35:30.403 +03:00 [INF] Executed action TaskManagerApi.Controllers.ProjectController.GetProjectWithTasksByIdAsync (TaskManagerApi) in 44.0754ms
+2025-08-04 21:35:30.403 +03:00 [INF] Executed endpoint 'TaskManagerApi.Controllers.ProjectController.GetProjectWithTasksByIdAsync (TaskManagerApi)'
+2025-08-04 21:35:30.403 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7099/api/project/0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8/tasks - 200 10361 application/json; charset=utf-8 47.768ms
+2025-08-04 21:35:30.501 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7099/api/organization/6c8a32bd-3067-4115-b112-9abe196ea379/accounts - null null
+2025-08-04 21:35:30.501 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7099/api/organization/6c8a32bd-3067-4115-b112-9abe196ea379/accounts - null null
+2025-08-04 21:35:30.503 +03:00 [INF] Executing endpoint 'TaskManagerApi.Controllers.OrganizationController.GetOrganizationAccountsAsync (TaskManagerApi)'
+2025-08-04 21:35:30.503 +03:00 [INF] Executing endpoint 'TaskManagerApi.Controllers.OrganizationController.GetOrganizationAccountsAsync (TaskManagerApi)'
+2025-08-04 21:35:30.507 +03:00 [INF] Route matched with {action = "GetOrganizationAccounts", controller = "Organization"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerApi.Models.OrganizationModel.OrganizationDto]] GetOrganizationAccountsAsync(System.Guid, System.Threading.CancellationToken) on controller TaskManagerApi.Controllers.OrganizationController (TaskManagerApi).
+2025-08-04 21:35:30.507 +03:00 [INF] Route matched with {action = "GetOrganizationAccounts", controller = "Organization"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerApi.Models.OrganizationModel.OrganizationDto]] GetOrganizationAccountsAsync(System.Guid, System.Threading.CancellationToken) on controller TaskManagerApi.Controllers.OrganizationController (TaskManagerApi).
+2025-08-04 21:35:30.510 +03:00 [INF] GetOrganizationInfoAsync called for organizationId: "6c8a32bd-3067-4115-b112-9abe196ea379"
+2025-08-04 21:35:30.510 +03:00 [INF] GetOrganizationInfoAsync called for organizationId: "6c8a32bd-3067-4115-b112-9abe196ea379"
+2025-08-04 21:35:30.513 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__accountId_0='?' (DbType = Guid), @__organizationId_1='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [o].[Id], [o].[AccountId], [o].[CreateDate], [o].[ModifyDate], [o].[OrganizationId]
+FROM [OrganizationAccount] AS [o]
+WHERE [o].[AccountId] = @__accountId_0 AND [o].[OrganizationId] = @__organizationId_1
+2025-08-04 21:35:30.513 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__accountId_0='?' (DbType = Guid), @__organizationId_1='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [o].[Id], [o].[AccountId], [o].[CreateDate], [o].[ModifyDate], [o].[OrganizationId]
+FROM [OrganizationAccount] AS [o]
+WHERE [o].[AccountId] = @__accountId_0 AND [o].[OrganizationId] = @__organizationId_1
+2025-08-04 21:35:30.519 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__Id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [o].[Id], [o].[Abbreviation], [o].[CreateDate], [o].[Description], [o].[ModifyDate], [o].[Name], [o].[Owner]
+FROM [OrganizationItem] AS [o]
+WHERE [o].[Id] = @__Id_0
+2025-08-04 21:35:30.520 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[@__Id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [o].[Id], [o].[Abbreviation], [o].[CreateDate], [o].[Description], [o].[ModifyDate], [o].[Name], [o].[Owner]
+FROM [OrganizationItem] AS [o]
+WHERE [o].[Id] = @__Id_0
+2025-08-04 21:35:30.530 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[@__organization_Data_Id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [o].[AccountId]
+FROM [OrganizationAccount] AS [o]
+WHERE [o].[OrganizationId] = @__organization_Data_Id_0
+2025-08-04 21:35:30.530 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[@__organization_Data_Id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [o].[AccountId]
+FROM [OrganizationAccount] AS [o]
+WHERE [o].[OrganizationId] = @__organization_Data_Id_0
+2025-08-04 21:35:30.531 +03:00 [INF] Organization info fetched successfully. Id: "6c8a32bd-3067-4115-b112-9abe196ea379"
+2025-08-04 21:35:30.531 +03:00 [INF] Organization info fetched successfully. Id: "6c8a32bd-3067-4115-b112-9abe196ea379"
+2025-08-04 21:35:30.531 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerApi.Models.OrganizationModel.OrganizationDto'.
+2025-08-04 21:35:30.531 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerApi.Models.OrganizationModel.OrganizationDto'.
+2025-08-04 21:35:30.531 +03:00 [INF] Executed action TaskManagerApi.Controllers.OrganizationController.GetOrganizationAccountsAsync (TaskManagerApi) in 23.4086ms
+2025-08-04 21:35:30.531 +03:00 [INF] Executed endpoint 'TaskManagerApi.Controllers.OrganizationController.GetOrganizationAccountsAsync (TaskManagerApi)'
+2025-08-04 21:35:30.531 +03:00 [INF] Executed action TaskManagerApi.Controllers.OrganizationController.GetOrganizationAccountsAsync (TaskManagerApi) in 23.4692ms
+2025-08-04 21:35:30.531 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7099/api/organization/6c8a32bd-3067-4115-b112-9abe196ea379/accounts - 200 476 application/json; charset=utf-8 30.204ms
+2025-08-04 21:35:30.531 +03:00 [INF] Executed endpoint 'TaskManagerApi.Controllers.OrganizationController.GetOrganizationAccountsAsync (TaskManagerApi)'
+2025-08-04 21:35:30.532 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7099/api/organization/6c8a32bd-3067-4115-b112-9abe196ea379/accounts - 200 476 application/json; charset=utf-8 30.4042ms
+2025-08-04 21:35:33.995 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7099/api/project/0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8/tasks - null null
+2025-08-04 21:35:33.995 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7099/api/project/0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8/tasks - null null
+2025-08-04 21:35:33.996 +03:00 [INF] Executing endpoint 'TaskManagerApi.Controllers.ProjectController.GetProjectWithTasksByIdAsync (TaskManagerApi)'
+2025-08-04 21:35:33.996 +03:00 [INF] Executing endpoint 'TaskManagerApi.Controllers.ProjectController.GetProjectWithTasksByIdAsync (TaskManagerApi)'
+2025-08-04 21:35:33.996 +03:00 [INF] Route matched with {action = "GetProjectWithTasksById", controller = "Project"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerApi.Models.Project.ProjectItemDto]] GetProjectWithTasksByIdAsync(System.Guid, System.Threading.CancellationToken) on controller TaskManagerApi.Controllers.ProjectController (TaskManagerApi).
+2025-08-04 21:35:33.996 +03:00 [INF] Route matched with {action = "GetProjectWithTasksById", controller = "Project"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerApi.Models.Project.ProjectItemDto]] GetProjectWithTasksByIdAsync(System.Guid, System.Threading.CancellationToken) on controller TaskManagerApi.Controllers.ProjectController (TaskManagerApi).
+2025-08-04 21:35:33.996 +03:00 [INF] GetProjectWithTasksByIdAsync called for projectId: "0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8"
+2025-08-04 21:35:33.996 +03:00 [INF] GetProjectWithTasksByIdAsync called for projectId: "0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8"
+2025-08-04 21:35:33.999 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [p].[Id], [p].[CreateDate], [p].[Description], [p].[ModifyDate], [p].[OrganizationId], [p].[OwnerId], [p].[Title]
+FROM [ProjectItems] AS [p]
+WHERE [p].[Id] = @__projectId_0
+2025-08-04 21:35:33.999 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [p].[Id], [p].[CreateDate], [p].[Description], [p].[ModifyDate], [p].[OrganizationId], [p].[OwnerId], [p].[Title]
+FROM [ProjectItems] AS [p]
+WHERE [p].[Id] = @__projectId_0
+2025-08-04 21:35:34.002 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__accountId_0='?' (DbType = Guid), @__project_OrganizationId_1='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [o].[Id], [o].[AccountId], [o].[CreateDate], [o].[ModifyDate], [o].[OrganizationId]
+FROM [OrganizationAccount] AS [o]
+WHERE [o].[AccountId] = @__accountId_0 AND [o].[OrganizationId] = @__project_OrganizationId_1
+2025-08-04 21:35:34.002 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[@__accountId_0='?' (DbType = Guid), @__project_OrganizationId_1='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [o].[Id], [o].[AccountId], [o].[CreateDate], [o].[ModifyDate], [o].[OrganizationId]
+FROM [OrganizationAccount] AS [o]
+WHERE [o].[AccountId] = @__accountId_0 AND [o].[OrganizationId] = @__project_OrganizationId_1
+2025-08-04 21:35:34.003 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [p].[Id], [p].[CreateDate], [p].[ModifyDate], [p].[Order], [p].[ProjectId], [p].[StatusId], [t].[Id], [t].[CreateDate], [t].[ModifyDate], [t].[Name], [t].[StatusTypeId], [t0].[Id], [t0].[CreateDate], [t0].[ModifyDate], [t0].[Name]
+FROM [ProjectTaskStatusMapping] AS [p]
+INNER JOIN [TicketStatuses] AS [t] ON [p].[StatusId] = [t].[Id]
+INNER JOIN [TicketStatusType] AS [t0] ON [t].[StatusTypeId] = [t0].[Id]
+WHERE [p].[ProjectId] = @__projectId_0
+2025-08-04 21:35:34.003 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [p].[Id], [p].[CreateDate], [p].[ModifyDate], [p].[Order], [p].[ProjectId], [p].[StatusId], [t].[Id], [t].[CreateDate], [t].[ModifyDate], [t].[Name], [t].[StatusTypeId], [t0].[Id], [t0].[CreateDate], [t0].[ModifyDate], [t0].[Name]
+FROM [ProjectTaskStatusMapping] AS [p]
+INNER JOIN [TicketStatuses] AS [t] ON [p].[StatusId] = [t].[Id]
+INNER JOIN [TicketStatusType] AS [t0] ON [t].[StatusTypeId] = [t0].[Id]
+WHERE [p].[ProjectId] = @__projectId_0
+2025-08-04 21:35:34.004 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [p].[Id], [p].[CreateDate], [p].[Description], [p].[ModifyDate], [p].[OrganizationId], [p].[OwnerId], [p].[Title]
+FROM [ProjectItems] AS [p]
+WHERE [p].[Id] = @__projectId_0
+2025-08-04 21:35:34.004 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [p].[Id], [p].[CreateDate], [p].[Description], [p].[ModifyDate], [p].[OrganizationId], [p].[OwnerId], [p].[Title]
+FROM [ProjectItems] AS [p]
+WHERE [p].[Id] = @__projectId_0
+2025-08-04 21:35:34.006 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [t].[Id], [t].[AssigneeId], [t].[CreateDate], [t].[Description], [t].[DueDate], [t].[Estimate], [t].[ModifyDate], [t].[ParentId], [t].[ProjectId], [t].[ReporterId], [t].[SpentTime], [t].[StartDate], [t].[StatusId], [t].[Title], [t].[TypeId], [t].[isCreatedByAi], [t0].[Id], [t0].[CreateDate], [t0].[ModifyDate], [t0].[Name], [t0].[StatusTypeId], [t1].[Id], [t1].[CreateDate], [t1].[ModifyDate], [t1].[Name]
+FROM [Tickets] AS [t]
+LEFT JOIN [TicketStatuses] AS [t0] ON [t].[StatusId] = [t0].[Id]
+LEFT JOIN [TicketTypes] AS [t1] ON [t].[TypeId] = [t1].[Id]
+WHERE [t].[ProjectId] = @__projectId_0
+2025-08-04 21:35:34.006 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [t].[Id], [t].[AssigneeId], [t].[CreateDate], [t].[Description], [t].[DueDate], [t].[Estimate], [t].[ModifyDate], [t].[ParentId], [t].[ProjectId], [t].[ReporterId], [t].[SpentTime], [t].[StartDate], [t].[StatusId], [t].[Title], [t].[TypeId], [t].[isCreatedByAi], [t0].[Id], [t0].[CreateDate], [t0].[ModifyDate], [t0].[Name], [t0].[StatusTypeId], [t1].[Id], [t1].[CreateDate], [t1].[ModifyDate], [t1].[Name]
+FROM [Tickets] AS [t]
+LEFT JOIN [TicketStatuses] AS [t0] ON [t].[StatusId] = [t0].[Id]
+LEFT JOIN [TicketTypes] AS [t1] ON [t].[TypeId] = [t1].[Id]
+WHERE [t].[ProjectId] = @__projectId_0
+2025-08-04 21:35:34.008 +03:00 [INF] Project with tasks fetched successfully. Id: "0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8"
+2025-08-04 21:35:34.008 +03:00 [INF] Project with tasks fetched successfully. Id: "0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8"
+2025-08-04 21:35:34.008 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerApi.Models.Project.ProjectItemDto'.
+2025-08-04 21:35:34.008 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerApi.Models.Project.ProjectItemDto'.
+2025-08-04 21:35:34.008 +03:00 [INF] Executed action TaskManagerApi.Controllers.ProjectController.GetProjectWithTasksByIdAsync (TaskManagerApi) in 12.6505ms
+2025-08-04 21:35:34.008 +03:00 [INF] Executed action TaskManagerApi.Controllers.ProjectController.GetProjectWithTasksByIdAsync (TaskManagerApi) in 12.6904ms
+2025-08-04 21:35:34.009 +03:00 [INF] Executed endpoint 'TaskManagerApi.Controllers.ProjectController.GetProjectWithTasksByIdAsync (TaskManagerApi)'
+2025-08-04 21:35:34.009 +03:00 [INF] Executed endpoint 'TaskManagerApi.Controllers.ProjectController.GetProjectWithTasksByIdAsync (TaskManagerApi)'
+2025-08-04 21:35:34.009 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7099/api/project/0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8/tasks - 200 10361 application/json; charset=utf-8 14.0361ms
+2025-08-04 21:35:34.009 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7099/api/project/0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8/tasks - 200 10361 application/json; charset=utf-8 14.0361ms
+2025-08-04 21:35:34.105 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7099/api/organization/6c8a32bd-3067-4115-b112-9abe196ea379/accounts - null null
+2025-08-04 21:35:34.105 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7099/api/organization/6c8a32bd-3067-4115-b112-9abe196ea379/accounts - null null
+2025-08-04 21:35:34.106 +03:00 [INF] Executing endpoint 'TaskManagerApi.Controllers.OrganizationController.GetOrganizationAccountsAsync (TaskManagerApi)'
+2025-08-04 21:35:34.106 +03:00 [INF] Executing endpoint 'TaskManagerApi.Controllers.OrganizationController.GetOrganizationAccountsAsync (TaskManagerApi)'
+2025-08-04 21:35:34.107 +03:00 [INF] Route matched with {action = "GetOrganizationAccounts", controller = "Organization"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerApi.Models.OrganizationModel.OrganizationDto]] GetOrganizationAccountsAsync(System.Guid, System.Threading.CancellationToken) on controller TaskManagerApi.Controllers.OrganizationController (TaskManagerApi).
+2025-08-04 21:35:34.107 +03:00 [INF] Route matched with {action = "GetOrganizationAccounts", controller = "Organization"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerApi.Models.OrganizationModel.OrganizationDto]] GetOrganizationAccountsAsync(System.Guid, System.Threading.CancellationToken) on controller TaskManagerApi.Controllers.OrganizationController (TaskManagerApi).
+2025-08-04 21:35:34.107 +03:00 [INF] GetOrganizationInfoAsync called for organizationId: "6c8a32bd-3067-4115-b112-9abe196ea379"
+2025-08-04 21:35:34.107 +03:00 [INF] GetOrganizationInfoAsync called for organizationId: "6c8a32bd-3067-4115-b112-9abe196ea379"
+2025-08-04 21:35:34.109 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__accountId_0='?' (DbType = Guid), @__organizationId_1='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [o].[Id], [o].[AccountId], [o].[CreateDate], [o].[ModifyDate], [o].[OrganizationId]
+FROM [OrganizationAccount] AS [o]
+WHERE [o].[AccountId] = @__accountId_0 AND [o].[OrganizationId] = @__organizationId_1
+2025-08-04 21:35:34.109 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__accountId_0='?' (DbType = Guid), @__organizationId_1='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [o].[Id], [o].[AccountId], [o].[CreateDate], [o].[ModifyDate], [o].[OrganizationId]
+FROM [OrganizationAccount] AS [o]
+WHERE [o].[AccountId] = @__accountId_0 AND [o].[OrganizationId] = @__organizationId_1
+2025-08-04 21:35:34.111 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__Id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [o].[Id], [o].[Abbreviation], [o].[CreateDate], [o].[Description], [o].[ModifyDate], [o].[Name], [o].[Owner]
+FROM [OrganizationItem] AS [o]
+WHERE [o].[Id] = @__Id_0
+2025-08-04 21:35:34.111 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[@__Id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [o].[Id], [o].[Abbreviation], [o].[CreateDate], [o].[Description], [o].[ModifyDate], [o].[Name], [o].[Owner]
+FROM [OrganizationItem] AS [o]
+WHERE [o].[Id] = @__Id_0
+2025-08-04 21:35:34.113 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__organization_Data_Id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [o].[AccountId]
+FROM [OrganizationAccount] AS [o]
+WHERE [o].[OrganizationId] = @__organization_Data_Id_0
+2025-08-04 21:35:34.113 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__organization_Data_Id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [o].[AccountId]
+FROM [OrganizationAccount] AS [o]
+WHERE [o].[OrganizationId] = @__organization_Data_Id_0
+2025-08-04 21:35:34.113 +03:00 [INF] Organization info fetched successfully. Id: "6c8a32bd-3067-4115-b112-9abe196ea379"
+2025-08-04 21:35:34.113 +03:00 [INF] Organization info fetched successfully. Id: "6c8a32bd-3067-4115-b112-9abe196ea379"
+2025-08-04 21:35:34.113 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerApi.Models.OrganizationModel.OrganizationDto'.
+2025-08-04 21:35:34.113 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerApi.Models.OrganizationModel.OrganizationDto'.
+2025-08-04 21:35:34.114 +03:00 [INF] Executed action TaskManagerApi.Controllers.OrganizationController.GetOrganizationAccountsAsync (TaskManagerApi) in 6.9603ms
+2025-08-04 21:35:34.114 +03:00 [INF] Executed endpoint 'TaskManagerApi.Controllers.OrganizationController.GetOrganizationAccountsAsync (TaskManagerApi)'
+2025-08-04 21:35:34.114 +03:00 [INF] Executed action TaskManagerApi.Controllers.OrganizationController.GetOrganizationAccountsAsync (TaskManagerApi) in 6.9782ms
+2025-08-04 21:35:34.114 +03:00 [INF] Executed endpoint 'TaskManagerApi.Controllers.OrganizationController.GetOrganizationAccountsAsync (TaskManagerApi)'
+2025-08-04 21:35:34.114 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7099/api/organization/6c8a32bd-3067-4115-b112-9abe196ea379/accounts - 200 476 application/json; charset=utf-8 9.0349ms
+2025-08-04 21:35:34.114 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7099/api/organization/6c8a32bd-3067-4115-b112-9abe196ea379/accounts - 200 476 application/json; charset=utf-8 9.119ms
+2025-08-04 21:35:35.777 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7099/api/project/0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8/tasks - null null
+2025-08-04 21:35:35.777 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7099/api/project/0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8/tasks - null null
+2025-08-04 21:35:35.778 +03:00 [INF] Executing endpoint 'TaskManagerApi.Controllers.ProjectController.GetProjectWithTasksByIdAsync (TaskManagerApi)'
+2025-08-04 21:35:35.778 +03:00 [INF] Executing endpoint 'TaskManagerApi.Controllers.ProjectController.GetProjectWithTasksByIdAsync (TaskManagerApi)'
+2025-08-04 21:35:35.778 +03:00 [INF] Route matched with {action = "GetProjectWithTasksById", controller = "Project"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerApi.Models.Project.ProjectItemDto]] GetProjectWithTasksByIdAsync(System.Guid, System.Threading.CancellationToken) on controller TaskManagerApi.Controllers.ProjectController (TaskManagerApi).
+2025-08-04 21:35:35.778 +03:00 [INF] Route matched with {action = "GetProjectWithTasksById", controller = "Project"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerApi.Models.Project.ProjectItemDto]] GetProjectWithTasksByIdAsync(System.Guid, System.Threading.CancellationToken) on controller TaskManagerApi.Controllers.ProjectController (TaskManagerApi).
+2025-08-04 21:35:35.778 +03:00 [INF] GetProjectWithTasksByIdAsync called for projectId: "0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8"
+2025-08-04 21:35:35.778 +03:00 [INF] GetProjectWithTasksByIdAsync called for projectId: "0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8"
+2025-08-04 21:35:35.782 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [p].[Id], [p].[CreateDate], [p].[Description], [p].[ModifyDate], [p].[OrganizationId], [p].[OwnerId], [p].[Title]
+FROM [ProjectItems] AS [p]
+WHERE [p].[Id] = @__projectId_0
+2025-08-04 21:35:35.782 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [p].[Id], [p].[CreateDate], [p].[Description], [p].[ModifyDate], [p].[OrganizationId], [p].[OwnerId], [p].[Title]
+FROM [ProjectItems] AS [p]
+WHERE [p].[Id] = @__projectId_0
+2025-08-04 21:35:35.786 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[@__accountId_0='?' (DbType = Guid), @__project_OrganizationId_1='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [o].[Id], [o].[AccountId], [o].[CreateDate], [o].[ModifyDate], [o].[OrganizationId]
+FROM [OrganizationAccount] AS [o]
+WHERE [o].[AccountId] = @__accountId_0 AND [o].[OrganizationId] = @__project_OrganizationId_1
+2025-08-04 21:35:35.786 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[@__accountId_0='?' (DbType = Guid), @__project_OrganizationId_1='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [o].[Id], [o].[AccountId], [o].[CreateDate], [o].[ModifyDate], [o].[OrganizationId]
+FROM [OrganizationAccount] AS [o]
+WHERE [o].[AccountId] = @__accountId_0 AND [o].[OrganizationId] = @__project_OrganizationId_1
+2025-08-04 21:35:35.792 +03:00 [INF] Executed DbCommand (5ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [p].[Id], [p].[CreateDate], [p].[ModifyDate], [p].[Order], [p].[ProjectId], [p].[StatusId], [t].[Id], [t].[CreateDate], [t].[ModifyDate], [t].[Name], [t].[StatusTypeId], [t0].[Id], [t0].[CreateDate], [t0].[ModifyDate], [t0].[Name]
+FROM [ProjectTaskStatusMapping] AS [p]
+INNER JOIN [TicketStatuses] AS [t] ON [p].[StatusId] = [t].[Id]
+INNER JOIN [TicketStatusType] AS [t0] ON [t].[StatusTypeId] = [t0].[Id]
+WHERE [p].[ProjectId] = @__projectId_0
+2025-08-04 21:35:35.792 +03:00 [INF] Executed DbCommand (5ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [p].[Id], [p].[CreateDate], [p].[ModifyDate], [p].[Order], [p].[ProjectId], [p].[StatusId], [t].[Id], [t].[CreateDate], [t].[ModifyDate], [t].[Name], [t].[StatusTypeId], [t0].[Id], [t0].[CreateDate], [t0].[ModifyDate], [t0].[Name]
+FROM [ProjectTaskStatusMapping] AS [p]
+INNER JOIN [TicketStatuses] AS [t] ON [p].[StatusId] = [t].[Id]
+INNER JOIN [TicketStatusType] AS [t0] ON [t].[StatusTypeId] = [t0].[Id]
+WHERE [p].[ProjectId] = @__projectId_0
+2025-08-04 21:35:35.793 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [p].[Id], [p].[CreateDate], [p].[Description], [p].[ModifyDate], [p].[OrganizationId], [p].[OwnerId], [p].[Title]
+FROM [ProjectItems] AS [p]
+WHERE [p].[Id] = @__projectId_0
+2025-08-04 21:35:35.793 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [p].[Id], [p].[CreateDate], [p].[Description], [p].[ModifyDate], [p].[OrganizationId], [p].[OwnerId], [p].[Title]
+FROM [ProjectItems] AS [p]
+WHERE [p].[Id] = @__projectId_0
+2025-08-04 21:35:35.798 +03:00 [INF] Executed DbCommand (5ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [t].[Id], [t].[AssigneeId], [t].[CreateDate], [t].[Description], [t].[DueDate], [t].[Estimate], [t].[ModifyDate], [t].[ParentId], [t].[ProjectId], [t].[ReporterId], [t].[SpentTime], [t].[StartDate], [t].[StatusId], [t].[Title], [t].[TypeId], [t].[isCreatedByAi], [t0].[Id], [t0].[CreateDate], [t0].[ModifyDate], [t0].[Name], [t0].[StatusTypeId], [t1].[Id], [t1].[CreateDate], [t1].[ModifyDate], [t1].[Name]
+FROM [Tickets] AS [t]
+LEFT JOIN [TicketStatuses] AS [t0] ON [t].[StatusId] = [t0].[Id]
+LEFT JOIN [TicketTypes] AS [t1] ON [t].[TypeId] = [t1].[Id]
+WHERE [t].[ProjectId] = @__projectId_0
+2025-08-04 21:35:35.798 +03:00 [INF] Executed DbCommand (5ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [t].[Id], [t].[AssigneeId], [t].[CreateDate], [t].[Description], [t].[DueDate], [t].[Estimate], [t].[ModifyDate], [t].[ParentId], [t].[ProjectId], [t].[ReporterId], [t].[SpentTime], [t].[StartDate], [t].[StatusId], [t].[Title], [t].[TypeId], [t].[isCreatedByAi], [t0].[Id], [t0].[CreateDate], [t0].[ModifyDate], [t0].[Name], [t0].[StatusTypeId], [t1].[Id], [t1].[CreateDate], [t1].[ModifyDate], [t1].[Name]
+FROM [Tickets] AS [t]
+LEFT JOIN [TicketStatuses] AS [t0] ON [t].[StatusId] = [t0].[Id]
+LEFT JOIN [TicketTypes] AS [t1] ON [t].[TypeId] = [t1].[Id]
+WHERE [t].[ProjectId] = @__projectId_0
+2025-08-04 21:35:35.800 +03:00 [INF] Project with tasks fetched successfully. Id: "0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8"
+2025-08-04 21:35:35.800 +03:00 [INF] Project with tasks fetched successfully. Id: "0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8"
+2025-08-04 21:35:35.800 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerApi.Models.Project.ProjectItemDto'.
+2025-08-04 21:35:35.800 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerApi.Models.Project.ProjectItemDto'.
+2025-08-04 21:35:35.801 +03:00 [INF] Executed action TaskManagerApi.Controllers.ProjectController.GetProjectWithTasksByIdAsync (TaskManagerApi) in 23.1546ms
+2025-08-04 21:35:35.801 +03:00 [INF] Executed action TaskManagerApi.Controllers.ProjectController.GetProjectWithTasksByIdAsync (TaskManagerApi) in 23.1124ms
+2025-08-04 21:35:35.801 +03:00 [INF] Executed endpoint 'TaskManagerApi.Controllers.ProjectController.GetProjectWithTasksByIdAsync (TaskManagerApi)'
+2025-08-04 21:35:35.801 +03:00 [INF] Executed endpoint 'TaskManagerApi.Controllers.ProjectController.GetProjectWithTasksByIdAsync (TaskManagerApi)'
+2025-08-04 21:35:35.801 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7099/api/project/0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8/tasks - 200 10361 application/json; charset=utf-8 24.7747ms
+2025-08-04 21:35:35.801 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7099/api/project/0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8/tasks - 200 10361 application/json; charset=utf-8 24.784ms
+2025-08-04 21:35:35.854 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7099/api/organization/6c8a32bd-3067-4115-b112-9abe196ea379/accounts - null null
+2025-08-04 21:35:35.855 +03:00 [INF] Executing endpoint 'TaskManagerApi.Controllers.OrganizationController.GetOrganizationAccountsAsync (TaskManagerApi)'
+2025-08-04 21:35:35.855 +03:00 [INF] Route matched with {action = "GetOrganizationAccounts", controller = "Organization"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerApi.Models.OrganizationModel.OrganizationDto]] GetOrganizationAccountsAsync(System.Guid, System.Threading.CancellationToken) on controller TaskManagerApi.Controllers.OrganizationController (TaskManagerApi).
+2025-08-04 21:35:35.856 +03:00 [INF] GetOrganizationInfoAsync called for organizationId: "6c8a32bd-3067-4115-b112-9abe196ea379"
+2025-08-04 21:35:35.857 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7099/api/organization/6c8a32bd-3067-4115-b112-9abe196ea379/accounts - null null
+2025-08-04 21:35:35.857 +03:00 [INF] Executing endpoint 'TaskManagerApi.Controllers.OrganizationController.GetOrganizationAccountsAsync (TaskManagerApi)'
+2025-08-04 21:35:35.858 +03:00 [INF] Route matched with {action = "GetOrganizationAccounts", controller = "Organization"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerApi.Models.OrganizationModel.OrganizationDto]] GetOrganizationAccountsAsync(System.Guid, System.Threading.CancellationToken) on controller TaskManagerApi.Controllers.OrganizationController (TaskManagerApi).
+2025-08-04 21:35:35.858 +03:00 [INF] GetOrganizationInfoAsync called for organizationId: "6c8a32bd-3067-4115-b112-9abe196ea379"
+2025-08-04 21:35:35.861 +03:00 [INF] Executed DbCommand (4ms) [Parameters=[@__accountId_0='?' (DbType = Guid), @__organizationId_1='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [o].[Id], [o].[AccountId], [o].[CreateDate], [o].[ModifyDate], [o].[OrganizationId]
+FROM [OrganizationAccount] AS [o]
+WHERE [o].[AccountId] = @__accountId_0 AND [o].[OrganizationId] = @__organizationId_1
+2025-08-04 21:35:35.863 +03:00 [INF] Executed DbCommand (4ms) [Parameters=[@__accountId_0='?' (DbType = Guid), @__organizationId_1='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [o].[Id], [o].[AccountId], [o].[CreateDate], [o].[ModifyDate], [o].[OrganizationId]
+FROM [OrganizationAccount] AS [o]
+WHERE [o].[AccountId] = @__accountId_0 AND [o].[OrganizationId] = @__organizationId_1
+2025-08-04 21:35:35.866 +03:00 [INF] Executed DbCommand (5ms) [Parameters=[@__Id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [o].[Id], [o].[Abbreviation], [o].[CreateDate], [o].[Description], [o].[ModifyDate], [o].[Name], [o].[Owner]
+FROM [OrganizationItem] AS [o]
+WHERE [o].[Id] = @__Id_0
+2025-08-04 21:35:35.867 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[@__Id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [o].[Id], [o].[Abbreviation], [o].[CreateDate], [o].[Description], [o].[ModifyDate], [o].[Name], [o].[Owner]
+FROM [OrganizationItem] AS [o]
+WHERE [o].[Id] = @__Id_0
+2025-08-04 21:35:35.869 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[@__organization_Data_Id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [o].[AccountId]
+FROM [OrganizationAccount] AS [o]
+WHERE [o].[OrganizationId] = @__organization_Data_Id_0
+2025-08-04 21:35:35.869 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[@__organization_Data_Id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [o].[AccountId]
+FROM [OrganizationAccount] AS [o]
+WHERE [o].[OrganizationId] = @__organization_Data_Id_0
+2025-08-04 21:35:35.870 +03:00 [INF] Organization info fetched successfully. Id: "6c8a32bd-3067-4115-b112-9abe196ea379"
+2025-08-04 21:35:35.870 +03:00 [INF] Organization info fetched successfully. Id: "6c8a32bd-3067-4115-b112-9abe196ea379"
+2025-08-04 21:35:35.870 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerApi.Models.OrganizationModel.OrganizationDto'.
+2025-08-04 21:35:35.870 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerApi.Models.OrganizationModel.OrganizationDto'.
+2025-08-04 21:35:35.870 +03:00 [INF] Executed action TaskManagerApi.Controllers.OrganizationController.GetOrganizationAccountsAsync (TaskManagerApi) in 12.6058ms
+2025-08-04 21:35:35.870 +03:00 [INF] Executed action TaskManagerApi.Controllers.OrganizationController.GetOrganizationAccountsAsync (TaskManagerApi) in 15.1319ms
+2025-08-04 21:35:35.870 +03:00 [INF] Executed endpoint 'TaskManagerApi.Controllers.OrganizationController.GetOrganizationAccountsAsync (TaskManagerApi)'
+2025-08-04 21:35:35.870 +03:00 [INF] Executed endpoint 'TaskManagerApi.Controllers.OrganizationController.GetOrganizationAccountsAsync (TaskManagerApi)'
+2025-08-04 21:35:35.871 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7099/api/organization/6c8a32bd-3067-4115-b112-9abe196ea379/accounts - 200 476 application/json; charset=utf-8 16.7251ms
+2025-08-04 21:35:35.871 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7099/api/organization/6c8a32bd-3067-4115-b112-9abe196ea379/accounts - 200 476 application/json; charset=utf-8 13.8677ms
+2025-08-04 21:36:35.835 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7099/api/project/0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8/tasks - null null
+2025-08-04 21:36:35.836 +03:00 [INF] Executing endpoint 'TaskManagerApi.Controllers.ProjectController.GetProjectWithTasksByIdAsync (TaskManagerApi)'
+2025-08-04 21:36:35.836 +03:00 [INF] Route matched with {action = "GetProjectWithTasksById", controller = "Project"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerApi.Models.Project.ProjectItemDto]] GetProjectWithTasksByIdAsync(System.Guid, System.Threading.CancellationToken) on controller TaskManagerApi.Controllers.ProjectController (TaskManagerApi).
+2025-08-04 21:36:35.837 +03:00 [INF] GetProjectWithTasksByIdAsync called for projectId: "0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8"
+2025-08-04 21:36:35.841 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [p].[Id], [p].[CreateDate], [p].[Description], [p].[ModifyDate], [p].[OrganizationId], [p].[OwnerId], [p].[Title]
+FROM [ProjectItems] AS [p]
+WHERE [p].[Id] = @__projectId_0
+2025-08-04 21:36:35.844 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[@__accountId_0='?' (DbType = Guid), @__project_OrganizationId_1='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [o].[Id], [o].[AccountId], [o].[CreateDate], [o].[ModifyDate], [o].[OrganizationId]
+FROM [OrganizationAccount] AS [o]
+WHERE [o].[AccountId] = @__accountId_0 AND [o].[OrganizationId] = @__project_OrganizationId_1
+2025-08-04 21:36:35.850 +03:00 [INF] Executed DbCommand (6ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [p].[Id], [p].[CreateDate], [p].[ModifyDate], [p].[Order], [p].[ProjectId], [p].[StatusId], [t].[Id], [t].[CreateDate], [t].[ModifyDate], [t].[Name], [t].[StatusTypeId], [t0].[Id], [t0].[CreateDate], [t0].[ModifyDate], [t0].[Name]
+FROM [ProjectTaskStatusMapping] AS [p]
+INNER JOIN [TicketStatuses] AS [t] ON [p].[StatusId] = [t].[Id]
+INNER JOIN [TicketStatusType] AS [t0] ON [t].[StatusTypeId] = [t0].[Id]
+WHERE [p].[ProjectId] = @__projectId_0
+2025-08-04 21:36:35.851 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [p].[Id], [p].[CreateDate], [p].[Description], [p].[ModifyDate], [p].[OrganizationId], [p].[OwnerId], [p].[Title]
+FROM [ProjectItems] AS [p]
+WHERE [p].[Id] = @__projectId_0
+2025-08-04 21:36:35.857 +03:00 [INF] Executed DbCommand (5ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [t].[Id], [t].[AssigneeId], [t].[CreateDate], [t].[Description], [t].[DueDate], [t].[Estimate], [t].[ModifyDate], [t].[ParentId], [t].[ProjectId], [t].[ReporterId], [t].[SpentTime], [t].[StartDate], [t].[StatusId], [t].[Title], [t].[TypeId], [t].[isCreatedByAi], [t0].[Id], [t0].[CreateDate], [t0].[ModifyDate], [t0].[Name], [t0].[StatusTypeId], [t1].[Id], [t1].[CreateDate], [t1].[ModifyDate], [t1].[Name]
+FROM [Tickets] AS [t]
+LEFT JOIN [TicketStatuses] AS [t0] ON [t].[StatusId] = [t0].[Id]
+LEFT JOIN [TicketTypes] AS [t1] ON [t].[TypeId] = [t1].[Id]
+WHERE [t].[ProjectId] = @__projectId_0
+2025-08-04 21:36:35.858 +03:00 [INF] Project with tasks fetched successfully. Id: "0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8"
+2025-08-04 21:36:35.858 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerApi.Models.Project.ProjectItemDto'.
+2025-08-04 21:36:35.859 +03:00 [INF] Executed action TaskManagerApi.Controllers.ProjectController.GetProjectWithTasksByIdAsync (TaskManagerApi) in 22.1251ms
+2025-08-04 21:36:35.859 +03:00 [INF] Executed endpoint 'TaskManagerApi.Controllers.ProjectController.GetProjectWithTasksByIdAsync (TaskManagerApi)'
+2025-08-04 21:36:35.859 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7099/api/project/0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8/tasks - 200 10361 application/json; charset=utf-8 23.3696ms
+2025-08-04 21:36:35.937 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7099/api/organization/6c8a32bd-3067-4115-b112-9abe196ea379/accounts - null null
+2025-08-04 21:36:35.937 +03:00 [INF] Executing endpoint 'TaskManagerApi.Controllers.OrganizationController.GetOrganizationAccountsAsync (TaskManagerApi)'
+2025-08-04 21:36:35.938 +03:00 [INF] Route matched with {action = "GetOrganizationAccounts", controller = "Organization"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerApi.Models.OrganizationModel.OrganizationDto]] GetOrganizationAccountsAsync(System.Guid, System.Threading.CancellationToken) on controller TaskManagerApi.Controllers.OrganizationController (TaskManagerApi).
+2025-08-04 21:36:35.938 +03:00 [INF] GetOrganizationInfoAsync called for organizationId: "6c8a32bd-3067-4115-b112-9abe196ea379"
+2025-08-04 21:36:35.942 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[@__accountId_0='?' (DbType = Guid), @__organizationId_1='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [o].[Id], [o].[AccountId], [o].[CreateDate], [o].[ModifyDate], [o].[OrganizationId]
+FROM [OrganizationAccount] AS [o]
+WHERE [o].[AccountId] = @__accountId_0 AND [o].[OrganizationId] = @__organizationId_1
+2025-08-04 21:36:35.944 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[@__Id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [o].[Id], [o].[Abbreviation], [o].[CreateDate], [o].[Description], [o].[ModifyDate], [o].[Name], [o].[Owner]
+FROM [OrganizationItem] AS [o]
+WHERE [o].[Id] = @__Id_0
+2025-08-04 21:36:35.946 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[@__organization_Data_Id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [o].[AccountId]
+FROM [OrganizationAccount] AS [o]
+WHERE [o].[OrganizationId] = @__organization_Data_Id_0
+2025-08-04 21:36:35.947 +03:00 [INF] Organization info fetched successfully. Id: "6c8a32bd-3067-4115-b112-9abe196ea379"
+2025-08-04 21:36:35.947 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerApi.Models.OrganizationModel.OrganizationDto'.
+2025-08-04 21:36:35.947 +03:00 [INF] Executed action TaskManagerApi.Controllers.OrganizationController.GetOrganizationAccountsAsync (TaskManagerApi) in 9.3031ms
+2025-08-04 21:36:35.947 +03:00 [INF] Executed endpoint 'TaskManagerApi.Controllers.OrganizationController.GetOrganizationAccountsAsync (TaskManagerApi)'
+2025-08-04 21:36:35.947 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7099/api/organization/6c8a32bd-3067-4115-b112-9abe196ea379/accounts - 200 476 application/json; charset=utf-8 10.2714ms
+2025-08-04 21:37:35.781 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7099/api/project/0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8/tasks - null null
+2025-08-04 21:37:35.782 +03:00 [INF] Executing endpoint 'TaskManagerApi.Controllers.ProjectController.GetProjectWithTasksByIdAsync (TaskManagerApi)'
+2025-08-04 21:37:35.782 +03:00 [INF] Route matched with {action = "GetProjectWithTasksById", controller = "Project"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerApi.Models.Project.ProjectItemDto]] GetProjectWithTasksByIdAsync(System.Guid, System.Threading.CancellationToken) on controller TaskManagerApi.Controllers.ProjectController (TaskManagerApi).
+2025-08-04 21:37:35.783 +03:00 [INF] GetProjectWithTasksByIdAsync called for projectId: "0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8"
+2025-08-04 21:37:35.787 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [p].[Id], [p].[CreateDate], [p].[Description], [p].[ModifyDate], [p].[OrganizationId], [p].[OwnerId], [p].[Title]
+FROM [ProjectItems] AS [p]
+WHERE [p].[Id] = @__projectId_0
+2025-08-04 21:37:35.791 +03:00 [INF] Executed DbCommand (4ms) [Parameters=[@__accountId_0='?' (DbType = Guid), @__project_OrganizationId_1='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [o].[Id], [o].[AccountId], [o].[CreateDate], [o].[ModifyDate], [o].[OrganizationId]
+FROM [OrganizationAccount] AS [o]
+WHERE [o].[AccountId] = @__accountId_0 AND [o].[OrganizationId] = @__project_OrganizationId_1
+2025-08-04 21:37:35.798 +03:00 [INF] Executed DbCommand (7ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [p].[Id], [p].[CreateDate], [p].[ModifyDate], [p].[Order], [p].[ProjectId], [p].[StatusId], [t].[Id], [t].[CreateDate], [t].[ModifyDate], [t].[Name], [t].[StatusTypeId], [t0].[Id], [t0].[CreateDate], [t0].[ModifyDate], [t0].[Name]
+FROM [ProjectTaskStatusMapping] AS [p]
+INNER JOIN [TicketStatuses] AS [t] ON [p].[StatusId] = [t].[Id]
+INNER JOIN [TicketStatusType] AS [t0] ON [t].[StatusTypeId] = [t0].[Id]
+WHERE [p].[ProjectId] = @__projectId_0
+2025-08-04 21:37:35.800 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [p].[Id], [p].[CreateDate], [p].[Description], [p].[ModifyDate], [p].[OrganizationId], [p].[OwnerId], [p].[Title]
+FROM [ProjectItems] AS [p]
+WHERE [p].[Id] = @__projectId_0
+2025-08-04 21:37:35.806 +03:00 [INF] Executed DbCommand (5ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [t].[Id], [t].[AssigneeId], [t].[CreateDate], [t].[Description], [t].[DueDate], [t].[Estimate], [t].[ModifyDate], [t].[ParentId], [t].[ProjectId], [t].[ReporterId], [t].[SpentTime], [t].[StartDate], [t].[StatusId], [t].[Title], [t].[TypeId], [t].[isCreatedByAi], [t0].[Id], [t0].[CreateDate], [t0].[ModifyDate], [t0].[Name], [t0].[StatusTypeId], [t1].[Id], [t1].[CreateDate], [t1].[ModifyDate], [t1].[Name]
+FROM [Tickets] AS [t]
+LEFT JOIN [TicketStatuses] AS [t0] ON [t].[StatusId] = [t0].[Id]
+LEFT JOIN [TicketTypes] AS [t1] ON [t].[TypeId] = [t1].[Id]
+WHERE [t].[ProjectId] = @__projectId_0
+2025-08-04 21:37:35.807 +03:00 [INF] Project with tasks fetched successfully. Id: "0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8"
+2025-08-04 21:37:35.807 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerApi.Models.Project.ProjectItemDto'.
+2025-08-04 21:37:35.807 +03:00 [INF] Executed action TaskManagerApi.Controllers.ProjectController.GetProjectWithTasksByIdAsync (TaskManagerApi) in 25.2718ms
+2025-08-04 21:37:35.807 +03:00 [INF] Executed endpoint 'TaskManagerApi.Controllers.ProjectController.GetProjectWithTasksByIdAsync (TaskManagerApi)'
+2025-08-04 21:37:35.808 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7099/api/project/0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8/tasks - 200 10361 application/json; charset=utf-8 26.485ms
+2025-08-04 21:37:35.845 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7099/api/organization/6c8a32bd-3067-4115-b112-9abe196ea379/accounts - null null
+2025-08-04 21:37:35.845 +03:00 [INF] Executing endpoint 'TaskManagerApi.Controllers.OrganizationController.GetOrganizationAccountsAsync (TaskManagerApi)'
+2025-08-04 21:37:35.845 +03:00 [INF] Route matched with {action = "GetOrganizationAccounts", controller = "Organization"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerApi.Models.OrganizationModel.OrganizationDto]] GetOrganizationAccountsAsync(System.Guid, System.Threading.CancellationToken) on controller TaskManagerApi.Controllers.OrganizationController (TaskManagerApi).
+2025-08-04 21:37:35.846 +03:00 [INF] GetOrganizationInfoAsync called for organizationId: "6c8a32bd-3067-4115-b112-9abe196ea379"
+2025-08-04 21:37:35.850 +03:00 [INF] Executed DbCommand (4ms) [Parameters=[@__accountId_0='?' (DbType = Guid), @__organizationId_1='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [o].[Id], [o].[AccountId], [o].[CreateDate], [o].[ModifyDate], [o].[OrganizationId]
+FROM [OrganizationAccount] AS [o]
+WHERE [o].[AccountId] = @__accountId_0 AND [o].[OrganizationId] = @__organizationId_1
+2025-08-04 21:37:35.853 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[@__Id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [o].[Id], [o].[Abbreviation], [o].[CreateDate], [o].[Description], [o].[ModifyDate], [o].[Name], [o].[Owner]
+FROM [OrganizationItem] AS [o]
+WHERE [o].[Id] = @__Id_0
+2025-08-04 21:37:35.855 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[@__organization_Data_Id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [o].[AccountId]
+FROM [OrganizationAccount] AS [o]
+WHERE [o].[OrganizationId] = @__organization_Data_Id_0
+2025-08-04 21:37:35.855 +03:00 [INF] Organization info fetched successfully. Id: "6c8a32bd-3067-4115-b112-9abe196ea379"
+2025-08-04 21:37:35.855 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerApi.Models.OrganizationModel.OrganizationDto'.
+2025-08-04 21:37:35.855 +03:00 [INF] Executed action TaskManagerApi.Controllers.OrganizationController.GetOrganizationAccountsAsync (TaskManagerApi) in 9.9056ms
+2025-08-04 21:37:35.856 +03:00 [INF] Executed endpoint 'TaskManagerApi.Controllers.OrganizationController.GetOrganizationAccountsAsync (TaskManagerApi)'
+2025-08-04 21:37:35.856 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7099/api/organization/6c8a32bd-3067-4115-b112-9abe196ea379/accounts - 200 476 application/json; charset=utf-8 11.0579ms
+2025-08-04 21:37:50.528 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7099/api/project/0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8/tasks - null null
+2025-08-04 21:37:50.529 +03:00 [INF] Executing endpoint 'TaskManagerApi.Controllers.ProjectController.GetProjectWithTasksByIdAsync (TaskManagerApi)'
+2025-08-04 21:37:50.530 +03:00 [INF] Route matched with {action = "GetProjectWithTasksById", controller = "Project"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerApi.Models.Project.ProjectItemDto]] GetProjectWithTasksByIdAsync(System.Guid, System.Threading.CancellationToken) on controller TaskManagerApi.Controllers.ProjectController (TaskManagerApi).
+2025-08-04 21:37:50.531 +03:00 [INF] GetProjectWithTasksByIdAsync called for projectId: "0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8"
+2025-08-04 21:37:50.536 +03:00 [INF] Executed DbCommand (4ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [p].[Id], [p].[CreateDate], [p].[Description], [p].[ModifyDate], [p].[OrganizationId], [p].[OwnerId], [p].[Title]
+FROM [ProjectItems] AS [p]
+WHERE [p].[Id] = @__projectId_0
+2025-08-04 21:37:50.541 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7099/api/project/0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8/tasks - null null
+2025-08-04 21:37:50.541 +03:00 [INF] Executed DbCommand (4ms) [Parameters=[@__accountId_0='?' (DbType = Guid), @__project_OrganizationId_1='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [o].[Id], [o].[AccountId], [o].[CreateDate], [o].[ModifyDate], [o].[OrganizationId]
+FROM [OrganizationAccount] AS [o]
+WHERE [o].[AccountId] = @__accountId_0 AND [o].[OrganizationId] = @__project_OrganizationId_1
+2025-08-04 21:37:50.542 +03:00 [INF] Executing endpoint 'TaskManagerApi.Controllers.ProjectController.GetProjectWithTasksByIdAsync (TaskManagerApi)'
+2025-08-04 21:37:50.542 +03:00 [INF] Route matched with {action = "GetProjectWithTasksById", controller = "Project"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerApi.Models.Project.ProjectItemDto]] GetProjectWithTasksByIdAsync(System.Guid, System.Threading.CancellationToken) on controller TaskManagerApi.Controllers.ProjectController (TaskManagerApi).
+2025-08-04 21:37:50.542 +03:00 [INF] GetProjectWithTasksByIdAsync called for projectId: "0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8"
+2025-08-04 21:37:50.544 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [p].[Id], [p].[CreateDate], [p].[Description], [p].[ModifyDate], [p].[OrganizationId], [p].[OwnerId], [p].[Title]
+FROM [ProjectItems] AS [p]
+WHERE [p].[Id] = @__projectId_0
+2025-08-04 21:37:50.547 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[@__accountId_0='?' (DbType = Guid), @__project_OrganizationId_1='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [o].[Id], [o].[AccountId], [o].[CreateDate], [o].[ModifyDate], [o].[OrganizationId]
+FROM [OrganizationAccount] AS [o]
+WHERE [o].[AccountId] = @__accountId_0 AND [o].[OrganizationId] = @__project_OrganizationId_1
+2025-08-04 21:37:50.548 +03:00 [INF] Executed DbCommand (6ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [p].[Id], [p].[CreateDate], [p].[ModifyDate], [p].[Order], [p].[ProjectId], [p].[StatusId], [t].[Id], [t].[CreateDate], [t].[ModifyDate], [t].[Name], [t].[StatusTypeId], [t0].[Id], [t0].[CreateDate], [t0].[ModifyDate], [t0].[Name]
+FROM [ProjectTaskStatusMapping] AS [p]
+INNER JOIN [TicketStatuses] AS [t] ON [p].[StatusId] = [t].[Id]
+INNER JOIN [TicketStatusType] AS [t0] ON [t].[StatusTypeId] = [t0].[Id]
+WHERE [p].[ProjectId] = @__projectId_0
+2025-08-04 21:37:50.548 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [p].[Id], [p].[CreateDate], [p].[ModifyDate], [p].[Order], [p].[ProjectId], [p].[StatusId], [t].[Id], [t].[CreateDate], [t].[ModifyDate], [t].[Name], [t].[StatusTypeId], [t0].[Id], [t0].[CreateDate], [t0].[ModifyDate], [t0].[Name]
+FROM [ProjectTaskStatusMapping] AS [p]
+INNER JOIN [TicketStatuses] AS [t] ON [p].[StatusId] = [t].[Id]
+INNER JOIN [TicketStatusType] AS [t0] ON [t].[StatusTypeId] = [t0].[Id]
+WHERE [p].[ProjectId] = @__projectId_0
+2025-08-04 21:37:50.550 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [p].[Id], [p].[CreateDate], [p].[Description], [p].[ModifyDate], [p].[OrganizationId], [p].[OwnerId], [p].[Title]
+FROM [ProjectItems] AS [p]
+WHERE [p].[Id] = @__projectId_0
+2025-08-04 21:37:50.552 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [p].[Id], [p].[CreateDate], [p].[Description], [p].[ModifyDate], [p].[OrganizationId], [p].[OwnerId], [p].[Title]
+FROM [ProjectItems] AS [p]
+WHERE [p].[Id] = @__projectId_0
+2025-08-04 21:37:50.557 +03:00 [INF] Executed DbCommand (6ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [t].[Id], [t].[AssigneeId], [t].[CreateDate], [t].[Description], [t].[DueDate], [t].[Estimate], [t].[ModifyDate], [t].[ParentId], [t].[ProjectId], [t].[ReporterId], [t].[SpentTime], [t].[StartDate], [t].[StatusId], [t].[Title], [t].[TypeId], [t].[isCreatedByAi], [t0].[Id], [t0].[CreateDate], [t0].[ModifyDate], [t0].[Name], [t0].[StatusTypeId], [t1].[Id], [t1].[CreateDate], [t1].[ModifyDate], [t1].[Name]
+FROM [Tickets] AS [t]
+LEFT JOIN [TicketStatuses] AS [t0] ON [t].[StatusId] = [t0].[Id]
+LEFT JOIN [TicketTypes] AS [t1] ON [t].[TypeId] = [t1].[Id]
+WHERE [t].[ProjectId] = @__projectId_0
+2025-08-04 21:37:50.558 +03:00 [INF] Executed DbCommand (5ms) [Parameters=[@__projectId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [t].[Id], [t].[AssigneeId], [t].[CreateDate], [t].[Description], [t].[DueDate], [t].[Estimate], [t].[ModifyDate], [t].[ParentId], [t].[ProjectId], [t].[ReporterId], [t].[SpentTime], [t].[StartDate], [t].[StatusId], [t].[Title], [t].[TypeId], [t].[isCreatedByAi], [t0].[Id], [t0].[CreateDate], [t0].[ModifyDate], [t0].[Name], [t0].[StatusTypeId], [t1].[Id], [t1].[CreateDate], [t1].[ModifyDate], [t1].[Name]
+FROM [Tickets] AS [t]
+LEFT JOIN [TicketStatuses] AS [t0] ON [t].[StatusId] = [t0].[Id]
+LEFT JOIN [TicketTypes] AS [t1] ON [t].[TypeId] = [t1].[Id]
+WHERE [t].[ProjectId] = @__projectId_0
+2025-08-04 21:37:50.558 +03:00 [INF] Project with tasks fetched successfully. Id: "0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8"
+2025-08-04 21:37:50.558 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerApi.Models.Project.ProjectItemDto'.
+2025-08-04 21:37:50.559 +03:00 [INF] Project with tasks fetched successfully. Id: "0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8"
+2025-08-04 21:37:50.559 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerApi.Models.Project.ProjectItemDto'.
+2025-08-04 21:37:50.559 +03:00 [INF] Executed action TaskManagerApi.Controllers.ProjectController.GetProjectWithTasksByIdAsync (TaskManagerApi) in 29.1208ms
+2025-08-04 21:37:50.559 +03:00 [INF] Executed endpoint 'TaskManagerApi.Controllers.ProjectController.GetProjectWithTasksByIdAsync (TaskManagerApi)'
+2025-08-04 21:37:50.559 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7099/api/project/0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8/tasks - 200 10361 application/json; charset=utf-8 31.0978ms
+2025-08-04 21:37:50.559 +03:00 [INF] Executed action TaskManagerApi.Controllers.ProjectController.GetProjectWithTasksByIdAsync (TaskManagerApi) in 17.4823ms
+2025-08-04 21:37:50.559 +03:00 [INF] Executed endpoint 'TaskManagerApi.Controllers.ProjectController.GetProjectWithTasksByIdAsync (TaskManagerApi)'
+2025-08-04 21:37:50.559 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7099/api/project/0969fe8d-ffb8-4aa5-9cb4-80edbff6e8d8/tasks - 200 10361 application/json; charset=utf-8 18.6611ms
+2025-08-04 21:37:50.621 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7099/api/organization/6c8a32bd-3067-4115-b112-9abe196ea379/accounts - null null
+2025-08-04 21:37:50.623 +03:00 [INF] Executing endpoint 'TaskManagerApi.Controllers.OrganizationController.GetOrganizationAccountsAsync (TaskManagerApi)'
+2025-08-04 21:37:50.623 +03:00 [INF] Route matched with {action = "GetOrganizationAccounts", controller = "Organization"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerApi.Models.OrganizationModel.OrganizationDto]] GetOrganizationAccountsAsync(System.Guid, System.Threading.CancellationToken) on controller TaskManagerApi.Controllers.OrganizationController (TaskManagerApi).
+2025-08-04 21:37:50.624 +03:00 [INF] Request starting HTTP/1.1 GET https://localhost:7099/api/organization/6c8a32bd-3067-4115-b112-9abe196ea379/accounts - null null
+2025-08-04 21:37:50.624 +03:00 [INF] GetOrganizationInfoAsync called for organizationId: "6c8a32bd-3067-4115-b112-9abe196ea379"
+2025-08-04 21:37:50.625 +03:00 [INF] Executing endpoint 'TaskManagerApi.Controllers.OrganizationController.GetOrganizationAccountsAsync (TaskManagerApi)'
+2025-08-04 21:37:50.625 +03:00 [INF] Route matched with {action = "GetOrganizationAccounts", controller = "Organization"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManagerApi.Models.OrganizationModel.OrganizationDto]] GetOrganizationAccountsAsync(System.Guid, System.Threading.CancellationToken) on controller TaskManagerApi.Controllers.OrganizationController (TaskManagerApi).
+2025-08-04 21:37:50.627 +03:00 [INF] GetOrganizationInfoAsync called for organizationId: "6c8a32bd-3067-4115-b112-9abe196ea379"
+2025-08-04 21:37:50.635 +03:00 [INF] Executed DbCommand (8ms) [Parameters=[@__accountId_0='?' (DbType = Guid), @__organizationId_1='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [o].[Id], [o].[AccountId], [o].[CreateDate], [o].[ModifyDate], [o].[OrganizationId]
+FROM [OrganizationAccount] AS [o]
+WHERE [o].[AccountId] = @__accountId_0 AND [o].[OrganizationId] = @__organizationId_1
+2025-08-04 21:37:50.635 +03:00 [INF] Executed DbCommand (6ms) [Parameters=[@__accountId_0='?' (DbType = Guid), @__organizationId_1='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [o].[Id], [o].[AccountId], [o].[CreateDate], [o].[ModifyDate], [o].[OrganizationId]
+FROM [OrganizationAccount] AS [o]
+WHERE [o].[AccountId] = @__accountId_0 AND [o].[OrganizationId] = @__organizationId_1
+2025-08-04 21:37:50.681 +03:00 [INF] Executed DbCommand (45ms) [Parameters=[@__Id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [o].[Id], [o].[Abbreviation], [o].[CreateDate], [o].[Description], [o].[ModifyDate], [o].[Name], [o].[Owner]
+FROM [OrganizationItem] AS [o]
+WHERE [o].[Id] = @__Id_0
+2025-08-04 21:37:50.682 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__Id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT TOP(1) [o].[Id], [o].[Abbreviation], [o].[CreateDate], [o].[Description], [o].[ModifyDate], [o].[Name], [o].[Owner]
+FROM [OrganizationItem] AS [o]
+WHERE [o].[Id] = @__Id_0
+2025-08-04 21:37:50.684 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[@__organization_Data_Id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [o].[AccountId]
+FROM [OrganizationAccount] AS [o]
+WHERE [o].[OrganizationId] = @__organization_Data_Id_0
+2025-08-04 21:37:50.684 +03:00 [INF] Organization info fetched successfully. Id: "6c8a32bd-3067-4115-b112-9abe196ea379"
+2025-08-04 21:37:50.684 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerApi.Models.OrganizationModel.OrganizationDto'.
+2025-08-04 21:37:50.684 +03:00 [INF] Executed action TaskManagerApi.Controllers.OrganizationController.GetOrganizationAccountsAsync (TaskManagerApi) in 58.8695ms
+2025-08-04 21:37:50.685 +03:00 [INF] Executed endpoint 'TaskManagerApi.Controllers.OrganizationController.GetOrganizationAccountsAsync (TaskManagerApi)'
+2025-08-04 21:37:50.685 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[@__organization_Data_Id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='360']
+SELECT [o].[AccountId]
+FROM [OrganizationAccount] AS [o]
+WHERE [o].[OrganizationId] = @__organization_Data_Id_0
+2025-08-04 21:37:50.685 +03:00 [INF] Organization info fetched successfully. Id: "6c8a32bd-3067-4115-b112-9abe196ea379"
+2025-08-04 21:37:50.685 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7099/api/organization/6c8a32bd-3067-4115-b112-9abe196ea379/accounts - 200 476 application/json; charset=utf-8 61.2455ms
+2025-08-04 21:37:50.685 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManagerApi.Models.OrganizationModel.OrganizationDto'.
+2025-08-04 21:37:50.685 +03:00 [INF] Executed action TaskManagerApi.Controllers.OrganizationController.GetOrganizationAccountsAsync (TaskManagerApi) in 61.6437ms
+2025-08-04 21:37:50.685 +03:00 [INF] Executed endpoint 'TaskManagerApi.Controllers.OrganizationController.GetOrganizationAccountsAsync (TaskManagerApi)'
+2025-08-04 21:37:50.685 +03:00 [INF] Request finished HTTP/1.1 GET https://localhost:7099/api/organization/6c8a32bd-3067-4115-b112-9abe196ea379/accounts - 200 476 application/json; charset=utf-8 64.0038ms
