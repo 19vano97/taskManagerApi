@@ -15,7 +15,6 @@ const ProjectSettings = () => {
   const id = params?.id;
   const { getProjectById, editProject, getProjectWithTasksById } = useProjectApi();
   const [project, setProject] = useState<Project | null>(null);
-  const { getAllAccountDetails } = useIdentityServerApi();
   const auth = useSafeAuth();
   const [projectOwner, setProjectOwner] = useState<AccountDetails>();
   const [loading, setLoading] = useState(true);
@@ -32,12 +31,11 @@ const ProjectSettings = () => {
     const fetchProject = async () => {
       try {
         const data = await getProjectById(id!);
-        const accountDetails = await getAllAccountDetails([data.data.ownerId]);
         setProject(data.data);
         setTitle(data.data.title);
         setDescription(data.data.description);
         setStatuses(data.data.statuses || []);
-        setProjectOwner(accountDetails.data.find(acc => acc.id === data.data.ownerId));
+        setProjectOwner(data.data.owner);
       } catch (error) {
         console.error("Failed to fetch project:", error);
       } finally {
@@ -62,9 +60,9 @@ const ProjectSettings = () => {
         setIsLoading(true);
         try {
           const data = await getProjectWithTasksById(id!);
-          setStatuses(data.data.project.statuses || []);
-          setProject(data.data.project);
-          setTasks(data.data.tasks || []);
+          setStatuses(data.data.statuses || []);
+          setProject(data.data);
+          setTasks(data.data.tickets || []);
         } catch (error) {
           console.error('Error fetching projects:', error);
         } finally {

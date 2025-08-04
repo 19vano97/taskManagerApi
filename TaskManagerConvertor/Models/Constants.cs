@@ -10,36 +10,30 @@ public static class Constants
         {
             public const string GET_TICKET_BY_ID = "/api/task/{0}/details";
             public const string POST_CREATE_TICKET = "/api/task/create";
-            public const string GET_TICKETS_IN_ORG = "all/{organizationId}/organization";
-            public const string GET_TICKETS_IN_PROJECT = "all/{projectId}/project";
-            public const string POST_CREATE_TICKETS_FOR_AI = "create/ai/list";
-            public const string POST_EDIT_TICKET = "{taskId}/edit";
-            public const string GET_TICKET_HISTORY = "{taskId}/history";
-            public const string DELETE_TICKET = "{taskId}/delete";
+            public const string GET_TICKETS_IN_ORG = "/api/task/all/{organizationId}/organization";
+            public const string GET_TICKETS_IN_PROJECT = "/api/task/all/{projectId}/project";
+            public const string POST_CREATE_TICKETS_FOR_AI = "/api/task/create/ai/list";
+            public const string POST_EDIT_TICKET = "/api/task/{taskId}/edit";
+            public const string GET_TICKET_HISTORY = "/api/task/{taskId}/history";
+            public const string DELETE_TICKET = "/api/task/{taskId}/delete";
         }
 
         public static class Project
         {
-            public const string GET_TICKET_BY_ID = "/api/task/{0}/details";
-            public const string POST_CREATE_TICKET = "/api/task/create";
-            public const string GET_TICKETS_IN_ORG = "all/{organizationId}/organization";
-            public const string GET_TICKETS_IN_PROJECT = "all/{projectId}/project";
-            public const string POST_CREATE_TICKETS_FOR_AI = "create/ai/list";
-            public const string POST_EDIT_TICKET = "{taskId}/edit";
-            public const string GET_TICKET_HISTORY = "{taskId}/history";
-            public const string DELETE_TICKET = "{taskId}/delete";
+            public const string GET_PROJECT_BY_ID = "/api/project/{0}/details";
+            public const string POST_CREATE_PROJECT = "/api/project/create";
+            public const string GET_PROJECT_IN_ORG = "/api/project/all/{organizationId}/organization";
+            public const string POST_EDIT_PROJECT = "/api/project/{taskId}/edit";
+            public const string DELETE_PROJECT = "/api/project/{taskId}/delete";
         }
 
         public static class Organization
         {
-            public const string GET_TICKET_BY_ID = "/api/task/{0}/details";
-            public const string POST_CREATE_TICKET = "/api/task/create";
-            public const string GET_TICKETS_IN_ORG = "all/{organizationId}/organization";
-            public const string GET_TICKETS_IN_PROJECT = "all/{projectId}/project";
-            public const string POST_CREATE_TICKETS_FOR_AI = "create/ai/list";
-            public const string POST_EDIT_TICKET = "{taskId}/edit";
-            public const string GET_TICKET_HISTORY = "{taskId}/history";
-            public const string DELETE_TICKET = "{taskId}/delete";
+            public const string GET_ORGANIZATION_BY_ID = "/api/organization/{0}/details";
+            public const string GET_MY_ORGANIZATION = "/api/organization/details/me";
+            public const string POST_CREATE_ORGANIZATION= "/api/organization/create";
+            public const string POST_EDIT_ORGANIZATION = "/api/organization/{taskId}/edit";
+            public const string DELETE_ORGANIZATION= "/api/organization/{taskId}/delete";
         }
     }
 

@@ -32,14 +32,14 @@ public class OrganizationService : IOrganizationService
                                                    CancellationToken cancellationToken)
     {
         newOgranization.Id = Guid.NewGuid();
-        newOgranization.Owner = Guid.Parse(user.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID).Value);
+        newOgranization.OwnerId = Guid.Parse(user.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID).Value);
 
         _context.OrganizationItem.Add(ConvertToEntity(newOgranization));
         await _context.SaveChangesAsync(cancellationToken);
 
         _context.OrganizationAccount.Add(new OrganizationAccount
         {
-            AccountId = newOgranization.Owner,
+            AccountId = newOgranization.OwnerId,
             OrganizationId = _context.OrganizationItem.First(o => o.Id == newOgranization.Id).Id
         });
 
@@ -64,7 +64,7 @@ public class OrganizationService : IOrganizationService
 
     public async Task<ServiceResult<OrganizationDto>> DeleteAsync(OrganizationDto organizationToDelete, CancellationToken cancellationToken)
     {
-        var toDelete = await DoesOrganizationExistEntity(Id: organizationToDelete.Id.ToString());
+        var toDelete = await DoesOrganizationExistEntity(Id: (Guid)organizationToDelete.Id!);
 
         if (organizationToDelete.Id == Guid.Empty && organizationToDelete.Name == null && organizationToDelete.Abbreviation == null)
             return new ServiceResult<OrganizationDto>
@@ -106,7 +106,7 @@ public class OrganizationService : IOrganizationService
                                                  OrganizationDto organizationToEdit,
                                                  CancellationToken cancellationToken)
     {
-        var initialOrganization = await DoesOrganizationExistEntity(Id: organizationToEdit.Id.ToString());
+        var initialOrganization = await DoesOrganizationExistEntity(Id: (Guid)organizationToEdit.Id!);
         var accountId = Guid.Parse(user.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID).Value);
 
         if ((organizationToEdit.Id == Guid.Empty
@@ -121,7 +121,7 @@ public class OrganizationService : IOrganizationService
             };
 
         initialOrganization.Data.Name = organizationToEdit.Name;
-        initialOrganization.Data.Owner = organizationToEdit.Owner;
+        initialOrganization.Data.Owner = organizationToEdit.OwnerId;
         initialOrganization.Data.Abbreviation = organizationToEdit.Abbreviation;
         initialOrganization.Data.Description = organizationToEdit.Description;
         initialOrganization.Data.ModifyDate = DateTime.UtcNow;
@@ -129,7 +129,7 @@ public class OrganizationService : IOrganizationService
         _context.OrganizationItem.Update(initialOrganization.Data);
         await _context.SaveChangesAsync(cancellationToken);
 
-        var res = await DoesOrganizationExistEntity(Id: organizationToEdit.Id.ToString());
+        var res = await DoesOrganizationExistEntity(Id: (Guid)organizationToEdit.Id!);
 
         if (!res.IsSuccess)
             return new ServiceResult<OrganizationDto>
@@ -145,11 +145,11 @@ public class OrganizationService : IOrganizationService
         };
     }
 
-    public async Task<ServiceResult<OrganizationProjectDto>> GetOrganizationProjectsAsync(Guid organizationId, CancellationToken cancellationToken)
+    public async Task<ServiceResult<OrganizationDto>> GetOrganizationByIdAsync(Guid organizationId, CancellationToken cancellationToken)
     {
         var organization = await DoesOrganizationExist(organizationId, cancellationToken);
         if (!organization.IsSuccess)
-            return new ServiceResult<OrganizationProjectDto>
+            return new ServiceResult<OrganizationDto>
             {
                 IsSuccess = false,
                 ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
@@ -162,17 +162,17 @@ public class OrganizationService : IOrganizationService
             .Select(o => o.AccountId)
             .ToListAsync(cancellationToken);
 
-        return new ServiceResult<OrganizationProjectDto>
+        return new ServiceResult<OrganizationDto>
         {
             IsSuccess = true,
-            Data = new OrganizationProjectDto
+            Data = new OrganizationDto
             {
                 Id = organization.Data!.Id,
                 Name = organization.Data!.Name,
                 Abbreviation = organization.Data!.Abbreviation,
-                Owner = organization.Data!.Owner,
+                OwnerId = organization.Data!.Owner,
                 Description = organization.Data!.Description,
-                Accounts = accounts,
+                AccountIds = accounts,
                 CreateDate = organization.Data!.CreateDate,
                 ModifyDate = organization.Data!.ModifyDate,
                 Projects = projects.Data!
@@ -181,22 +181,22 @@ public class OrganizationService : IOrganizationService
 
     }
 
-    public async Task<ServiceResult<List<OrganizationProjectDto>>> GetOrganizationsByAccountAsync(Guid accountId, CancellationToken cancellationToken)
+    public async Task<ServiceResult<List<OrganizationDto>>> GetOrganizationsByAccountAsync(Guid accountId, CancellationToken cancellationToken)
     {
         var organizations = await _context.OrganizationAccount.Where(o => o.AccountId == accountId)
             .Select(o => o.OrganizationId)
             .ToListAsync(cancellationToken);
 
-        var result = new List<OrganizationProjectDto>();
+        var result = new List<OrganizationDto>();
         foreach (var organizationId in organizations)
         {
-            var org = await GetOrganizationProjectsAsync(organizationId, cancellationToken);
+            var org = await GetOrganizationByIdAsync(organizationId, cancellationToken);
             if (!org.IsSuccess) continue;
 
             result.Add(org.Data!);
         }
 
-        return new ServiceResult<List<OrganizationProjectDto>>
+        return new ServiceResult<List<OrganizationDto>>
         {
             IsSuccess = true,
             Data = result
@@ -205,7 +205,7 @@ public class OrganizationService : IOrganizationService
 
     public async Task<ServiceResult<OrganizationDto>> GetOrganizationAsync(Guid organizationId, CancellationToken cancellationToken)
     {
-        var org = await DoesOrganizationExistEntity(Id: organizationId.ToString());
+        var org = await DoesOrganizationExistEntity(Id: organizationId);
         if (!org.IsSuccess)
             return new ServiceResult<OrganizationDto>
             {
@@ -220,56 +220,56 @@ public class OrganizationService : IOrganizationService
         };
     }
 
-    public async Task<ServiceResult<OrganizationAccountsDto>> GetOrganizationAccountAsync(string organizationId, CancellationToken cancellationToken)
+    public async Task<ServiceResult<OrganizationDto>> GetOrganizationAccountAsync(Guid organizationId, CancellationToken cancellationToken)
     {
         var organization = await DoesOrganizationExistEntity(Id: organizationId);
         if (!organization.IsSuccess)
-            return new ServiceResult<OrganizationAccountsDto>
+            return new ServiceResult<OrganizationDto>
             {
                 IsSuccess = organization.IsSuccess,
                 ErrorMessage = organization.ErrorMessage
             };
 
         var accounts = await _context.OrganizationAccount
-            .Where(o => o.OrganizationId == organization.Data.Id)
+            .Where(o => o.OrganizationId == organization.Data!.Id)
             .Select(o => o.AccountId)
             .ToListAsync(cancellationToken);
 
-        return new ServiceResult<OrganizationAccountsDto>
+        return new ServiceResult<OrganizationDto>
         {
             IsSuccess = true,
-            Data = new OrganizationAccountsDto
+            Data = new OrganizationDto
             {
                 Id = organization.Data!.Id,
                 Name = organization.Data!.Name,
                 Abbreviation = organization.Data!.Abbreviation,
-                Owner = organization.Data!.Owner,
+                OwnerId = organization.Data!.Owner,
                 Description = organization.Data!.Description,
                 CreateDate = organization.Data!.CreateDate,
                 ModifyDate = organization.Data!.ModifyDate,
-                Accounts = accounts
+                AccountIds = accounts
             }
         };
     }
 
-    public async Task<ServiceResult<OrganizationProjectDto>> AddNewMemberToOrganization(Guid organizationId, Guid accountId, CancellationToken cancellationToken)
+    public async Task<ServiceResult<OrganizationDto>> AddNewMemberToOrganization(Guid organizationId, Guid accountId, CancellationToken cancellationToken)
     {
         if (await _context.OrganizationAccount.FirstOrDefaultAsync(a => a.AccountId == accountId && a.OrganizationId == organizationId) is not null)
-            return await GetOrganizationProjectsAsync(organizationId, cancellationToken);
+            return await GetOrganizationByIdAsync(organizationId, cancellationToken);
 
         _context.OrganizationAccount.Add(new OrganizationAccount { AccountId = accountId, OrganizationId = organizationId });
         await _context.SaveChangesAsync(cancellationToken);
 
         var res = await _context.OrganizationAccount.FirstOrDefaultAsync(a => a.AccountId == accountId && a.OrganizationId == organizationId);
         if (res is null)
-            return new ServiceResult<OrganizationProjectDto>
+            return new ServiceResult<OrganizationDto>
             {
                 IsSuccess = false,
                 ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
             };
 
 
-        return await GetOrganizationProjectsAsync(organizationId, cancellationToken);
+        return await GetOrganizationByIdAsync(organizationId, cancellationToken);
     }
 
     private async Task<ServiceResult<OrganizationItem>> DoesOrganizationExist(Guid Id, CancellationToken cancellationToken)
@@ -289,16 +289,16 @@ public class OrganizationService : IOrganizationService
         };
     }
 
-    private async Task<ServiceResult<OrganizationItem>> DoesOrganizationExistEntity(OrganizationItem entity = null, string Id = null)
+    private async Task<ServiceResult<OrganizationItem>> DoesOrganizationExistEntity(OrganizationItem entity = null, Guid Id = default)
     {
-        if (Id != null)
+        if (Id != default)
             return new ServiceResult<OrganizationItem>
             {
                 IsSuccess = true,
-                Data = await _context.OrganizationItem.FirstOrDefaultAsync(o => o.Id == Guid.Parse(Id))
+                Data = await _context.OrganizationItem.FirstOrDefaultAsync(o => o.Id == Id)
             };
 
-        if (entity.Id != null)
+        if (entity.Id != default)
             return new ServiceResult<OrganizationItem>
             {
                 IsSuccess = true,
@@ -329,8 +329,8 @@ public class OrganizationService : IOrganizationService
         return new OrganizationDto
         {
             Id = item.Id,
-            Name = item.Name,
-            Owner = item.Owner,
+            Name = item.Name!,
+            OwnerId = item.Owner,
             Abbreviation = item.Abbreviation,
             Description = item.Description,
             CreateDate = item.CreateDate,
@@ -345,9 +345,9 @@ public class OrganizationService : IOrganizationService
 
         return new OrganizationItem
         {
-            Id = dto.Id,
-            Name = dto.Name,
-            Owner = dto.Owner,
+            Id = (Guid)dto.Id!,
+            Name = dto.Name!,
+            Owner = dto.OwnerId,
             Abbreviation = dto.Abbreviation,
             Description = dto.Description,
             CreateDate = dto.CreateDate,

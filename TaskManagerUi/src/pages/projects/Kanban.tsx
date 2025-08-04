@@ -20,7 +20,6 @@ const Kanban = () => {
   const id = params?.id;
   const { getProjectWithTasksById } = useProjectApi();
   const { editTask } = useTaskApi();
-  const { getAllAccountDetails } = useIdentityServerApi();
   const { getOrganizationAccounts } = useOrganizationApi();
   const { selectedProjectId } = useProject();
   const [project, setProject] = useState<Project | null>(null);
@@ -54,7 +53,7 @@ const Kanban = () => {
     if (!projectId) return;
 
     const data = await getProjectWithTasksById(projectId);
-    setTasks(data.data.tasks || []);
+    setTasks(data.data.tickets || []);
   };
 
   useEffect(() => {
@@ -69,12 +68,11 @@ const Kanban = () => {
         setLoading(true);
         try {
           const data = await getProjectWithTasksById(id);
-          const orgAccounts = await getOrganizationAccounts(data.data.project.organizationId);
-          const dataAccountDetails = await getAllAccountDetails(orgAccounts.data.accounts);
-          setAccounts(dataAccountDetails.data);
-          setStatuses(data.data.project.statuses || []);
-          setProject(data.data.project);
-          setTasks(data.data.tasks || []);
+          const orgAccounts = await getOrganizationAccounts(data.data.organizationId);
+          setAccounts(orgAccounts.data.accounts || []);
+          setStatuses(data.data.statuses || []);
+          setProject(data.data);
+          setTasks(data.data.tickets || []);
         } catch (error) {
           console.error('Error fetching projects:', error);
         } finally {

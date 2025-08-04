@@ -42,7 +42,7 @@ namespace TaskManagerApi.Controllers
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>List of projects with tasks.</returns>
         [HttpGet("/all/{organizationId}")]
-        public async Task<ActionResult<List<ProjectItemWithTasksDto>>> GetAllProjectsWithTasksListAsync(Guid organizationId, CancellationToken cancellationToken)
+        public async Task<ActionResult<List<ProjectItemDto>>> GetAllProjectsWithTasksListAsync(Guid organizationId, CancellationToken cancellationToken)
         {
             _logger.LogInformation("GetAllProjectsWithTasksListAsync called for organizationId: {OrgId}", organizationId);
             if (!Guid.TryParse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value, out Guid accountId)
@@ -53,18 +53,15 @@ namespace TaskManagerApi.Controllers
             }
 
             var projects = await _projectService.GetProjectsByOrganizationIdAsync(organizationId, cancellationToken);
-            var projectList = new List<ProjectItemWithTasksDto>();
+            var projectList = new List<ProjectItemDto>();
 
             foreach (var item in projects.Data)
             {
                 var res = await _ticketItemService.GetTasksByProjectAsync(item.Id, cancellationToken);
                 if (!res.IsSuccess) continue;
 
-                projectList.Add(new ProjectItemWithTasksDto 
-                { 
-                    Project = item, 
-                    Tasks = res.Data!
-                });
+                item.Tickets = res.Data;
+                projectList.Add(item);
             }
 
             if (projectList.Count == 0)
@@ -84,7 +81,7 @@ namespace TaskManagerApi.Controllers
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>The project with its details.</returns>
         [HttpGet("{projectId}")]
-        public async Task<ActionResult<ProjectItemWithTasksDto>> GetProjectByIdAsync(Guid projectId, CancellationToken cancellationToken)
+        public async Task<ActionResult<ProjectItemDto>> GetProjectByIdAsync(Guid projectId, CancellationToken cancellationToken)
         {
             _logger.LogInformation("GetProjectByIdAsync called for projectId: {ProjectId}", projectId);
             if (!Guid.TryParse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value, out Guid accountId)
@@ -118,7 +115,7 @@ namespace TaskManagerApi.Controllers
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>The project and its tasks.</returns>
         [HttpGet("{projectId}/tasks")]
-        public async Task<ActionResult<ProjectItemWithTasksDto>> GetProjectWithTasksByIdAsync(Guid projectId, CancellationToken cancellationToken)
+        public async Task<ActionResult<ProjectItemDto>> GetProjectWithTasksByIdAsync(Guid projectId, CancellationToken cancellationToken)
         {
             _logger.LogInformation("GetProjectWithTasksByIdAsync called for projectId: {ProjectId}", projectId);
             if (!Guid.TryParse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value, out Guid accountId)
@@ -145,15 +142,13 @@ namespace TaskManagerApi.Controllers
             if (!tasks.IsSuccess)
             {
                 _logger.LogWarning("Failed to get tasks for projectId: {ProjectId}", projectId);
-                return Ok(new ProjectItemWithTasksDto { Project = project.Data });
+                return Ok(project.Data);
             }
 
+            project.Data.Tickets = tasks.Data;
+
             _logger.LogInformation("Project with tasks fetched successfully. Id: {ProjectId}", projectId);
-            return Ok(new ProjectItemWithTasksDto
-            {
-                Project = project.Data,
-                Tasks = tasks.Data
-            });
+            return Ok(project.Data);
         }
 
         /// <summary>

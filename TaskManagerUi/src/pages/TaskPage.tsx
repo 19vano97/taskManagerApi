@@ -34,7 +34,6 @@ const TaskPage = () => {
     const { getOrganizationProjectsById } = useOrganizationApi();
     const { editTask } = useTaskApi();
     const { getOrganizationAccounts } = useOrganizationApi();
-    const { getAllAccountDetails } = useIdentityServerApi();
     const [taskDetails, setTaskDetails] = useState<Task | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -106,8 +105,8 @@ const TaskPage = () => {
         const fetchProjects = async () => {
             try {
                 const data = await getOrganizationProjectsById(taskDetails.organizationId!);
-                setProjects(data.data.projects);
-                const project = data.data.projects.find((p: Project) => p.id === taskDetails.projectId);
+                setProjects(data.data.projects || []);
+                const project = data.data.projects?.find((p: Project) => p.id === taskDetails.projectId);
 
                 if (project) {
                     const status = project.statuses?.find((s: { statusId: number; }) => s.statusId === taskDetails.statusId) || null;
@@ -137,11 +136,10 @@ const TaskPage = () => {
             setAccountsLoading(true);
             try {
                 const data = await getOrganizationAccounts(taskDetails.organizationId!);
-                const accountDetails = await getAllAccountDetails(data.data.accounts);
-                setAccounts(accountDetails.data);
+                setAccounts(data.data.accounts || []);
 
-                const reporter = accountDetails.data.find((a) => a.id !== undefined && a.id === taskDetails.reporterId) || null;
-                const assignee = accountDetails.data.find((a) => a.id !== undefined && a.id === taskDetails.assigneeId) || null;
+                const reporter = data.data.accounts?.find((a) => a.id !== undefined && a.id === taskDetails.reporterId) || null;
+                const assignee = data.data.accounts?.find((a) => a.id !== undefined && a.id === taskDetails.assigneeId) || null;
 
                 setReporterId(reporter);
                 setAssigneeId(assignee);
@@ -449,7 +447,7 @@ const TaskPage = () => {
                         </Container>
 
                         <Container fluid w={"93%"} mt="md">
-                            {taskDetails && <TaskAdditionalInfo taskId={taskDetails.id} />}
+                            {taskDetails && <TaskAdditionalInfo taskId={taskDetails.id} organizationId={taskDetails.organizationId!}/>}
                         </Container>
                     </Flex>
                 </Container>

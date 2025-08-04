@@ -22,8 +22,6 @@ export const useIdentityServerApi = () => {
   return {
     getAccountDetails: async () =>
       (await identityServerAxios.get<AccountDetails>(`${defaultPath}/details`)),
-    getAllAccountDetails: async (accountIds: string[]) =>
-      (await identityServerAxios.post<AccountDetails[]>(`${defaultPath}/details/accounts`, accountIds)),
     postAccountData: async (data: AccountDetails) =>
       (await identityServerAxios.post<AccountDetails>(`${defaultPath}/details`, data)),
     postInviteAccount: async (data: AccountDetails) =>

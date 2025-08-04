@@ -15,13 +15,12 @@ import { useSafeAuth } from "../../hooks/useSafeAuth";
 import { useEffect, useState } from "react";
 import { useIdentityServerApi } from "../../api/IdentityServerApi";
 import { useNavigate } from "react-router-dom";
-import type { AccountDetails, OrganizationDetails } from "../../components/Types";
+import type { AccountDetails, Organization } from "../../components/Types";
 
 const OrganizationAllPage = () => {
   const auth = useSafeAuth();
   const { getAllOrganizationProjects: getOrganizationProjects } = useOrganizationApi();
-  const { getAllAccountDetails } = useIdentityServerApi();
-  const [orgOptions, setOrgOptions] = useState<OrganizationDetails[]>([]);
+  const [orgOptions, setOrgOptions] = useState<Organization[]>([]);
   const [accounts, setAccounts] = useState<AccountDetails[]>([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -32,10 +31,9 @@ const OrganizationAllPage = () => {
 
       try {
         const data = await getOrganizationProjects();
-        const owners = data.data.map((org: { owner: any; }) => org.owner);
-        const accountDetails = await getAllAccountDetails(owners);
+        const owners = data.data.map((org: Organization) => org.owner);
         setOrgOptions(data.data);
-        setAccounts(accountDetails.data);
+        setAccounts(owners as AccountDetails[]);
       } catch (error) {
         console.error("Failed to load organizations:", error);
       } finally {
@@ -86,8 +84,8 @@ const OrganizationAllPage = () => {
           )}
         </Table.Td>
 
-        <Table.Td>{org.projects.length}</Table.Td>
-        <Table.Td>{org.accounts.length}</Table.Td>
+        <Table.Td>{org.projects?.length}</Table.Td>
+        <Table.Td>{org.accounts?.length}</Table.Td>
         <Table.Td>
           <Button variant="light" color="blue" size="xs" onClick={() => { navigate(`/organization/${org.id}`) }}>
             View

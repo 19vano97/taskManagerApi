@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useTaskApi } from "../../api/taskManagerApi"
+import { useOrganizationApi, useTaskApi } from "../../api/taskManagerApi"
 import type { AccountDetails, TaskHistory, TaskHistoryType } from "../Types";
 import { Card, Timeline, Text } from "@mantine/core";
 import { useIdentityServerApi } from "../../api/IdentityServerApi";
@@ -7,7 +7,8 @@ import TaskDate from "./TaskDate";
 import { BadgePlus, Delete, Pencil } from "lucide-react";
 
 type TaskHistoryComponentProp = {
-    taskId: string
+    taskId: string,
+    organizationId: string
 }
 
 export const TaskHistoryTypesConst: TaskHistoryType[] = [
@@ -23,20 +24,11 @@ export const TaskHistoryTypesConst: TaskHistoryType[] = [
     { id: 10, name: "TASK_DELETED" },
 ]
 
-type UniqueArray<T> = T extends ReadonlyArray<infer U> ? U[] & { __unique: never } : never;
-
-
-function createUniqueArray<T>(arr: ReadonlyArray<T>): UniqueArray<T> {
-    return Array.from(new Set(arr)) as UniqueArray<T>;
-}
-
-export const TaskHistoryComponent = (taskId: TaskHistoryComponentProp) => {
+export const TaskHistoryComponent = ({taskId, organizationId}: TaskHistoryComponentProp) => {
     const { getTaskHistory } = useTaskApi();
-    const { getAllAccountDetails } = useIdentityServerApi();
+    const { getOrganizationAccounts } = useOrganizationApi();
     const [ taskHistories, setTaskHistories ] = useState<TaskHistory[]>();
-    const [ active, setActive ] = useState(10);
     const [ accounts, setAccounts ] = useState<AccountDetails[]>();
-    const accountIds: string[] = [];
 
   const getIconTaskHistory = (id: number) => {
       switch (id) {
@@ -62,8 +54,7 @@ export const TaskHistoryComponent = (taskId: TaskHistoryComponentProp) => {
     {
         const fetchHistory = async () => {
             try {
-                const data = await getTaskHistory(taskId.taskId);
-                // Guard: ensure data.data is always an array
+                const data = await getTaskHistory(taskId);
                 const historyArray = Array.isArray(data.data) ? data.data : [];
                 setTaskHistories(historyArray);
             } catch (error) {
@@ -77,13 +68,10 @@ export const TaskHistoryComponent = (taskId: TaskHistoryComponentProp) => {
     useEffect(() => {
         if (!taskHistories || taskHistories.length === 0) return;
 
-        const accountIds = taskHistories.map((t) => t.author);
-        const accountIdsUnique: UniqueArray<string> = createUniqueArray(accountIds);
-
         const fetchAccounts = async () => {
             try {
-                const data = await getAllAccountDetails(accountIdsUnique);
-                setAccounts(data.data);
+                const data = await getOrganizationAccounts(organizationId);
+                setAccounts(data.data.accounts || []);
             } catch (error) {
                 console.log("TaskHistoryAccounts:", error);
             }

@@ -20,7 +20,6 @@ const Backlog = () => {
     const [tasks, setTasks] = useState<Task[]>([])
     const [selectedTask, setSelectedTask] = useState<Task | null>(null);
     const { getOrganizationAccounts } = useOrganizationApi();
-    const { getAllAccountDetails } = useIdentityServerApi();
     const [accounts, setAccounts] = useState<AccountDetails[]>([]);
     const [dialogOpen, setDialogOpen] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -46,11 +45,10 @@ const Backlog = () => {
         setLoading(true);
         try {
             const data = await getProjectWithTasksById(id!)
-            const orgAccounts = await getOrganizationAccounts(data.data.project.organizationId);
-            const dataAccountDetails = await getAllAccountDetails(orgAccounts.data.accounts);
-            setAccounts(dataAccountDetails.data);
-            setProject(data.data.project)
-            setTasks(data.data.tasks || [])
+            const orgAccounts = await getOrganizationAccounts(data.data.organizationId);
+            setAccounts(orgAccounts.data.accounts || []);
+            setProject(data.data)
+            setTasks(data.data.tickets || [])
         } catch (error) {
             console.error('Error fetching projects:', error)
         }

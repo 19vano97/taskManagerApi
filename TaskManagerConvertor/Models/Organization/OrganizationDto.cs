@@ -1,8 +1,8 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using TaskManagerApi.Models.Project;
+using TaskManagerConvertor.Models.Project;
 
-namespace TaskManagerApi.Models.OrganizationModel;
+namespace TaskManagerConvertor.Models.Organization;
 
 public class OrganizationDto
 {
@@ -17,10 +17,12 @@ public class OrganizationDto
 
     [Required]
     public Guid OwnerId { get; set; }
+    public AccountDto? Owner { get; set; }
 
     [StringLength(1000)]
     public string Description { get; set; } = string.Empty;
     public List<Guid>? AccountIds { get; set; }
+    public List<AccountDto>? Accounts { get; set; }
     public List<ProjectItemDto>? Projects { get; set; }
     public DateTime CreateDate { get; set; } = DateTime.UtcNow;
     public DateTime ModifyDate { get; set; } = DateTime.UtcNow;

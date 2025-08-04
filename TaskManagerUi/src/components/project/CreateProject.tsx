@@ -15,7 +15,6 @@ type CreateProjectProps = {
 const CreateProject = ({organizationId, opened, onClose, onSuccess}: CreateProjectProps) => {
     const { createProject } = useProjectApi();
     const { getOrganizationAccounts } = useOrganizationApi();
-    const { getAllAccountDetails } = useIdentityServerApi();
     const [ title, setTitle ] = useState<string>('');
     const [ description, setDescription ] = useState<string>('');
     const [ selectedAccount, setSelectedAccount ] = useState<AccountDetails | null>(null);
@@ -28,8 +27,7 @@ const CreateProject = ({organizationId, opened, onClose, onSuccess}: CreateProje
             try {
                 setLoading(true);
                 const orgAccounts = await getOrganizationAccounts(organizationId);
-                const accountDetails = await getAllAccountDetails(orgAccounts.data.accounts);
-                setAccounts(accountDetails.data);
+                setAccounts(orgAccounts.data.accounts || []);
             } catch (err) {
                 console.error('Failed to fetch accounts:', err);
                 setError('Failed to load accounts');

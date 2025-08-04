@@ -39,7 +39,6 @@ export const CreateTicket = ({ opened, onClose, organizationId, onSuccess }: Cre
     const { getOrganizationProjectsById } = useOrganizationApi();
     const { getAllTasksByOrganization, createTask } = useTaskApi();
     const { getOrganizationAccounts } = useOrganizationApi();
-    const { getAllAccountDetails } = useIdentityServerApi();
     const [projects, setProjects] = useState<Project[] | null>(null);
     const [tasks, setTasks] = useState<Task[]>([]);
     const [titleTask, setTitleTask] = useState<string>('');
@@ -59,7 +58,7 @@ export const CreateTicket = ({ opened, onClose, organizationId, onSuccess }: Cre
         const fetchProjects = async () => {
             try {
                 const data = await getOrganizationProjectsById(organizationId);
-                setProjects(data.data.projects);
+                setProjects(data.data.projects || []);
             } catch (error) {
                 console.error('Error fetching projects:', error);
             }
@@ -86,8 +85,7 @@ export const CreateTicket = ({ opened, onClose, organizationId, onSuccess }: Cre
             setLoading(true);
             try {
                 const data = await getOrganizationAccounts(organizationId);
-                const dataAccountDetails = await getAllAccountDetails(data.data.accounts);
-                setAccounts(dataAccountDetails.data);
+                setAccounts(data.data.accounts || []);
             } catch (error) {
                 console.error('Error fetching accounts:', error);
             } finally {

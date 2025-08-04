@@ -13,14 +13,17 @@ namespace TaskManagerConvertor.Services.Implementation;
 public class TicketService : ITicketService
 {
     private readonly IHttpClientFactory _httpClientFactory;
+    private readonly IAccountHelperService _accountHelperService;
     private readonly IHelperService _helperService;
     private readonly ILogger<TicketService> _logger;
 
     public TicketService(IHttpClientFactory httpClientFactory,
+                         IAccountHelperService accountHelperService,
                          IHelperService helperService,
                          ILogger<TicketService> logger)
     {
         _httpClientFactory = httpClientFactory;
+        _accountHelperService = accountHelperService;
         _helperService = helperService;
         _logger = logger;
     }
@@ -58,7 +61,7 @@ public class TicketService : ITicketService
                 };
             }
 
-            ticket = await _helperService.AddAccountDetails(headers, ticket!, cancellationToken);
+            ticket = await _accountHelperService.AddAccountDetails(headers, ticket!, cancellationToken);
 
             return new RequestResult<TicketDto>
             {
@@ -106,7 +109,7 @@ public class TicketService : ITicketService
                 };
             }
 
-            ticket = await _helperService.AddAccountDetails(headers, ticket!, cancellationToken);
+            ticket = await _accountHelperService.AddAccountDetails(headers, ticket!, cancellationToken);
 
             return new RequestResult<TicketDto>
             {
@@ -141,14 +144,14 @@ public class TicketService : ITicketService
 
         if (projectId == Guid.Empty)
         {
-            await httpClient.GetAsync(string.Format($"/api/task/{0}/organization",
+            response = await httpClient.GetAsync(string.Format($"/api/task/{0}/organization",
                                                                      httpClient.DefaultRequestHeaders
                                                                         .First(o => o.Key == Constants.Settings.Header.ORGANIZATION).Value)
                                                         , cancellationToken);
         }
         else
         {
-            await httpClient.GetAsync(string.Format($"/api/task/{0}/project",
+            response = await httpClient.GetAsync(string.Format($"/api/task/{0}/project",
                                                                      httpClient.DefaultRequestHeaders
                                                                         .First(o => o.Key == Constants.Settings.Header.ORGANIZATION).Value)
                                                         , cancellationToken);
@@ -168,7 +171,7 @@ public class TicketService : ITicketService
             }
 
             if (tickets is not null && tickets.Count > 0)
-                tickets = await _helperService.AddAccountDetails(headers, tickets, cancellationToken);
+                tickets = await _accountHelperService.AddAccountDetails(headers, tickets, cancellationToken);
 
             return new RequestResult<List<TicketDto>>
             {
@@ -218,7 +221,7 @@ public class TicketService : ITicketService
             }
 
             if (tickets is not null && tickets.Count > 0)
-                tickets = await _helperService.AddAccountDetails(headers, tickets, cancellationToken);
+                tickets = await _accountHelperService.AddAccountDetails(headers, tickets, cancellationToken);
 
             return new RequestResult<List<TicketDto>>
             {
@@ -267,7 +270,7 @@ public class TicketService : ITicketService
                 };
             }
 
-            ticket = await _helperService.AddAccountDetails(headers, ticket!, cancellationToken);
+            ticket = await _accountHelperService.AddAccountDetails(headers, ticket!, cancellationToken);
 
             return new RequestResult<TicketDto>
             {
@@ -315,7 +318,7 @@ public class TicketService : ITicketService
 
             if (history is not null && history.Count > 0)
             {
-                history = await _helperService.AddAccountDetails(headers, history, cancellationToken);
+                history = await _accountHelperService.AddAccountDetails(headers, history, cancellationToken);
             }
 
             return new RequestResult<List<TicketHistoryDto>>

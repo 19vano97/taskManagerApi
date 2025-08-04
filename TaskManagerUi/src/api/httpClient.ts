@@ -2,14 +2,14 @@ import axios from 'axios';
 type AxiosInstance = ReturnType<typeof axios.create>;
 
 export const taskManagerAxios: AxiosInstance = axios.create({
-  baseURL: 'https://localhost:7099',
+  baseURL: 'https://localhost:7188',
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
 export const identityServerAxios: AxiosInstance = axios.create({
-  baseURL: 'https://localhost:7270',
+  baseURL: 'https://localhost:7188',
   headers: {
     'Content-Type': 'application/json',
   },

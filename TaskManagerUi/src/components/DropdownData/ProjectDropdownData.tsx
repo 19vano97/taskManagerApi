@@ -17,7 +17,7 @@ export const ProjectDropdownData = ({ selectedProjectId, onProjectChange, organi
     const fetchProjects = async () => {
       try {
         const data = await getOrganizationProjectsById(organizationId);
-        setProjects(data.data.projects);
+        setProjects(data.data.projects || []);
       } catch (error) {
         console.error('Error fetching projects:', error);
       }

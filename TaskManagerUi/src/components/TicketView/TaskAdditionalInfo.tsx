@@ -4,9 +4,10 @@ import { History, MessageCircle } from 'lucide-react';
 
 type TaskAdditionalInfoProps ={
     taskId: string
+    organizationId: string
 }
 
-export function TaskAdditionalInfo(taskId: TaskAdditionalInfoProps) {
+export function TaskAdditionalInfo({taskId, organizationId}: TaskAdditionalInfoProps) {
   return (
         <Tabs color="blue" defaultValue="comments">
             <Tabs.List>
@@ -23,7 +24,7 @@ export function TaskAdditionalInfo(taskId: TaskAdditionalInfoProps) {
             </Tabs.Panel>
 
             <Tabs.Panel value="messages" pt="20px">
-                <TaskHistoryComponent taskId={taskId.taskId} />
+                <TaskHistoryComponent taskId={taskId} organizationId={organizationId}/>
             </Tabs.Panel>
 
         </Tabs>

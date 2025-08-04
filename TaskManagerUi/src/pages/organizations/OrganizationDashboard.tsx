@@ -17,7 +17,7 @@ import { useEffect, useState } from 'react';
 import { useOrganizationApi } from '../../api/taskManagerApi';
 import { useIdentityServerApi } from '../../api/IdentityServerApi';
 import { LoaderMain } from '../../components/LoaderMain';
-import type { OrganizationDetails, AccountDetails } from '../../components/Types';
+import type { AccountDetails, Organization } from '../../components/Types';
 import NotFoundPage from '../NotFoundPage';
 import { useSafeAuth } from '../../hooks/useSafeAuth';
 import CreateProject from '../../components/project/CreateProject';
@@ -28,9 +28,8 @@ export default function OrganizationDashboard() {
   const id = params?.id;
   const navigate = useNavigate();
   const { getOrganizationProjectsById } = useOrganizationApi();
-  const { getAllAccountDetails } = useIdentityServerApi();
   const auth = useSafeAuth();
-  const [organization, setOrganization] = useState<OrganizationDetails | null>(null);
+  const [organization, setOrganization] = useState<Organization | null>(null);
   const [accounts, setAccounts] = useState<AccountDetails[]>([]);
   const [isOwner, setIsOwner] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -51,9 +50,7 @@ export default function OrganizationDashboard() {
 
     const data = await getOrganizationProjectsById(id);
     setOrganization(data.data);
-
-    const accDetails = await getAllAccountDetails(data.data.accounts);
-    setAccounts(accDetails.data);
+    setAccounts(data.data.accounts || []);
 
     if (auth?.user?.profile.sub === data.data.owner) {
       setIsOwner(true);
@@ -114,7 +111,7 @@ export default function OrganizationDashboard() {
               </Flex>
                 <Divider my="sm" />
               <Grid>
-                {organization.projects.map((project) => (
+                {organization.projects?.map((project) => (
                   <Grid.Col span={{ base: 12, sm: 6, md: 4 }} key={project.id}>
                     <Card 
                       shadow="sm" 
@@ -145,7 +142,7 @@ export default function OrganizationDashboard() {
             <Card withBorder shadow="sm" radius="md" p="lg">
               <Title order={4}>Total Projects</Title>
               <Divider my="sm" />
-              <Text size="xl">{organization.projects.length}</Text>
+              <Text size="xl">{organization.projects?.length}</Text>
             </Card>
           </Grid.Col>
 

@@ -1,13 +1,10 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using TaskManagerApi.Models.TicketItem;
-using TaskManagerApi.Models.TicketItemStatuses;
+using TaskManagerConvertor.Models.Ticket;
+using TaskManagerConvertor.Models.TicketItem;
 
-namespace TaskManagerApi.Models.Project;
+namespace TaskManagerConvertor.Models.Project;
 
-/// <summary>
-/// Data Transfer Object for a project, including its metadata and statuses.
-/// </summary>
 public class ProjectItemDto
 {
     /// <summary>
@@ -33,6 +30,7 @@ public class ProjectItemDto
     /// </summary>
     [Required]
     public Guid OwnerId { get; set; } = Guid.Empty;
+    public AccountDto? Owner { get; set; }
 
     /// <summary>
     /// The unique identifier of the organization to which the project belongs.
@@ -43,7 +41,7 @@ public class ProjectItemDto
     /// <summary>
     /// The list of statuses associated with the project.
     /// </summary>
-    public List<TicketStatusDto> Statuses { get; set; } = new List<TicketStatusDto>();
+    public List<TicketStatusDto>? Statuses { get; set; }
 
     public List<TicketDto>? Tickets { get; set; }
 

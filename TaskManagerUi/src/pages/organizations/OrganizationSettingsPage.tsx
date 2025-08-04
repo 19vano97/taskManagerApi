@@ -17,7 +17,7 @@ import {
 import { useNavigate, useParams } from 'react-router-dom';
 import { useOrganizationApi } from '../../api/taskManagerApi';
 import { useEffect, useState } from 'react';
-import type { AccountDetails, OrganizationDetails } from '../../components/Types';
+import type { AccountDetails, Organization } from '../../components/Types';
 import { useIdentityServerApi } from '../../api/IdentityServerApi';
 import { useSafeAuth } from '../../hooks/useSafeAuth';
 import AddMemberToOrganization from '../../components/Account/AddMemberToOrganization';
@@ -31,11 +31,10 @@ const OrganizationSettingsPage = () => {
   const params = useParams<{ id?: string }>();
   const id = params?.id;
   const { getOrganizationProjectsById, postEditOrganization: editOrganization } = useOrganizationApi();
-  const { getAllAccountDetails } = useIdentityServerApi();
   const auth = useSafeAuth();
   const navigate = useNavigate();
 
-  const [organization, setOrganization] = useState<OrganizationDetails>();
+  const [organization, setOrganization] = useState<Organization>();
   const [accounts, setAccounts] = useState<AccountDetails[]>([]);
   const [loading, setLoading] = useState(true);
   const [editMode, setEditMode] = useState(false);
@@ -68,13 +67,11 @@ const OrganizationSettingsPage = () => {
   const fetchOrganization = async () => {
     try {
       const data = await getOrganizationProjectsById(id!);
-      const uniqueAccountIds: string[] = Array.from(new Set(data.data.accounts));
-      const accountDetails = await getAllAccountDetails(uniqueAccountIds);
 
       setOrganization(data.data);
       setName(data.data.name);
-      setAbbreviation(data.data.abbreviation);
-      setAccounts(accountDetails.data);
+      setAbbreviation(data.data.abbreviation || '');
+      setAccounts(data.data.accounts || []);
     } catch (error) {
       console.error('Failed to fetch organization:', error);
     } finally {
@@ -104,7 +101,7 @@ const OrganizationSettingsPage = () => {
         abbreviation,
         modifyDate: new Date().toISOString(),
       };
-      await editOrganization(organization.id, updatedOrg);
+      await editOrganization(organization.id!, updatedOrg);
       setOrganization(updatedOrg);
       setEditMode(false);
     } catch (error) {
@@ -244,7 +241,7 @@ const OrganizationSettingsPage = () => {
           <Card shadow="sm" padding="lg" radius="md" withBorder>
             <Title order={3} mb="sm">Projects</Title>
             <Grid>
-              {organization.projects.map((project) => {
+              {organization.projects?.map((project) => {
                 const projectOwner = accounts.find((acc) => acc.id === project.ownerId);
                 return (
                   <Grid.Col span={{ base: 12, sm: 6, md: 4 }} key={project.id}>
@@ -291,7 +288,7 @@ const OrganizationSettingsPage = () => {
       )}
       {AddMemberModalOpen && (
         <AddMemberToOrganization
-          organizationId={organization.id}
+          organizationId={organization.id!}
           opened={AddMemberModalOpen}
           onClose={closeAddMemberDialog}
           onSuccess={handleAddingMemberSuccess}

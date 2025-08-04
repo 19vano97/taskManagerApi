@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useOrganizationApi, useProjectApi, useTaskApi } from '../../api/taskManagerApi';
-import type { AccountDetails, OrganizationDetails, Project, Status, Task, TaskStatus, TaskType } from '../Types';
+import type { AccountDetails, Organization, Project, Status, Task, TaskStatus, TaskType } from '../Types';
 import { Card, Text, Group, Badge, Dialog, Modal, Flex, Fieldset, Select, Input, Button, ScrollArea } from '@mantine/core';
 import { LoaderMain } from '../LoaderMain';
 import { useEditor } from '@tiptap/react';
@@ -11,10 +11,8 @@ import TextAlign from '@tiptap/extension-text-align';
 import Superscript from '@tiptap/extension-superscript';
 import SubScript from '@tiptap/extension-subscript';
 import Link from '@tiptap/extension-link';
-
 import { TicketDesciption } from '../TicketView/TicketDesciption';
 import { TaskTypesBadge, taskTypesConst } from './TaskTypeBadge';
-import { useIdentityServerApi } from '../../api/IdentityServerApi';
 import { ProjectDropdownData } from '../DropdownData/ProjectDropdownData';
 import { ProjectTaskStatusesDdData } from '../DropdownData/ProjectTaskStatusesDdData';
 import { TaskTypeDropdown } from '../DropdownData/TaskTypeDropdown';
@@ -34,8 +32,7 @@ export const TaskDialog = ({ organizationId, task, opened, onClose }: TaskDialog
     const { getTaskById, getAllTasksByOrganization } = useTaskApi();
     const { getOrganizationProjectsById } = useOrganizationApi();
     const { editTask } = useTaskApi();
-    const { getAllAccountDetails } = useIdentityServerApi();
-    const [organization, setOrganization] = useState<OrganizationDetails>();
+    const [organization, setOrganization] = useState<Organization>();
     const [taskDetails, setTaskDetails] = useState<Task | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -105,8 +102,9 @@ export const TaskDialog = ({ organizationId, task, opened, onClose }: TaskDialog
             try {
                 const data = await getOrganizationProjectsById(organizationId);
                 setOrganization(data.data);
-                setProjects(data.data.projects);
-                const project = data.data.projects.find((p: Project) => p.id !== undefined && p.id === taskDetails.projectId);
+                setProjects(data.data.projects || []);
+                setAccounts(data.data.accounts || []);
+                const project = data.data.projects?.find((p: Project) => p.id !== undefined && p.id === taskDetails.projectId);
 
                 if (project) {
                     const status = project.statuses?.find((s: { statusId: number; }) => s.statusId === taskDetails.statusId) || null;
@@ -122,32 +120,6 @@ export const TaskDialog = ({ organizationId, task, opened, onClose }: TaskDialog
 
         fetchProjects();
     }, [taskDetails]);
-
-    const fetchOrganizationAccounts = async () => {
-        if (!taskDetails) return;
-        if (!organization) return;
-        setAccountsLoading(true);
-        try {
-            const accountDetails = await getAllAccountDetails(organization?.accounts);
-            setAccounts(accountDetails.data);
-            console.log(accountDetails.data)
-
-            const reporter = accountDetails.data.find((a) => a.id !== undefined && a.id === taskDetails.reporterId) || null;
-            const assignee = accountDetails.data.find((a) => a.id !== undefined && a.id === taskDetails.assigneeId) || null;
-
-            setReporterId(reporter);
-            setAssigneeId(assignee);
-        } catch (error) {
-            console.error('Error fetching accounts:', error);
-        } finally {
-            setAccountsLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        fetchOrganizationAccounts();
-    }, [taskDetails, organization]);
-
 
     useEffect(() => {
         const fetchTasks = async () => {
@@ -425,7 +397,7 @@ export const TaskDialog = ({ organizationId, task, opened, onClose }: TaskDialog
                         </Fieldset>
                     </Flex>
                     <Flex justify="space-between" align="center" mb="md">
-                        <TaskAdditionalInfo taskId={taskDetails.id} />
+                        <TaskAdditionalInfo taskId={taskDetails.id!} organizationId={taskDetails.organizationId!} />
                     </Flex>
                 </Card>
             ) : (

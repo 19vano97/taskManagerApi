@@ -1,31 +1,14 @@
-import type { TimeOnly } from "../hooks/useTimeOnly";
-
 export interface Organization {
   id?: string;
   name: string;
   description?: string;
   abbreviation?: string;
   projects?: Project[];
-  accounts?: string[];
+  accounts?: AccountDetails[];
+  ownerId: string;
+  owner?: AccountDetails
   createDate?: string;
   modifyDate?: string;
-  owner: string;
-}
-
-export interface OrganizationAccounts {
-  accounts: string[]
-}
-
-export interface OrganizationDetails {
-  id: string;
-  name: string;
-  abbreviation: string;
-  owner: string;
-  description: string;
-  createDate: string;
-  modifyDate: string;
-  projects: Project[];
-  accounts: string[];
 }
 
 export interface Project {
@@ -33,8 +16,10 @@ export interface Project {
   title: string;
   description: string;
   ownerId: string;
+  owner?: AccountDetails;
   organizationId: string;
   statuses?: Status[];
+  tickets?: Task[];
   createDate?: string;
   modidyDate?: string;
 }
@@ -114,11 +99,6 @@ export interface TaskHistory {
   author: string;
   createDate: Date;
   modifyDate: string;
-}
-
-export interface ProjectWithTasks {
-  project: Project;
-  tasks: Task[];
 }
 
 export interface CreateTask {

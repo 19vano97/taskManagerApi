@@ -71,7 +71,7 @@ namespace TaskManagerApi.Controllers
         }
 
         [HttpGet("details/me")]
-        public async Task<ActionResult<List<OrganizationProjectDto>>> GetSelfOrganizationsAsync(CancellationToken cancellationToken)
+        public async Task<ActionResult<List<OrganizationDto>>> GetSelfOrganizationsAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("GetSelfOrganizationsAsync called");
             if (!Guid.TryParse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value, out Guid accountId))
@@ -98,7 +98,7 @@ namespace TaskManagerApi.Controllers
         }
 
         [HttpGet("{organizationId}/details")]
-        public async Task<ActionResult<OrganizationProjectDto>> GetOrganizationByIdAsync(Guid organizationId, CancellationToken cancellationToken)
+        public async Task<ActionResult<OrganizationDto>> GetOrganizationByIdAsync(Guid organizationId, CancellationToken cancellationToken)
         {
             _logger.LogInformation("GetOrganizationByIdAsync called for organizationId: {OrgId}", organizationId);
             if (!Guid.TryParse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value, out Guid accountId)
@@ -108,7 +108,7 @@ namespace TaskManagerApi.Controllers
                 return BadRequest();
             }
 
-            var res = await _organizationService.GetOrganizationProjectsAsync(organizationId, cancellationToken);
+            var res = await _organizationService.GetOrganizationByIdAsync(organizationId, cancellationToken);
             if (!res.IsSuccess)
             {
                 _logger.LogWarning("Failed to get organization by id: {OrgId}. Error: {Error}", organizationId, res.ErrorMessage);
@@ -125,7 +125,7 @@ namespace TaskManagerApi.Controllers
         }
 
         [HttpGet("{organizationId}/accounts")]
-        public async Task<ActionResult<OrganizationAccountsDto>> GetOrganizationInfoAsync(Guid organizationId, CancellationToken cancellationToken)
+        public async Task<ActionResult<OrganizationDto>> GetOrganizationAccountsAsync(Guid organizationId, CancellationToken cancellationToken)
         {
             _logger.LogInformation("GetOrganizationInfoAsync called for organizationId: {OrgId}", organizationId);
             if (!Guid.TryParse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value, out Guid accountId)
@@ -135,7 +135,7 @@ namespace TaskManagerApi.Controllers
                 return BadRequest();
             }
 
-            var organization = await _organizationService.GetOrganizationProjectsAsync(organizationId, cancellationToken);
+            var organization = await _organizationService.GetOrganizationAccountAsync(organizationId, cancellationToken);
             if (!organization.IsSuccess)
             {
                 _logger.LogWarning("Failed to get organization info. organizationId: {OrgId}. Error: {Error}", organizationId, organization.ErrorMessage);
@@ -152,7 +152,7 @@ namespace TaskManagerApi.Controllers
         }
 
         [HttpPost("details/{organizationId}/new-member/{accountId}")]
-        public async Task<ActionResult<OrganizationProjectDto>> AddNewAccountToOrganization(Guid organizationId, Guid accountId, CancellationToken cancellationToken)
+        public async Task<ActionResult<OrganizationDto>> AddNewAccountToOrganization(Guid organizationId, Guid accountId, CancellationToken cancellationToken)
         {
             _logger.LogInformation("AddNewAccountToOrganization called for organizationId: {OrgId}, accountId: {AccountId}", organizationId, accountId);
             if (!Guid.TryParse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value, out Guid accountIdInitiator)

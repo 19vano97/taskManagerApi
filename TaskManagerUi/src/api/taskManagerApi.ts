@@ -7,11 +7,7 @@ import type {
   ChatMessage,
   CreateTask,
   Organization,
-  OrganizationAccounts,
-  OrganizationDetails,
   Project,
-  ProjectSingleStatusDto,
-  ProjectWithTasks,
   Task,
   TaskHistory,
   TicketAiView,
@@ -36,17 +32,17 @@ export const useOrganizationApi = () => {
 
   return {
     getAllOrganizationProjects: async () => 
-      (await taskManagerAxios.get<OrganizationDetails[]>(`${path}/details/me`)),
+      (await taskManagerAxios.get<Organization[]>(`${path}/details/me`)),
     getOrganizationProjectsById: async (organizationId: string) => 
-      (await taskManagerAxios.get<OrganizationDetails>(`${path}/${organizationId}/details/`)),
+      (await taskManagerAxios.get<Organization>(`${path}/${organizationId}/details/`)),
     postCreateOrganization: async (data: Organization) => 
       (await taskManagerAxios.post<Organization>(`${path}/create`, data)),
     postEditOrganization: async (id: string, data: Organization) => 
       (await taskManagerAxios.post<Organization>(`${path}/${id}/edit`, data)),
     postAddAccountToOrganization: async (organizationId: string, accountId: string) => 
-      (await taskManagerAxios.post<OrganizationDetails>(`${path}/details/${organizationId}/new-member/${accountId}`)),
+      (await taskManagerAxios.post<Organization>(`${path}/details/${organizationId}/new-member/${accountId}`)),
     getOrganizationAccounts: async (organizationId: string) => 
-      (await taskManagerAxios.get<OrganizationAccounts>(`${path}/${organizationId}/accounts`))
+      (await taskManagerAxios.get<Organization>(`${path}/${organizationId}/accounts`))
   };
 };
 
@@ -65,11 +61,11 @@ export const useProjectApi = () => {
 
   return {
     getAllProjectsWithTasks: async (organizationId: string) => 
-      (await taskManagerAxios.get<ProjectWithTasks>(`${path}/all/${organizationId}`)),
+      (await taskManagerAxios.get<Project>(`${path}/all/${organizationId}`)),
     getProjectById: async (id: string) => 
       (await taskManagerAxios.get<Project>(`${path}/${id}`)),
     getProjectWithTasksById: async (id: string) => 
-      (await taskManagerAxios.get<ProjectWithTasks>(`${path}/${id}/tasks`)),
+      (await taskManagerAxios.get<Project>(`${path}/${id}/tasks`)),
     createProject: async (data: Project) => 
       (await taskManagerAxios.post<Project>(`${path}/create`, data)),
     editProject: async (data: Project, projectId: string) => 

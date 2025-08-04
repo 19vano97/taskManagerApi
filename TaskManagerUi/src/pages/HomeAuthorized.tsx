@@ -16,7 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import { useOrganizationApi } from '../api/taskManagerApi';
 import { useSafeAuth } from '../hooks/useSafeAuth';
 import { Plus } from 'lucide-react';
-import type { OrganizationDetails } from '../components/Types';
+import type { Organization } from '../components/Types';
 import CreateOrganization from '../components/Organization/CreateOrgamization';
 import SuccessAlert from '../components/alerts/SuccessAlert';
 
@@ -24,8 +24,8 @@ const HomeAuthorized = () => {
     const { getAllOrganizationProjects } = useOrganizationApi();
     const auth = useSafeAuth();
     const navigate = useNavigate();
-    const [organizations, setOrganizations] = useState<OrganizationDetails[]>([]);
-    const [ownedOrgs, setOwnedOrgs] = useState<OrganizationDetails[]>([]);
+    const [organizations, setOrganizations] = useState<Organization[]>([]);
+    const [ownedOrgs, setOwnedOrgs] = useState<Organization[]>([]);
     const [createOrganizationModalOpen, setCreateOrganizationModalOpen] = useState(false);
     const [showSuccessOrganizationCreation, setShowSuccessOrganizationCreation] = useState(false);
     const openCreateOrganizationDialog = () => {
@@ -92,7 +92,7 @@ const HomeAuthorized = () => {
                     <Grid mt="sm">
                         {ownedOrgs.map((org) => (
                             <Grid.Col key={org.id} span={{ base: 12, sm: 6, md: 4 }}>
-                                <Card shadow="sm" radius="md" withBorder p="lg" style={{ cursor: 'pointer' }} onClick={() => handleOrgSelect(org.id)}>
+                                <Card shadow="sm" radius="md" withBorder p="lg" style={{ cursor: 'pointer' }} onClick={() => handleOrgSelect(org.id!)}>
                                     <Group>
                                         <Avatar color="blue" radius="xl">{org.name[0].toUpperCase()}</Avatar>
                                         <div>
@@ -113,7 +113,7 @@ const HomeAuthorized = () => {
                     <Grid mt="sm">
                         {organizations.map((org) => (
                             <Grid.Col key={org.id} span={{ base: 12, sm: 6, md: 4 }}>
-                                <Card shadow="sm" radius="md" withBorder p="lg" style={{ cursor: 'pointer' }} onClick={() => handleOrgSelect(org.id)}>
+                                <Card shadow="sm" radius="md" withBorder p="lg" style={{ cursor: 'pointer' }} onClick={() => handleOrgSelect(org.id!)}>
                                     <Group>
                                         <Avatar color="teal" radius="xl">{org.name[0].toUpperCase()}</Avatar>
                                         <div>

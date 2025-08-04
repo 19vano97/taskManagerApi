@@ -26,9 +26,9 @@ export default function ProjectDashboard() {
       try {
         if (!id) return;
         const result = await getProjectWithTasksById(id);
-        setProject(result.data.project);
-        setTasks(result.data.tasks);
-        setStatuses(result.data.project.statuses ?? []);
+        setProject(result.data);
+        setTasks(result.data.tickets ?? []);
+        setStatuses(result.data.statuses ?? []);
       } catch (error) {
         console.error("Error loading project dashboard:", error);
       } finally {

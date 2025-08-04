@@ -12,9 +12,12 @@ var serverSettings = new ServerSettings();
 builder.Configuration.GetSection("serverSettings").Bind(serverSettings);
 builder.Services.AddOpenApi();
 builder.Services.AddControllers();
-builder.Services.AddScoped<ITicketService, TicketService>();
-builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IHelperService, HelperService>();
+builder.Services.AddScoped<ITicketService, TicketService>();
+builder.Services.AddScoped<IOrganizationService, OrganizationService>();
+builder.Services.AddScoped<IProjectService, ProjectService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IAccountHelperService, AccountHelperService>();
 builder.Services.AddScoped<IAIService, AIService>();
 builder.Services.AddControllers()
        .AddNewtonsoftJson(opts =>
