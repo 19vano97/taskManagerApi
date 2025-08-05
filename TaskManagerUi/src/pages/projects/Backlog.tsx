@@ -104,7 +104,9 @@ const Backlog = () => {
                         onClose={closeCreateTicketDialog}
                         organizationId={project!.organizationId} onSuccess={function (): void {
                             throw new Error("Function not implemented.")
-                        } }                    />
+                        } }
+                        projectId={project!.id!}
+                    />
                 )}
             </Flex>
         </Container>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useOrganizationApi, useProjectApi, useTaskApi } from '../../api/taskManagerApi';
 import type { AccountDetails, Organization, Project, Status, Task, TaskStatus, TaskType } from '../Types';
-import { Card, Text, Group, Badge, Dialog, Modal, Flex, Fieldset, Select, Input, Button, ScrollArea } from '@mantine/core';
+import { Card, Text, Group, Badge, Dialog, Modal, Flex, Fieldset, Select, Input, Button, ScrollArea, ActionIcon } from '@mantine/core';
 import { LoaderMain } from '../LoaderMain';
 import { useEditor } from '@tiptap/react';
 import Highlight from '@tiptap/extension-highlight';
@@ -20,6 +20,8 @@ import { TaskDropdown } from '../DropdownData/TaskDropdown';
 import { AccountDropdown } from '../DropdownData/AccountDropdown';
 import { TaskAdditionalInfo } from './TaskAdditionalInfo';
 import { TableTickets } from './TableTickets';
+import { ArrowRight, BookOpen } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 type TaskDialogProps = {
     organizationId: string;
@@ -32,6 +34,7 @@ export const TaskDialog = ({ organizationId, task, opened, onClose }: TaskDialog
     const { getTaskById, getAllTasksByOrganization } = useTaskApi();
     const { getOrganizationProjectsById } = useOrganizationApi();
     const { editTask } = useTaskApi();
+    const navigate = useNavigate();
     const [organization, setOrganization] = useState<Organization>();
     const [taskDetails, setTaskDetails] = useState<Task | null>(null);
     const [loading, setLoading] = useState(false);
@@ -235,6 +238,10 @@ export const TaskDialog = ({ organizationId, task, opened, onClose }: TaskDialog
         }
     }
 
+    const handleRedirect = () => {
+        navigate(`/task/${taskDetails!.id}`);
+    };
+
     const handleEditTask = async () => {
         const taskData = {
             id: taskDetails!.id,
@@ -260,7 +267,7 @@ export const TaskDialog = ({ organizationId, task, opened, onClose }: TaskDialog
         <Modal
             opened={opened}
             onClose={onClose}
-            title={task.id}
+            title="Task Details"
             size="xxl"
             withCloseButton
             transitionProps={{ transition: 'fade', duration: 200 }}
@@ -277,7 +284,7 @@ export const TaskDialog = ({ organizationId, task, opened, onClose }: TaskDialog
                     withBorder
                     style={{ maxWidth: '1200px' }}
                 >
-                    <Flex justify="space-between" align="center" mb="md">
+                    <Flex justify="space-between" align="center" mb="md" gap={"md"}>
                         <Fieldset legend="Summary" mb="md" style={{ width: '100%' }}>
                             {!isEditingTitle ? (
                                 <div onClick={handleStartEditingTitle} style={{ cursor: 'pointer', padding: '6px 8px' }}>
@@ -304,6 +311,15 @@ export const TaskDialog = ({ organizationId, task, opened, onClose }: TaskDialog
                                 </>
                             )}
                         </Fieldset>
+                        <ActionIcon
+                            onClick={handleRedirect}
+                            variant="filled"
+                            radius="xl"
+                            size="lg"
+                            aria-label="Go to dashboard"
+                        >
+                            <BookOpen size={20} />
+                        </ActionIcon>
                     </Flex>
                     <Flex justify="space-between" align="center" mb="md">
                         <Fieldset legend="Description" mb="md" style={{ width: '100%', minHeight: '300px' }}>

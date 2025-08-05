@@ -21,10 +21,11 @@ type CreateTicketProps = {
     opened: boolean;
     onClose: () => void;
     organizationId: string;
+    projectId: string;
     onSuccess: () => void;
 }
 
-export const CreateTicket = ({ opened, onClose, organizationId, onSuccess }: CreateTicketProps) => {
+export const CreateTicket = ({ opened, onClose, organizationId, projectId, onSuccess }: CreateTicketProps) => {
     const editor = useEditor({
         extensions: [
             StarterKit,
@@ -95,6 +96,14 @@ export const CreateTicket = ({ opened, onClose, organizationId, onSuccess }: Cre
         fetchOrganizationAccounts();
     }, []);
 
+    if (!selectedProjectId) {
+        setSelectedProjectId(projectId);
+    }
+
+    // if (!reporterId && auth.user?.profile.sub) {
+    //     setReporterId(accounts.find(account => account.id === auth.user!.profile.sub) || null);
+    // }
+
     const handleProjectChange = (projectId: string | null) => {
         setSelectedProjectId(projectId);
     };
@@ -158,7 +167,7 @@ export const CreateTicket = ({ opened, onClose, organizationId, onSuccess }: Cre
         try {
             const response = await createTask(taskData);
             console.log("Task created successfully:", response);
-            onClose(); // Only close after success
+            onClose();
         } catch (error: any) {
             console.error("Error creating task:", error.response?.data || error.message);
         }
@@ -199,7 +208,12 @@ export const CreateTicket = ({ opened, onClose, organizationId, onSuccess }: Cre
                     <div>
                         <Fieldset legend="Select Project" style={{ width: '100%' }}>
                             <Select
-                                placeholder="Select Project"
+                                defaultValue={projects?.find(p => p.id == projectId)?.title}
+                                placeholder={
+                                    selectedProjectId
+                                        ? projects?.find((p: Project) => p.id === selectedProjectId)?.title 
+                                        : "Select project"
+                                }
                                 data={
                                     projects?.map((project) => ({
                                         value: project.id ?? "",
@@ -275,7 +289,7 @@ export const CreateTicket = ({ opened, onClose, organizationId, onSuccess }: Cre
                     <Fieldset legend="Estimated Time" style={{ width: '50%' }}>
                         <TimeOnlyInput
                             value={estimatedTime ?? ''}
-                            onChange={setEstimatedTime}
+                            onChange={handleEstimatedTimeChange}
                         />
                     </Fieldset>
 

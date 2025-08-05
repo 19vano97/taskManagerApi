@@ -1,5 +1,6 @@
 using System;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using Serilog;
 using TaskManagerApi.Data;
 using TaskManagerApi.Enitities.Task;
@@ -291,6 +292,48 @@ public class TicketService : ITicketService
                 }));
             }
 
+            if (taskToEdit.Data!.StartDate != newTask.StartDate && newTask.StartDate != null)
+            {
+                var oldType = taskToEdit.Data!.StartDate;
+                taskToEdit.Data!.StartDate = newTask.StartDate!;
+                _taskHistoryEvent?.Invoke(this, new TicketHistoryEventArgs(new TicketHistoryDto
+                {
+                    TaskId = taskToEdit.Data!.Id,
+                    AuthorId = (Guid)taskToEdit.Data!.ReporterId,
+                    EventName = TaskHistoryTypes.TaskEdit.TASK_EDITED_START_DATE,
+                    PreviousState = oldType.ToString(),
+                    NewState = taskToEdit.Data!.StartDate.ToString()
+                }));
+            }
+
+            if (taskToEdit.Data!.DueDate != newTask.DueDate && newTask.DueDate != null)
+            {
+                var oldType = taskToEdit.Data!.DueDate;
+                taskToEdit.Data!.DueDate = newTask.DueDate!;
+                _taskHistoryEvent?.Invoke(this, new TicketHistoryEventArgs(new TicketHistoryDto
+                {
+                    TaskId = taskToEdit.Data!.Id,
+                    AuthorId = (Guid)taskToEdit.Data!.ReporterId,
+                    EventName = TaskHistoryTypes.TaskEdit.TASK_EDITED_DUE_DATE,
+                    PreviousState = oldType.ToString(),
+                    NewState = taskToEdit.Data!.DueDate.ToString()
+                }));
+            }
+
+            if (taskToEdit.Data!.Estimate != newTask.Estimate && newTask.Estimate != null)
+            {
+                var oldType = taskToEdit.Data!.DueDate;
+                taskToEdit.Data!.DueDate = newTask.DueDate!;
+                _taskHistoryEvent?.Invoke(this, new TicketHistoryEventArgs(new TicketHistoryDto
+                {
+                    TaskId = taskToEdit.Data!.Id,
+                    AuthorId = (Guid)taskToEdit.Data!.ReporterId,
+                    EventName = TaskHistoryTypes.TaskEdit.TASK_EDITED_ESTIMATE,
+                    PreviousState = oldType.ToString(),
+                    NewState = taskToEdit.Data!.DueDate.ToString()
+                }));
+            }
+
             taskToEdit.Data!.ModifyDate = DateTime.UtcNow;
 
             _context.Tickets.Update(taskToEdit.Data!);
@@ -395,7 +438,7 @@ public class TicketService : ITicketService
                 ErrorMessage = tickets.ErrorMessage
             };
 
-        var parentTickets = tickets.Data.Where(t => newTasks.Select(tt => tt.ParentName).Contains(t.Title)).ToList();
+        var parentTickets = tickets.Data!.Where(t => newTasks.Select(tt => tt.ParentName).Contains(t.Title)).ToList();
 
         var edit = new List<ServiceResult<TicketDto>>();
 
@@ -403,7 +446,7 @@ public class TicketService : ITicketService
         {
             if (!string.IsNullOrWhiteSpace(task.ParentName?.Trim()) && !string.IsNullOrWhiteSpace(task.Title.Trim()))
             {
-                var childTicket = tickets.Data.First(t => t.Title == task.Title);
+                var childTicket = tickets.Data!.First(t => t.Title == task.Title);
                 var parentTicket = parentTickets.First(t => t.Title == task.ParentName);
                 childTicket.ParentId = parentTicket.Id;
                 edit.Add(await EditTaskByIdAsync((Guid)childTicket.Id!, childTicket, cancellationToken, false));
@@ -414,10 +457,10 @@ public class TicketService : ITicketService
 
         var finalTickets = new List<TicketDto>();
 
-        foreach (var ticket in tickets.Data)
+        foreach (var ticket in tickets.Data!)
         {
             var fresh = await GetTaskByIdAsync(ticket.Id!.Value, cancellationToken);
-            finalTickets.Add(fresh.Data);
+            finalTickets.Add(fresh.Data!);
         }
 
         return new ServiceResult<List<TicketDto>>
@@ -430,9 +473,9 @@ public class TicketService : ITicketService
     private async Task<ServiceResult<Ticket>> GetTaskById(Guid taskId, CancellationToken cancellationToken)
     {
         var res = await _context.Tickets.Include(t => t.TaskItemStatus)
-                                     .Include(t => t.TaskType)
-                                     .Include(p => p.ProjectItem)
-                                     .FirstOrDefaultAsync(t => t.Id == taskId, cancellationToken);
+                                        .Include(t => t.TaskType)
+                                        .Include(p => p.ProjectItem)
+                                        .FirstOrDefaultAsync(t => t.Id == taskId, cancellationToken);
         if (res is null)
             return new ServiceResult<Ticket>
             {
@@ -450,7 +493,6 @@ public class TicketService : ITicketService
     private async Task<ServiceResult<TicketDto>> GetTaskByIdDto(Guid taskId, CancellationToken cancellationToken)
     {
         var task = await GetTaskById(taskId, cancellationToken);
-        var childIssues = await GetChildIssues(taskId, cancellationToken);
         var res = ConvertTaskToDto(task.Data);
         if (res == null)
             return new ServiceResult<TicketDto>
@@ -459,10 +501,9 @@ public class TicketService : ITicketService
                 ErrorMessage = LogPhrases.ServiceResult.Error.NOT_FOUND
             };
 
-        res.ChildIssues = childIssues.Data!.Count == 0 ? null : childIssues.Data;
+        var childIssues = await GetChildIssues(taskId, cancellationToken);
 
-        if (childIssues.Data.Count == 0)
-            res.ChildIssues = null;
+        res.ChildIssues = childIssues.Data!.Count == 0 ? null : childIssues.Data;
 
         return new ServiceResult<TicketDto>
         {
@@ -474,10 +515,11 @@ public class TicketService : ITicketService
     private async Task<ServiceResult<List<TicketDto>>> GetChildIssues(Guid taskId, CancellationToken cancellationToken)
     {
         var res = await _context.Tickets.Include(t => t.TaskItemStatus)
-                                     .Include(t => t.TaskType)
-                                     .Where(t => t.ParentId == taskId)
-                                     .Select(t => ConvertTaskToDto(t))
-                                     .ToListAsync(cancellationToken);
+                                        .Include(t => t.TaskType)
+                                        .Include(t => t.ProjectItem)
+                                        .Where(t => t.ParentId == taskId)
+                                        .Select(t => ConvertTaskToDto(t))
+                                        .ToListAsync(cancellationToken);
         if (res is null)
             return new ServiceResult<List<TicketDto>>
             {
@@ -510,7 +552,10 @@ public class TicketService : ITicketService
             ReporterId = task.ReporterId,
             AssigneeId = task.AssigneeId,
             ParentId = task.ParentId,
-            OrganizationId = task.ProjectItem?.OrganizationId,
+            OrganizationId = task.ProjectItem?.OrganizationId!,
+            StartDate = task.StartDate,
+            DueDate = task.DueDate,
+            Estimate = task.Estimate,
             CreateDate = task.CreateDate,
             ModifyDate = task.ModifyDate
         };

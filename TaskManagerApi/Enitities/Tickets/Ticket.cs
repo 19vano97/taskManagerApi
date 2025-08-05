@@ -17,8 +17,8 @@ public class Ticket
     public Guid? ReporterId { get; set; }
     public Guid? AssigneeId { get; set; }
     public Guid? ParentId { get; set; }
-    public DateOnly? StartDate { get; set; }
-    public DateOnly? DueDate { get; set; }
+    public DateTime? StartDate { get; set; }
+    public DateTime? DueDate { get; set; }
     public TimeOnly? SpentTime { get; set; }
     public TimeOnly? Estimate { get; set; }
     public required Guid ProjectId { get; set; }

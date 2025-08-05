@@ -1,5 +1,7 @@
 import { Button, Card, Container, Fieldset, Flex, Input, Paper, Text } from "@mantine/core";
 import { Navigate, useParams, useNavigate } from "react-router-dom"
+import dayjs from 'dayjs';
+import { DatePicker } from '@mantine/dates';
 import { TaskTypeDropdown } from "../components/DropdownData/TaskTypeDropdown";
 import { ProjectTaskStatusesDdData } from "../components/DropdownData/ProjectTaskStatusesDdData";
 import { ProjectDropdownData } from "../components/DropdownData/ProjectDropdownData";
@@ -25,6 +27,7 @@ import { TableTickets } from "../components/TicketView/TableTickets";
 import { TaskDialog } from "../components/TicketView/TaskDialog";
 import NotFoundPage from "./NotFoundPage";
 import { useOrgLocalStorage } from "../hooks/useOrgLocalStorage";
+import { TimeOnlyInput, type TimeOnly } from "../hooks/useTimeOnly";
 
 const TaskPage = () => {
     const params = useParams<{ id?: string }>();
@@ -56,6 +59,9 @@ const TaskPage = () => {
     const [originalTitle, setOriginalTitle] = useState('');
     const [isEditingDescription, setIsEditingDescription] = useState(false);
     const [originalDescription, setOriginalDescription] = useState('');
+    const [startDate, setStartDate] = useState<Date | null>(null);
+    const [dueDate, setDueDate] = useState<Date | null>(null);
+    const [estimatedTime, setEstimatedTime] = useState<TimeOnly | null>(null);
     const taskTypes = taskTypesConst;
     const editor = useEditor({
         extensions: [
@@ -155,16 +161,17 @@ const TaskPage = () => {
 
 
     useEffect(() => {
+        if (!taskDetails) return;
         const fetchTasks = async () => {
             try {
-                const data = await getAllTasksByOrganization(taskDetails?.organizationId!);
+                const data = await getAllTasksByOrganization(taskDetails!.organizationId!);
                 setTasks(data.data);
             } catch (error) {
                 console.error('Error fetching tasks:', error);
             }
         };
         fetchTasks();
-    }, []);
+    }, [taskDetails]);
 
     useEffect(() => {
         if (taskDetails) {
@@ -273,7 +280,33 @@ const TaskPage = () => {
         }
     }
 
+    const handleStartDateChange = (date: Date | null) => {
+        setStartDate(date);
+        if (date && taskDetails) {
+            taskDetails.startDate = date;
+            console.log('Start date changed:', taskDetails.startDate.toISOString().split("T")[0]);
+            handleEditTask();
+        }
+    }
+
+    const handleDueDateChange = (date: Date | null) => {
+        setDueDate(date);
+        if (date && taskDetails) {
+            taskDetails.dueDate = date;
+            handleEditTask();
+        }
+    }
+
+    const handleEstimatedTimeChange = (time: TimeOnly | null) => {
+        setEstimatedTime(time);
+        if (time && taskDetails) {
+            taskDetails.estimate = time;
+            handleEditTask();
+        }
+    }
+
     const handleEditTask = async () => {
+        console.log('Editing task:', taskDetails);
         const taskData = {
             id: taskDetails!.id,
             title: taskDetails?.title || taskTitle || null,
@@ -285,6 +318,9 @@ const TaskPage = () => {
             parentId: taskDetails?.parentId || selectedParentTaskId || null,
             statusId: taskDetails?.statusId || taskStatus?.statusId || null,
             statusName: taskDetails?.statusName || taskStatus?.statusName || null,
+            startDate: startDate ? startDate.toISOString().split("T")[0]: null,
+            dueDate: dueDate ? dueDate.toISOString().split("T")[0] : null,
+            estimate: estimatedTime?.toString() ?? null,
         };
 
         try {
@@ -298,14 +334,13 @@ const TaskPage = () => {
         return <NotFoundPage />;
     }
 
-
     return (
         <Container fluid>
             {loading ? (
                 <LoaderMain />
             ) : error ? (
                 <Text c="red">{error}</Text>
-            ) : taskDetails && taskType && taskStatus && reporterId ? (
+            ) : taskDetails && taskType && taskStatus ? (
                 <Container fluid>
                     <Flex
                         mih={50}
@@ -371,6 +406,25 @@ const TaskPage = () => {
                                     </>
                                 )}
                             </Fieldset>
+
+                            {taskDetails.childIssues ? (
+                                <Fieldset legend="Child Tasks" mb="md" style={{ width: '100%' }}>
+                                    <Paper withBorder shadow="xs" radius="md" p="md">
+                                        <TableTickets tasks={taskDetails.childIssues ?? []} accounts={accounts} onTaskClick={openTaskDialog} />
+                                    </Paper></Fieldset>
+                            ) : (null)}
+                            {selectedTask && (
+                                <TaskDialog
+                                    task={selectedTask}
+                                    opened={dialogOpen}
+                                    onClose={closeTaskDialog}
+                                    organizationId={taskDetails.organizationId!}
+                                />
+                            )}
+
+                            <Fieldset legend="Additional Info" mb="md" style={{ width: '100%' }}>
+                                {taskDetails && <TaskAdditionalInfo taskId={taskDetails.id} organizationId={taskDetails.organizationId!} />}
+                            </Fieldset>
                         </Flex>
                         <Flex
                             justify="center"
@@ -428,27 +482,36 @@ const TaskPage = () => {
                                     onAccountChange={handleAssigneeChange}
                                 />
                             </Fieldset>
-                        </Flex>
-
-                        <Container fluid w={"93%"} mt="md">
-                            {taskDetails.childIssues ? (
-                                <Paper withBorder shadow="xs" radius="md" p="md">
-                                    <TableTickets tasks={taskDetails.childIssues ?? []} accounts={accounts} onTaskClick={openTaskDialog} />
-                                </Paper>
-                            ) : (null)}
-                            {selectedTask && (
-                                <TaskDialog
-                                    task={selectedTask}
-                                    opened={dialogOpen}
-                                    onClose={closeTaskDialog}
-                                    organizationId={taskDetails.organizationId!}
+                            <Fieldset legend="Estimated Time" style={{ width: '100%' }}>
+                                <TimeOnlyInput
+                                    value={estimatedTime ?? ''}
+                                    onChange={handleEstimatedTimeChange}
                                 />
-                            )}
-                        </Container>
-
-                        <Container fluid w={"93%"} mt="md">
-                            {taskDetails && <TaskAdditionalInfo taskId={taskDetails.id} organizationId={taskDetails.organizationId!}/>}
-                        </Container>
+                            </Fieldset>
+                            <Fieldset legend="StartDate" style={{ width: '100%' }}>
+                                <div>{taskDetails!.startDate?.toString()}</div>
+                                <Input
+                                    type="date"
+                                    placeholder={startDate ? startDate.toISOString().split("T")[0] : "Select Start Date"}
+                                    style={{ width: '100%' }}
+                                    onChange={(event) => {
+                                        handleStartDateChange(event.currentTarget.value ? new Date(event.currentTarget.value) : null);
+                                    }}
+                                />
+                                <DatePicker defaultValue={dayjs().format('YYYY-MM-DD')} />;
+                            </Fieldset>
+                            <Fieldset legend="Due Date" style={{ width: '100%' }}>
+                                <Input
+                                    type="date"
+                                    placeholder="Select Due Date"
+                                    style={{ width: '100%' }}
+                                    onChange={(event) => {
+                                        const value = event.currentTarget.value;
+                                        handleDueDateChange(value ? new Date(value) : null);
+                                    }}
+                                />
+                            </Fieldset>
+                        </Flex>
                     </Flex>
                 </Container>
             ) : null}
