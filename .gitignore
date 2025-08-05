@@ -25,6 +25,7 @@ mono_crash.*
 Debug/net9.0/
 certWindows/
 cert/
+obj/
 
 [Dd]ebug/x64/
 [Dd]ebugPublic/x64/
