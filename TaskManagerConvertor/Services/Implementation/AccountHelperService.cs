@@ -57,13 +57,21 @@ public class AccountHelperService : IAccountHelperService
                 accountsToGet = [(Guid)ticket.AssigneeId!, (Guid)ticket.ReporterId!];
             }
         }
+        else if (type is ProjectItemDto project)
+        {
+            if (project.Tickets is not null)
+            {
+                accountsToGet = project.Tickets.SelectMany(s => new Guid?[] { s.AssigneeId, s.ReporterId })
+                                                .Where(id => id.HasValue)
+                                                .Select(id => id!.Value)
+                                                .Distinct()
+                                                .ToList();
+            }
+            accountsToGet.Add(project.OwnerId);
+        }
         else if (type is OrganizationDto organization)
         {
             accountsToGet = organization.AccountIds;
-        }
-        else if (type is ProjectItemDto project)
-        {
-            accountsToGet = [project.OwnerId];
         }
         else if (type is List<TicketCommentDto> ticketCommentDto)
         {
@@ -123,6 +131,14 @@ public class AccountHelperService : IAccountHelperService
             }
             else if (type is ProjectItemDto projectInner)
             {
+                if (projectInner.Tickets is not null)
+                {
+                    foreach (var ticket in projectInner.Tickets)
+                    {
+                        ticket.Assignee = accounts.Data?.FirstOrDefault(a => a.Id == ticket.AssigneeId);
+                        ticket.Reporter = accounts.Data?.FirstOrDefault(a => a.Id == ticket.ReporterId);
+                    }
+                }
                 projectInner.Owner = accounts.Data!.First(o => o.Id == projectInner.OwnerId);
             }
             else if (type is List<TicketCommentDto> ticketCommentDtoInner)

@@ -96,7 +96,7 @@ const CreateProject = ({organizationId, opened, onClose, onSuccess}: CreateProje
                 </Fieldset>
                 <Fieldset legend="Project Owner" mb="md">
                     <AccountDropdown 
-                        accounts={accounts}
+                        organizationId={organizationId}
                         selectedAccount={selectedAccount}
                         placeholder="Select Project Owner"
                         onAccountChange={(account) => setSelectedAccount(account)}

@@ -90,7 +90,7 @@ public class ProjectService : IProjectService
             };
 
         if (projectToEdit.Title != newProject.Title && newProject.Title != null)
-                projectToEdit.Title = newProject.Title;
+            projectToEdit.Title = newProject.Title;
         if (projectToEdit.Description != newProject.Description && newProject.Description != null)
             projectToEdit.Description = newProject.Description;
         if (projectToEdit.OwnerId != newProject.OwnerId && newProject.OwnerId != Guid.Empty)
@@ -116,7 +116,18 @@ public class ProjectService : IProjectService
                                                                      .Include(s => s.TicketStatus)
                                                                      .ToListAsync(cancellationToken);
 
-        var newStatuses = project.Statuses;
+        var newStatuses = project.Statuses?
+            .Where(s => s != null)
+            .ToList() ?? new List<TicketStatusDto>();
+
+        if (newStatuses == null || !newStatuses.Any())
+        {
+            return new ServiceResult<ProjectItemDto>
+            {
+                IsSuccess = false,
+                ErrorMessage = LogPhrases.ServiceResult.Error.STATUSES_EMPTY
+            };
+        }
         var statusesInDb = await _context.TicketStatuses.ToListAsync(cancellationToken);
 
         foreach (var newStatus in newStatuses)
@@ -165,6 +176,21 @@ public class ProjectService : IProjectService
         {
             if (!newStatus.StatusId.HasValue) continue;
 
+            if (newStatus == null)
+            {
+                _logger.LogError("Found null status in newStatuses — this should not happen!");
+                continue;
+            }
+
+            _logger.LogDebug("Processing status: {@newStatus}", newStatus);
+
+            var checkOrder = currentMappings.Find(w => w.Order == newStatus.Order);
+
+            if (checkOrder != null)
+            {
+                _context.ProjectTaskStatusMapping.Remove(checkOrder);
+            }
+
             var exists = currentMappings.FirstOrDefault(s => s.StatusId == newStatus.StatusId);
             if (exists == null)
             {
@@ -187,12 +213,6 @@ public class ProjectService : IProjectService
                 _context.ProjectTaskStatusMapping.Update(exists);
             }
 
-            var checkOrder = currentMappings.Find(w => w.Order == newStatus.Order);
-
-            if (checkOrder != null)
-            {
-                _context.ProjectTaskStatusMapping.Remove(checkOrder);
-            }
         }
 
         await _context.SaveChangesAsync(cancellationToken);
@@ -225,6 +245,8 @@ public class ProjectService : IProjectService
             StatusId = statusToAdd.Data.Id,
             Order = status.Status.Order
         });
+
+        await _context.SaveChangesAsync(cancellationToken);
 
         var result = await _context.ProjectTaskStatusMapping
             .Include(s => s.TicketStatus.TicketStatusType)

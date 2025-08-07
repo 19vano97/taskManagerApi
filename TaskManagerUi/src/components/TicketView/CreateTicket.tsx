@@ -96,9 +96,11 @@ export const CreateTicket = ({ opened, onClose, organizationId, projectId, onSuc
         fetchOrganizationAccounts();
     }, []);
 
-    if (!selectedProjectId) {
-        setSelectedProjectId(projectId);
-    }
+    useEffect(() => {
+        if (!selectedProjectId && projectId) {
+            setSelectedProjectId(projectId);
+        }
+    }, [selectedProjectId, projectId]);
 
     // if (!reporterId && auth.user?.profile.sub) {
     //     setReporterId(accounts.find(account => account.id === auth.user!.profile.sub) || null);
@@ -211,7 +213,7 @@ export const CreateTicket = ({ opened, onClose, organizationId, projectId, onSuc
                                 defaultValue={projects?.find(p => p.id == projectId)?.title}
                                 placeholder={
                                     selectedProjectId
-                                        ? projects?.find((p: Project) => p.id === selectedProjectId)?.title 
+                                        ? projects?.find((p: Project) => p.id === selectedProjectId)?.title
                                         : "Select project"
                                 }
                                 data={

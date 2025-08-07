@@ -28,7 +28,7 @@ const CreateOrganization = ({ opened, onClose, onSuccess }: CreateOrganizationPr
             name: title,
             description: description,
             abbreviation: abbreviation,
-            owner: auth.user?.profile.sub!
+            ownerId: auth.user?.profile.sub!
         };
 
         try {

@@ -17,10 +17,10 @@ export default defineConfig({
   ],
   server: {
     https: {
-      // key: readFileSync(path.resolve(__dirname, 'cert/localhost-key.pem')),
-      // cert: readFileSync(path.resolve(__dirname, 'cert/localhost.pem')),
-      key: readFileSync(path.resolve(__dirname, 'certWindows/localhost-key.pem')),
-      cert: readFileSync(path.resolve(__dirname, 'certWindows/localhost.pem')),
+      key: readFileSync(path.resolve(__dirname, 'cert/localhost-key.pem')),
+      cert: readFileSync(path.resolve(__dirname, 'cert/localhost.pem')),
+      // key: readFileSync(path.resolve(__dirname, 'certWindows/localhost-key.pem')),
+      // cert: readFileSync(path.resolve(__dirname, 'certWindows/localhost.pem')),
     },
     port: 5173,
   },

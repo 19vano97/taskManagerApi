@@ -16,9 +16,10 @@ import { useEffect, useState } from "react";
 import { useIdentityServerApi } from "../../api/IdentityServerApi";
 import { useNavigate } from "react-router-dom";
 import type { AccountDetails, Organization } from "../../components/Types";
+import { useAuth } from "react-oidc-context";
 
 const OrganizationAllPage = () => {
-  const auth = useSafeAuth();
+  const auth = useAuth();
   const { getAllOrganizationProjects: getOrganizationProjects } = useOrganizationApi();
   const [orgOptions, setOrgOptions] = useState<Organization[]>([]);
   const [accounts, setAccounts] = useState<AccountDetails[]>([]);
@@ -48,7 +49,7 @@ const OrganizationAllPage = () => {
     `${firstName?.[0] ?? ""}${lastName?.[0] ?? ""}`.toUpperCase();
 
   const tableRows = orgOptions.map((org) => {
-    const owner = accounts.find((acc) => acc.id === org.owner);
+    const owner = accounts.find((acc) => acc.id === org.ownerId);
     const hasOwner = !!owner;
 
     return (

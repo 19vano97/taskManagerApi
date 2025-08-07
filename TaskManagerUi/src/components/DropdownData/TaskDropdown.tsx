@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Select, Fieldset } from '@mantine/core';
+import { Select } from '@mantine/core';
 import type { Task } from '../Types';
 import { useTaskApi } from '../../api/taskManagerApi';
 
@@ -9,24 +9,32 @@ type TaskDropdownProps = {
     onTaskChange: (taskId: string | null) => void;
 };
 
-export const TaskDropdown = ({ selectedTaskId, organizationId, onTaskChange }: TaskDropdownProps) => {
+export const TaskDropdown = ({
+    selectedTaskId: selectedTask,
+    organizationId,
+    onTaskChange,
+}: TaskDropdownProps) => {
     const { getAllTasksByOrganization } = useTaskApi();
-    const [tasks, setTasks] = useState<Task[] | null>(null);
+    const [tasks, setTasks] = useState<Task[]>([]);
+    const [loading, setLoading] = useState(false);
 
     const fetchTasks = async () => {
+        setLoading(true);
         try {
-            const data = await getAllTasksByOrganization(organizationId!);
-            setTasks(data.data);
+            const data = await getAllTasksByOrganization(organizationId);
+            setTasks(data.data ?? []);
         } catch (error) {
             console.error('Error fetching tasks:', error);
+        } finally {
+            setLoading(false);
         }
     };
 
-    const handleOnClick = () => {
-        if (!tasks || tasks.length === 0) {
+    useEffect(() => {
+        if (organizationId) {
             fetchTasks();
         }
-    }
+    }, [organizationId]);
 
     const handleTaskChange = (value: string | null) => {
         onTaskChange(value);
@@ -34,21 +42,15 @@ export const TaskDropdown = ({ selectedTaskId, organizationId, onTaskChange }: T
 
     return (
         <Select
-            placeholder={
-                selectedTaskId?.title || "Select parent task"
-            }
-            data={
-                Array.isArray(tasks)
-                    ? tasks.map((task) => ({
-                        value: task.id,
-                        label: task.title,
-                    }))
-                    : []
-            }
-            onClick={handleOnClick}
-            value={selectedTaskId?.id}
+            placeholder={selectedTask?.title || 'Select parent task'}
+            data={tasks.map((task) => ({
+                value: task.id,
+                label: task.title,
+            }))}
+            value={selectedTask?.id ?? null}
             onChange={handleTaskChange}
             searchable
+            disabled={loading}
         />
     );
 };

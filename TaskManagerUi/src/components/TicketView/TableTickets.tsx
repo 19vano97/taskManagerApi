@@ -18,10 +18,7 @@ type TaskTableProps = {
 const getInitials = (firstName?: string, lastName?: string) =>
     `${firstName?.[0] ?? ''}${lastName?.[0] ?? ''}`.toUpperCase();
 
-const getAccount = (id: string | undefined, accounts: AccountDetails[]) =>
-    accounts.find((acc) => acc.id === id);
-
-export const TableTickets = ({ tasks, accounts, onTaskClick }: TaskTableProps) => {
+export const TableTickets = ({ tasks, onTaskClick }: TaskTableProps) => {
     const rows = tasks
         .filter((task) => task.statusName?.toLowerCase() !== 'done')
         .map((task) => {

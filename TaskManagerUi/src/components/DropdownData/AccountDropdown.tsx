@@ -1,61 +1,63 @@
-import React, { useEffect, useState } from 'react';
-import { Select, Fieldset } from '@mantine/core';
-import type { AccountDetails } from '../Types';
+import { useEffect, useState } from 'react';
+import { Select } from '@mantine/core';
 import { useOrganizationApi } from '../../api/taskManagerApi';
+import type { AccountDetails } from '../Types';
 
-type AccountDropdownProps = {
+type Props = {
   selectedAccount: AccountDetails | null;
   organizationId: string;
   placeholder: string;
   onAccountChange: (account: AccountDetails | null) => void;
 };
 
-export const AccountDropdown: React.FC<AccountDropdownProps> = ({ selectedAccount, organizationId, placeholder, onAccountChange }) => {
+export const AccountDropdown = ({
+  selectedAccount,
+  organizationId,
+  placeholder,
+  onAccountChange,
+}: Props) => {
   const { getOrganizationAccounts } = useOrganizationApi();
-  const [accountsLoading, setAccountsLoading] = useState<boolean>(false);
   const [accounts, setAccounts] = useState<AccountDetails[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const fetchOrganizationAccounts = async () => {
-    setAccountsLoading(true);
+    setLoading(true);
     try {
-      const data = await getOrganizationAccounts(organizationId!);
-      setAccounts(data.data.accounts || []);
-    } catch (error) {
-      console.error('Error fetching accounts:', error);
+      const data = await getOrganizationAccounts(organizationId);
+      setAccounts(data.data.accounts ?? []);
+    } catch (err) {
+      console.error("Error fetching accounts:", err);
     } finally {
-      setAccountsLoading(false);
+      setLoading(false);
     }
   };
 
+  // ✅ Optional auto-fetch on mount
   useEffect(() => {
-    if (organizationId && !accounts) {
-      fetchOrganizationAccounts();
-    }
-  }, []);
+    if (organizationId) fetchOrganizationAccounts();
+  }, [organizationId]);
 
   const handleOnClick = () => {
-    if (!accounts || accounts.length === 0) {
+    if (accounts.length === 0 && organizationId) {
       fetchOrganizationAccounts();
     }
-  }
-
-  const handleAccountChange = async (value: string | null) => {
-    const selected = accounts.find((account) => account.id === value) || null;
-    onAccountChange(selected);
   };
 
   return (
     <Select
-      onClick={handleOnClick}
       placeholder={placeholder}
-      data={accounts.map((account) => ({
-        value: account.id!,
-        label: account.firstName + " " + account.lastName,
+      onClick={handleOnClick}
+      data={accounts.map(a => ({
+        value: a.id!,
+        label: `${a.firstName} ${a.lastName}`,
       }))}
-      value={selectedAccount ? selectedAccount.id : null}
-      onChange={handleAccountChange}
+      value={selectedAccount?.id ?? null}
+      onChange={(value) => {
+        const account = accounts.find(a => a.id === value) || null;
+        onAccountChange(account);
+      }}
       searchable
-      style={{ width: '100%' }}
+      disabled={loading}
     />
   );
 };

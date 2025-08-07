@@ -114,8 +114,8 @@ namespace TaskManagerConvertor.Controllers.TaskManager
             var response = await _projectService.DeleteProjectAsync(Request.Headers, projectId, cancellationToken);
             if (response.IsSuccess)
             {
-                _logger.LogInformation(response.Data!.ToString());
-                return Ok(response.Data!);
+                _logger.LogInformation(response.Data?.ToString());
+                return Ok();
             }
 
             _logger.LogWarning(response.ErrorMessage);

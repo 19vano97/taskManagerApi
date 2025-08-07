@@ -71,7 +71,7 @@ export default function ProjectDashboard() {
             <Text c="dimmed">{project.description}</Text>
           </div>
           <Group>
-            <Button variant="outline" onClick={() => navigate('/organizations')}>Change Organization</Button>
+            <Button variant="outline" onClick={() => navigate('/me')}>Change Organization</Button>
             <Button variant="light" onClick={() => navigate(`/org/${project.organizationId}`)}>Back to Project List</Button>
           </Group>
         </Group>

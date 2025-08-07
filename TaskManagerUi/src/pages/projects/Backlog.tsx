@@ -19,7 +19,6 @@ const Backlog = () => {
     const [project, setProject] = useState<Project>();
     const [tasks, setTasks] = useState<Task[]>([])
     const [selectedTask, setSelectedTask] = useState<Task | null>(null);
-    const { getOrganizationAccounts } = useOrganizationApi();
     const [accounts, setAccounts] = useState<AccountDetails[]>([]);
     const [dialogOpen, setDialogOpen] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -45,8 +44,6 @@ const Backlog = () => {
         setLoading(true);
         try {
             const data = await getProjectWithTasksById(id!)
-            const orgAccounts = await getOrganizationAccounts(data.data.organizationId);
-            setAccounts(orgAccounts.data.accounts || []);
             setProject(data.data)
             setTasks(data.data.tickets || [])
         } catch (error) {
