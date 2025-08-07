@@ -196,6 +196,7 @@ const Kanban = () => {
             onClose={closeCreateTicketDialog}
             organizationId={project!.organizationId}
             onSuccess={handleTicketCreationSuccess}
+            projectId={id}
           />
         )}
       </Container>

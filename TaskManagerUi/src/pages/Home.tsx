@@ -69,7 +69,7 @@ const features = [
 const Home = () => {
   const navigate = useNavigate();
   const { colorScheme, setColorScheme } = useMantineColorScheme();
-    const isDark = colorScheme === 'dark';
+  const isDark = colorScheme === 'dark';
 
   return (
     <>
@@ -77,7 +77,6 @@ const Home = () => {
       <header
         style={{
           padding: rem(16),
-
           backgroundColor: isDark ? "dark" : "white",
           position: "sticky",
           top: 0,
@@ -96,9 +95,9 @@ const Home = () => {
             <Image src="/logo.svg" alt="Logo" w={28} h={28} />
             <Text
               size="lg"
+              c={isDark ? "white" : "black"}
               style={{
                 fontFamily: 'Segoe UI, sans-serif',
-                color: '#111',
                 fontWeight: 600,
               }}
             >

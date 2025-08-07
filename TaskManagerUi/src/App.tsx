@@ -9,7 +9,7 @@ import { ChatAi } from './pages/ai/ChatAi'
 import { PrivateRoute } from './auth/PrivateRoute'
 import Callback from './auth/Callback'
 
-const HomeAuthorized = lazy(() => import('./pages/HomeAuthorized'))
+const HomeAuthorized = lazy(() => import('./pages/organizations/HomeAuthorized'))
 const Home = lazy(() => import('./pages/Home'))
 const Kanban = lazy(() => import('./pages/projects/Kanban'))
 const Profile = lazy(() => import('./pages/Profile'))

@@ -13,12 +13,12 @@ import {
 } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useOrganizationApi } from '../api/taskManagerApi';
-import { useSafeAuth } from '../hooks/useSafeAuth';
+import { useOrganizationApi } from '../../api/taskManagerApi';
+import { useSafeAuth } from '../../hooks/useSafeAuth';
 import { Plus } from 'lucide-react';
-import type { Organization } from '../components/Types';
-import CreateOrganization from '../components/Organization/CreateOrgamization';
-import SuccessAlert from '../components/alerts/SuccessAlert';
+import type { Organization } from '../../components/Types';
+import CreateOrganization from '../../components/Organization/CreateOrgamization';
+import SuccessAlert from '../../components/alerts/SuccessAlert';
 
 const HomeAuthorized = () => {
     const { getAllOrganizationProjects } = useOrganizationApi();
