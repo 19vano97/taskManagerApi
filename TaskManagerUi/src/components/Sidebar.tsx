@@ -5,9 +5,10 @@ import {
 import classes from '../styles/Sidebar.module.css';
 import { useSafeAuth } from '../hooks/useSafeAuth';
 import { useMemo } from 'react';
+import { useAuth } from 'react-oidc-context';
 
 export function Sidebar() {
-  const auth = useSafeAuth();
+  const auth = useAuth();
   const inRouter = useInRouterContext();
   const location = useLocation();
   const routeParams = useParams();
@@ -56,8 +57,8 @@ export function Sidebar() {
     </NavLink>
   ));
 
-  if (!inRouter) return null;
-  if (!auth.isAuthenticated) return null;
+  if (!inRouter) return;
+  if (!auth.isAuthenticated) return;
 
   return (
     <nav className={classes.navbar}>

@@ -177,5 +177,77 @@ namespace TaskManagerConvertor.Controllers.TaskManager
 
             return BadRequest();
         }
+
+        [HttpPost("{ticketId}/comment/new")]
+        public async Task<ActionResult> AddNewComment(Guid ticketId, TicketCommentDto comment, CancellationToken cancellationToken)
+        {
+            _logger.LogInformation("AddNewComment called with Id: {TaskId}", comment.TicketId);
+
+            var response = await _ticketService.PostNewComment(Request.Headers, ticketId, comment, cancellationToken);
+
+            if (response.IsSuccess)
+            {
+                _logger.LogInformation(response.Data!.ToString());
+                return Ok(response.Data!);
+            }
+
+            _logger.LogWarning(response.ErrorMessage);
+
+            return BadRequest();
+        }
+
+        [HttpPost("{ticketId}/comment/{commentId}")]
+        public async Task<ActionResult> EditComment(Guid ticketId, Guid commentId, TicketCommentDto comment, CancellationToken cancellationToken)
+        {
+            _logger.LogInformation("EditComment called with Id: {TaskId}", ticketId);
+
+            var response = await _ticketService.EditComment(Request.Headers, ticketId, commentId, comment, cancellationToken);
+
+            if (response.IsSuccess)
+            {
+                _logger.LogInformation(response.Data!.ToString());
+                return Ok(response.Data!);
+            }
+
+            _logger.LogWarning(response.ErrorMessage);
+
+            return BadRequest();
+        }
+
+        [HttpDelete("{ticketId}/comment/{commentId}")]
+        public async Task<ActionResult> DeteleComment(Guid ticketId, Guid commentId, CancellationToken cancellationToken)
+        {
+            _logger.LogInformation("DeteleComment called with Id: {TaskId}", ticketId);
+
+            var response = await _ticketService.DeleteComment(Request.Headers, ticketId, commentId, cancellationToken);
+
+            if (response.IsSuccess)
+            {
+                _logger.LogInformation(response.Data!.ToString());
+                return Ok(response.Data!);
+            }
+
+            _logger.LogWarning(response.ErrorMessage);
+
+            return BadRequest();
+        }
+
+        [HttpGet("{ticketId}/comment/all")]
+        public async Task<ActionResult> GetAllComments(Guid ticketId, CancellationToken cancellationToken)
+        {
+            _logger.LogInformation("GetAllComments called with Id: {TaskId}", ticketId);
+
+            var response = await _ticketService.GetCommentsByTicketId(Request.Headers, ticketId, cancellationToken);
+
+            if (response.IsSuccess)
+            {
+                _logger.LogInformation(response.Data!.ToString());
+                return Ok(response.Data!);
+            }
+
+            _logger.LogWarning(response.ErrorMessage);
+
+            return BadRequest();
+        }
     }
 }

@@ -23,11 +23,12 @@ public class TicketDto
     public Guid? ProjectId { get; set; }
     public Guid? ParentId { get; set; }
     public Guid? OrganizationId { get; set; }
-    public DateOnly? StartDate { get; set; }
-    public DateOnly? DueDate { get; set; }
+    public DateTime? StartDate { get; set; }
+    public DateTime? DueDate { get; set; }
     public TimeOnly? SpentTime { get; set; }
     public TimeOnly? Estimate { get; set; }
     public List<TicketDto>? ChildIssues { get; set; }
+    public TicketDto? ParentTicket { get; set; }
     public DateTime? CreateDate { get; set; }
     public DateTime? ModifyDate { get; set; }
     public AccountDto? Reporter { get; set; }

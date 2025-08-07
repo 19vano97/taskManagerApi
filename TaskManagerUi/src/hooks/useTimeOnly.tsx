@@ -21,6 +21,7 @@ export function normalizeTimeOnlyInput(value: string): TimeOnly | null {
 type TimeOnlyInputProps = Omit<TextInputProps, 'value' | 'onChange'> & {
   value: TimeOnly | '';
   onChange: (value: TimeOnly | '') => void;
+  label: string;
 };
 
 /**
@@ -29,7 +30,7 @@ type TimeOnlyInputProps = Omit<TextInputProps, 'value' | 'onChange'> & {
 export function TimeOnlyInput({
   value,
   onChange,
-  label = 'Estimated Time (HH:mm)',
+  label,
   ...props
 }: TimeOnlyInputProps) {
   const [input, setInput] = useState<string>(value ?? '');
@@ -52,13 +53,13 @@ export function TimeOnlyInput({
   return (
     <Container fluid>
       <TextInput
-      label={label}
-      placeholder="e.g. 01:30"
-      value={input}
-      onChange={handleChange}
-      error={error}
-      {...props}
-    />
+        label={label}
+        placeholder="e.g. 01:30"
+        value={input}
+        onChange={handleChange}
+        error={error}
+        {...props}
+      />
     </Container>
   );
 }

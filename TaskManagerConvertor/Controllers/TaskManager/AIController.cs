@@ -80,8 +80,7 @@ namespace TaskManagerConvertor.Controllers.TaskManager
             var response = await _aIService.DeleteThreadAsync(Request.Headers, threadId, cancellationToken);
             if (response.IsSuccess)
             {
-                _logger.LogInformation(response.Data!.ToString());
-                return Ok(response.Data!);
+                return Ok();
             }
 
             _logger.LogWarning(response.ErrorMessage);

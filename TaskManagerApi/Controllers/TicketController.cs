@@ -44,11 +44,10 @@ namespace TaskManagerApi.Controllers
         {
             _logger.LogInformation("GetTasksInOrganizationAsync called with organizationId: {OrganizationId}", organizationId);
 
-            if (!Guid.TryParse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value, out Guid accountId)
-                || !await _accountVerification.VerifyAccountInOrganization(accountId, organizationId, cancellationToken))
+            var verification = await VerifyAccountInOrganization(cancellationToken);
+            if (!verification.IsVerified)
             {
                 _logger.LogWarning("Account verification failed for organizationId: {OrganizationId}", organizationId);
-                return BadRequest();
             }
 
             var result = await _ticketItemService.GetTasksByOrganizationAsync(organizationId, cancellationToken);
@@ -62,6 +61,16 @@ namespace TaskManagerApi.Controllers
                 }
 
                 return BadRequest(result.ErrorMessage);
+            }
+
+            if (!verification.IsVerified)
+            {
+                var verification2 = await VerifyAccountInOrganization(result.Data!.Select(t => t.OrganizationId).First()!.Value, cancellationToken);
+                if (!verification2.IsVerified)
+                {
+                    _logger.LogWarning("Account verification failed for organizationId: {OrganizationId}", organizationId);
+                    return BadRequest();
+                }
             }
 
             _logger.LogInformation($"{LogPhrases.PositiveActions.TASKS_SHOWN_LOG}", result.Data.Select(s => s.Id));
@@ -79,7 +88,6 @@ namespace TaskManagerApi.Controllers
             if (!verification.IsVerified)
             {
                 _logger.LogWarning("Account verification failed for projectId: {ProjectId}", projectId);
-                return BadRequest();
             }
 
             var res = await _ticketItemService.GetTasksByProjectAsync(projectId, cancellationToken);
@@ -95,6 +103,16 @@ namespace TaskManagerApi.Controllers
                 return BadRequest(res.ErrorMessage);
             }
 
+            if (!verification.IsVerified)
+            {
+                var verification2 = await VerifyAccountInOrganization(res.Data!.Select(t => t.OrganizationId).First()!.Value, cancellationToken);
+                if (!verification2.IsVerified)
+                {
+                    _logger.LogWarning("Account verification failed for projectId: {ProjectId}", projectId);
+                    return BadRequest();
+                }
+            }
+
             return Ok(res.Data);
         }
 
@@ -107,7 +125,6 @@ namespace TaskManagerApi.Controllers
             if (!verification.IsVerified)
             {
                 _logger.LogWarning("Account verification failed for taskId: {TaskId}", Id);
-                return BadRequest();
             }
 
             var task = await _ticketItemService.GetTaskByIdAsync(Id, cancellationToken);
@@ -121,6 +138,16 @@ namespace TaskManagerApi.Controllers
                 }
 
                 return BadRequest(task.ErrorMessage);
+            }
+
+            if (!verification.IsVerified)
+            {
+                var verification2 = await VerifyAccountInOrganization((Guid)task.Data!.OrganizationId!, cancellationToken);
+                if (!verification2.IsVerified)
+                {
+                    _logger.LogWarning("Account verification failed for taskId: {TaskId}", Id);
+                    return BadRequest();
+                }
             }
 
             return Ok(task.Data);
@@ -242,6 +269,102 @@ namespace TaskManagerApi.Controllers
             return Ok(res.Data);
         }
 
+        [HttpPost("{ticketId}/comment/new")]
+        public async Task<ActionResult> AddNewComment(Guid ticketId, TicketCommentDto comment, CancellationToken cancellationToken)
+        {
+            _logger.LogInformation("AddNewComment called with Id: {TaskId}", comment.TicketId);
+
+            var verification = await VerifyAccountInOrganization(cancellationToken);
+            if (!verification.IsVerified)
+            {
+                _logger.LogWarning("Account verification failed for AddNewComment, taskId: {TaskId}", comment.TicketId);
+                return BadRequest();
+            }
+
+            var addComment = await _ticketItemService.PostNewComment(comment, cancellationToken);
+
+            if (!addComment.IsSuccess)
+            {
+                _logger.LogWarning("Failed to add comment. taskId: {TaskId}, Error: {Error}", ticketId, addComment.ErrorMessage);
+
+                return BadRequest(addComment.ErrorMessage);
+            }
+
+            return Ok();
+        }
+
+        [HttpPost("{ticketId}/comment/{commentId}")]
+        public async Task<ActionResult> EditComment(Guid ticketId, Guid commentId, TicketCommentDto comment, CancellationToken cancellationToken)
+        {
+            _logger.LogInformation("EditComment called with Id: {TaskId}", ticketId);
+
+            var verification = await VerifyAccountInOrganization(cancellationToken);
+            if (!verification.IsVerified || ticketId != comment.TicketId || commentId != comment.Id)
+            {
+                _logger.LogWarning("Account verification failed for EditComment, taskId: {TaskId}", ticketId);
+                return BadRequest();
+            }
+
+            var addComment = await _ticketItemService.EditComment(comment, cancellationToken);
+
+            if (!addComment.IsSuccess)
+            {
+                _logger.LogWarning("Failed to edit comment. taskId: {TaskId}, Error: {Error}", ticketId, addComment.ErrorMessage);
+
+                return BadRequest(addComment.ErrorMessage);
+            }
+
+            return Ok();
+        }
+
+        [HttpDelete("{ticketId}/comment/{commentId}")]
+        public async Task<ActionResult> DeteleComment(Guid ticketId, Guid commentId, CancellationToken cancellationToken)
+        {
+            _logger.LogInformation("DeteleComment called with Id: {TaskId}", ticketId);
+
+            var verification = await VerifyAccountInOrganization(cancellationToken);
+            if (!verification.IsVerified)
+            {
+                _logger.LogWarning("Account verification failed for EditComment, taskId: {TaskId}", ticketId);
+                return BadRequest();
+            }
+
+            var addComment = await _ticketItemService.DeleteComment(commentId, cancellationToken);
+
+            if (!addComment.IsSuccess)
+            {
+                _logger.LogWarning("Failed to delete comment. taskId: {TaskId}, Error: {Error}", ticketId, addComment.ErrorMessage);
+
+                return BadRequest(addComment.ErrorMessage);
+            }
+
+            return Ok();
+        }
+
+        [HttpGet("{ticketId}/comment/all")]
+        public async Task<ActionResult> GetAllComments(Guid ticketId, CancellationToken cancellationToken)
+        {
+            _logger.LogInformation("GetAllComments called with Id: {TaskId}", ticketId);
+
+            var verification = await VerifyAccountInOrganization(cancellationToken);
+            if (!verification.IsVerified)
+            {
+                _logger.LogWarning("Account verification failed for GetAllComments, taskId: {TaskId}", ticketId);
+                return BadRequest();
+            }
+
+            var getComments = await _ticketItemService.GetCommentsByTicketId(ticketId, cancellationToken);
+
+            if (!getComments.IsSuccess)
+            {
+                _logger.LogWarning("Failed to get comments. taskId: {TaskId}, Error: {Error}", ticketId, getComments.ErrorMessage);
+
+                return BadRequest(getComments.ErrorMessage);
+            }
+
+            return Ok(getComments.Data);
+        }
+
         [HttpDelete("{Id}/delete")]
         public async Task<ActionResult> DeleteTaskByIdAsync(Guid Id, CancellationToken cancellationToken)
         {
@@ -277,6 +400,30 @@ namespace TaskManagerApi.Controllers
             if (!this.Request.Headers.TryGetValue("organizationId", out var organizationIdString)
                || !Guid.TryParse(organizationIdString, out Guid organizationId)
                || !Guid.TryParse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value, out Guid accountId)
+               || !await _accountVerification.VerifyAccountInOrganization(accountId, organizationId, cancellationToken))
+            {
+                _logger.LogWarning("Account verification failed in VerifyAccountInOrganization");
+                return new VerificationOrganizationAccountDto
+                {
+                    IsVerified = false,
+                    OrganizationId = Guid.Empty,
+                    AccountId = Guid.Empty
+                };
+            }
+
+            return new VerificationOrganizationAccountDto
+            {
+                IsVerified = true,
+                OrganizationId = organizationId,
+                AccountId = accountId
+            };
+        }
+        
+        private async Task<VerificationOrganizationAccountDto> VerifyAccountInOrganization(Guid organizationId, CancellationToken cancellationToken)
+        {
+            _logger.LogInformation("VerifyAccountInOrganization called");
+
+            if (!Guid.TryParse(User.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID)!.Value, out Guid accountId)
                || !await _accountVerification.VerifyAccountInOrganization(accountId, organizationId, cancellationToken))
             {
                 _logger.LogWarning("Account verification failed in VerifyAccountInOrganization");

@@ -7,10 +7,12 @@ import { useDisclosure } from '@mantine/hooks'
 import { LoaderMain } from './LoaderMain'
 import { useSafeAuth } from '../hooks/useSafeAuth'
 import { useEffect } from 'react'
+import { useAuth } from 'react-oidc-context'
 
 export const MainLayout = () => {
+  const auth = useAuth();
   const [opened, { toggle }] = useDisclosure(false);
-  const auth = useSafeAuth();
+  
 
   useEffect(() => {
     if (!auth.isLoading && !auth.isAuthenticated) {

@@ -15,24 +15,25 @@ import {
 } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import { useSafeAuth } from '../hooks/useSafeAuth';
-import { useInRouterContext, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { ChevronDown, CircleUserRound, Moon, Sun } from 'lucide-react';
 import classes from '../styles/Header.module.css';
 import cx from 'clsx';
 import type { AccountDetails } from './Types';
 import { useIdentityServerApi } from '../api/IdentityServerApi';
+import { useAuth } from 'react-oidc-context';
 
 export function Header({ opened, toggle }: { opened: boolean; toggle: () => void }) {
-  const auth = useSafeAuth();
+  const auth = useAuth();
   const { getAccountDetails } = useIdentityServerApi();
   const [account, setAccount] = useState<AccountDetails>();
   const [userMenuOpened, setUserMenuOpened] = useState(false);
   const nav = useNavigate();
   const { colorScheme, setColorScheme } = useMantineColorScheme();
   const isDark = colorScheme === 'dark';
-  const inRouter = useInRouterContext();
+  // const inRouter = useInRouterContext();
 
-  if (!inRouter) return null;
+  // if (!inRouter) return null;
 
   const fetchAccount = async () => {
     try {

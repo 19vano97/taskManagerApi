@@ -47,6 +47,8 @@ export interface Task {
   typeName?: string;
   reporterId?: string;
   assigneeId?: string;
+  reporter?: AccountDetails;
+  assignee?: AccountDetails;
   projectId?: string;
   parentId?: string;
   startDate?: Date;
@@ -55,6 +57,7 @@ export interface Task {
   estimate?: string;
   organizationId?:string;
   childIssues?: Task[]
+  parentTicket?: Task;
   isCreatedByAi?: boolean;
   createDate?: string;
   modifyDate?: string;
@@ -76,20 +79,6 @@ export interface TaskStatus {
   statusName: string;
 }
 
-export interface TaskEdit {
-  id: string;
-  title: string | null;
-  description: string | null;
-  statusId: number | null;
-  statusName: string | null;
-  type: number | null;
-  typeName: string | null;
-  reporterId: string | null;
-  assigneeId: string | null;
-  projectId: string | null;
-  parentId: string | null;
-}
-
 export interface TaskHistory {
   id: string;
   taskId: string;
@@ -98,7 +87,17 @@ export interface TaskHistory {
   newState: string;
   author: string;
   createDate: Date;
-  modifyDate: string;
+  modifyDate: Date;
+}
+
+export interface TaskComment {
+  id: string,
+  ticketId: string,
+  accountId: string,
+  account?: AccountDetails,
+  message: string,
+  createDate?: Date
+  modifyDate?: Date
 }
 
 export interface CreateTask {

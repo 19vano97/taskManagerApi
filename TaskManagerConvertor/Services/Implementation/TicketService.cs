@@ -47,6 +47,8 @@ public class TicketService : ITicketService
                                                         new StringContent(JsonConvert.SerializeObject(ticketDto),
                                                         Encoding.UTF8,
                                                         "application/json"));
+        httpClient.Dispose();
+
         if (response.IsSuccessStatusCode)
         {
             _logger.LogInformation(await response.Content.ReadAsStringAsync());
@@ -95,6 +97,7 @@ public class TicketService : ITicketService
         }
 
         var response = await httpClient.GetAsync($"/api/task/{Id}/details", cancellationToken);
+        httpClient.Dispose();
 
         if (response.IsSuccessStatusCode)
         {
@@ -159,6 +162,8 @@ public class TicketService : ITicketService
                                                         , cancellationToken);
         }
 
+        httpClient.Dispose();
+
         if (response.IsSuccessStatusCode)
         {
             _logger.LogInformation(await response.Content.ReadAsStringAsync());
@@ -208,6 +213,7 @@ public class TicketService : ITicketService
                                                         new StringContent(JsonConvert.SerializeObject(newTasks),
                                                         Encoding.UTF8,
                                                         "application/json"));
+        httpClient.Dispose();
 
         if (response.IsSuccessStatusCode)
         {
@@ -258,6 +264,8 @@ public class TicketService : ITicketService
                                                   new StringContent(JsonConvert.SerializeObject(ticketDto),
                                                   Encoding.UTF8,
                                                   "application/json"));
+        httpClient.Dispose();
+
         if (response.IsSuccessStatusCode)
         {
             _logger.LogInformation(await response.Content.ReadAsStringAsync());
@@ -304,6 +312,7 @@ public class TicketService : ITicketService
         }
 
         var response = await httpClient.GetAsync($"/api/task/{ticketId}/details", cancellationToken);
+        httpClient.Dispose();
 
         if (response.IsSuccessStatusCode)
         {
@@ -353,11 +362,10 @@ public class TicketService : ITicketService
         }
 
         var response = await httpClient.DeleteAsync($"/api/task/{ticketId}/delete", cancellationToken);
-
+        httpClient.Dispose();
+        
         if (response.IsSuccessStatusCode)
         {
-            _logger.LogInformation(await response.Content.ReadAsStringAsync());
-
             return new RequestResult<bool>
             {
                 IsSuccess = true,
@@ -368,6 +376,161 @@ public class TicketService : ITicketService
         _logger.LogWarning("{0} {1}", response.StatusCode, response.ReasonPhrase);
 
         return new RequestResult<bool>
+        {
+            IsSuccess = false,
+            ErrorMessage = string.Format("{0} {1}", response.StatusCode, response.ReasonPhrase)
+        };
+    }
+
+    public async Task<RequestResult<bool>> PostNewComment(IHeaderDictionary headers, Guid ticketId, TicketCommentDto comment, CancellationToken cancellationToken)
+    {
+        var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
+        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers, ref httpClient);
+        if (!httpClientCheck.IsSuccess)
+        {
+            return new RequestResult<bool>
+            {
+                IsSuccess = false,
+                ErrorMessage = httpClientCheck.ErrorMessage
+            };
+        }
+
+        var response = await httpClient.PostAsync($"api/task/{ticketId}/comment/new",
+                                                        new StringContent(JsonConvert.SerializeObject(comment),
+                                                        Encoding.UTF8,
+                                                        "application/json"));
+        httpClient.Dispose();
+
+        if (response.IsSuccessStatusCode)
+        {
+            return new RequestResult<bool>
+            {
+                IsSuccess = true,
+                Data = true
+            };
+        }
+
+        _logger.LogWarning("{0} {1}", response.StatusCode, response.ReasonPhrase);
+
+        return new RequestResult<bool>
+        {
+            IsSuccess = false,
+            ErrorMessage = string.Format("{0} {1}", response.StatusCode, response.ReasonPhrase)
+        };
+    }
+
+    public async Task<RequestResult<bool>> EditComment(IHeaderDictionary headers, Guid ticketId, Guid commentId, TicketCommentDto comment, CancellationToken cancellationToken)
+    {
+        var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
+        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers, ref httpClient);
+        if (!httpClientCheck.IsSuccess)
+        {
+            return new RequestResult<bool>
+            {
+                IsSuccess = false,
+                ErrorMessage = httpClientCheck.ErrorMessage
+            };
+        }
+
+        var response = await httpClient.PostAsync($"api/task/{ticketId}/comment/{commentId}",
+                                                        new StringContent(JsonConvert.SerializeObject(comment),
+                                                        Encoding.UTF8,
+                                                        "application/json"));
+        httpClient.Dispose();
+
+        if (response.IsSuccessStatusCode)
+        {
+            return new RequestResult<bool>
+            {
+                IsSuccess = true,
+                Data = true
+            };
+        }
+
+        _logger.LogWarning("{0} {1}", response.StatusCode, response.ReasonPhrase);
+
+        return new RequestResult<bool>
+        {
+            IsSuccess = false,
+            ErrorMessage = string.Format("{0} {1}", response.StatusCode, response.ReasonPhrase)
+        };
+    }
+
+    public async Task<RequestResult<bool>> DeleteComment(IHeaderDictionary headers, Guid ticketId, Guid commentId, CancellationToken cancellationToken)
+    {
+        var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
+        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers, ref httpClient);
+        if (!httpClientCheck.IsSuccess)
+        {
+            return new RequestResult<bool>
+            {
+                IsSuccess = false,
+                ErrorMessage = httpClientCheck.ErrorMessage
+            };
+        }
+
+        var response = await httpClient.DeleteAsync($"api/task/{ticketId}/comment/{commentId}", cancellationToken);
+        httpClient.Dispose();
+
+        if (response.IsSuccessStatusCode)
+        {
+            return new RequestResult<bool>
+            {
+                IsSuccess = true,
+                Data = true
+            };
+        }
+
+        _logger.LogWarning("{0} {1}", response.StatusCode, response.ReasonPhrase);
+
+        return new RequestResult<bool>
+        {
+            IsSuccess = false,
+            ErrorMessage = string.Format("{0} {1}", response.StatusCode, response.ReasonPhrase)
+        };
+    }
+
+    public async Task<RequestResult<List<TicketCommentDto>>> GetCommentsByTicketId(IHeaderDictionary headers, Guid ticketId, CancellationToken cancellationToken)
+    {
+        var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
+        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers, ref httpClient);
+        if (!httpClientCheck.IsSuccess)
+        {
+            return new RequestResult<List<TicketCommentDto>>
+            {
+                IsSuccess = false,
+                ErrorMessage = httpClientCheck.ErrorMessage
+            };
+        }
+
+        var response = await httpClient.GetAsync($"/api/task/{ticketId}/comment/all", cancellationToken);
+        httpClient.Dispose();
+
+        if (response.IsSuccessStatusCode)
+        {
+            _logger.LogInformation(await response.Content.ReadAsStringAsync());
+            var data = await response.Content.ReadAsStringAsync(cancellationToken);
+            if (!_helperService.TryParseJsonToDto(data, out List<TicketCommentDto>? ticket))
+            {
+                return new RequestResult<List<TicketCommentDto>>
+                {
+                    IsSuccess = false,
+                    ErrorMessage = "Issue with parcing"
+                };
+            }
+
+            ticket = await _accountHelperService.AddAccountDetails(headers, ticket!, cancellationToken);
+
+            return new RequestResult<List<TicketCommentDto>>
+            {
+                IsSuccess = true,
+                Data = ticket
+            };
+        }
+
+        _logger.LogWarning("{0} {1}", response.StatusCode, response.ReasonPhrase);
+
+        return new RequestResult<List<TicketCommentDto>>
         {
             IsSuccess = false,
             ErrorMessage = string.Format("{0} {1}", response.StatusCode, response.ReasonPhrase)

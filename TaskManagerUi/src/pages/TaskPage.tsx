@@ -1,7 +1,6 @@
-import { Button, Card, Container, Fieldset, Flex, Input, Paper, Text } from "@mantine/core";
+import { Button, Card, Container, Divider, Fieldset, Flex, Input, Paper, Text } from "@mantine/core";
 import { Navigate, useParams, useNavigate } from "react-router-dom"
-import dayjs from 'dayjs';
-import { DatePicker } from '@mantine/dates';
+import { DatePicker, DatePickerInput } from '@mantine/dates';
 import { TaskTypeDropdown } from "../components/DropdownData/TaskTypeDropdown";
 import { ProjectTaskStatusesDdData } from "../components/DropdownData/ProjectTaskStatusesDdData";
 import { ProjectDropdownData } from "../components/DropdownData/ProjectDropdownData";
@@ -28,22 +27,22 @@ import { TaskDialog } from "../components/TicketView/TaskDialog";
 import NotFoundPage from "./NotFoundPage";
 import { useOrgLocalStorage } from "../hooks/useOrgLocalStorage";
 import { TimeOnlyInput, type TimeOnly } from "../hooks/useTimeOnly";
+import { Divide } from "lucide-react";
 
 const TaskPage = () => {
     const params = useParams<{ id?: string }>();
     const id = params?.id;
     const navigate = useNavigate();
-    const { getTaskById, getAllTasksByOrganization } = useTaskApi();
+    const { getTaskById } = useTaskApi();
     const { getOrganizationProjectsById } = useOrganizationApi();
     const { editTask } = useTaskApi();
-    const { getOrganizationAccounts } = useOrganizationApi();
     const [taskDetails, setTaskDetails] = useState<Task | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [taskTitle, setTaskTitle] = useState<string>('');
     const [taskDescription, setTaskDescription] = useState<string>('');
     const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
-    const [selectedParentTaskId, setSelectedParentTaskId] = useState<string | null>(null);
+    const [selectedParentTaskId, setSelectedParentTaskId] = useState<Task | null>(null);
     const [taskType, setTaskType] = useState<TaskType | null>(null);
     const [projects, setProjects] = useState<Project[] | null>(null);
     const [accounts, setAccounts] = useState<AccountDetails[]>([]);
@@ -53,7 +52,6 @@ const TaskPage = () => {
     const [selectedTask, setSelectedTask] = useState<Task | null>(null);
     const [dialogOpen, setDialogOpen] = useState(false);
     const [childTasks, setChildTasks] = useState<Task[] | null>(null);
-    const [tasks, setTasks] = useState<Task[] | null>(null);
     const [accountsLoading, setAccountsLoading] = useState(false);
     const [isEditingTitle, setIsEditingTitle] = useState(false);
     const [originalTitle, setOriginalTitle] = useState('');
@@ -62,6 +60,7 @@ const TaskPage = () => {
     const [startDate, setStartDate] = useState<Date | null>(null);
     const [dueDate, setDueDate] = useState<Date | null>(null);
     const [estimatedTime, setEstimatedTime] = useState<TimeOnly | null>(null);
+    const [spentTime, setSpentTime] = useState<TimeOnly | null>(null);
     const taskTypes = taskTypesConst;
     const editor = useEditor({
         extensions: [
@@ -136,44 +135,6 @@ const TaskPage = () => {
     }, [taskDetails?.organizationId]);
 
     useEffect(() => {
-        if (!taskDetails) return;
-
-        const fetchOrganizationAccounts = async () => {
-            setAccountsLoading(true);
-            try {
-                const data = await getOrganizationAccounts(taskDetails.organizationId!);
-                setAccounts(data.data.accounts || []);
-
-                const reporter = data.data.accounts?.find((a) => a.id !== undefined && a.id === taskDetails.reporterId) || null;
-                const assignee = data.data.accounts?.find((a) => a.id !== undefined && a.id === taskDetails.assigneeId) || null;
-
-                setReporterId(reporter);
-                setAssigneeId(assignee);
-            } catch (error) {
-                console.error('Error fetching accounts:', error);
-            } finally {
-                setAccountsLoading(false);
-            }
-        };
-
-        fetchOrganizationAccounts();
-    }, [taskDetails]);
-
-
-    useEffect(() => {
-        if (!taskDetails) return;
-        const fetchTasks = async () => {
-            try {
-                const data = await getAllTasksByOrganization(taskDetails!.organizationId!);
-                setTasks(data.data);
-            } catch (error) {
-                console.error('Error fetching tasks:', error);
-            }
-        };
-        fetchTasks();
-    }, [taskDetails]);
-
-    useEffect(() => {
         if (taskDetails) {
             setTaskTitle(taskDetails.title || '');
             setTaskDescription(taskDetails.description || '');
@@ -181,7 +142,13 @@ const TaskPage = () => {
             setOriginalDescription(taskDetails.description || '');
             setChildTasks(taskDetails.childIssues || null)
             setSelectedProjectId(taskDetails.projectId || null);
-            setSelectedParentTaskId(taskDetails.parentId || null);
+            setSelectedParentTaskId(taskDetails.parentTicket || null);
+            setReporterId(taskDetails.reporter || null);
+            setAssigneeId(taskDetails.assignee || null);
+            setStartDate(taskDetails.startDate ? new Date(taskDetails.startDate) : null);
+            setDueDate(taskDetails.dueDate ? new Date(taskDetails.dueDate) : null);
+            setEstimatedTime(taskDetails.estimate ? taskDetails.estimate : null);
+            setSpentTime(taskDetails.spentTime ? taskDetails.spentTime : null);
             setTaskType(taskTypes.find(type => type.id === taskDetails.typeId) || null);
         }
     }, [taskDetails]);
@@ -240,7 +207,7 @@ const TaskPage = () => {
     };
 
     const handleParentTaskChange = (taskId: string | null) => {
-        setSelectedParentTaskId(taskId);
+        setSelectedParentTaskId({id: taskId} as Task);
         if (taskId && taskDetails) {
             taskDetails!.parentId = taskId
             handleEditTask();
@@ -280,19 +247,18 @@ const TaskPage = () => {
         }
     }
 
-    const handleStartDateChange = (date: Date | null) => {
-        setStartDate(date);
+    const handleStartDateChange = (date: string | null) => {
+        setStartDate(new Date(date!));
         if (date && taskDetails) {
-            taskDetails.startDate = date;
-            console.log('Start date changed:', taskDetails.startDate.toISOString().split("T")[0]);
+            taskDetails.startDate = new Date(date!);
             handleEditTask();
         }
     }
 
-    const handleDueDateChange = (date: Date | null) => {
-        setDueDate(date);
+    const handleDueDateChange = (date: string | null) => {
+        setDueDate(new Date(date!));
         if (date && taskDetails) {
-            taskDetails.dueDate = date;
+            taskDetails.dueDate = new Date(date!);
             handleEditTask();
         }
     }
@@ -305,8 +271,16 @@ const TaskPage = () => {
         }
     }
 
+    const handleSpentTimeChange = (time: TimeOnly | null) => {
+        setSpentTime(time);
+        if (time && taskDetails) {
+            taskDetails.spentTime = time;
+            console.log('Spent time updated:', taskDetails.spentTime);
+            handleEditTask();
+        }
+    }
+
     const handleEditTask = async () => {
-        console.log('Editing task:', taskDetails);
         const taskData = {
             id: taskDetails!.id,
             title: taskDetails?.title || taskTitle || null,
@@ -318,9 +292,10 @@ const TaskPage = () => {
             parentId: taskDetails?.parentId || selectedParentTaskId || null,
             statusId: taskDetails?.statusId || taskStatus?.statusId || null,
             statusName: taskDetails?.statusName || taskStatus?.statusName || null,
-            startDate: startDate ? startDate.toISOString().split("T")[0]: null,
-            dueDate: dueDate ? dueDate.toISOString().split("T")[0] : null,
-            estimate: estimatedTime?.toString() ?? null,
+            startDate: taskDetails?.startDate ? taskDetails?.startDate: null,
+            dueDate: taskDetails?.dueDate ? taskDetails?.dueDate : null,
+            estimate: taskDetails?.estimate ?? null,
+            spentTime: taskDetails?.spentTime ?? null,
         };
 
         try {
@@ -462,54 +437,60 @@ const TaskPage = () => {
                             <Fieldset legend="Parent Task" style={{ width: '100%' }}>
                                 <TaskDropdown
                                     selectedTaskId={selectedParentTaskId}
-                                    tasks={tasks}
+                                    organizationId={taskDetails.organizationId!}
                                     onTaskChange={handleParentTaskChange}
                                 />
                             </Fieldset>
                             <Fieldset legend="Reporter" style={{ width: '100%' }}>
                                 <AccountDropdown
                                     selectedAccount={reporterId}
-                                    accounts={accounts}
-                                    placeholder={reporterId?.firstName || "Select reporter"}
+                                    organizationId={taskDetails.organizationId!}
+                                    placeholder={reporterId?.firstName + " " + reporterId?.lastName || "Select reporter"}
                                     onAccountChange={handleReporterChange}
                                 />
                             </Fieldset>
                             <Fieldset legend="Assignee" style={{ width: '100%' }}>
                                 <AccountDropdown
                                     selectedAccount={assigneeId}
-                                    accounts={accounts}
-                                    placeholder="Select Assignee"
+                                    organizationId={taskDetails.organizationId!}
+                                    placeholder={assigneeId?.firstName + " " + reporterId?.lastName || "Select reporter"}
                                     onAccountChange={handleAssigneeChange}
                                 />
                             </Fieldset>
-                            <Fieldset legend="Estimated Time" style={{ width: '100%' }}>
+                            <Fieldset legend="Time" w={'100%'}>
+
                                 <TimeOnlyInput
-                                    value={estimatedTime ?? ''}
+                                    label="Estimated Time (HH:mm)"
+                                    value={taskDetails.estimate ?? ''}
                                     onChange={handleEstimatedTimeChange}
                                 />
-                            </Fieldset>
-                            <Fieldset legend="StartDate" style={{ width: '100%' }}>
-                                <div>{taskDetails!.startDate?.toString()}</div>
-                                <Input
-                                    type="date"
-                                    placeholder={startDate ? startDate.toISOString().split("T")[0] : "Select Start Date"}
-                                    style={{ width: '100%' }}
-                                    onChange={(event) => {
-                                        handleStartDateChange(event.currentTarget.value ? new Date(event.currentTarget.value) : null);
-                                    }}
+
+                                <TimeOnlyInput
+                                    label="Spent Time (HH:mm)"
+                                    value={taskDetails.spentTime ?? ''}
+                                    onChange={handleSpentTimeChange}
                                 />
-                                <DatePicker defaultValue={dayjs().format('YYYY-MM-DD')} />;
-                            </Fieldset>
-                            <Fieldset legend="Due Date" style={{ width: '100%' }}>
-                                <Input
-                                    type="date"
-                                    placeholder="Select Due Date"
-                                    style={{ width: '100%' }}
-                                    onChange={(event) => {
-                                        const value = event.currentTarget.value;
-                                        handleDueDateChange(value ? new Date(value) : null);
-                                    }}
+
+                                <Divider my="sm" />
+
+                                <DatePickerInput
+                                    valueFormat="YYYY-MM-DD"
+                                    label="Start date"
+                                    placeholder="Pick date"
+                                    value={taskDetails?.startDate ? taskDetails?.startDate : null}
+                                    onChange={handleStartDateChange}
                                 />
+
+                                <Divider my="sm" />
+                                
+                                <DatePickerInput
+                                    valueFormat="YYYY-MM-DD"
+                                    label="Due Date"
+                                    placeholder="Pick date"
+                                    value={taskDetails?.dueDate ? taskDetails?.dueDate : null}
+                                    onChange={handleDueDateChange}
+                                />
+                                
                             </Fieldset>
                         </Flex>
                     </Flex>

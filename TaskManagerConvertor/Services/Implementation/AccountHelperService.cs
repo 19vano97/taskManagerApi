@@ -43,7 +43,19 @@ public class AccountHelperService : IAccountHelperService
         }
         else if (type is TicketDto ticket)
         {
-            accountsToGet = [(Guid)ticket.AssigneeId!, (Guid)ticket.ReporterId!];
+            if (ticket.ChildIssues is not null)
+            {
+                accountsToGet = ticket.ChildIssues.SelectMany(s => new Guid?[] { s.AssigneeId, s.ReporterId })
+                                                .Where(id => id.HasValue)
+                                                .Select(id => id!.Value)
+                                                .Distinct()
+                                                .ToList();
+                accountsToGet.AddRange([(Guid)ticket.AssigneeId!, (Guid)ticket.ReporterId!]);
+            }
+            else
+            {
+                accountsToGet = [(Guid)ticket.AssigneeId!, (Guid)ticket.ReporterId!];
+            }
         }
         else if (type is OrganizationDto organization)
         {
@@ -52,6 +64,14 @@ public class AccountHelperService : IAccountHelperService
         else if (type is ProjectItemDto project)
         {
             accountsToGet = [project.OwnerId];
+        }
+        else if (type is List<TicketCommentDto> ticketCommentDto)
+        {
+            accountsToGet = ticketCommentDto!.SelectMany(s => new Guid?[] { s.AccountId })
+                                             .Where(id => id.HasValue)
+                                             .Select(id => id!.Value)
+                                             .Distinct()
+                                             .ToList();
         }
         else
         {
@@ -79,6 +99,15 @@ public class AccountHelperService : IAccountHelperService
             {
                 ticketInner.Assignee = accounts.Data?.FirstOrDefault(a => a.Id == ticketInner.AssigneeId);
                 ticketInner.Reporter = accounts.Data?.FirstOrDefault(a => a.Id == ticketInner.ReporterId);
+
+                if (ticketInner.ChildIssues is not null)
+                {
+                    foreach (var ticket in ticketInner.ChildIssues)
+                    {
+                        ticket.Assignee = accounts.Data?.FirstOrDefault(a => a.Id == ticket.AssigneeId);
+                        ticket.Reporter = accounts.Data?.FirstOrDefault(a => a.Id == ticket.ReporterId);
+                    }
+                }
             }
             else if (type is List<TicketHistoryDto> historyListInner)
             {
@@ -95,6 +124,13 @@ public class AccountHelperService : IAccountHelperService
             else if (type is ProjectItemDto projectInner)
             {
                 projectInner.Owner = accounts.Data!.First(o => o.Id == projectInner.OwnerId);
+            }
+            else if (type is List<TicketCommentDto> ticketCommentDtoInner)
+            {
+                foreach (var item in ticketCommentDtoInner)
+                {
+                    item.Account = accounts.Data!.First(o => o.Id == item.AccountId);
+                }
             }
         }
 

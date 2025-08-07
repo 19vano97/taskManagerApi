@@ -43,6 +43,8 @@ public class ProjectService : IProjectService
                                                         new StringContent(JsonConvert.SerializeObject(project),
                                                         Encoding.UTF8,
                                                         "application/json"));
+        httpClient.Dispose();
+        
         if (response.IsSuccessStatusCode)
         {
             _logger.LogInformation(await response.Content.ReadAsStringAsync());
@@ -89,6 +91,8 @@ public class ProjectService : IProjectService
         }
 
         var response = await httpClient.DeleteAsync($"/api/project/{projectId}/delete", cancellationToken);
+        httpClient.Dispose();
+
         if (response.IsSuccessStatusCode)
         {
             _logger.LogInformation(await response.Content.ReadAsStringAsync());
@@ -136,6 +140,8 @@ public class ProjectService : IProjectService
                                                         new StringContent(JsonConvert.SerializeObject(editProject),
                                                         Encoding.UTF8,
                                                         "application/json"));
+        httpClient.Dispose();
+
         if (response.IsSuccessStatusCode)
         {
             _logger.LogInformation(await response.Content.ReadAsStringAsync());
@@ -182,6 +188,7 @@ public class ProjectService : IProjectService
         }
 
         var response = await httpClient.GetAsync($"/api/project/all/{organizationId}", cancellationToken);
+        httpClient.Dispose();
         if (response.IsSuccessStatusCode)
         {
             _logger.LogInformation(await response.Content.ReadAsStringAsync());
@@ -226,6 +233,7 @@ public class ProjectService : IProjectService
         }
 
         var response = await httpClient.GetAsync($"/api/project/{projectId}", cancellationToken);
+        httpClient.Dispose();
         if (response.IsSuccessStatusCode)
         {
             _logger.LogInformation(await response.Content.ReadAsStringAsync());
@@ -270,6 +278,7 @@ public class ProjectService : IProjectService
         }
 
         var response = await httpClient.GetAsync($"/api/project/{projectId}/tasks", cancellationToken);
+        httpClient.Dispose();
         if (response.IsSuccessStatusCode)
         {
             _logger.LogInformation(await response.Content.ReadAsStringAsync());

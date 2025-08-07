@@ -14,6 +14,7 @@ import {
   Title,
   useMantineTheme,
   Image,
+  useMantineColorScheme,
 } from "@mantine/core";
 import {
   Rocket,
@@ -67,7 +68,8 @@ const features = [
 
 const Home = () => {
   const navigate = useNavigate();
-  const theme = useMantineTheme();
+  const { colorScheme, setColorScheme } = useMantineColorScheme();
+    const isDark = colorScheme === 'dark';
 
   return (
     <>
@@ -75,8 +77,8 @@ const Home = () => {
       <header
         style={{
           padding: rem(16),
-          borderBottom: `1px solid ${theme.colors.gray[3]}`,
-          backgroundColor: theme.white,
+
+          backgroundColor: isDark ? "dark" : "white",
           position: "sticky",
           top: 0,
           zIndex: 1000,
@@ -133,7 +135,7 @@ const Home = () => {
             Manage tasks, projects, and organizations with a flexible system and
             built-in AI assistant. Create, collaborate, and move faster.
           </Text>
-          <Button size="lg" radius="xl" onClick={() => navigate("/signin-oidc")}>Get Started</Button>
+          <Button size="lg" radius="xl" onClick={() => navigate("/me")}>Get Started</Button>
         </Stack>
 
         {/* Screenshots */}
@@ -158,7 +160,7 @@ const Home = () => {
             <Grid.Col span={{ base: 12, sm: 6, md: 4 }} key={feature.title}>
               <Card shadow="sm" radius="md" p="lg" withBorder h="100%">
                 <Group align="flex-start" wrap="nowrap">
-                  <feature.icon size={28} color={theme.primaryColor} />
+                  <feature.icon size={28} color={isDark ? "white" : "black"} />
                   <div>
                     <Title order={4} size="h5" mt="xs">
                       {feature.title}

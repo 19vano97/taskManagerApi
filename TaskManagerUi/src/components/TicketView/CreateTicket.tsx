@@ -288,6 +288,7 @@ export const CreateTicket = ({ opened, onClose, organizationId, projectId, onSuc
                 <Flex justify={"space-between"} align="center" mt="md">
                     <Fieldset legend="Estimated Time" style={{ width: '50%' }}>
                         <TimeOnlyInput
+                            label={"Estimated Time (HH:MM)"}
                             value={estimatedTime ?? ''}
                             onChange={handleEstimatedTimeChange}
                         />

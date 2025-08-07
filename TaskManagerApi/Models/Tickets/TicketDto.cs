@@ -31,6 +31,7 @@ public class TicketDto
     public TimeOnly? SpentTime { get; set; }
     public TimeOnly? Estimate { get; set; }
     public List<TicketDto>? ChildIssues { get; set; }
+    public TicketDto? ParentTicket { get; set; }
     public DateTime? CreateDate { get; set; }
     public DateTime? ModifyDate { get; set; }
 }

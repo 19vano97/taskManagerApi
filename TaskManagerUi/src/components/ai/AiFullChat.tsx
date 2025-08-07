@@ -12,6 +12,7 @@ import {
     useMantineColorScheme,
     Spoiler,
     ScrollArea,
+    Textarea,
 } from "@mantine/core";
 import { useAiChatApi, useTaskApi } from "../../api/taskManagerApi";
 import { useEffect, useState } from "react";
@@ -257,11 +258,10 @@ export const AiFullChat = ({ threadId, projectId }: AiFullChatProps) => {
 
             <Box mt="md">
                 <Flex gap="sm" justify={"space-between"}>
-                    <TextInput
+                    <Textarea
                         placeholder="Type your message..."
                         value={newMessage}
                         onChange={(e) => setNewMessage(e.currentTarget.value)}
-                        onKeyDown={handleKeyDown}
                         disabled={sending}
                         style={{ flex: 1 }}
                     />

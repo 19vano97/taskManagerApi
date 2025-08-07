@@ -42,6 +42,8 @@ public class AIService : IAIService
                                                   new StringContent(JsonConvert.SerializeObject(aiThread),
                                                   Encoding.UTF8,
                                                   "application/json"));
+        httpClient.Dispose();
+
         if (response.IsSuccessStatusCode)
         {
             _logger.LogInformation(await response.Content.ReadAsStringAsync());
@@ -87,6 +89,8 @@ public class AIService : IAIService
 
         var response = await httpClient.DeleteAsync($"/api/ai/thread/{threadId}/delete",
                                                  cancellationToken);
+        httpClient.Dispose();
+
         if (response.IsSuccessStatusCode)
         {
             _logger.LogInformation(await response.Content.ReadAsStringAsync());
@@ -132,6 +136,8 @@ public class AIService : IAIService
 
         var response = await httpClient.GetAsync($"/api/ai/thread/all",
                                                  cancellationToken);
+        httpClient.Dispose();
+
         if (response.IsSuccessStatusCode)
         {
             _logger.LogInformation(await response.Content.ReadAsStringAsync());
@@ -177,6 +183,8 @@ public class AIService : IAIService
 
         var response = await httpClient.GetAsync($"/api/ai/chat/{aiThread}/history",
                                                  cancellationToken);
+        httpClient.Dispose();
+
         if (response.IsSuccessStatusCode)
         {
             _logger.LogInformation(await response.Content.ReadAsStringAsync());
@@ -224,6 +232,8 @@ public class AIService : IAIService
                                                   new StringContent(JsonConvert.SerializeObject(message),
                                                   Encoding.UTF8,
                                                   "application/json"));
+        httpClient.Dispose();
+
         if (response.IsSuccessStatusCode)
         {
             _logger.LogInformation(await response.Content.ReadAsStringAsync());
@@ -269,6 +279,8 @@ public class AIService : IAIService
 
         var response = await httpClient.GetAsync($"/api/ai/thread/{aiThread}/info",
                                                  cancellationToken);
+        httpClient.Dispose();
+        
         if (response.IsSuccessStatusCode)
         {
             _logger.LogInformation(await response.Content.ReadAsStringAsync());

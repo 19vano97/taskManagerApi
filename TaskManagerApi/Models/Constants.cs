@@ -205,6 +205,7 @@ public class Constants
             public const string TASK_EDITED_START_DATE = "TASK_EDITED_START_DATE";
             public const string TASK_EDITED_DUE_DATE = "TASK_EDITED_END_DATE";
             public const string TASK_EDITED_ESTIMATE = "TASK_EDITED_ESTIMATE";
+            public const string TASK_EDITED_SPENT_TIME = "TASK_EDITED_SPENT_TIME";
         }
         public static class TaskDelete
         {

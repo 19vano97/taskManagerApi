@@ -9,6 +9,7 @@ import type {
   Organization,
   Project,
   Task,
+  TaskComment,
   TaskHistory,
   TicketAiView,
 } from '../components/Types';
@@ -96,6 +97,14 @@ export const useTaskApi = () => {
       (await taskManagerAxios.post(`${path}/parent`, data)),
     getTaskHistory: async (taskId: string) => 
       (await taskManagerAxios.get<TaskHistory[]>(`${path}/${taskId}/history`)),
+    createTaskComment: async (data: TaskComment) =>
+      (await taskManagerAxios.post(`${path}/${data.ticketId}/comment/new`, data)),
+    editTaskComment: async (data: TaskComment) =>
+      (await taskManagerAxios.post(`${path}/${data.ticketId}/comment/${data.id}`, data)),
+    deleteTaskComment: async (ticketId: string, commentId: string) =>
+      (await taskManagerAxios.delete(`${path}/${ticketId}/comment/${commentId}`)),
+    getTaskComments: async (ticketId: string) =>
+      (await taskManagerAxios.get<TaskComment[]>(`${path}/${ticketId}/comment/all`)),
     deleteTask: async (taskId: string) => 
       (await taskManagerAxios.delete<void>(`${path}${taskId}/delete`)),
   };

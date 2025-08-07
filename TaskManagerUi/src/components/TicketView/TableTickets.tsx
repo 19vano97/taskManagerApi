@@ -25,8 +25,6 @@ export const TableTickets = ({ tasks, accounts, onTaskClick }: TaskTableProps) =
     const rows = tasks
         .filter((task) => task.statusName?.toLowerCase() !== 'done')
         .map((task) => {
-            const reporter = getAccount(task.reporterId, accounts);
-            const assignee = getAccount(task.assigneeId, accounts);
 
             return (
                 <Table.Tr
@@ -39,12 +37,12 @@ export const TableTickets = ({ tasks, accounts, onTaskClick }: TaskTableProps) =
                     </Table.Td>
 
                     <Table.Td>
-                        {reporter ? (
+                        {task.reporter ? (
                             <Flex>
                                 <Avatar size="sm" radius="xl" color="blue">
-                                    {getInitials(reporter.firstName, reporter.lastName)}
+                                    {getInitials(task.reporter?.firstName, task.reporter?.firstName)}
                                 </Avatar>
-                                <Text ml="xs">{reporter.firstName} {reporter.lastName}</Text>
+                                <Text ml="xs">{task.reporter?.firstName} {task.reporter?.firstName}</Text>
                             </Flex>
                         ) : (
                             <Badge variant="light" color="gray">
@@ -54,12 +52,12 @@ export const TableTickets = ({ tasks, accounts, onTaskClick }: TaskTableProps) =
                     </Table.Td>
 
                     <Table.Td>
-                        {assignee ? (
+                        {task.assignee ? (
                             <Flex>
                                 <Avatar size="sm" radius="xl" color="blue">
-                                    {getInitials(assignee.firstName, assignee.lastName)}
+                                    {getInitials(task.assignee?.firstName, task.assignee?.lastName)}
                                 </Avatar>
-                                <Text ml="xs">{assignee.firstName} {assignee.lastName}</Text>
+                                <Text ml="xs">{task.assignee?.firstName} {task.assignee?.lastName}</Text>
                             </Flex>
                         ) : (
                             <Badge variant="light" color="gray">

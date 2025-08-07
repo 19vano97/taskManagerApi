@@ -1,9 +1,11 @@
 using System;
+using System.Runtime;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Serilog;
 using TaskManagerApi.Data;
 using TaskManagerApi.Enitities.Task;
+using TaskManagerApi.Enitities.Tickets;
 using TaskManagerApi.Enums;
 using TaskManagerApi.Handlers;
 using TaskManagerApi.Models;
@@ -137,7 +139,7 @@ public class TicketService : ITicketService
 
         _logger.LogInformation($"{LogPhrases.PositiveActions.TASK_CREATED_LOG} {tickets}");
         var result = new List<TicketDto>();
-        result.AddRange(tickets.Select(t => ConvertTaskToDto(t)!));
+        result.AddRange(tickets.Select(t => ConvertTicketToDto(t)!));
 
         return new ServiceResult<List<TicketDto>>
         {
@@ -163,7 +165,7 @@ public class TicketService : ITicketService
         return new ServiceResult<TicketDto>
         {
             IsSuccess = true,
-            Data = ConvertTaskToDto(taskToDelete.Data)
+            Data = ConvertTicketToDto(taskToDelete.Data)
         };
     }
 
@@ -322,14 +324,28 @@ public class TicketService : ITicketService
 
             if (taskToEdit.Data!.Estimate != newTask.Estimate && newTask.Estimate != null)
             {
-                var oldType = taskToEdit.Data!.DueDate;
-                taskToEdit.Data!.DueDate = newTask.DueDate!;
+                var oldTime = taskToEdit.Data!.SpentTime;
+                taskToEdit.Data.SpentTime = newTask.Estimate;
+                _taskHistoryEvent?.Invoke(this, new TicketHistoryEventArgs(new TicketHistoryDto
+                {
+                    TaskId = taskToEdit.Data!.Id,
+                    AuthorId = (Guid)taskToEdit.Data!.ReporterId!,
+                    EventName = TaskHistoryTypes.TaskEdit.TASK_EDITED_ESTIMATE,
+                    PreviousState = oldTime.ToString(),
+                    NewState = taskToEdit.Data!.Estimate.ToString()!
+                }));
+            }
+
+            if (taskToEdit.Data!.SpentTime != newTask.SpentTime && newTask.SpentTime != null)
+            {
+                var oldTime = taskToEdit.Data!.SpentTime ?? new TimeOnly();
+                taskToEdit.Data.SpentTime = oldTime.Add(new TimeSpan(newTask.SpentTime!.Value.Ticks));
                 _taskHistoryEvent?.Invoke(this, new TicketHistoryEventArgs(new TicketHistoryDto
                 {
                     TaskId = taskToEdit.Data!.Id,
                     AuthorId = (Guid)taskToEdit.Data!.ReporterId,
                     EventName = TaskHistoryTypes.TaskEdit.TASK_EDITED_ESTIMATE,
-                    PreviousState = oldType.ToString(),
+                    PreviousState = oldTime.ToString(),
                     NewState = taskToEdit.Data!.DueDate.ToString()
                 }));
             }
@@ -381,7 +397,7 @@ public class TicketService : ITicketService
         var res = await _context.Tickets.Include(t => t.TaskItemStatus)
                                      .Include(t => t.TaskType)
                                      .Where(t => t.ProjectItem.OrganizationId == organizationId)
-                                     .Select(t => ConvertTaskToDto(t))
+                                     .Select(t => ConvertTicketToDto(t))
                                      .ToListAsync(cancellationToken);
         if (res is null)
             return new ServiceResult<List<TicketDto>>
@@ -402,7 +418,7 @@ public class TicketService : ITicketService
         var res = await _context.Tickets.Include(t => t.TaskItemStatus)
                                      .Include(t => t.TaskType)
                                      .Where(t => t.ProjectId == projectId)
-                                     .Select(t => ConvertTaskToDto(t))
+                                     .Select(t => ConvertTicketToDto(t))
                                      .ToListAsync(cancellationToken);
         if (res is null)
             return new ServiceResult<List<TicketDto>>
@@ -470,6 +486,102 @@ public class TicketService : ITicketService
         };
     }
 
+    public async Task<ServiceResult<bool>> PostNewComment(TicketCommentDto comment, CancellationToken cancellationToken)
+    {
+        if (!await DoesTicketExist(comment.TicketId, cancellationToken))
+        {
+            return new ServiceResult<bool>
+            {
+                IsSuccess = false,
+                ErrorMessage = Constants.LogPhrases.ServiceResult.Error.NOT_FOUND
+            };
+        }
+
+        _context.TicketComments.Add(new TicketComment
+        {
+            TicketId = comment.TicketId,
+            AccountId = comment.AccountId,
+            Message = comment.Message
+        });
+
+        await _context.SaveChangesAsync(cancellationToken);
+
+        return new ServiceResult<bool>
+        {
+            IsSuccess = true,
+            Data = true
+        };
+    }
+
+    public async Task<ServiceResult<bool>> EditComment(TicketCommentDto comment, CancellationToken cancellationToken)
+    {
+        var commentFromDb = await _context.TicketComments.FirstOrDefaultAsync(c => c.Id == comment.Id, cancellationToken);
+
+        if (commentFromDb is null || commentFromDb.AccountId != comment.AccountId)
+        {
+            return new ServiceResult<bool>
+            {
+                IsSuccess = false,
+                ErrorMessage = Constants.LogPhrases.ServiceResult.Error.NOT_FOUND
+            };
+        }
+        else if (commentFromDb.Message.CompareTo(comment.Message) == 0)
+        {
+            return new ServiceResult<bool>
+            {
+                IsSuccess = true,
+                Data = true
+            };
+        }
+
+        _context.TicketComments.Add(ConvertTicketCommentDtoToEntity(comment));
+
+        await _context.SaveChangesAsync(cancellationToken);
+
+        return new ServiceResult<bool>
+        {
+            IsSuccess = true,
+            Data = true
+        };
+    }
+
+    public async Task<ServiceResult<bool>> DeleteComment(Guid commentId, CancellationToken cancellationToken)
+    {
+        var commentFromDb = await _context.TicketComments.FirstOrDefaultAsync(c => c.Id == commentId, cancellationToken);
+
+        if (commentFromDb is null)
+        {
+            return new ServiceResult<bool>
+            {
+                IsSuccess = false,
+                ErrorMessage = Constants.LogPhrases.ServiceResult.Error.NOT_FOUND
+            };
+        }
+
+        _context.TicketComments.Remove(commentFromDb);
+        await _context.SaveChangesAsync(cancellationToken);
+
+        return new ServiceResult<bool>
+        {
+            IsSuccess = true,
+            Data = true
+        };
+    }
+
+    public async Task<ServiceResult<List<TicketCommentDto>>> GetCommentsByTicketId(Guid ticketId, CancellationToken cancellationToken)
+    {
+        return new ServiceResult<List<TicketCommentDto>>
+        {
+            IsSuccess = true,
+            Data = await _context.TicketComments.Where(c => c.TicketId == ticketId).OrderByDescending(c => c.CreateDate).Select(c => ConvertTicketCommentToDto(c)).ToListAsync()
+        };
+    }
+
+    private async Task<bool> DoesTicketExist(Guid ticketId, CancellationToken cancellationToken)
+    {
+        return await _context.Tickets.FirstOrDefaultAsync(t => t.Id == ticketId, cancellationToken) == null ? false : true;
+    }
+
     private async Task<ServiceResult<Ticket>> GetTaskById(Guid taskId, CancellationToken cancellationToken)
     {
         var res = await _context.Tickets.Include(t => t.TaskItemStatus)
@@ -493,7 +605,7 @@ public class TicketService : ITicketService
     private async Task<ServiceResult<TicketDto>> GetTaskByIdDto(Guid taskId, CancellationToken cancellationToken)
     {
         var task = await GetTaskById(taskId, cancellationToken);
-        var res = ConvertTaskToDto(task.Data);
+        var res = ConvertTicketToDto(task.Data);
         if (res == null)
             return new ServiceResult<TicketDto>
             {
@@ -502,13 +614,31 @@ public class TicketService : ITicketService
             };
 
         var childIssues = await GetChildIssues(taskId, cancellationToken);
-
         res.ChildIssues = childIssues.Data!.Count == 0 ? null : childIssues.Data;
+
+        if (res.ParentId is not null)
+        {
+            var parent = await GetParentDto((Guid)res.ParentId, cancellationToken);
+            res.ParentTicket = parent;
+        }
 
         return new ServiceResult<TicketDto>
         {
             IsSuccess = true,
             Data = res
+        };
+    }
+
+    private async Task<TicketDto> GetParentDto(Guid parentTicketId, CancellationToken cancellationToken)
+    {
+        var parent = await _context.Tickets.Select(t => new {t.Id, t.Title}).FirstOrDefaultAsync(t => t.Id == parentTicketId, cancellationToken);
+        if (parent is null)
+            return null!;
+
+        return new TicketDto
+        {
+            Id = parent.Id,
+            Title = parent.Title
         };
     }
 
@@ -518,7 +648,19 @@ public class TicketService : ITicketService
                                         .Include(t => t.TaskType)
                                         .Include(t => t.ProjectItem)
                                         .Where(t => t.ParentId == taskId)
-                                        .Select(t => ConvertTaskToDto(t))
+                                        .Select(t => new TicketDto
+                                        {
+                                            Id = t.Id,
+                                            Title = t.Title,
+                                            ReporterId = t.ReporterId,
+                                            AssigneeId = t.AssigneeId,
+                                            StatusId = t.StatusId,
+                                            StatusName = t.TaskItemStatus!.Name ?? null,
+                                            TypeId = t.TypeId,
+                                            TypeName = t.TaskType!.Name ?? null,
+                                            ProjectId = t.ProjectId,
+                                            OrganizationId = t.ProjectItem!.OrganizationId
+                                        })
                                         .ToListAsync(cancellationToken);
         if (res is null)
             return new ServiceResult<List<TicketDto>>
@@ -534,7 +676,7 @@ public class TicketService : ITicketService
         };
     }
 
-    public static TicketDto? ConvertTaskToDto(Ticket? task)
+    private static TicketDto? ConvertTicketToDto(Ticket? task)
     {
         if (task == null)
             return null;
@@ -556,8 +698,33 @@ public class TicketService : ITicketService
             StartDate = task.StartDate,
             DueDate = task.DueDate,
             Estimate = task.Estimate,
+            SpentTime = task.SpentTime,
             CreateDate = task.CreateDate,
             ModifyDate = task.ModifyDate
+        };
+    }
+
+    private static TicketCommentDto ConvertTicketCommentToDto(TicketComment ticketComment)
+    {
+        return new TicketCommentDto
+        {
+            Id = ticketComment.Id,
+            AccountId = ticketComment.AccountId,
+            TicketId = ticketComment.TicketId,
+            Message = ticketComment.Message,
+            CreateDate = ticketComment.CreateDate,
+            ModifyDate = ticketComment.ModifyDate
+        };
+    }
+
+    private static TicketComment ConvertTicketCommentDtoToEntity(TicketCommentDto ticketComment)
+    {
+        return new TicketComment
+        {
+            Id = (Guid)ticketComment.Id!,
+            AccountId = ticketComment.AccountId,
+            TicketId = ticketComment.TicketId,
+            Message = ticketComment.Message
         };
     }
 }

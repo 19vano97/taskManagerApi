@@ -40,6 +40,7 @@ public class OrganizationService : IOrganizationService
         }
 
         var response = await httpClient.PostAsync($"api/organization/details/{organizationId}/new-member/{accountId}", null, cancellationToken);
+        httpClient.Dispose();
 
         if (response.IsSuccessStatusCode)
         {
@@ -56,7 +57,7 @@ public class OrganizationService : IOrganizationService
             }
 
             ticket = await _accountHelperService.AddAccountDetails(headers, ticket!, cancellationToken);
-            ticket.AccountIds = null;
+            ticket!.AccountIds = null;
 
             return new RequestResult<OrganizationDto>
             {
@@ -91,6 +92,8 @@ public class OrganizationService : IOrganizationService
                                                         new StringContent(JsonConvert.SerializeObject(organization),
                                                         Encoding.UTF8,
                                                         "application/json"));
+        httpClient.Dispose();
+
         if (response.IsSuccessStatusCode)
         {
             _logger.LogInformation(await response.Content.ReadAsStringAsync());
@@ -141,6 +144,8 @@ public class OrganizationService : IOrganizationService
                                                         new StringContent(JsonConvert.SerializeObject(organization),
                                                         Encoding.UTF8,
                                                         "application/json"));
+        httpClient.Dispose();
+
         if (response.IsSuccessStatusCode)
         {
             _logger.LogInformation(await response.Content.ReadAsStringAsync());
@@ -188,6 +193,8 @@ public class OrganizationService : IOrganizationService
         }
 
         var response = await httpClient.GetAsync($"/api/organization/{organizationId}/accounts", cancellationToken);
+        httpClient.Dispose();
+
         if (response.IsSuccessStatusCode)
         {
             _logger.LogInformation(await response.Content.ReadAsStringAsync());
@@ -235,6 +242,8 @@ public class OrganizationService : IOrganizationService
         }
 
         var response = await httpClient.GetAsync($"/api/organization/{organizationId}/details", cancellationToken);
+        httpClient.Dispose();
+
         if (response.IsSuccessStatusCode)
         {
             _logger.LogInformation(await response.Content.ReadAsStringAsync());
@@ -284,6 +293,8 @@ public class OrganizationService : IOrganizationService
         try
         {
             var response = await httpClient.GetAsync(Constants.TaskManagerApi.Organization.GET_MY_ORGANIZATION, cancellationToken);
+            httpClient.Dispose();
+            
             if (response.IsSuccessStatusCode)
             {
                 _logger.LogInformation(await response.Content.ReadAsStringAsync());

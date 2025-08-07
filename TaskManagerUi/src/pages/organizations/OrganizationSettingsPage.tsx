@@ -89,7 +89,7 @@ const OrganizationSettingsPage = () => {
     }
   }, [organization?.id]);
 
-  const isOwner = auth?.user?.profile.sub === organization?.owner;
+  const isOwner = auth?.user?.profile.sub === organization?.ownerId;
 
   const handleSave = async () => {
     if (!organization) return;
@@ -121,7 +121,7 @@ const OrganizationSettingsPage = () => {
     setTimeout(() => setShowSuccessMemeberAdding(false), 4000);
   };
 
-  const owner = accounts.find((acc) => acc.id === organization?.owner);
+  const owner = accounts.find((acc) => acc.id === organization?.ownerId);
 
   if (loading || !organization) {
     return (
