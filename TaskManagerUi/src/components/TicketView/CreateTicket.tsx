@@ -246,7 +246,7 @@ export const CreateTicket = ({ opened, onClose, organizationId, projectId, onSuc
                         <Fieldset legend="Reporter" style={{ width: '50%' }}>
                             <AccountDropdown
                                 selectedAccount={reporterId}
-                                accounts={accounts}
+                                organizationId={organizationId}
                                 placeholder="Select Reporter"
                                 onAccountChange={handleReporterChange}
                             />
@@ -254,7 +254,7 @@ export const CreateTicket = ({ opened, onClose, organizationId, projectId, onSuc
                         <Fieldset legend="Assignee" style={{ width: '50%' }}>
                             <AccountDropdown
                                 selectedAccount={assigneeId}
-                                accounts={accounts}
+                                organizationId={organizationId}
                                 placeholder="Select Assignee"
                                 onAccountChange={handleAssigneeChange}
                             />

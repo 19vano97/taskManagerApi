@@ -195,6 +195,7 @@ const TaskPage = () => {
 
     const handleSaveEditingDescription = () => {
         setIsEditingDescription(false);
+        console.log('Saving description:', taskDescription);
         handleEditTask();
     };
 
@@ -283,8 +284,8 @@ const TaskPage = () => {
     const handleEditTask = async () => {
         const taskData = {
             id: taskDetails!.id,
-            title: taskDetails?.title || taskTitle || null,
-            description: taskDetails?.description || taskDescription || null,
+            title: taskTitle|| taskDetails?.title || null,
+            description: taskDescription || taskDetails?.description || null,
             type: taskDetails?.typeId || taskType?.id || null,
             reporterId: taskDetails?.reporterId || reporterId?.id || null,
             assigneeId: taskDetails?.assigneeId || assigneeId?.id || null,

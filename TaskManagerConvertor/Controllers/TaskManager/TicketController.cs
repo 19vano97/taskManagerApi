@@ -151,7 +151,7 @@ namespace TaskManagerConvertor.Controllers.TaskManager
 
             if (response.IsSuccess)
             {
-                _logger.LogInformation(response.Data!.ToString());
+                _logger.LogInformation(response.Data?.ToString());
                 return Ok(response.Data!);
             }
 

@@ -50,7 +50,7 @@ public class HistoryService : IHistoryService
         return new TicketHistory
         {
             TaskId = historyDto.TaskId,
-            Author = historyDto.Author,
+            Author = historyDto.AuthorId,
             EventName = historyDto.EventName,
             PreviousState = historyDto.PreviousState,
             NewState = historyDto.NewState
@@ -66,7 +66,7 @@ public class HistoryService : IHistoryService
             EventName = taskHistory.EventName,
             PreviousState = taskHistory.PreviousState,
             NewState = taskHistory.NewState,
-            Author = taskHistory.Author,
+            AuthorId = taskHistory.Author,
             CreateDate = taskHistory.CreateDate,
             ModifyDate = taskHistory.ModifyDate
         };

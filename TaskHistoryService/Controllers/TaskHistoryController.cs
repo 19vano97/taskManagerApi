@@ -43,7 +43,7 @@ namespace TaskHistoryService.Controllers
 
         private bool IsValidHistory(TaskHistoryDto history)
         {
-            if (history.Author == Guid.Empty
+            if (history.AuthorId == Guid.Empty
                 || history.EventName is null
                 || history.TaskId == Guid.Empty)
             {

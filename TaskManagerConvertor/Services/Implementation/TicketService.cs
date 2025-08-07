@@ -311,7 +311,7 @@ public class TicketService : ITicketService
             };
         }
 
-        var response = await httpClient.GetAsync($"/api/task/{ticketId}/details", cancellationToken);
+        var response = await httpClient.GetAsync($"/api/task/{ticketId}/history", cancellationToken);
         httpClient.Dispose();
 
         if (response.IsSuccessStatusCode)

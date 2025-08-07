@@ -9,7 +9,7 @@ public class TaskHistoryDto
     public string? EventName { get; set; }
     public string? PreviousState { get; set; }
     public string? NewState { get; set; }
-    public required Guid Author { get; set; }
+    public required Guid AuthorId { get; set; }
     public DateTime CreateDate { get; set; } = DateTime.UtcNow;
     public DateTime ModifyDate { get; set; } = DateTime.UtcNow;
 }
