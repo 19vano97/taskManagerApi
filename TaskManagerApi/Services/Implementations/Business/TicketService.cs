@@ -12,10 +12,10 @@ using TaskManagerApi.Models;
 using TaskManagerApi.Models.TaskHistory;
 using TaskManagerApi.Models.TicketItem;
 using TaskManagerApi.Models.Tickets;
-using TaskManagerApi.Services.Interfaces;
+using TaskManagerApi.Services.Interfaces.Business;
 using static TaskManagerApi.Models.Constants;
 
-namespace TaskManagerApi.Services.Implementations;
+namespace TaskManagerApi.Services.Implementations.Business;
 
 public class TicketService : ITicketService
 {
@@ -44,18 +44,15 @@ public class TicketService : ITicketService
 
     public async Task<ServiceResult<TicketDto>> CreateTaskAsync(TicketDto newTask, CancellationToken cancellationToken)
     {
-        if (newTask.Title is null)
-            return null!;
-
         var taskToAdd = new Ticket
         {
             Id = Guid.NewGuid(),
             Title = newTask.Title,
-            Description = newTask.Description,
+            Description = newTask.Description!,
             StatusId = (int)TaskStatusEnum.ToDo,
-            TypeId = newTask.TypeId == null ? (int)TaskTypesEnum.Task : newTask.TypeId,
+            TypeId = newTask.TypeId ?? (int)TaskTypesEnum.Task,
             ReporterId = newTask.ReporterId,
-            ProjectId = (Guid)newTask.ProjectId,
+            ProjectId = (Guid)newTask.ProjectId!,
             ParentId = newTask.ParentId,
             AssigneeId = newTask.AssigneeId,
             StartDate = newTask.StartDate,
@@ -182,7 +179,7 @@ public class TicketService : ITicketService
 
         try
         {
-            if (taskToEdit.Data!.Title != newTask.Title && newTask.Title != null)
+            if (!taskToEdit.Data!.Title.Equals(newTask.Title) && newTask.Title != null)
             {
                 var oldTitle = taskToEdit.Data!.Title;
                 taskToEdit.Data!.Title = newTask.Title!;
@@ -196,7 +193,7 @@ public class TicketService : ITicketService
                 }));
             }
 
-            if (taskToEdit.Data!.Description != newTask.Description && newTask.Description != null)
+            if (!taskToEdit.Data!.Description.Equals(newTask.Description) && newTask.Description != null)
             {
                 var oldDescription = taskToEdit.Data!.Description;
                 taskToEdit.Data!.Description = newTask.Description!;
@@ -210,7 +207,7 @@ public class TicketService : ITicketService
                 }));
             }
 
-            if (taskToEdit.Data!.ReporterId != newTask.ReporterId && newTask.ReporterId != null)
+            if (!taskToEdit.Data!.ReporterId.Equals(newTask.ReporterId) && newTask.ReporterId != null)
             {
                 var oldReporter = taskToEdit.Data!.ReporterId;
                 taskToEdit.Data!.ReporterId = (Guid)newTask.ReporterId!;
@@ -224,7 +221,7 @@ public class TicketService : ITicketService
                 }));
             }
 
-            if (taskToEdit.Data!.AssigneeId != newTask.AssigneeId && newTask.AssigneeId != null)
+            if (!taskToEdit.Data!.AssigneeId.Equals(newTask.AssigneeId) && newTask.AssigneeId != null)
             {
                 var oldAssignee = taskToEdit.Data!.AssigneeId;
                 taskToEdit.Data!.AssigneeId = (Guid)newTask.AssigneeId!;
@@ -238,7 +235,7 @@ public class TicketService : ITicketService
                 }));
             }
 
-            if (taskToEdit.Data!.ProjectId != newTask.ProjectId && newTask.ProjectId != null)
+            if (!taskToEdit.Data!.ProjectId.Equals(newTask.ProjectId) && newTask.ProjectId != null)
             {
                 var oldProject = taskToEdit.Data!.ProjectId;
                 taskToEdit.Data!.ProjectId = (Guid)newTask.ProjectId!;
@@ -252,7 +249,7 @@ public class TicketService : ITicketService
                 }));
             }
 
-            if (taskToEdit.Data!.ParentId != newTask.ParentId && newTask.ParentId != null)
+            if (!taskToEdit.Data!.ParentId.Equals(newTask.ParentId) && newTask.ParentId != null)
             {
                 var oldParent = taskToEdit.Data!.ParentId;
                 taskToEdit.Data!.ParentId = (Guid)newTask.ParentId!;
@@ -294,7 +291,7 @@ public class TicketService : ITicketService
                 }));
             }
 
-            if (taskToEdit.Data!.StartDate != newTask.StartDate && newTask.StartDate != null)
+            if (!taskToEdit.Data!.StartDate.Equals(newTask.StartDate) && newTask.StartDate != null)
             {
                 var oldType = taskToEdit.Data!.StartDate;
                 taskToEdit.Data!.StartDate = newTask.StartDate!;
@@ -308,7 +305,7 @@ public class TicketService : ITicketService
                 }));
             }
 
-            if (taskToEdit.Data!.DueDate != newTask.DueDate && newTask.DueDate != null)
+            if (!taskToEdit.Data!.DueDate.Equals(newTask.DueDate) && newTask.DueDate != null)
             {
                 var oldType = taskToEdit.Data!.DueDate;
                 taskToEdit.Data!.DueDate = newTask.DueDate!;
@@ -322,7 +319,7 @@ public class TicketService : ITicketService
                 }));
             }
 
-            if (taskToEdit.Data!.Estimate != newTask.Estimate && newTask.Estimate != null)
+            if (!taskToEdit.Data!.Estimate.Equals(newTask.Estimate) && newTask.Estimate != null)
             {
                 var oldTime = taskToEdit.Data!.SpentTime;
                 taskToEdit.Data.SpentTime = newTask.Estimate;
@@ -336,7 +333,7 @@ public class TicketService : ITicketService
                 }));
             }
 
-            if (taskToEdit.Data!.SpentTime != newTask.SpentTime && newTask.SpentTime != null)
+            if (!taskToEdit.Data!.SpentTime.Equals(newTask.SpentTime) && newTask.SpentTime != null)
             {
                 var oldTime = taskToEdit.Data!.SpentTime ?? new TimeOnly();
                 taskToEdit.Data.SpentTime = oldTime.Add(new TimeSpan(newTask.SpentTime!.Value.Ticks));

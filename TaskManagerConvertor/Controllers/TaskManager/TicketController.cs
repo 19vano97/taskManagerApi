@@ -33,7 +33,7 @@ namespace TaskManagerConvertor.Controllers.TaskManager
         {
             _logger.LogInformation("GetTaskByIdAsync called with Id: {TaskId}", id);
 
-            var response = await _ticketService.GetTicketById(Request.Headers, id, cancellationToken);
+            var response = await _ticketService.GetTicketById(id, cancellationToken);
             if (response.IsSuccess)
             {
                 _logger.LogInformation(response.Data!.ToString());
@@ -51,7 +51,7 @@ namespace TaskManagerConvertor.Controllers.TaskManager
         {
             _logger.LogInformation("CreateTaskAsync called");
 
-            var response = await _ticketService.CreateTicketAsync(Request.Headers, data, cancellationToken);
+            var response = await _ticketService.CreateTicketAsync(data, cancellationToken);
             if (response.IsSuccess)
             {
                 _logger.LogInformation(response.Data!.ToString());
@@ -68,7 +68,7 @@ namespace TaskManagerConvertor.Controllers.TaskManager
                                                                             CancellationToken cancellationToken)
         {
             _logger.LogInformation("GetTasksInOrganizationAsync called with organizationId: {OrganizationId}", organizationId);
-            var response = await _ticketService.GetTasksAsync(Request.Headers, Guid.Empty, cancellationToken);
+            var response = await _ticketService.GetTasksAsync(organizationId, false, cancellationToken);
 
             if (response.IsSuccess)
             {
@@ -86,7 +86,7 @@ namespace TaskManagerConvertor.Controllers.TaskManager
                                                                                     CancellationToken cancellationToken)
         {
             _logger.LogInformation("GetTasksInOrganizationAsync called with organizationId: {OrganizationId}", projectId);
-            var response = await _ticketService.GetTasksAsync(Request.Headers, projectId, cancellationToken);
+            var response = await _ticketService.GetTasksAsync(projectId, true, cancellationToken);
 
             if (response.IsSuccess)
             {
@@ -105,7 +105,7 @@ namespace TaskManagerConvertor.Controllers.TaskManager
         {
             _logger.LogInformation("CreateTaskForAiAsync called");
 
-            var response = await _ticketService.CreateTaskForAiAsync(Request.Headers, newTasks, cancellationToken);
+            var response = await _ticketService.CreateTaskForAiAsync(newTasks, cancellationToken);
 
             if (response.IsSuccess)
             {
@@ -128,7 +128,7 @@ namespace TaskManagerConvertor.Controllers.TaskManager
             if (taskId != editTask.Id)
                 return BadRequest();
 
-            var response = await _ticketService.EditTaskByIdAsync(Request.Headers, editTask, cancellationToken);
+            var response = await _ticketService.EditTaskByIdAsync(editTask, cancellationToken);
 
             if (response.IsSuccess)
             {
@@ -147,7 +147,7 @@ namespace TaskManagerConvertor.Controllers.TaskManager
         {
             _logger.LogInformation("GetHistoryByTaskId called with taskId: {TaskId}", taskId);
 
-            var response = await _ticketService.GetTicketHistory(Request.Headers, taskId, cancellationToken);
+            var response = await _ticketService.GetTicketHistory(taskId, cancellationToken);
 
             if (response.IsSuccess)
             {
@@ -165,7 +165,7 @@ namespace TaskManagerConvertor.Controllers.TaskManager
         {
             _logger.LogInformation("DeleteTaskByIdAsync called with Id: {TaskId}", Id);
 
-            var response = await _ticketService.DeleteTaskByIdAsync(Request.Headers, Id, cancellationToken);
+            var response = await _ticketService.DeleteTaskByIdAsync(Id, cancellationToken);
 
             if (response.IsSuccess)
             {
@@ -183,7 +183,7 @@ namespace TaskManagerConvertor.Controllers.TaskManager
         {
             _logger.LogInformation("AddNewComment called with Id: {TaskId}", comment.TicketId);
 
-            var response = await _ticketService.PostNewComment(Request.Headers, ticketId, comment, cancellationToken);
+            var response = await _ticketService.PostNewComment(ticketId, comment, cancellationToken);
 
             if (response.IsSuccess)
             {
@@ -201,7 +201,7 @@ namespace TaskManagerConvertor.Controllers.TaskManager
         {
             _logger.LogInformation("EditComment called with Id: {TaskId}", ticketId);
 
-            var response = await _ticketService.EditComment(Request.Headers, ticketId, commentId, comment, cancellationToken);
+            var response = await _ticketService.EditComment(ticketId, commentId, comment, cancellationToken);
 
             if (response.IsSuccess)
             {
@@ -219,7 +219,7 @@ namespace TaskManagerConvertor.Controllers.TaskManager
         {
             _logger.LogInformation("DeteleComment called with Id: {TaskId}", ticketId);
 
-            var response = await _ticketService.DeleteComment(Request.Headers, ticketId, commentId, cancellationToken);
+            var response = await _ticketService.DeleteComment(ticketId, commentId, cancellationToken);
 
             if (response.IsSuccess)
             {
@@ -237,7 +237,7 @@ namespace TaskManagerConvertor.Controllers.TaskManager
         {
             _logger.LogInformation("GetAllComments called with Id: {TaskId}", ticketId);
 
-            var response = await _ticketService.GetCommentsByTicketId(Request.Headers, ticketId, cancellationToken);
+            var response = await _ticketService.GetCommentsByTicketId(ticketId, cancellationToken);
 
             if (response.IsSuccess)
             {

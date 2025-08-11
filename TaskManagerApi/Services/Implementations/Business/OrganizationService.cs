@@ -8,9 +8,10 @@ using TaskManagerApi.Models;
 using TaskManagerApi.Models.OrganizationModel;
 using TaskManagerApi.Models.Project;
 using TaskManagerApi.Services.Interfaces;
+using TaskManagerApi.Services.Interfaces.Business;
 using static TaskManagerApi.Models.Constants;
 
-namespace TaskManagerApi.Services.Implementations;
+namespace TaskManagerApi.Services.Implementations.Business;
 
 public class OrganizationService : IOrganizationService
 {

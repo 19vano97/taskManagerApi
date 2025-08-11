@@ -1,9 +1,14 @@
 using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Newtonsoft.Json;
+using Polly;
 using Serilog;
+using TaskManagerConvertor.Handlers;
 using TaskManagerConvertor.Middlewares;
+using TaskManagerConvertor.Models;
 using TaskManagerConvertor.Models.Settings;
+using TaskManagerConvertor.Providers.Implementations;
+using TaskManagerConvertor.Providers.Interfaces;
 using TaskManagerConvertor.Services.Implementation;
 using TaskManagerConvertor.Services.Interfaces;
 
@@ -16,9 +21,11 @@ builder.Services.AddScoped<IHelperService, HelperService>();
 builder.Services.AddScoped<ITicketService, TicketService>();
 builder.Services.AddScoped<IOrganizationService, OrganizationService>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
-builder.Services.AddScoped<IAccountService, AccountService>();
+// builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IAccountHelperService, AccountHelperService>();
 builder.Services.AddScoped<IAIService, AIService>();
+builder.Services.AddScoped<IHeaderProvider, HeaderProvider>();
+builder.Services.AddTransient<HeaderPropagationHandler>();
 builder.Services.AddControllers()
        .AddNewtonsoftJson(opts =>
            opts.SerializerSettings.ReferenceLoopHandling 
@@ -55,24 +62,37 @@ builder.Host.UseSerilog((ctx, cfg) =>
     cfg.ReadFrom.Configuration(ctx.Configuration);
 });
 
-builder.Services.AddHttpClient("taskHistory", client =>
-{
-    client.BaseAddress = new Uri(serverSettings.ApiServices["TaskHistory"]);
-    client.DefaultRequestHeaders.Accept.Add(
-        new MediaTypeWithQualityHeaderValue("application/json"));
-});
-builder.Services.AddHttpClient("taskManager", client =>
+var projectsBulkhead = Policy.BulkheadAsync<HttpResponseMessage>(
+    maxParallelization: 5,
+    maxQueuingActions: 20
+);
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddHttpClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT, client =>
 {
     client.BaseAddress = new Uri(serverSettings.ApiServices["TaskManagerApi"]);
     client.DefaultRequestHeaders.Accept.Add(
         new MediaTypeWithQualityHeaderValue("application/json"));
-});
-builder.Services.AddHttpClient("identityServer", client =>
+})
+.AddPolicyHandler(projectsBulkhead)
+.AddHttpMessageHandler<HeaderPropagationHandler>();
+// builder.Services.AddHttpClient<ITicketService, TicketService>(client =>
+// {
+//     client.BaseAddress = new Uri(serverSettings.ApiServices["TaskManagerApi"]);
+//     client.DefaultRequestHeaders.Accept.Add(
+//         new MediaTypeWithQualityHeaderValue("application/json"));
+// })
+// .AddPolicyHandler(projectsBulkhead)
+// .AddHttpMessageHandler<HeaderPropagationHandler>();
+
+builder.Services.AddHttpClient<IAccountService, AccountService>(client =>
 {
     client.BaseAddress = new Uri(serverSettings.ApiServices["IdentityServer"]);
     client.DefaultRequestHeaders.Accept.Add(
         new MediaTypeWithQualityHeaderValue("application/json"));
-});
+})
+.AddPolicyHandler(projectsBulkhead)
+.AddHttpMessageHandler<HeaderPropagationHandler>();
 
 var app = builder.Build();
 

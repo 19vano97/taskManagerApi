@@ -3,7 +3,7 @@ using System.Security.Claims;
 using TaskManagerApi.Models;
 using TaskManagerApi.Models.OrganizationModel;
 
-namespace TaskManagerApi.Services.Interfaces;
+namespace TaskManagerApi.Services.Interfaces.Business;
 
 public interface IOrganizationService
 {

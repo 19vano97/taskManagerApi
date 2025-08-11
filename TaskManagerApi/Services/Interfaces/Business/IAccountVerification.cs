@@ -1,7 +1,7 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
 
-namespace TaskManagerApi.Services.Interfaces;
+namespace TaskManagerApi.Services.Interfaces.Business;
 
 public interface IAccountVerification
 {

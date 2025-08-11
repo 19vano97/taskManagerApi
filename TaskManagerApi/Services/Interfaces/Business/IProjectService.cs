@@ -4,7 +4,7 @@ using TaskManagerApi.Models;
 using TaskManagerApi.Models.Project;
 using TaskManagerApi.Models.TicketItemStatuses;
 
-namespace TaskManagerApi.Services.Interfaces;
+namespace TaskManagerApi.Services.Interfaces.Business;
 
 public interface IProjectService
 {

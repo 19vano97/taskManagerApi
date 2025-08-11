@@ -9,40 +9,25 @@ namespace TaskManagerConvertor.Services.Implementation;
 
 public class AIService : IAIService
 {
-    private readonly IHttpClientFactory _httpClientFactory;
-    private readonly IAccountHelperService _accountHelperService;
+    private readonly HttpClient _httpClient;
     private readonly IHelperService _helperService;
     private readonly ILogger<AIService> _logger;
 
     public AIService(IHttpClientFactory httpClientFactory,
-                     IAccountHelperService accountHelperService,
                      IHelperService helperService,
                      ILogger<AIService> logger)
     {
-        _httpClientFactory = httpClientFactory;
-        _accountHelperService = accountHelperService;
+        _httpClient = httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
         _helperService = helperService;
         _logger = logger;
     }
 
-    public async Task<RequestResult<AiThreadDetailsDto>> CreateNewThreadAsync(IHeaderDictionary headers, AiThreadDetailsDto aiThread, CancellationToken cancellationToken)
+    public async Task<RequestResult<AiThreadDetailsDto>> CreateNewThreadAsync(AiThreadDetailsDto aiThread, CancellationToken cancellationToken)
     {
-        var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
-        if (!httpClientCheck.IsSuccess)
-        {
-            return new RequestResult<AiThreadDetailsDto>
-            {
-                IsSuccess = false,
-                ErrorMessage = httpClientCheck.ErrorMessage
-            };
-        }
-
-        var response = await httpClient.PostAsync($"/api/ai/thread/create",
+        var response = await _httpClient.PostAsync($"/api/ai/thread/create",
                                                   new StringContent(JsonConvert.SerializeObject(aiThread),
                                                   Encoding.UTF8,
                                                   "application/json"));
-        httpClient.Dispose();
 
         if (response.IsSuccessStatusCode)
         {
@@ -74,22 +59,10 @@ public class AIService : IAIService
         };
     }
 
-    public async Task<RequestResult<AiThreadDetailsDto>> DeleteThreadAsync(IHeaderDictionary headers, Guid threadId, CancellationToken cancellationToken)
+    public async Task<RequestResult<AiThreadDetailsDto>> DeleteThreadAsync(Guid threadId, CancellationToken cancellationToken)
     {
-        var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
-        if (!httpClientCheck.IsSuccess)
-        {
-            return new RequestResult<AiThreadDetailsDto>
-            {
-                IsSuccess = false,
-                ErrorMessage = httpClientCheck.ErrorMessage
-            };
-        }
-
-        var response = await httpClient.DeleteAsync($"/api/ai/thread/{threadId}/delete",
+        var response = await _httpClient.DeleteAsync($"/api/ai/thread/{threadId}/delete",
                                                  cancellationToken);
-        httpClient.Dispose();
 
         if (response.IsSuccessStatusCode)
         {
@@ -121,22 +94,10 @@ public class AIService : IAIService
         };
     }
 
-    public async Task<RequestResult<List<AiThreadDetailsDto>>> GetAllThreadsAsync(IHeaderDictionary headers, CancellationToken cancellationToken)
+    public async Task<RequestResult<List<AiThreadDetailsDto>>> GetAllThreadsAsync(CancellationToken cancellationToken)
     {
-        var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
-        if (!httpClientCheck.IsSuccess)
-        {
-            return new RequestResult<List<AiThreadDetailsDto>>
-            {
-                IsSuccess = false,
-                ErrorMessage = httpClientCheck.ErrorMessage
-            };
-        }
-
-        var response = await httpClient.GetAsync($"/api/ai/thread/all",
+        var response = await _httpClient.GetAsync($"/api/ai/thread/all",
                                                  cancellationToken);
-        httpClient.Dispose();
 
         if (response.IsSuccessStatusCode)
         {
@@ -168,22 +129,10 @@ public class AIService : IAIService
         };
     }
 
-    public async Task<RequestResult<List<ChatMessageDto>>> GetChatHistoryByThreadIdAsync(IHeaderDictionary headers, Guid aiThread, CancellationToken cancellationToken)
+    public async Task<RequestResult<List<ChatMessageDto>>> GetChatHistoryByThreadIdAsync(Guid aiThread, CancellationToken cancellationToken)
     {
-        var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
-        if (!httpClientCheck.IsSuccess)
-        {
-            return new RequestResult<List<ChatMessageDto>>
-            {
-                IsSuccess = false,
-                ErrorMessage = httpClientCheck.ErrorMessage
-            };
-        }
-
-        var response = await httpClient.GetAsync($"/api/ai/chat/{aiThread}/history",
+        var response = await _httpClient.GetAsync($"/api/ai/chat/{aiThread}/history",
                                                  cancellationToken);
-        httpClient.Dispose();
 
         if (response.IsSuccessStatusCode)
         {
@@ -215,24 +164,12 @@ public class AIService : IAIService
         };
     }
 
-    public async Task<RequestResult<ChatMessageDto>> ChatWithUserAsync(IHeaderDictionary headers, ChatMessageDto message, Guid threadId, CancellationToken cancellationToken)
+    public async Task<RequestResult<ChatMessageDto>> ChatWithUserAsync(ChatMessageDto message, Guid threadId, CancellationToken cancellationToken)
     {
-        var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
-        if (!httpClientCheck.IsSuccess)
-        {
-            return new RequestResult<ChatMessageDto>
-            {
-                IsSuccess = false,
-                ErrorMessage = httpClientCheck.ErrorMessage
-            };
-        }
-
-        var response = await httpClient.PostAsync($"/api/ai/chat/{threadId}/message",
+        var response = await _httpClient.PostAsync($"/api/ai/chat/{threadId}/message",
                                                   new StringContent(JsonConvert.SerializeObject(message),
                                                   Encoding.UTF8,
                                                   "application/json"));
-        httpClient.Dispose();
 
         if (response.IsSuccessStatusCode)
         {
@@ -264,22 +201,10 @@ public class AIService : IAIService
         };
     }
 
-    public async Task<RequestResult<AiThreadDetailsDto>> GetThreadInfoAsync(IHeaderDictionary headers, Guid aiThread, CancellationToken cancellationToken)
+    public async Task<RequestResult<AiThreadDetailsDto>> GetThreadInfoAsync(Guid aiThread, CancellationToken cancellationToken)
     {
-        var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
-        if (!httpClientCheck.IsSuccess)
-        {
-            return new RequestResult<AiThreadDetailsDto>
-            {
-                IsSuccess = false,
-                ErrorMessage = httpClientCheck.ErrorMessage
-            };
-        }
-
-        var response = await httpClient.GetAsync($"/api/ai/thread/{aiThread}/info",
+        var response = await _httpClient.GetAsync($"/api/ai/thread/{aiThread}/info",
                                                  cancellationToken);
-        httpClient.Dispose();
         
         if (response.IsSuccessStatusCode)
         {

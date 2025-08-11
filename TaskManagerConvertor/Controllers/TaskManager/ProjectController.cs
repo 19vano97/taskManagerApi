@@ -23,7 +23,7 @@ namespace TaskManagerConvertor.Controllers.TaskManager
         {
             _logger.LogInformation("GetAllProjectsWithTasksListAsync called for organizationId: {OrgId}", organizationId);
 
-            var response = await _projectService.GetAllProjectsWithTasksListAsync(Request.Headers, organizationId, cancellationToken);
+            var response = await _projectService.GetAllProjectsWithTasksListAsync(organizationId, cancellationToken);
             if (response.IsSuccess)
             {
                 _logger.LogInformation(response.Data!.ToString());
@@ -40,7 +40,7 @@ namespace TaskManagerConvertor.Controllers.TaskManager
         {
             _logger.LogInformation("GetProjectByIdAsync called for projectId: {ProjectId}", projectId);
 
-            var response = await _projectService.GetProjectByIdAsync(Request.Headers, projectId, cancellationToken);
+            var response = await _projectService.GetProjectByIdAsync(projectId, cancellationToken);
             if (response.IsSuccess)
             {
                 _logger.LogInformation(response.Data!.ToString());
@@ -57,7 +57,7 @@ namespace TaskManagerConvertor.Controllers.TaskManager
         {
             _logger.LogInformation("GetProjectWithTasksByIdAsync called for projectId: {ProjectId}", projectId);
 
-            var response = await _projectService.GetProjectWithTasksByIdAsync(Request.Headers, projectId, cancellationToken);
+            var response = await _projectService.GetProjectWithTasksByIdAsync(projectId, cancellationToken);
             if (response.IsSuccess)
             {
                 _logger.LogInformation(response.Data!.ToString());
@@ -75,7 +75,7 @@ namespace TaskManagerConvertor.Controllers.TaskManager
         {
             _logger.LogInformation("CreateProjectAsync called");
 
-            var response = await _projectService.CreateProjectAsync(Request.Headers, newProject, cancellationToken);
+            var response = await _projectService.CreateProjectAsync(newProject, cancellationToken);
             if (response.IsSuccess)
             {
                 _logger.LogInformation(response.Data!.ToString());
@@ -94,7 +94,7 @@ namespace TaskManagerConvertor.Controllers.TaskManager
         {
             _logger.LogInformation("EditProjectByIdAsync called for projectId: {ProjectId}", projectId);
 
-            var response = await _projectService.EditProjectByIdAsync(Request.Headers, editProject, projectId, cancellationToken);
+            var response = await _projectService.EditProjectByIdAsync(editProject, projectId, cancellationToken);
             if (response.IsSuccess)
             {
                 _logger.LogInformation(response.Data!.ToString());
@@ -111,7 +111,7 @@ namespace TaskManagerConvertor.Controllers.TaskManager
         {
             _logger.LogInformation("DeleteProjectAsync called for projectId: {ProjectId}", projectId);
 
-            var response = await _projectService.DeleteProjectAsync(Request.Headers, projectId, cancellationToken);
+            var response = await _projectService.DeleteProjectAsync(projectId, cancellationToken);
             if (response.IsSuccess)
             {
                 _logger.LogInformation(response.Data?.ToString());

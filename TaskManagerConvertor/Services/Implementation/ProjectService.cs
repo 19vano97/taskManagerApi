@@ -11,7 +11,7 @@ namespace TaskManagerConvertor.Services.Implementation;
 public class ProjectService : IProjectService
 {
     private readonly IAccountHelperService _accountHelperService;
-    private readonly IHttpClientFactory _httpClientFactory;
+    private readonly HttpClient _httpClient;
     private readonly IHelperService _helperService;
     private readonly ILogger<ProjectService> _logger;
 
@@ -20,30 +20,18 @@ public class ProjectService : IProjectService
                                IHelperService helperService,
                                ILogger<ProjectService> logger)
     {
-        _httpClientFactory = httpClientFactory;
+        _httpClient = httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
         _accountHelperService = accountHelperService;
         _helperService = helperService;
         _logger = logger;
     }
 
-    public async Task<RequestResult<ProjectItemDto>> CreateProjectAsync(IHeaderDictionary headers, ProjectItemDto project, CancellationToken cancellationToken)
+    public async Task<RequestResult<ProjectItemDto>> CreateProjectAsync(ProjectItemDto project, CancellationToken cancellationToken)
     {
-        var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
-        if (!httpClientCheck.IsSuccess)
-        {
-            return new RequestResult<ProjectItemDto>
-            {
-                IsSuccess = false,
-                ErrorMessage = httpClientCheck.ErrorMessage
-            };
-        }
-
-        var response = await httpClient.PostAsync(Constants.TaskManagerApi.Project.POST_CREATE_PROJECT,
+        var response = await _httpClient.PostAsync(Constants.TaskManagerApi.Project.POST_CREATE_PROJECT,
                                                         new StringContent(JsonConvert.SerializeObject(project),
                                                         Encoding.UTF8,
                                                         "application/json"));
-        httpClient.Dispose();
         
         if (response.IsSuccessStatusCode)
         {
@@ -59,7 +47,7 @@ public class ProjectService : IProjectService
                 };
             }
 
-            ticket = await _accountHelperService.AddAccountDetails(headers, ticket!, cancellationToken);
+            ticket = await _accountHelperService.AddAccountDetails(ticket!, cancellationToken);
 
             return new RequestResult<ProjectItemDto>
             {
@@ -77,21 +65,9 @@ public class ProjectService : IProjectService
         };
     }
 
-    public async Task<RequestResult<ProjectItemDto>> DeleteProjectAsync(IHeaderDictionary headers, Guid projectId, CancellationToken cancellationToken)
+    public async Task<RequestResult<ProjectItemDto>> DeleteProjectAsync(Guid projectId, CancellationToken cancellationToken)
     {
-        var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
-        if (!httpClientCheck.IsSuccess)
-        {
-            return new RequestResult<ProjectItemDto>
-            {
-                IsSuccess = false,
-                ErrorMessage = httpClientCheck.ErrorMessage
-            };
-        }
-
-        var response = await httpClient.DeleteAsync($"/api/project/{projectId}/delete", cancellationToken);
-        httpClient.Dispose();
+        var response = await _httpClient.DeleteAsync($"/api/project/{projectId}/delete", cancellationToken);
 
         if (response.IsSuccessStatusCode)
         {
@@ -107,7 +83,7 @@ public class ProjectService : IProjectService
                 };
             }
 
-            ticket = await _accountHelperService.AddAccountDetails(headers, ticket!, cancellationToken);
+            ticket = await _accountHelperService.AddAccountDetails(ticket!, cancellationToken);
 
             return new RequestResult<ProjectItemDto>
             {
@@ -123,24 +99,12 @@ public class ProjectService : IProjectService
         };
     }
 
-    public async Task<RequestResult<ProjectItemDto>> EditProjectByIdAsync(IHeaderDictionary headers, ProjectItemDto editProject, Guid projectId, CancellationToken cancellationToken)
+    public async Task<RequestResult<ProjectItemDto>> EditProjectByIdAsync(ProjectItemDto editProject, Guid projectId, CancellationToken cancellationToken)
     {
-        var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
-        if (!httpClientCheck.IsSuccess)
-        {
-            return new RequestResult<ProjectItemDto>
-            {
-                IsSuccess = false,
-                ErrorMessage = httpClientCheck.ErrorMessage
-            };
-        }
-
-        var response = await httpClient.PostAsync($"api/project/{projectId}/edit",
+        var response = await _httpClient.PostAsync($"api/project/{projectId}/edit",
                                                         new StringContent(JsonConvert.SerializeObject(editProject),
                                                         Encoding.UTF8,
                                                         "application/json"));
-        httpClient.Dispose();
 
         if (response.IsSuccessStatusCode)
         {
@@ -156,7 +120,7 @@ public class ProjectService : IProjectService
                 };
             }
 
-            ticket = await _accountHelperService.AddAccountDetails(headers, ticket!, cancellationToken);
+            ticket = await _accountHelperService.AddAccountDetails(ticket!, cancellationToken);
 
             return new RequestResult<ProjectItemDto>
             {
@@ -174,21 +138,10 @@ public class ProjectService : IProjectService
         };
     }
 
-    public async Task<RequestResult<List<ProjectItemDto>>> GetAllProjectsWithTasksListAsync(IHeaderDictionary headers, Guid organizationId, CancellationToken cancellationToken)
+    public async Task<RequestResult<List<ProjectItemDto>>> GetAllProjectsWithTasksListAsync(Guid organizationId, CancellationToken cancellationToken)
     {
-        var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
-        if (!httpClientCheck.IsSuccess)
-        {
-            return new RequestResult<List<ProjectItemDto>>
-            {
-                IsSuccess = false,
-                ErrorMessage = httpClientCheck.ErrorMessage
-            };
-        }
+        var response = await _httpClient.GetAsync($"/api/project/all/{organizationId}", cancellationToken);
 
-        var response = await httpClient.GetAsync($"/api/project/all/{organizationId}", cancellationToken);
-        httpClient.Dispose();
         if (response.IsSuccessStatusCode)
         {
             _logger.LogInformation(await response.Content.ReadAsStringAsync());
@@ -203,7 +156,7 @@ public class ProjectService : IProjectService
                 };
             }
 
-            ticket = await _accountHelperService.AddAccountDetails(headers, ticket!, cancellationToken);
+            ticket = await _accountHelperService.AddAccountDetails(ticket!, cancellationToken);
 
             return new RequestResult<List<ProjectItemDto>>
             {
@@ -219,21 +172,10 @@ public class ProjectService : IProjectService
         };
     }
 
-    public async Task<RequestResult<ProjectItemDto>> GetProjectByIdAsync(IHeaderDictionary headers, Guid projectId, CancellationToken cancellationToken)
+    public async Task<RequestResult<ProjectItemDto>> GetProjectByIdAsync(Guid projectId, CancellationToken cancellationToken)
     {
-        var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
-        if (!httpClientCheck.IsSuccess)
-        {
-            return new RequestResult<ProjectItemDto>
-            {
-                IsSuccess = false,
-                ErrorMessage = httpClientCheck.ErrorMessage
-            };
-        }
+        var response = await _httpClient.GetAsync($"/api/project/{projectId}", cancellationToken);
 
-        var response = await httpClient.GetAsync($"/api/project/{projectId}", cancellationToken);
-        httpClient.Dispose();
         if (response.IsSuccessStatusCode)
         {
             _logger.LogInformation(await response.Content.ReadAsStringAsync());
@@ -248,7 +190,7 @@ public class ProjectService : IProjectService
                 };
             }
 
-            ticket = await _accountHelperService.AddAccountDetails(headers, ticket!, cancellationToken);
+            ticket = await _accountHelperService.AddAccountDetails(ticket!, cancellationToken);
 
             return new RequestResult<ProjectItemDto>
             {
@@ -264,21 +206,10 @@ public class ProjectService : IProjectService
         };
     }
 
-    public async Task<RequestResult<ProjectItemDto>> GetProjectWithTasksByIdAsync(IHeaderDictionary headers, Guid projectId, CancellationToken cancellationToken)
+    public async Task<RequestResult<ProjectItemDto>> GetProjectWithTasksByIdAsync(Guid projectId, CancellationToken cancellationToken)
     {
-        var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
-        if (!httpClientCheck.IsSuccess)
-        {
-            return new RequestResult<ProjectItemDto>
-            {
-                IsSuccess = false,
-                ErrorMessage = httpClientCheck.ErrorMessage
-            };
-        }
+        var response = await _httpClient.GetAsync($"/api/project/{projectId}/tasks", cancellationToken);
 
-        var response = await httpClient.GetAsync($"/api/project/{projectId}/tasks", cancellationToken);
-        httpClient.Dispose();
         if (response.IsSuccessStatusCode)
         {
             _logger.LogInformation(await response.Content.ReadAsStringAsync());
@@ -293,7 +224,7 @@ public class ProjectService : IProjectService
                 };
             }
 
-            ticket = await _accountHelperService.AddAccountDetails(headers, ticket!, cancellationToken);
+            ticket = await _accountHelperService.AddAccountDetails(ticket!, cancellationToken);
 
             return new RequestResult<ProjectItemDto>
             {

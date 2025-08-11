@@ -12,7 +12,7 @@ namespace TaskManagerConvertor.Services.Implementation;
 
 public class TicketService : ITicketService
 {
-    private readonly IHttpClientFactory _httpClientFactory;
+    private readonly HttpClient _httpClient;
     private readonly IAccountHelperService _accountHelperService;
     private readonly IHelperService _helperService;
     private readonly ILogger<TicketService> _logger;
@@ -22,32 +22,19 @@ public class TicketService : ITicketService
                          IHelperService helperService,
                          ILogger<TicketService> logger)
     {
-        _httpClientFactory = httpClientFactory;
+        _httpClient = httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
         _accountHelperService = accountHelperService;
         _helperService = helperService;
         _logger = logger;
     }
 
-    public async Task<RequestResult<TicketDto>> CreateTicketAsync(IHeaderDictionary headers,
-                                                             TicketDto ticketDto,
+    public async Task<RequestResult<TicketDto>> CreateTicketAsync(TicketDto ticketDto,
                                                              CancellationToken cancellationToken)
     {
-        var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers, httpClient);
-        if (!httpClientCheck.IsSuccess)
-        {
-            return new RequestResult<TicketDto>
-            {
-                IsSuccess = false,
-                ErrorMessage = httpClientCheck.ErrorMessage
-            };
-        }
-
-        var response = await httpClient.PostAsync(Constants.TaskManagerApi.Ticket.POST_CREATE_TICKET,
+        var response = await _httpClient.PostAsync(Constants.TaskManagerApi.Ticket.POST_CREATE_TICKET,
                                                         new StringContent(JsonConvert.SerializeObject(ticketDto),
                                                         Encoding.UTF8,
                                                         "application/json"));
-        httpClient.Dispose();
 
         if (response.IsSuccessStatusCode)
         {
@@ -63,7 +50,7 @@ public class TicketService : ITicketService
                 };
             }
 
-            ticket = await _accountHelperService.AddAccountDetails(headers, ticket!, cancellationToken);
+            ticket = await _accountHelperService.AddAccountDetails(ticket!, cancellationToken);
 
             return new RequestResult<TicketDto>
             {
@@ -81,23 +68,9 @@ public class TicketService : ITicketService
         };
     }
 
-    public async Task<RequestResult<TicketDto>> GetTicketById(IHeaderDictionary headers,
-                                                              Guid Id,
-                                                              CancellationToken cancellationToken)
+    public async Task<RequestResult<TicketDto>> GetTicketById(Guid Id, CancellationToken cancellationToken)
     {
-        var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
-        if (!httpClientCheck.IsSuccess)
-        {
-            return new RequestResult<TicketDto>
-            {
-                IsSuccess = false,
-                ErrorMessage = httpClientCheck.ErrorMessage
-            };
-        }
-
-        var response = await httpClient.GetAsync($"/api/task/{Id}/details", cancellationToken);
-        httpClient.Dispose();
+        var response = await _httpClient.GetAsync($"/api/task/{Id}/details", cancellationToken);
 
         if (response.IsSuccessStatusCode)
         {
@@ -112,7 +85,7 @@ public class TicketService : ITicketService
                 };
             }
 
-            ticket = await _accountHelperService.AddAccountDetails(headers, ticket!, cancellationToken);
+            ticket = await _accountHelperService.AddAccountDetails(ticket!, cancellationToken);
 
             return new RequestResult<TicketDto>
             {
@@ -130,40 +103,21 @@ public class TicketService : ITicketService
         };
     }
 
-    public async Task<RequestResult<List<TicketDto>>> GetTasksAsync(IHeaderDictionary headers, Guid projectId, CancellationToken cancellationToken)
+    public async Task<RequestResult<List<TicketDto>>> GetTasksAsync(Guid id, bool isProject, CancellationToken cancellationToken)
     {
-        var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
-        if (!httpClientCheck.IsSuccess)
+        HttpResponseMessage? response;
+         
+        if (!isProject)
         {
-            return new RequestResult<List<TicketDto>>
-            {
-                IsSuccess = false,
-                ErrorMessage = httpClientCheck.ErrorMessage
-            };
-        }
-
-        var response = new HttpResponseMessage();
-        var org = httpClient.DefaultRequestHeaders
-                                                                        .First(o => o.Key == Constants.Settings.Header.ORGANIZATION).Value.First();
-
-        if (projectId == Guid.Empty)
-        {
-            response = await httpClient.GetAsync($"/api/task/all/{httpClient.DefaultRequestHeaders
-                                                                        .First(o => o.Key == Constants.Settings.Header.ORGANIZATION).Value.First()}/organization"
-
+            response = await _httpClient.GetAsync($"/api/task/all/{id}/organization"
                                                         , cancellationToken);
         }
         else
         {
-            response = await httpClient.GetAsync(string.Format($"/api/task/all/{0}/project",
-                                                                     httpClient.DefaultRequestHeaders
-                                                                        .First(o => o.Key == Constants.Settings.Header.ORGANIZATION).Value)
+            response = await _httpClient.GetAsync($"/api/task/all/{id}/project"
                                                         , cancellationToken);
         }
 
-        httpClient.Dispose();
-
         if (response.IsSuccessStatusCode)
         {
             _logger.LogInformation(await response.Content.ReadAsStringAsync());
@@ -178,7 +132,7 @@ public class TicketService : ITicketService
             }
 
             if (tickets is not null && tickets.Count > 0)
-                tickets = await _accountHelperService.AddAccountDetails(headers, tickets, cancellationToken);
+                tickets = await _accountHelperService.AddAccountDetails(tickets, cancellationToken);
 
             return new RequestResult<List<TicketDto>>
             {
@@ -196,24 +150,12 @@ public class TicketService : ITicketService
         };
     }
 
-    public async Task<RequestResult<List<TicketDto>>> CreateTaskForAiAsync(IHeaderDictionary headers, TicketForAiDto[] newTasks, CancellationToken cancellationToken)
+    public async Task<RequestResult<List<TicketDto>>> CreateTaskForAiAsync(TicketForAiDto[] newTasks, CancellationToken cancellationToken)
     {
-        var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
-        if (!httpClientCheck.IsSuccess)
-        {
-            return new RequestResult<List<TicketDto>>
-            {
-                IsSuccess = false,
-                ErrorMessage = httpClientCheck.ErrorMessage
-            };
-        }
-
-        var response = await httpClient.PostAsync(Constants.TaskManagerApi.Ticket.POST_CREATE_TICKETS_FOR_AI,
+        var response = await _httpClient.PostAsync(Constants.TaskManagerApi.Ticket.POST_CREATE_TICKETS_FOR_AI,
                                                         new StringContent(JsonConvert.SerializeObject(newTasks),
                                                         Encoding.UTF8,
                                                         "application/json"));
-        httpClient.Dispose();
 
         if (response.IsSuccessStatusCode)
         {
@@ -229,7 +171,7 @@ public class TicketService : ITicketService
             }
 
             if (tickets is not null && tickets.Count > 0)
-                tickets = await _accountHelperService.AddAccountDetails(headers, tickets, cancellationToken);
+                tickets = await _accountHelperService.AddAccountDetails(tickets, cancellationToken);
 
             return new RequestResult<List<TicketDto>>
             {
@@ -247,24 +189,12 @@ public class TicketService : ITicketService
         };
     }
 
-    public async Task<RequestResult<TicketDto>> EditTaskByIdAsync(IHeaderDictionary headers, TicketDto ticketDto, CancellationToken cancellationToken)
+    public async Task<RequestResult<TicketDto>> EditTaskByIdAsync(TicketDto ticketDto, CancellationToken cancellationToken)
     {
-        var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
-        if (!httpClientCheck.IsSuccess)
-        {
-            return new RequestResult<TicketDto>
-            {
-                IsSuccess = false,
-                ErrorMessage = httpClientCheck.ErrorMessage
-            };
-        }
-
-        var response = await httpClient.PostAsync($"/api/task/{ticketDto.Id}/edit",
+        var response = await _httpClient.PostAsync($"/api/task/{ticketDto.Id}/edit",
                                                   new StringContent(JsonConvert.SerializeObject(ticketDto),
                                                   Encoding.UTF8,
                                                   "application/json"));
-        httpClient.Dispose();
 
         if (response.IsSuccessStatusCode)
         {
@@ -280,7 +210,7 @@ public class TicketService : ITicketService
                 };
             }
 
-            ticket = await _accountHelperService.AddAccountDetails(headers, ticket!, cancellationToken);
+            ticket = await _accountHelperService.AddAccountDetails(ticket!, cancellationToken);
 
             return new RequestResult<TicketDto>
             {
@@ -298,21 +228,9 @@ public class TicketService : ITicketService
         };
     }
 
-    public async Task<RequestResult<List<TicketHistoryDto>>> GetTicketHistory(IHeaderDictionary headers, Guid ticketId, CancellationToken cancellationToken)
+    public async Task<RequestResult<List<TicketHistoryDto>>> GetTicketHistory(Guid ticketId, CancellationToken cancellationToken)
     {
-        var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
-        if (!httpClientCheck.IsSuccess)
-        {
-            return new RequestResult<List<TicketHistoryDto>>
-            {
-                IsSuccess = false,
-                ErrorMessage = httpClientCheck.ErrorMessage
-            };
-        }
-
-        var response = await httpClient.GetAsync($"/api/task/{ticketId}/history", cancellationToken);
-        httpClient.Dispose();
+        var response = await _httpClient.GetAsync($"/api/task/{ticketId}/history", cancellationToken);
 
         if (response.IsSuccessStatusCode)
         {
@@ -329,7 +247,7 @@ public class TicketService : ITicketService
 
             if (history is not null && history.Count > 0)
             {
-                history = await _accountHelperService.AddAccountDetails(headers, history, cancellationToken);
+                history = await _accountHelperService.AddAccountDetails(history, cancellationToken);
             }
 
             return new RequestResult<List<TicketHistoryDto>>
@@ -348,21 +266,9 @@ public class TicketService : ITicketService
         };
     }
 
-    public async Task<RequestResult<bool>> DeleteTaskByIdAsync(IHeaderDictionary headers, Guid ticketId, CancellationToken cancellationToken)
+    public async Task<RequestResult<bool>> DeleteTaskByIdAsync(Guid ticketId, CancellationToken cancellationToken)
     {
-        var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
-        if (!httpClientCheck.IsSuccess)
-        {
-            return new RequestResult<bool>
-            {
-                IsSuccess = false,
-                ErrorMessage = httpClientCheck.ErrorMessage
-            };
-        }
-
-        var response = await httpClient.DeleteAsync($"/api/task/{ticketId}/delete", cancellationToken);
-        httpClient.Dispose();
+        var response = await _httpClient.DeleteAsync($"/api/task/{ticketId}/delete", cancellationToken);
         
         if (response.IsSuccessStatusCode)
         {
@@ -382,24 +288,12 @@ public class TicketService : ITicketService
         };
     }
 
-    public async Task<RequestResult<bool>> PostNewComment(IHeaderDictionary headers, Guid ticketId, TicketCommentDto comment, CancellationToken cancellationToken)
+    public async Task<RequestResult<bool>> PostNewComment(Guid ticketId, TicketCommentDto comment, CancellationToken cancellationToken)
     {
-        var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
-        if (!httpClientCheck.IsSuccess)
-        {
-            return new RequestResult<bool>
-            {
-                IsSuccess = false,
-                ErrorMessage = httpClientCheck.ErrorMessage
-            };
-        }
-
-        var response = await httpClient.PostAsync($"api/task/{ticketId}/comment/new",
+        var response = await _httpClient.PostAsync($"api/task/{ticketId}/comment/new",
                                                         new StringContent(JsonConvert.SerializeObject(comment),
                                                         Encoding.UTF8,
                                                         "application/json"));
-        httpClient.Dispose();
 
         if (response.IsSuccessStatusCode)
         {
@@ -419,24 +313,12 @@ public class TicketService : ITicketService
         };
     }
 
-    public async Task<RequestResult<bool>> EditComment(IHeaderDictionary headers, Guid ticketId, Guid commentId, TicketCommentDto comment, CancellationToken cancellationToken)
+    public async Task<RequestResult<bool>> EditComment(Guid ticketId, Guid commentId, TicketCommentDto comment, CancellationToken cancellationToken)
     {
-        var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
-        if (!httpClientCheck.IsSuccess)
-        {
-            return new RequestResult<bool>
-            {
-                IsSuccess = false,
-                ErrorMessage = httpClientCheck.ErrorMessage
-            };
-        }
-
-        var response = await httpClient.PostAsync($"api/task/{ticketId}/comment/{commentId}",
+        var response = await _httpClient.PostAsync($"api/task/{ticketId}/comment/{commentId}",
                                                         new StringContent(JsonConvert.SerializeObject(comment),
                                                         Encoding.UTF8,
                                                         "application/json"));
-        httpClient.Dispose();
 
         if (response.IsSuccessStatusCode)
         {
@@ -456,21 +338,9 @@ public class TicketService : ITicketService
         };
     }
 
-    public async Task<RequestResult<bool>> DeleteComment(IHeaderDictionary headers, Guid ticketId, Guid commentId, CancellationToken cancellationToken)
+    public async Task<RequestResult<bool>> DeleteComment(Guid ticketId, Guid commentId, CancellationToken cancellationToken)
     {
-        var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
-        if (!httpClientCheck.IsSuccess)
-        {
-            return new RequestResult<bool>
-            {
-                IsSuccess = false,
-                ErrorMessage = httpClientCheck.ErrorMessage
-            };
-        }
-
-        var response = await httpClient.DeleteAsync($"api/task/{ticketId}/comment/{commentId}", cancellationToken);
-        httpClient.Dispose();
+        var response = await _httpClient.DeleteAsync($"api/task/{ticketId}/comment/{commentId}", cancellationToken);
 
         if (response.IsSuccessStatusCode)
         {
@@ -490,21 +360,9 @@ public class TicketService : ITicketService
         };
     }
 
-    public async Task<RequestResult<List<TicketCommentDto>>> GetCommentsByTicketId(IHeaderDictionary headers, Guid ticketId, CancellationToken cancellationToken)
+    public async Task<RequestResult<List<TicketCommentDto>>> GetCommentsByTicketId(Guid ticketId, CancellationToken cancellationToken)
     {
-        var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
-        if (!httpClientCheck.IsSuccess)
-        {
-            return new RequestResult<List<TicketCommentDto>>
-            {
-                IsSuccess = false,
-                ErrorMessage = httpClientCheck.ErrorMessage
-            };
-        }
-
-        var response = await httpClient.GetAsync($"/api/task/{ticketId}/comment/all", cancellationToken);
-        httpClient.Dispose();
+        var response = await _httpClient.GetAsync($"/api/task/{ticketId}/comment/all", cancellationToken);
 
         if (response.IsSuccessStatusCode)
         {
@@ -519,7 +377,7 @@ public class TicketService : ITicketService
                 };
             }
 
-            ticket = await _accountHelperService.AddAccountDetails(headers, ticket!, cancellationToken);
+            ticket = await _accountHelperService.AddAccountDetails(ticket!, cancellationToken);
 
             return new RequestResult<List<TicketCommentDto>>
             {

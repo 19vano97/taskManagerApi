@@ -5,7 +5,7 @@ using TaskManagerApi.Models;
 using TaskManagerApi.Models.TicketItem;
 using TaskManagerApi.Models.Tickets;
 
-namespace TaskManagerApi.Services.Interfaces;
+namespace TaskManagerApi.Services.Interfaces.Business;
 
 public interface ITicketService
 {

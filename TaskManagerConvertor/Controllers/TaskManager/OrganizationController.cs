@@ -25,7 +25,7 @@ namespace TaskManagerConvertor.Controllers.TaskManager
         {
             _logger.LogInformation("CreateOrganizationAsync called");
 
-            var response = await _organizationService.CreateOrganizationAsync(Request.Headers, newOrganization, cancellationToken);
+            var response = await _organizationService.CreateOrganizationAsync(newOrganization, cancellationToken);
             if (response.IsSuccess)
             {
                 _logger.LogInformation(response.Data!.ToString());
@@ -44,7 +44,7 @@ namespace TaskManagerConvertor.Controllers.TaskManager
         {
             _logger.LogInformation("EditOrganizationAsync called for organizationId: {OrgId}", organizationId);
 
-            var response = await _organizationService.EditOrganizationAsync(Request.Headers, organizationId, editOrganization, cancellationToken);
+            var response = await _organizationService.EditOrganizationAsync(organizationId, editOrganization, cancellationToken);
             if (response.IsSuccess)
             {
                 _logger.LogInformation(response.Data!.ToString());
@@ -62,7 +62,7 @@ namespace TaskManagerConvertor.Controllers.TaskManager
         {
             _logger.LogInformation("GetSelfOrganizationsAsync called");
 
-            var response = await _organizationService.GetSelfOrganizationsAsync(Request.Headers, cancellationToken);
+            var response = await _organizationService.GetSelfOrganizationsAsync(cancellationToken);
             if (response.IsSuccess)
             {
                 _logger.LogInformation(response.Data!.ToString());
@@ -79,7 +79,7 @@ namespace TaskManagerConvertor.Controllers.TaskManager
         {
             _logger.LogInformation("GetOrganizationByIdAsync called for organizationId: {OrgId}", organizationId);
 
-            var response = await _organizationService.GetOrganizationByIdAsync(Request.Headers, organizationId, cancellationToken);
+            var response = await _organizationService.GetOrganizationByIdAsync(organizationId, cancellationToken);
             if (response.IsSuccess)
             {
                 _logger.LogInformation(response.Data!.ToString());
@@ -96,7 +96,7 @@ namespace TaskManagerConvertor.Controllers.TaskManager
         {
             _logger.LogInformation("GetOrganizationInfoAsync called for organizationId: {OrgId}", organizationId);
 
-            var response = await _organizationService.GetOrganizationAccountsAsync(Request.Headers, organizationId, cancellationToken);
+            var response = await _organizationService.GetOrganizationAccountsAsync(organizationId, cancellationToken);
             if (response.IsSuccess)
             {
                 _logger.LogInformation(response.Data!.ToString());
@@ -113,7 +113,7 @@ namespace TaskManagerConvertor.Controllers.TaskManager
         {
             _logger.LogInformation("AddNewAccountToOrganization called for organizationId: {OrgId}, accountId: {AccountId}", organizationId, accountId);
 
-            var response = await _organizationService.AddNewAccountToOrganization(Request.Headers, organizationId, accountId, cancellationToken);
+            var response = await _organizationService.AddNewAccountToOrganization(organizationId, accountId, cancellationToken);
             if (response.IsSuccess)
             {
                 _logger.LogInformation(response.Data!.ToString());

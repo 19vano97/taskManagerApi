@@ -5,8 +5,8 @@ namespace TaskManagerConvertor.Services.Interfaces;
 
 public interface IAccountService
 {
-    public Task<RequestResult<AccountDto>> GetOwnAccountDetails(IHeaderDictionary headers, CancellationToken cancellationToken);
-    public Task<RequestResult<AccountDto>> PostAccountDetails(IHeaderDictionary headers, AccountDto account, CancellationToken cancellationToken);
-    public Task<RequestResult<AccountDto>> PrecreateInvitedAccount(IHeaderDictionary headers, AccountDto account, CancellationToken cancellationToken);
-    public Task<RequestResult<List<AccountDto>>> GetAccountDetailsByIds(IHeaderDictionary headers, List<Guid> accountIds, CancellationToken cancellationToken);
+    public Task<RequestResult<AccountDto>> GetOwnAccountDetails(CancellationToken cancellationToken);
+    public Task<RequestResult<AccountDto>> PostAccountDetails(AccountDto account, CancellationToken cancellationToken);
+    public Task<RequestResult<AccountDto>> PrecreateInvitedAccount(AccountDto account, CancellationToken cancellationToken);
+    public Task<RequestResult<List<AccountDto>>> GetAccountDetailsByIds(List<Guid> accountIds, CancellationToken cancellationToken);
 }

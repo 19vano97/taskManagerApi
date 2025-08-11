@@ -26,6 +26,7 @@
   <ItemGroup>
     <Folder Include="Enitities/Organization/" />
     <Folder Include="Enitities/Project/" />
+    <Folder Include="Services/Implementations/Comparers/" />
   </ItemGroup>
 
 </Project>

@@ -3,8 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TaskManagerApi.Data;
 using TaskManagerApi.Services.Interfaces;
+using TaskManagerApi.Services.Interfaces.Business;
 
-namespace TaskManagerApi.Services.Implementations;
+namespace TaskManagerApi.Services.Implementations.Business;
 
 public class AccountVerification : IAccountVerification
 {

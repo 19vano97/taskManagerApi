@@ -26,7 +26,7 @@ namespace TaskManagerConvertor.Controllers.TaskManager
         {
             _logger.LogInformation("ChattingWithUser called for threadId: {ThreadId}", threadId);
 
-            var response = await _aIService.ChatWithUserAsync(Request.Headers, message, threadId, cancellationToken);
+            var response = await _aIService.ChatWithUserAsync(message, threadId, cancellationToken);
             if (response.IsSuccess)
             {
                 _logger.LogInformation(response.Data!.ToString());
@@ -43,7 +43,7 @@ namespace TaskManagerConvertor.Controllers.TaskManager
         {
             _logger.LogInformation("GetChatHistoryByThreadId called for aiThread: {ThreadId}", aiThread);
 
-            var response = await _aIService.GetChatHistoryByThreadIdAsync(Request.Headers, aiThread, cancellationToken);
+            var response = await _aIService.GetChatHistoryByThreadIdAsync(aiThread, cancellationToken);
             if (response.IsSuccess)
             {
                 _logger.LogInformation(response.Data!.ToString());
@@ -60,7 +60,7 @@ namespace TaskManagerConvertor.Controllers.TaskManager
         {
             _logger.LogInformation("CreateNewThread called");
 
-            var response = await _aIService.CreateNewThreadAsync(Request.Headers, aiThread, cancellationToken);
+            var response = await _aIService.CreateNewThreadAsync(aiThread, cancellationToken);
             if (response.IsSuccess)
             {
                 _logger.LogInformation(response.Data!.ToString());
@@ -77,7 +77,7 @@ namespace TaskManagerConvertor.Controllers.TaskManager
         {
             _logger.LogInformation("DeleteThread called for threadId: {ThreadId}", threadId);
 
-            var response = await _aIService.DeleteThreadAsync(Request.Headers, threadId, cancellationToken);
+            var response = await _aIService.DeleteThreadAsync(threadId, cancellationToken);
             if (response.IsSuccess)
             {
                 return Ok();
@@ -93,7 +93,7 @@ namespace TaskManagerConvertor.Controllers.TaskManager
         {
             _logger.LogInformation("GetAllThreads called");
 
-            var response = await _aIService.GetAllThreadsAsync(Request.Headers, cancellationToken);
+            var response = await _aIService.GetAllThreadsAsync(cancellationToken);
             if (response.IsSuccess)
             {
                 _logger.LogInformation(response.Data!.ToString());
@@ -110,7 +110,7 @@ namespace TaskManagerConvertor.Controllers.TaskManager
         {
             _logger.LogInformation("GetThreadInfo called for aiThread: {ThreadId}", aiThread);
 
-            var response = await _aIService.GetThreadInfoAsync(Request.Headers, aiThread, cancellationToken);
+            var response = await _aIService.GetThreadInfoAsync(aiThread, cancellationToken);
             if (response.IsSuccess)
             {
                 _logger.LogInformation(response.Data!.ToString());

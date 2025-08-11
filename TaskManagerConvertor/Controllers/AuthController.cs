@@ -27,7 +27,7 @@ namespace TaskManagerConvertor.Controllers
             if (Request.Headers is null)
                 return BadRequest();
 
-            var response = await _accountService.GetOwnAccountDetails(Request.Headers, cancellationToken);
+            var response = await _accountService.GetOwnAccountDetails(cancellationToken);
             if (response.IsSuccess)
             {
                 _logger.LogInformation(response.Data!.ToString());
@@ -45,7 +45,7 @@ namespace TaskManagerConvertor.Controllers
             if (Request.Headers is null)
                 return BadRequest();
 
-            var response = await _accountService.PostAccountDetails(Request.Headers, account, cancellationToken);
+            var response = await _accountService.PostAccountDetails(account, cancellationToken);
             if (response.IsSuccess)
             {
                 _logger.LogInformation(response.Data!.ToString());
@@ -63,7 +63,7 @@ namespace TaskManagerConvertor.Controllers
             if (Request.Headers is null)
                 return BadRequest();
 
-            var response = await _accountService.PrecreateInvitedAccount(Request.Headers, account, cancellationToken);
+            var response = await _accountService.PrecreateInvitedAccount(account, cancellationToken);
             if (response.IsSuccess)
             {
                 _logger.LogInformation(response.Data!.ToString());

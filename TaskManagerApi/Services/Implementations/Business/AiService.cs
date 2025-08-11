@@ -7,9 +7,10 @@ using TaskManagerApi.Data;
 using TaskManagerApi.Models;
 using TaskManagerApi.Models.AI;
 using TaskManagerApi.Services.Interfaces;
+using TaskManagerApi.Services.Interfaces.Business;
 using static TaskManagerApi.Models.Constants;
 
-namespace TaskManagerApi.Services.Implementations;
+namespace TaskManagerApi.Services.Implementations.Business;
 
 public class AiService : IAiService
 {

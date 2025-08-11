@@ -21,7 +21,7 @@ public class AccountHelperService : IAccountHelperService
         _logger = logger;
     }
 
-    public async Task<T?> AddAccountDetails<T>(IHeaderDictionary headers, T? type, CancellationToken cancellationToken)
+    public async Task<T?> AddAccountDetails<T>(T? type, CancellationToken cancellationToken)
     {
         var accountsToGet = new List<Guid>();
 
@@ -89,9 +89,7 @@ public class AccountHelperService : IAccountHelperService
         if (accountsToGet is null || accountsToGet.Count == 0)
             return type;
 
-        var accounts = await _accountService.GetAccountDetailsByIds(headers,
-                                                                    accountsToGet,
-                                                                    cancellationToken);
+        var accounts = await _accountService.GetAccountDetailsByIds(accountsToGet, cancellationToken);
 
         if (accounts.IsSuccess)
         {

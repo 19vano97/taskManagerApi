@@ -2,7 +2,7 @@ using System;
 using TaskManagerApi.Models;
 using TaskManagerApi.Models.AI;
 
-namespace TaskManagerApi.Services.Interfaces;
+namespace TaskManagerApi.Services.Interfaces.Business;
 
 public interface IAiService
 {

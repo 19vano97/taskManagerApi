@@ -10,9 +10,10 @@ using TaskManagerApi.Models;
 using TaskManagerApi.Models.Project;
 using TaskManagerApi.Models.TicketItemStatuses;
 using TaskManagerApi.Services.Interfaces;
+using TaskManagerApi.Services.Interfaces.Business;
 using static TaskManagerApi.Models.Constants;
 
-namespace TaskManagerApi.Services.Implementations;
+namespace TaskManagerApi.Services.Implementations.Business;
 
 public class ProjectService : IProjectService
 {
@@ -270,7 +271,7 @@ public class ProjectService : IProjectService
             };
 
         var target = currentStatuses.Data.FirstOrDefault(s => s.StatusId == status.Status.StatusId);
-        if (target == null)
+        if (target is null)
             return new ServiceResult<ProjectSingleStatusDto>
             {
                 IsSuccess = false,
@@ -286,10 +287,16 @@ public class ProjectService : IProjectService
             };
 
         _context.ProjectTaskStatusMapping.Remove(target);
-        foreach (var item in currentStatuses.Data.Where(s => s.Order > target.Order))
+        // foreach (var item in currentStatuses.Data.Where(s => s.Order > target.Order))
+        // {
+        //     item.Order--;
+        //     _context.ProjectTaskStatusMapping.Update(item);
+        // }
+
+        for (var i = target.Order + 1; i < currentStatuses.Data.Count; i++)
         {
-            item.Order--;
-            _context.ProjectTaskStatusMapping.Update(item);
+            currentStatuses.Data[i].Order--;
+            _context.ProjectTaskStatusMapping.Update(currentStatuses.Data[i]);
         }
 
         await _context.SaveChangesAsync(cancellationToken);
