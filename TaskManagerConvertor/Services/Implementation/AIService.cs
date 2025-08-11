@@ -28,7 +28,7 @@ public class AIService : IAIService
     public async Task<RequestResult<AiThreadDetailsDto>> CreateNewThreadAsync(IHeaderDictionary headers, AiThreadDetailsDto aiThread, CancellationToken cancellationToken)
     {
         var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers, ref httpClient);
+        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
         if (!httpClientCheck.IsSuccess)
         {
             return new RequestResult<AiThreadDetailsDto>
@@ -77,7 +77,7 @@ public class AIService : IAIService
     public async Task<RequestResult<AiThreadDetailsDto>> DeleteThreadAsync(IHeaderDictionary headers, Guid threadId, CancellationToken cancellationToken)
     {
         var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers, ref httpClient);
+        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
         if (!httpClientCheck.IsSuccess)
         {
             return new RequestResult<AiThreadDetailsDto>
@@ -124,7 +124,7 @@ public class AIService : IAIService
     public async Task<RequestResult<List<AiThreadDetailsDto>>> GetAllThreadsAsync(IHeaderDictionary headers, CancellationToken cancellationToken)
     {
         var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers, ref httpClient);
+        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
         if (!httpClientCheck.IsSuccess)
         {
             return new RequestResult<List<AiThreadDetailsDto>>
@@ -171,7 +171,7 @@ public class AIService : IAIService
     public async Task<RequestResult<List<ChatMessageDto>>> GetChatHistoryByThreadIdAsync(IHeaderDictionary headers, Guid aiThread, CancellationToken cancellationToken)
     {
         var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers, ref httpClient);
+        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
         if (!httpClientCheck.IsSuccess)
         {
             return new RequestResult<List<ChatMessageDto>>
@@ -218,7 +218,7 @@ public class AIService : IAIService
     public async Task<RequestResult<ChatMessageDto>> ChatWithUserAsync(IHeaderDictionary headers, ChatMessageDto message, Guid threadId, CancellationToken cancellationToken)
     {
         var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers, ref httpClient);
+        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
         if (!httpClientCheck.IsSuccess)
         {
             return new RequestResult<ChatMessageDto>
@@ -267,7 +267,7 @@ public class AIService : IAIService
     public async Task<RequestResult<AiThreadDetailsDto>> GetThreadInfoAsync(IHeaderDictionary headers, Guid aiThread, CancellationToken cancellationToken)
     {
         var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers, ref httpClient);
+        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
         if (!httpClientCheck.IsSuccess)
         {
             return new RequestResult<AiThreadDetailsDto>

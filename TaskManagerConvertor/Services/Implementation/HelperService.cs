@@ -50,7 +50,7 @@ public class HelperService : IHelperService
         };
     }
 
-    public RequestResult<HttpClient> SetupHttpClientForTaskManager(IHeaderDictionary headers, ref HttpClient httpClient)
+    public RequestResult<HttpClient> SetupHttpClientForTaskManager(IHeaderDictionary headers, HttpClient httpClient)
     {
         if (headers.TryGetValue(Constants.Settings.Header.AUTHORIZATION, out var authHeader))
         {

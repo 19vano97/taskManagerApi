@@ -29,7 +29,7 @@ public class ProjectService : IProjectService
     public async Task<RequestResult<ProjectItemDto>> CreateProjectAsync(IHeaderDictionary headers, ProjectItemDto project, CancellationToken cancellationToken)
     {
         var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers, ref httpClient);
+        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
         if (!httpClientCheck.IsSuccess)
         {
             return new RequestResult<ProjectItemDto>
@@ -80,7 +80,7 @@ public class ProjectService : IProjectService
     public async Task<RequestResult<ProjectItemDto>> DeleteProjectAsync(IHeaderDictionary headers, Guid projectId, CancellationToken cancellationToken)
     {
         var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers, ref httpClient);
+        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
         if (!httpClientCheck.IsSuccess)
         {
             return new RequestResult<ProjectItemDto>
@@ -126,7 +126,7 @@ public class ProjectService : IProjectService
     public async Task<RequestResult<ProjectItemDto>> EditProjectByIdAsync(IHeaderDictionary headers, ProjectItemDto editProject, Guid projectId, CancellationToken cancellationToken)
     {
         var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers, ref httpClient);
+        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
         if (!httpClientCheck.IsSuccess)
         {
             return new RequestResult<ProjectItemDto>
@@ -177,7 +177,7 @@ public class ProjectService : IProjectService
     public async Task<RequestResult<List<ProjectItemDto>>> GetAllProjectsWithTasksListAsync(IHeaderDictionary headers, Guid organizationId, CancellationToken cancellationToken)
     {
         var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers, ref httpClient);
+        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
         if (!httpClientCheck.IsSuccess)
         {
             return new RequestResult<List<ProjectItemDto>>
@@ -222,7 +222,7 @@ public class ProjectService : IProjectService
     public async Task<RequestResult<ProjectItemDto>> GetProjectByIdAsync(IHeaderDictionary headers, Guid projectId, CancellationToken cancellationToken)
     {
         var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers, ref httpClient);
+        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
         if (!httpClientCheck.IsSuccess)
         {
             return new RequestResult<ProjectItemDto>
@@ -267,7 +267,7 @@ public class ProjectService : IProjectService
     public async Task<RequestResult<ProjectItemDto>> GetProjectWithTasksByIdAsync(IHeaderDictionary headers, Guid projectId, CancellationToken cancellationToken)
     {
         var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers, ref httpClient);
+        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
         if (!httpClientCheck.IsSuccess)
         {
             return new RequestResult<ProjectItemDto>

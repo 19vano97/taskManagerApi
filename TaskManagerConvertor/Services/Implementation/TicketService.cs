@@ -33,7 +33,7 @@ public class TicketService : ITicketService
                                                              CancellationToken cancellationToken)
     {
         var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers, ref httpClient);
+        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers, httpClient);
         if (!httpClientCheck.IsSuccess)
         {
             return new RequestResult<TicketDto>
@@ -86,7 +86,7 @@ public class TicketService : ITicketService
                                                               CancellationToken cancellationToken)
     {
         var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers, ref httpClient);
+        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
         if (!httpClientCheck.IsSuccess)
         {
             return new RequestResult<TicketDto>
@@ -133,7 +133,7 @@ public class TicketService : ITicketService
     public async Task<RequestResult<List<TicketDto>>> GetTasksAsync(IHeaderDictionary headers, Guid projectId, CancellationToken cancellationToken)
     {
         var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers, ref httpClient);
+        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
         if (!httpClientCheck.IsSuccess)
         {
             return new RequestResult<List<TicketDto>>
@@ -199,7 +199,7 @@ public class TicketService : ITicketService
     public async Task<RequestResult<List<TicketDto>>> CreateTaskForAiAsync(IHeaderDictionary headers, TicketForAiDto[] newTasks, CancellationToken cancellationToken)
     {
         var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers, ref httpClient);
+        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
         if (!httpClientCheck.IsSuccess)
         {
             return new RequestResult<List<TicketDto>>
@@ -250,7 +250,7 @@ public class TicketService : ITicketService
     public async Task<RequestResult<TicketDto>> EditTaskByIdAsync(IHeaderDictionary headers, TicketDto ticketDto, CancellationToken cancellationToken)
     {
         var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers, ref httpClient);
+        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
         if (!httpClientCheck.IsSuccess)
         {
             return new RequestResult<TicketDto>
@@ -301,7 +301,7 @@ public class TicketService : ITicketService
     public async Task<RequestResult<List<TicketHistoryDto>>> GetTicketHistory(IHeaderDictionary headers, Guid ticketId, CancellationToken cancellationToken)
     {
         var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers, ref httpClient);
+        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
         if (!httpClientCheck.IsSuccess)
         {
             return new RequestResult<List<TicketHistoryDto>>
@@ -351,7 +351,7 @@ public class TicketService : ITicketService
     public async Task<RequestResult<bool>> DeleteTaskByIdAsync(IHeaderDictionary headers, Guid ticketId, CancellationToken cancellationToken)
     {
         var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers, ref httpClient);
+        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
         if (!httpClientCheck.IsSuccess)
         {
             return new RequestResult<bool>
@@ -385,7 +385,7 @@ public class TicketService : ITicketService
     public async Task<RequestResult<bool>> PostNewComment(IHeaderDictionary headers, Guid ticketId, TicketCommentDto comment, CancellationToken cancellationToken)
     {
         var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers, ref httpClient);
+        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
         if (!httpClientCheck.IsSuccess)
         {
             return new RequestResult<bool>
@@ -422,7 +422,7 @@ public class TicketService : ITicketService
     public async Task<RequestResult<bool>> EditComment(IHeaderDictionary headers, Guid ticketId, Guid commentId, TicketCommentDto comment, CancellationToken cancellationToken)
     {
         var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers, ref httpClient);
+        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
         if (!httpClientCheck.IsSuccess)
         {
             return new RequestResult<bool>
@@ -459,7 +459,7 @@ public class TicketService : ITicketService
     public async Task<RequestResult<bool>> DeleteComment(IHeaderDictionary headers, Guid ticketId, Guid commentId, CancellationToken cancellationToken)
     {
         var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers, ref httpClient);
+        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
         if (!httpClientCheck.IsSuccess)
         {
             return new RequestResult<bool>
@@ -493,7 +493,7 @@ public class TicketService : ITicketService
     public async Task<RequestResult<List<TicketCommentDto>>> GetCommentsByTicketId(IHeaderDictionary headers, Guid ticketId, CancellationToken cancellationToken)
     {
         var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers, ref httpClient);
+        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
         if (!httpClientCheck.IsSuccess)
         {
             return new RequestResult<List<TicketCommentDto>>

@@ -29,7 +29,7 @@ public class OrganizationService : IOrganizationService
     public async Task<RequestResult<OrganizationDto>> AddNewAccountToOrganization(IHeaderDictionary headers, Guid organizationId, Guid accountId, CancellationToken cancellationToken)
     {
         var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers, ref httpClient);
+        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
         if (!httpClientCheck.IsSuccess)
         {
             return new RequestResult<OrganizationDto>
@@ -78,7 +78,7 @@ public class OrganizationService : IOrganizationService
     public async Task<RequestResult<OrganizationDto>> CreateOrganizationAsync(IHeaderDictionary headers, OrganizationDto organization, CancellationToken cancellationToken)
     {
         var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers, ref httpClient);
+        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
         if (!httpClientCheck.IsSuccess)
         {
             return new RequestResult<OrganizationDto>
@@ -130,7 +130,7 @@ public class OrganizationService : IOrganizationService
     public async Task<RequestResult<OrganizationDto>> EditOrganizationAsync(IHeaderDictionary headers, Guid organizationId, OrganizationDto organization, CancellationToken cancellationToken)
     {
         var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers, ref httpClient);
+        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
         if (!httpClientCheck.IsSuccess)
         {
             return new RequestResult<OrganizationDto>
@@ -182,7 +182,7 @@ public class OrganizationService : IOrganizationService
     public async Task<RequestResult<OrganizationDto>> GetOrganizationAccountsAsync(IHeaderDictionary headers, Guid organizationId, CancellationToken cancellationToken)
     {
         var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers, ref httpClient);
+        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
         if (!httpClientCheck.IsSuccess)
         {
             return new RequestResult<OrganizationDto>
@@ -231,7 +231,7 @@ public class OrganizationService : IOrganizationService
     public async Task<RequestResult<OrganizationDto>> GetOrganizationByIdAsync(IHeaderDictionary headers, Guid organizationId, CancellationToken cancellationToken)
     {
         var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers, ref httpClient);
+        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
         if (!httpClientCheck.IsSuccess)
         {
             return new RequestResult<OrganizationDto>
@@ -280,7 +280,7 @@ public class OrganizationService : IOrganizationService
     public async Task<RequestResult<List<OrganizationDto>>> GetSelfOrganizationsAsync(IHeaderDictionary headers, CancellationToken cancellationToken)
     {
         var httpClient = _httpClientFactory.CreateClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_CLIENT);
-        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers, ref httpClient);
+        var httpClientCheck = _helperService.SetupHttpClientForTaskManager(headers,  httpClient);
         if (!httpClientCheck.IsSuccess)
         {
             return new RequestResult<List<OrganizationDto>>
