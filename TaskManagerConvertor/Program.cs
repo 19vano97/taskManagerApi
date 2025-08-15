@@ -39,18 +39,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         options.TokenValidationParameters.ValidateAudience = true;
         options.TokenValidationParameters.ValidateLifetime = true;
     });
-builder.WebHost.ConfigureKestrel(options =>
-{
-    options.ListenAnyIP(5271);
-    options.ListenAnyIP(7188, listenOptions =>
-    {
-        listenOptions.UseHttps(); 
-    });
-});
 builder.Services.AddAuthorization();
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowReactClient",
+    options.AddPolicy("allowClients",
         builder => builder
             .WithOrigins("https://localhost:5173", "https://localhost:7270")
             .AllowAnyHeader()
@@ -60,6 +52,15 @@ builder.Services.AddCors(options =>
 builder.Host.UseSerilog((ctx, cfg) =>
 {
     cfg.ReadFrom.Configuration(ctx.Configuration);
+});
+
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(5271);
+    options.ListenAnyIP(7188, listenOptions =>
+    {
+        listenOptions.UseHttps(); 
+    });
 });
 
 var projectsBulkhead = Policy.BulkheadAsync<HttpResponseMessage>(
@@ -76,14 +77,6 @@ builder.Services.AddHttpClient(Constants.Settings.HttpClientNaming.TASK_MANAGER_
 })
 .AddPolicyHandler(projectsBulkhead)
 .AddHttpMessageHandler<HeaderPropagationHandler>();
-// builder.Services.AddHttpClient<ITicketService, TicketService>(client =>
-// {
-//     client.BaseAddress = new Uri(serverSettings.ApiServices["TaskManagerApi"]);
-//     client.DefaultRequestHeaders.Accept.Add(
-//         new MediaTypeWithQualityHeaderValue("application/json"));
-// })
-// .AddPolicyHandler(projectsBulkhead)
-// .AddHttpMessageHandler<HeaderPropagationHandler>();
 
 builder.Services.AddHttpClient<IAccountService, AccountService>(client =>
 {
@@ -103,7 +96,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors("AllowReactClient");
+app.UseCors("allowClients");
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();

@@ -1,5 +1,7 @@
 using System.Net.Http.Headers;
 using System.Reflection.Metadata;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TaskManagerConvertor.Models;
@@ -7,6 +9,7 @@ using TaskManagerConvertor.Services.Interfaces;
 
 namespace TaskManagerConvertor.Controllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/auth")]
     [ApiController]
     public class AuthController : ControllerBase

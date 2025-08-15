@@ -32,10 +32,9 @@ public class AiService : IAiService
 
     public async Task<ServiceResult<AiThreadDetailsDto>> CreateNewThreadAsync(AiThreadDetailsDto aiThread, CancellationToken cancellationToken)
     {
-        var organizationAccountMap = await _context.OrganizationAccount
-            .FirstOrDefaultAsync(o => o.AccountId == aiThread.AccountId
-                                   && o.OrganizationId == aiThread.OrganizationId
-                                   , cancellationToken);
+        var organizationAccountMap = await _context.OrganizationAccount.FirstOrDefaultAsync(o => o.AccountId == aiThread.AccountId
+                                                                                            && o.OrganizationId == aiThread.OrganizationId
+                                                                                            , cancellationToken);
 
         if (organizationAccountMap is null)
             return new ServiceResult<AiThreadDetailsDto>

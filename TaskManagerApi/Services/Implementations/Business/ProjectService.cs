@@ -1,6 +1,7 @@
 // Full fixed version of ProjectService.cs with safe status editing/deleting
 
 using System;
+using System.Linq;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using TaskManagerApi.Data;
@@ -135,9 +136,8 @@ public class ProjectService : IProjectService
         {
             if (!string.IsNullOrWhiteSpace(newStatus.StatusName))
             {
-                var existing = await _context.TicketStatuses.FirstOrDefaultAsync(s => s.Name == newStatus.StatusName
-                                                                                    && s.StatusTypeId == newStatus.TypeId,
-                                                                                    cancellationToken);
+                var existing = statusesInDb.FirstOrDefault(s => s.Name == newStatus.StatusName
+                                                                                    && s.StatusTypeId == newStatus.TypeId);
                 if (existing != null)
                 {
                     newStatus.StatusId = existing.Id;

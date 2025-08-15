@@ -36,12 +36,11 @@ public class OrganizationService : IOrganizationService
         newOgranization.OwnerId = Guid.Parse(user.FindFirst(IdentityCustomOpenId.DetailsFromToken.ACCOUNT_ID).Value);
 
         _context.OrganizationItem.Add(ConvertToEntity(newOgranization));
-        await _context.SaveChangesAsync(cancellationToken);
 
         _context.OrganizationAccount.Add(new OrganizationAccount
         {
             AccountId = newOgranization.OwnerId,
-            OrganizationId = _context.OrganizationItem.First(o => o.Id == newOgranization.Id).Id
+            OrganizationId = newOgranization.Id.Value
         });
 
         await _context.SaveChangesAsync(cancellationToken);

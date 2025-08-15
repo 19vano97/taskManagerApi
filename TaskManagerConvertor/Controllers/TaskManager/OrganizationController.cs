@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TaskManagerConvertor.Models.Organization;
@@ -5,6 +7,7 @@ using TaskManagerConvertor.Services.Interfaces;
 
 namespace TaskManagerConvertor.Controllers.TaskManager
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/organization")]
     [ApiController]
     public class OrganizationController : ControllerBase
