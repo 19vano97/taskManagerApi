@@ -18,14 +18,14 @@ public class AccountVerification : IAccountVerification
         _context = context;
     }
 
-    public async Task<bool> VerifyAccountInOrganization(Guid accountId, Guid organizationId, CancellationToken cancellationToken)
+    public async Task<bool> VerifyAccountInOrganization(Guid accountId, Guid organizationId, CancellationToken cancellationToken = default)
     {
         var mappedAccountOrganization = await _context.OrganizationAccount
             .FirstOrDefaultAsync(a => a.AccountId == accountId && a.OrganizationId == organizationId, cancellationToken);
         return mappedAccountOrganization != null ? true : false;
     }
 
-    public async Task<bool> VerifyAccountInOrganizationByProject(Guid accountId, Guid projectId, CancellationToken cancellationToken)
+    public async Task<bool> VerifyAccountInOrganizationByProject(Guid accountId, Guid projectId, CancellationToken cancellationToken = default)
     {
         var project = await _context.ProjectItems.FirstOrDefaultAsync(p => p.Id == projectId, cancellationToken);
         var accountOrganization = await _context.OrganizationAccount

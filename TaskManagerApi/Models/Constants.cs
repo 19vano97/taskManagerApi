@@ -14,6 +14,12 @@ public class Constants
         }
     }
 
+    public static class Headers
+    {
+        public const string ORGANIZATION_ID = "organizationId";
+        
+    }
+
     public static class Routes
     {
         public static class ProjectRoutes

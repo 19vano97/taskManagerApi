@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TaskManagerApi.Attributes;
 using TaskManagerApi.Data;
 using TaskManagerApi.Enitities;
 using TaskManagerApi.Models;
@@ -155,6 +156,7 @@ namespace TaskManagerApi.Controllers
         }
 
         [HttpPost("create")]
+        [OrganizationHeader]
         public async Task<ActionResult<TicketDto>> CreateTaskAsync(TicketDto newTask, CancellationToken cancellationToken)
         {
             _logger.LogInformation("CreateTaskAsync called");
@@ -183,6 +185,7 @@ namespace TaskManagerApi.Controllers
         }
 
         [HttpPost("create/ai/list")]
+        [OrganizationHeader]
         public async Task<ActionResult<List<TicketDto>>> CreateTaskForAiAsync(TicketForAiDto[] newTasks,
                                                                       CancellationToken cancellationToken)
         {
@@ -212,6 +215,7 @@ namespace TaskManagerApi.Controllers
         }
 
         [HttpPost("{taskId}/edit")]
+        [OrganizationHeader]
         public async Task<ActionResult<TicketDto>> EditTaskAsync(Guid taskId,
                                                              TicketDto editTask,
                                                              CancellationToken cancellationToken)
@@ -242,6 +246,7 @@ namespace TaskManagerApi.Controllers
         }
 
         [HttpGet("{taskId}/history")]
+        [OrganizationHeader]
         public async Task<ActionResult<List<TicketHistoryDto>>> GetHistoryByTaskId(Guid taskId,
                                                                            CancellationToken cancellationToken)
         {
@@ -271,6 +276,7 @@ namespace TaskManagerApi.Controllers
         }
 
         [HttpPost("{ticketId}/comment/new")]
+        [OrganizationHeader]
         public async Task<ActionResult> AddNewComment(Guid ticketId, TicketCommentDto comment, CancellationToken cancellationToken)
         {
             _logger.LogInformation("AddNewComment called with Id: {TaskId}", comment.TicketId);
@@ -295,6 +301,7 @@ namespace TaskManagerApi.Controllers
         }
 
         [HttpPost("{ticketId}/comment/{commentId}")]
+        [OrganizationHeader]
         public async Task<ActionResult> EditComment(Guid ticketId, Guid commentId, TicketCommentDto comment, CancellationToken cancellationToken)
         {
             _logger.LogInformation("EditComment called with Id: {TaskId}", ticketId);
@@ -319,6 +326,7 @@ namespace TaskManagerApi.Controllers
         }
 
         [HttpDelete("{ticketId}/comment/{commentId}")]
+        [OrganizationHeader]
         public async Task<ActionResult> DeteleComment(Guid ticketId, Guid commentId, CancellationToken cancellationToken)
         {
             _logger.LogInformation("DeteleComment called with Id: {TaskId}", ticketId);
@@ -343,6 +351,7 @@ namespace TaskManagerApi.Controllers
         }
 
         [HttpGet("{ticketId}/comment/all")]
+        [OrganizationHeader]
         public async Task<ActionResult> GetAllComments(Guid ticketId, CancellationToken cancellationToken)
         {
             _logger.LogInformation("GetAllComments called with Id: {TaskId}", ticketId);
@@ -367,6 +376,7 @@ namespace TaskManagerApi.Controllers
         }
 
         [HttpDelete("{Id}/delete")]
+        [OrganizationHeader]
         public async Task<ActionResult> DeleteTaskByIdAsync(Guid Id, CancellationToken cancellationToken)
         {
             _logger.LogInformation("DeleteTaskByIdAsync called with Id: {TaskId}", Id);
